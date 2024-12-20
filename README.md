@@ -125,7 +125,7 @@ Follow a YouTube guide, or the <a href="https://github.com/FunkinCrew/Funkin/tre
 ## 💻 | Minimum Requirements
 
 The engine *should* be able to run smoothly (max framerate) on at least an **`Intel Core2 Duo E6850`** with an **`AMD Radeon R5 240`**. 
-The engine runs *perfectly* on an **`Intel i7-2600`**, and an **`Nvidia GT 1030`**.
+The engine runs *perfectly* on an **`Intel i7-2600`**, and an **`Nvidia GT 1030`** at 1440p.
 
 > [!tip]
 > Any games performance will decrease with higher resolutions.  

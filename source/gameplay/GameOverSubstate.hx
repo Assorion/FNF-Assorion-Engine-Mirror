@@ -3,28 +3,27 @@ package gameplay;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxCamera;
-import flixel.FlxSubState;
 import flixel.util.FlxColor;
 import flixel.tweens.FlxTween;
-import openfl.display.BitmapData;
+
+import backend.Song;
+import states.PlayState;
 
 #if !debug @:noDebug #end
-class GameOverSubstate extends MusicBeatSubstate
-{
-	var camFollow:FlxObject;
-	var charRef:Character;
-	var blackFadeIn:StaticSprite;
-	var fadeCam:FlxCamera;
-	var playstateRef:PlayState;
+class GameOverSubstate extends EventSubstate {
+	private var camFollow:FlxObject;
+	private var characterRef:Character;
+	private var blackFadeIn:StaticSprite;
+	private var fadeCam:FlxCamera;
+	private var playstateRef:PlayState;
 
-	public function new(deadChar:Character, fadeOutCam:FlxCamera, pState:PlayState)
-	{
+	public function new(deadChar:Character, fadeOutCam:FlxCamera, pState:PlayState) {
 		super();
 
 		playstateRef = pState;
 
-		var z:Float = 1 / FlxG.camera.zoom;
-		blackFadeIn = new StaticSprite(0,0).makeGraphic(Math.round(FlxG.width * z), Math.round(FlxG.height * z), FlxColor.BLACK);
+		var zoomMul:Float = 1 / FlxG.camera.zoom;
+		blackFadeIn = new StaticSprite(0,0).makeGraphic(Math.round(FlxG.width * zoomMul), Math.round(FlxG.height * zoomMul), FlxColor.BLACK);
 		blackFadeIn.scrollFactor.set();
 		blackFadeIn.screenCenter();
 		blackFadeIn.alpha = 0;
@@ -37,11 +36,14 @@ class GameOverSubstate extends MusicBeatSubstate
 			If instead your character uses a different sprite for it's death animations, you'll
 			need to write some extra logic here to accommodate for that.
 		*/
+
+		characterRef = deadChar;
 		deadChar.playAnim('firstDeath');
-		charRef = deadChar;
-		camFollow = new FlxObject(deadChar.getGraphicMidpoint().x, deadChar.getGraphicMidpoint().y, 1, 1);
 		fadeCam = fadeOutCam;
+		playstateRef.remove(deadChar);
 		add(deadChar);
+
+		camFollow = new FlxObject(deadChar.getGraphicMidpoint().x, deadChar.getGraphicMidpoint().y, 1, 1);
 
 		FlxG.sound.music.time = 0;
 		FlxG.sound.play(Paths.lSound('gameplay/fnf_loss_sfx'));
@@ -49,7 +51,7 @@ class GameOverSubstate extends MusicBeatSubstate
 
 		Song.musicSet(100);
 
-		FlxTween.tween(fadeCam,     {alpha: 0}, 3);
+		FlxTween.tween(fadeCam,		{alpha: 0}, 3);
 		FlxTween.tween(blackFadeIn, {alpha: 1}, 3, {onComplete: function(t:FlxTween){
 			playstateRef.persistentDraw = false;
 
@@ -64,18 +66,13 @@ class GameOverSubstate extends MusicBeatSubstate
 		});
 	}
 
-	private var notLoop:Bool = true;
-	override function update(elapsed:Float)
-	{
-		// in case you're using a character which doesn't have the animation set.
-		if(notLoop && charRef.animation.curAnim.finished){
-			charRef.animation.play('deathLoop');
-			notLoop = false;
-		}
-
+	override function update(elapsed:Float) {
 		#if (flixel < "5.4.0")
 		FlxG.camera.followLerp = (1 - Math.pow(0.5, FlxG.elapsed * 2)) * (60 / Settings.framerate);
 		#end
+
+		if(characterRef.animation.curAnim.finished)
+			characterRef.playAnim('deathLoop');
 
 		super.update(elapsed);
 	}
@@ -89,17 +86,18 @@ class GameOverSubstate extends MusicBeatSubstate
 			return;
 		}
 
-		if(ev.keyCode.hardCheck(Binds.UI_BACK)){
+		if(ev.keyCode.check(Binds.UI_BACK)){
 			leaving = true;
 			FlxG.sound.music.stop();
-			CoolUtil.exitPlaystate();
+			playstateRef.exitPlayState();
 			return;
 		}
 
-		if(!ev.keyCode.hardCheck(Binds.UI_ACCEPT)) return;
+		if(!ev.keyCode.check(Binds.UI_ACCEPT))
+			return;
 
 		leaving = true;
-		charRef.playAnim('deathConfirm');
+		characterRef.playAnim('deathConfirm');
 		FlxG.sound.music.stop();
 		FlxG.sound.play(Paths.lSound('gameplay/gameOverEnd'));
 		

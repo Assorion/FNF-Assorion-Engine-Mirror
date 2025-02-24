@@ -1,11 +1,13 @@
 package gameplay;
 
 import flixel.FlxG;
-import flixel.util.FlxColor;
 import flixel.FlxCamera;
 import flixel.tweens.FlxTween;
 import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.util.FlxColor;
 import haxe.Json;
+
+import states.PlayState;
 
 // If you need more advanced functionality, then I suggest adding stuff to the typedefs.
 typedef DialogueCharacter = {
@@ -21,7 +23,7 @@ typedef Slide = {
 } 
 
 #if !debug @:noDebug #end
-class DialogueSubstate extends MusicBeatSubstate {
+class DialogueSubstate extends EventSubstate {
 	public var playState:PlayState;
 
 	private var characterSprites:Array<StaticSprite> = [];
@@ -74,7 +76,6 @@ class DialogueSubstate extends MusicBeatSubstate {
 		if(playSound)
 			FlxG.sound.play(Paths.lSound('ui/clickText'));
 		
-		// Clear out existing events & text
 		while(events.length > 0)
 			events.pop();
 
@@ -118,7 +119,7 @@ class DialogueSubstate extends MusicBeatSubstate {
 	override public function keyHit(ev:KeyboardEvent){
 		super.keyHit(ev);
 
-		if(!ev.keyCode.hardCheck(Binds.UI_ACCEPT) || leaving || currentSlide < 0)
+		if(!ev.keyCode.check(Binds.UI_ACCEPT) || leaving || currentSlide < 0)
 			return;
 
 		if(++currentSlide == totalSlides.length){

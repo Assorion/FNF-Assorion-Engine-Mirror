@@ -1,0 +1,104 @@
+{
+    "leftRightIdle": false,
+    "flipX": true,
+    "cameraOffsetX": 0,
+    "cameraOffsetY": 0,
+    "animations": [
+
+        {
+            "animationName": "idle",
+            "xmlName": "BF idle dance",
+            "framerate": 24,
+            "loop": false,
+            "offsetX": -5,
+            "offsetY": 0
+        },
+        {
+            "animationName": "firstDeath",
+            "xmlName": "BF dies",
+            "framerate": 24,
+            "loop": false,
+            "offsetX": 37,
+            "offsetY": 11
+        },
+        {
+            "animationName": "deathLoop",
+            "xmlName": "BF Dead Loop",
+            "framerate": 24,
+            "loop": true,
+            "offsetX": 37,
+            "offsetY": 5
+        },
+        {
+            "animationName": "deathConfirm",
+            "xmlName": "BF Dead confirm",
+            "framerate": 24,
+            "loop": false,
+            "offsetX": 37,
+            "offsetY": 69
+        },
+        {
+            "animationName": "singLEFT",
+            "xmlName": "BF NOTE LEFT0",
+            "framerate": 24,
+            "loop": false,
+            "offsetX": 12,
+            "offsetY": -6
+        },
+        {
+            "animationName": "singRIGHT",
+            "xmlName": "BF NOTE RIGHT0",
+            "framerate": 24,
+            "loop": false,
+            "offsetX": -38,
+            "offsetY": -7
+        },
+        {
+            "animationName": "singUP",
+            "xmlName": "BF NOTE UP0",
+            "framerate": 24,
+            "loop": false,
+            "offsetX": -29,
+            "offsetY": 27
+        },
+        {
+            "animationName": "singDOWN",
+            "xmlName": "BF NOTE DOWN0",
+            "framerate": 24,
+            "loop": false,
+            "offsetX": -10,
+            "offsetY": -50
+        },
+        {
+            "animationName": "singLEFTmiss",
+            "xmlName": "BF NOTE LEFT MISS",
+            "framerate": 24,
+            "loop": false,
+            "offsetX": 12,
+            "offsetY": 24
+        },
+        {
+            "animationName": "singDOWNmiss",
+            "xmlName": "BF NOTE DOWN MISS",
+            "framerate": 24,
+            "loop": false,
+            "offsetX": -11,
+            "offsetY": -19
+        },
+        {
+            "animationName": "singUPmiss",
+            "xmlName": "BF NOTE UP MISS",
+            "framerate": 24,
+            "loop": false,
+            "offsetX": -29,
+            "offsetY": 27
+        },
+        {
+            "animationName": "singRIGHTmiss",
+            "xmlName": "BF NOTE RIGHT MISS",
+            "framerate": 24,
+            "offsetX": -30,
+            "offsetY": 21
+	}
+    ]
+}

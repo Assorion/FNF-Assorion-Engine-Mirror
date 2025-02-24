@@ -1,0 +1,97 @@
+{
+    "leftRightIdle": true,
+    "flipX": false,
+    "cameraOffsetX": 0,
+    "cameraOffsetY": 0,
+    "animations": [
+
+        {
+            "animationName": "cheer",
+            "xmlName": "GF Cheer",
+            "framerate": 24,
+            "loop": false,
+            "offsetX": 0,
+            "offsetY": 0
+        },
+        {
+            "animationName": "singLEFT",
+            "xmlName": "GF left note",
+            "framerate": 24,
+            "loop": false ,
+            "offsetX": 0,
+            "offsetY": -19
+        },
+        {
+            "animationName": "singUP",
+            "xmlName": "GF Up Note",
+            "framerate": 24,
+            "loop": false,
+            "offsetX": 0,
+            "offsetY": 4
+        },
+        {
+            "animationName": "singRIGHT",
+            "xmlName": "GF Right Note",
+            "framerate": 24,
+            "loop": false,
+            "offsetX": 0,
+            "offsetY": -20 
+        },
+        {
+            "animationName": "singDOWN",
+            "xmlName": "GF Down Note",
+            "framerate": 24,
+            "loop": false,
+            "offsetX": 0,
+            "offsetY": -20
+        },
+        {
+            "animationName": "sad",
+            "xmlName": "gf sad",
+            "framerate": 24,
+            "loop": false,
+            "offsetX": -2,
+            "offsetY": -2
+        },
+        {
+            "animationName": "scared",
+            "xmlName": "GF FEAR",
+            "framerate": 24,
+            "loop": false,
+            "offsetX": -2,
+            "offsetY": -17
+        },
+        {
+            "animationName": "danceLeft",
+            "xmlName": "GF Dancing BeatL",
+            "framerate": 24,
+            "loop": false,
+            "offsetX": 0,
+            "offsetY": -9
+        },
+        {
+            "animationName": "danceRight",
+            "xmlName": "GF Dancing BeatR",
+            "framerate": 24,
+            "loop": false,
+            "offsetX": 0,
+            "offsetY": -9
+        },
+        {
+            "animationName": "hairBlow",
+            "xmlName": "GF Dancing Beat Hair blowing",
+            "framerate": 24,
+            "loop": true,
+            "offsetX": 45,
+            "offsetY": -8
+        },
+        {
+            "animationName": "hairFall",
+            "xmlName": "GF Dancing Beat Hair Landing",
+            "framerate": 24,
+            "loop": false,
+            "offsetX": 0,
+            "offsetY": -9
+        }
+    ]
+}

@@ -3,6 +3,8 @@ package gameplay;
 import flixel.FlxSprite;
 import haxe.Json;
 
+import backend.Song;
+
 using StringTools;
 
 typedef AnimationData = {
@@ -14,7 +16,6 @@ typedef AnimationData = {
 	var offsetY:Int;
 }
 typedef CharacterData = {
-	var name:String;
 	var leftRightIdle:Bool;
 	var flipX:Bool;
 	var cameraOffsetX:Int;
@@ -23,30 +24,38 @@ typedef CharacterData = {
 }
 
 #if !debug @:noDebug #end
-class Character extends FlxSprite
-{
-	public var animOffsets:Map<String, Array<Int>>;
+class Character extends FlxSprite {
+	public static inline var beatHalfingTime:Int = 192; 
+
+	public var animOffsets:Map<String, Array<Int>> = new Map<String, Array<Int>>();
 	public var camOffset:Array<Int> = [0,0];
+	public var curCharacter:String;
+	public var isPlayer:Bool;
 
-	public var isPlayer:Bool = false;
-	public var idleNextBeat :Bool = true;
-
-	public var curCharacter:String = 'bf';
 	public var leftRightIdle:Bool = false;
+	public var idleNextBeat :Bool = true;
+	public var danced:Bool = false;
 
-	public function new(x:Float, y:Float, ?character:String = "bf", ?isPlayer:Bool = false)
-	{
+	public function new(x:Float, y:Float, ?character:String = "bf", ?isPlayer:Bool = false) {
 		super(x, y);
-
 		Song.beatHooks.push(dance);
 
-		animOffsets   = new Map<String, Array<Int>>();
 		curCharacter  = character;
 		this.isPlayer = isPlayer;
 
 		frames = Paths.lSparrow('characters/$character');
-		addAnimationJSONFile();
-		
+		var charData:CharacterData = cast Json.parse(Paths.lText('characters/${character}.json'));
+
+		leftRightIdle = charData.leftRightIdle;
+		flipX		  = charData.flipX;
+		camOffset	  = [charData.cameraOffsetX, charData.cameraOffsetY];
+
+		for(anim in charData.animations){
+			animation.addByPrefix(anim.animationName.trim(), anim.xmlName.trim(), anim.framerate, anim.loop);
+			animOffsets.set(anim.animationName.trim(), [anim.offsetX, anim.offsetY]);
+			animation.play(anim.animationName.trim());
+		}
+
 		playAnim(leftRightIdle ? 'danceLeft' : 'idle');
 	
 		if(isPlayer) { 
@@ -55,32 +64,8 @@ class Character extends FlxSprite
 		}
 	}
 
-	// You will have to write the JSON by hand, if this change is not well recieved (make an issue about it or smth) then I will undo the change.
-
-	public function addAnimationJSONFile(){
-		var charArray:Array<CharacterData> = cast Json.parse(Paths.lText('characterLoader.json')).characters;
-
-		for(charData in charArray){
-			if(charData.name.trim() != curCharacter) 
-				continue;
-
-			leftRightIdle = charData.leftRightIdle;
-			flipX         = charData.flipX;
-			camOffset     = [charData.cameraOffsetX, charData.cameraOffsetY ];
-
-			for(anim in charData.animations){
-				animation.addByPrefix(anim.animationName.trim(), anim.xmlName.trim(), anim.framerate, anim.loop);
-				animation.play(anim.animationName.trim());
-
-				addOffset(anim.animationName.trim(), anim.offsetX, anim.offsetY);
-			}
-		}
-	}
-
-	private var danced:Bool = false;
-	public function dance()
-	{
-		if(Song.currentBeat % (Math.floor(Song.BPM / PlayState.beatHalfingTime) + 1) != 0)
+	public function dance() {
+		if(Song.currentBeat % (Math.floor(Song.BPM / beatHalfingTime) + 1) != 0)
 			return;
 
 		if(!idleNextBeat) {
@@ -97,22 +82,14 @@ class Character extends FlxSprite
 		playAnim('dance' + (danced ? 'Right' : 'Left'), true);
 	}
 
-	public function playAnim(AnimName:String, ?INB:Bool = false):Void
-	{
+	public function playAnim(AnimName:String, ?INB:Bool = false) {
 		idleNextBeat = INB;
 		
-		// this is so the game hopefully doesn't crash if an animation
-		// isn't added. By checking if the offset exists.
+		// Prevents crashes by checking if animation exists.
 		var curOffset:Array<Int> = animOffsets.get(AnimName);
-		if (curOffset == null || curOffset.length != 2) 
-			return;
-
-		animation.play(AnimName, true);
-		offset.set(curOffset[0], curOffset[1]);
-	}
-
-	public inline function addOffset(name:String, x:Int = 0, y:Int = 0)
-	{
-		animOffsets.set(name, [x, y]);
+		if (curOffset != null && curOffset.length == 2) {
+			animation.play(AnimName, true);
+			offset.set(curOffset[0], curOffset[1]);
+		}
 	}
 }

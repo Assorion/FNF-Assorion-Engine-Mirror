@@ -3,14 +3,14 @@ package gameplay;
 import lime.utils.Assets;
 import flixel.FlxSprite;
 
-#if !debug @:noDebug #end
-class HealthIcon extends FlxSprite
-{
-	public var curChar:String = '';
-	public var originalScale:Float = 1;
+import backend.Song;
 
-	public function new(char:String = 'bf', isPlayer:Bool = false, ?bopOnBeat:Bool = false)
-	{
+#if !debug @:noDebug #end
+class HealthIcon extends FlxSprite {
+	public var originalScale:Float = 1;
+	public var curChar:String = '';
+
+	public function new(char:String = 'bf', isPlayer:Bool = false, ?bopOnBeat:Bool = false) {
 		super();
 
 		if(bopOnBeat)
@@ -31,21 +31,20 @@ class HealthIcon extends FlxSprite
 		animation.add('losing',  [1], 0, false, isPlayer);
 		animation.play('neutral');
 
-		scrollFactor.set();
 		updateHitbox();
-
 		centerOffsets();
 		centerOrigin ();
 
 		curChar = char;
+		scrollFactor.set();
 	}
+
+	public function changeState(state:Int)
+		animation.play(['losing', 'neutral'][state]);
 
 	public function iconBop():Void
 		scale.x = scale.y += 0.2;
 
 	override function update(elapsed:Float)
 		scale.x = scale.y = Math.max(scale.y - (elapsed * 2), originalScale);
-
-	public inline function changeState(state:Int)
-		animation.play(['losing', 'neutral'][state]);
 }

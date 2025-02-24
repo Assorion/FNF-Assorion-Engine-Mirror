@@ -2,12 +2,15 @@ package;
 
 import openfl.Lib;
 import openfl.display.Sprite;
-import flixel.FlxGame;
 import flixel.FlxState;
+import flixel.FlxGame;
 import flixel.FlxG;
-import frontend.FPSCounter;
-import frontend.MemCounter;
-import backend.Settings;
+
+import ui.FPSCounter;
+import ui.MemCounter;
+import ui.NewTransition;
+import states.TitleState;
+import states.LoadingState;
 
 #if !debug
 @:noDebug
@@ -17,22 +20,22 @@ class Main extends Sprite
 	private static var fpsC:FPSCounter;
 	private static var memC:MemCounter;
 
-	public static inline var initState:Class<FlxState> = frontend.TitleState;
-	public static inline var gameWidth:Int  = 1280;
+	public static inline var initState:Class<FlxState> = TitleState;
+	public static inline var gameWidth:Int	= 1280;
 	public static inline var gameHeight:Int = 720;
 
 	public static function changeUsefulInfo(on:Bool)
 		fpsC.visible = memC.visible = on;
 
-	public function new()
-	{
+	public function new() {
 		super();
 		
 		SettingsManager.openSettings();
 
-		// # add the game
+		fpsC = new FPSCounter(10, 3, 0xFFFFFF);
+		memC = new MemCounter(10, 18, 0xFFFFFF);
 
-		var ldState:Class<FlxState> = #if (desktop) Settings.pre_caching ? frontend.LoadingState : #end initState;
+		var ldState:Class<FlxState> = #if (desktop) Settings.cache_assets ? LoadingState : #end initState;
 
 		addChild(new FlxGame(
 			gameWidth, 
@@ -41,19 +44,16 @@ class Main extends Sprite
 			#if (flixel < "5.0.0") 1, #end 
 			Settings.framerate, 
 			Settings.framerate, 
-		    Settings.skip_splash, 
+			Settings.skip_intro, 
 			Settings.start_fullscreen
 		));
-
-		fpsC = new FPSCounter(10, 3, 0xFFFFFF);
-		memC = new MemCounter(10, 18, 0xFFFFFF);
-
 		addChild(fpsC);
 		addChild(memC);
 
+		NewTransition.initialise();
+
 		#if (!desktop)
-		// web browser keyboard fix. Keys like the spacebar won't work in a browser without this.
-		FlxG.keys.preventDefaultKeys = [];
+		FlxG.keys.preventDefaultKeys = []; // Required to fix keys such as space-bar not working on web-builds.
 		Settings.framerate = 60;
 		#end
 		

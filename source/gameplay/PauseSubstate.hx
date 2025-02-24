@@ -1,38 +1,34 @@
 package gameplay;
 
 import flixel.FlxG;
-import flixel.FlxSubState;
-import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.input.keyboard.FlxKey;
-import flixel.system.FlxSound;
+import flixel.FlxCamera;
+import flixel.math.FlxMath;
 import flixel.util.FlxColor;
 import flixel.tweens.FlxTween;
-import flixel.FlxCamera;
-import frontend.Alphabet;
-import backend.CoolUtil;
-import openfl.display.BitmapData;
-import flixel.math.FlxMath;
-import backend.MenuTemplate;
-import backend.NewTransition;
+import flixel.system.FlxSound;
+
+import backend.Song;
+import ui.Alphabet;
+import ui.MenuTemplate;
+import ui.NewTransition;
+import states.PlayState;
 
 #if !debug @:noDebug #end
-class PauseSubstate extends MusicBeatSubstate
-{
+class PauseSubstate extends EventSubstate {
 	public static inline var botplayText:String = 'BOTPLAY'; // Text that shows in PlayState when Botplay is turned on
 	public static var optionList:Array<String> = ['Resume Game', 'Restart Song', 'Toggle Botplay', 'Exit To Menu'];
 	
 	public var curSelected:Int = 0;
 	public var pauseText:FormattedText;
 	public var alphaTexts:Array<MenuObject> = [];
-	public var bottomBlack:StaticSprite;
 
-	var playState:PlayState;
+	var bottomBlack:StaticSprite;
 	var blackSpr:StaticSprite;
 	var pauseMusic:FlxSound;
-	public var activeTweens:Array<FlxTween> = [];
+	var playState:PlayState;
+	var activeTweens:Array<FlxTween> = [];
 
-	public function new(camera:FlxCamera, ps:PlayState)
-	{
+	public function new(camera:FlxCamera, ps:PlayState) {
 		super();
 
 		playState = ps;
@@ -46,8 +42,7 @@ class PauseSubstate extends MusicBeatSubstate
 		blackSpr.alpha = 0;
 		add(blackSpr);
 
-		for (i in 0...optionList.length)
-		{
+		for (i in 0...optionList.length) {
 			var option:Alphabet = new Alphabet(0, MenuTemplate.yDiffer * i, optionList[i], true);
 			option.alpha = 0;
 			add(option);
@@ -61,10 +56,8 @@ class PauseSubstate extends MusicBeatSubstate
 		}
 
 		bottomBlack = new StaticSprite(0, camera.height - 30).makeGraphic(1280, 30, FlxColor.BLACK);
-		bottomBlack.alpha = 0;
-
 		pauseText = new FormattedText(5, camera.height - 25, 0, '', null, 20);
-		pauseText.alpha = 0;
+		bottomBlack.alpha = pauseText.alpha = 0;
 
 		add(bottomBlack);
 		add(pauseText);
@@ -75,12 +68,13 @@ class PauseSubstate extends MusicBeatSubstate
 
 		/////////////////////
 
-		activeTweens.push(FlxTween.tween( bottomBlack, {alpha:  0.6 }, 0.2 ));
-		activeTweens.push(FlxTween.tween( pauseText  , {alpha:  1   }, 0.2 ));
-		activeTweens.push(FlxTween.tween( pauseMusic , {volume: 0.5 },  4  ));
-		activeTweens.push(FlxTween.tween( blackSpr   , {alpha:  0.7 }, 0.45));
+		activeTweens.push(FlxTween.tween( bottomBlack, {alpha:	0.6 }, 0.2 ));
+		activeTweens.push(FlxTween.tween( pauseText  , {alpha:	1	}, 0.2 ));
+		activeTweens.push(FlxTween.tween( pauseMusic , {volume: 0.5 },	4  ));
+		activeTweens.push(FlxTween.tween( blackSpr	 , {alpha:	0.7 }, 0.45));
 	}
-	private inline function updatePauseText(){
+
+	private function updatePauseText(){
 		var coolString:String = 
 		'SONG: ${PlayState.songName.toUpperCase()}' +
 		' | WEEK: ${PlayState.storyWeek >= 0 ? Std.string(PlayState.storyWeek + 1) : "FREEPLAY"}' +
@@ -90,7 +84,9 @@ class PauseSubstate extends MusicBeatSubstate
 		pauseText.text = '$coolString$coolString$coolString';
 	}
 
-	public inline function leave(){
+	private var leaving:Bool = false;
+	private function leave(){
+		leaving = true;
 		for(i in 0...activeTweens.length)
 			if (activeTweens[i] != null)
 				activeTweens[i].cancel();
@@ -98,10 +94,10 @@ class PauseSubstate extends MusicBeatSubstate
 		for(i in 0...alphaTexts.length)
 			alphaTexts[i].targetA = 0;
 
-		FlxTween.tween(pauseText,  { alpha:  0 }, 0.3);
-		FlxTween.tween(bottomBlack,{ alpha:  0 }, 0.3);
-		FlxTween.tween(pauseMusic, { volume: 0 }, 0.3);
-		FlxTween.tween(blackSpr,   { alpha:  0 }, 0.3, {onComplete: 
+		FlxTween.tween(pauseText,  { alpha:  0 }, 0.4);
+		FlxTween.tween(bottomBlack,{ alpha:  0 }, 0.4);
+		FlxTween.tween(pauseMusic, { volume: 0 }, 0.4);
+		FlxTween.tween(blackSpr,   { alpha:  0 }, 0.4, {onComplete: 
 
 		// Closing
 		function(t:FlxTween){
@@ -118,55 +114,7 @@ class PauseSubstate extends MusicBeatSubstate
 		}});
 	}
 
-	private var leaving:Bool = false;
-	override public function keyHit(ev:KeyboardEvent){
-		var t:Int = ev.keyCode.deepCheck([Binds.UI_UP, Binds.UI_DOWN]);
-		if (t != -1){
-			changeSelection((t * 2) - 1);
-			return;
-		}
-
-		if(!ev.keyCode.hardCheck(Binds.UI_ACCEPT) || leaving) 
-			return;
-
-		switch(curSelected){
-			case 0:
-				leaving = true;
-				leave();
-			case 1:
-				NewTransition.skippedLast = true;
-				FlxG.resetState();
-			case 2:
-				Settings.botplay = !Settings.botplay;
-				alphaTexts[curSelected].obj.alpha = 0;
-				updatePauseText();
-
-				pauseText.alpha = 0;
-				activeTweens.push(FlxTween.tween(pauseText, {alpha: 1}, 0.3));
-				playState.scoreTxt.text = botplayText;
-				playState.updateHealth(0);
-			case 3:
-				CoolUtil.exitPlaystate();
-		}
-	}
-
-	override function update(elapsed:Float){
-		super.update(elapsed);
-
-		var lerpVal = Math.pow(0.5, elapsed * 15);
-        for(i in 0...alphaTexts.length){
-			var alT = alphaTexts[i];
-			alT.obj.alpha = FlxMath.lerp(alT.targetA, alT.obj.alpha, lerpVal);
-			alT.obj.y     = FlxMath.lerp(alT.targetY, alT.obj.y    , lerpVal);
-			alT.obj.x     = FlxMath.lerp(alT.targetX, alT.obj.x    , lerpVal);
-        }
-
-		pauseText.x += elapsed * 70;
-		if (pauseText.x >= 5) 
-			pauseText.x = pauseText.x - (pauseText.width / 3);
-	}
-
-	function changeSelection(change:Int = 0)
+	private function changeSelection(change:Int = 0)
 	{
 		if(leaving)
 			return;
@@ -183,5 +131,50 @@ class PauseSubstate extends MusicBeatSubstate
 			item.targetY += MenuTemplate.yOffset;
 			item.targetX += MenuTemplate.xOffset;
 		}
+	}
+
+	override public function keyHit(ev:KeyboardEvent)
+		ev.keyCode.bindFunctions([
+			[Binds.UI_UP,   function(){ changeSelection(-1); }],
+			[Binds.UI_DOWN, function(){ changeSelection(1);  }],
+			[Binds.UI_ACCEPT, function(){
+				if(leaving)
+					return;
+	
+				switch(curSelected){
+					case 0:
+						leave();
+					case 1:
+						NewTransition.skippedLast = true;
+						FlxG.resetState();
+					case 2:
+						Settings.botplay = !Settings.botplay;
+						playState.scoreTxt.text = botplayText;
+						playState.updateHealth(0);
+	
+						updatePauseText();
+						pauseText.alpha = 0;
+						alphaTexts[curSelected].obj.alpha = 0;
+						activeTweens.push(FlxTween.tween(pauseText, {alpha: 1}, 0.3));
+					case 3:
+						playState.exitPlayState();
+				}
+			}]
+		]);
+
+	override function update(elapsed:Float){
+		super.update(elapsed);
+
+		var lerpVal = Math.pow(0.5, elapsed * 15);
+		for(i in 0...alphaTexts.length){
+			var alT = alphaTexts[i];
+			alT.obj.alpha = FlxMath.lerp(alT.targetA, alT.obj.alpha, lerpVal);
+			alT.obj.y	  = FlxMath.lerp(alT.targetY, alT.obj.y    , lerpVal);
+			alT.obj.x	  = FlxMath.lerp(alT.targetX, alT.obj.x    , lerpVal);
+		}
+
+		pauseText.x += elapsed * 70;
+		if (pauseText.x >= 5) 
+			pauseText.x = pauseText.x - (pauseText.width / 3);
 	}
 }

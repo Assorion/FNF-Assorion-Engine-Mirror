@@ -162,13 +162,13 @@ class ChartUI_CheckBox extends ChartUI_Generic{
 }
 
 class ChartUI_Button extends ChartUI_Generic {
-	public var dropDownButton:Bool = false;
+	private static inline var clickTime:Float = 0.08;
 
+	public var dropDownButton:Bool = false;
 	public var clickFunc:Void->Void;
 	public var txt:String = '';
 
 	public var popupCounter:Float = 0;
-	private static inline var clickTime:Float = 0.08;
 
 	public function new(x:Float, y:Float, ?w:Int = 90, ?h:Int = 30, onClick:Void->Void, ?text:String){
 		super(x,y,w,h,false,text);

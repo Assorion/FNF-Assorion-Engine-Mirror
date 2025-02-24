@@ -33,8 +33,29 @@ typedef RatingData = {
 class PlayState extends EventState {
 	public static inline var inputRange:Float = 1.25; // The input range is measured in steps. By default it is 1 and a quarter steps of input range. 
 	public static var singDirections:Array<String> = ['LEFT', 'DOWN', 'UP', 'RIGHT'];
+	public static var possibleScores:Array<RatingData> = [
+		{
+			score: 350,  
+			threshold: 0,
+			name: 'sick'
+		},
+		{
+			score: 200,		  // Points to give
+			threshold: 0.43,  // Threshold of a step where you get the score, E:G less than half a step.
+			name: 'good'	  // Asset to load
+		},
+		{
+			score: 100,
+			threshold: 0.65,
+			name: 'bad'
+		},
+		{
+			score: 25,
+			threshold: 0.9,
+			name: 'superbad'
+		}
+	];
 
-	public static var songName:String = '';
 	public static var songData:SongData;
 	public static var storyWeek:Int = 0;
 	public static var storyPlaylist:Array<String> = [];
@@ -42,7 +63,6 @@ class PlayState extends EventState {
 	public static var totalScore:Int = 0;
 	public static var lastSeenCutscene:Int;
 
-	public var strumLineY:Int;
 	public var strumLineNotes:FlxTypedGroup<StrumNote>;
 	public var playerStrums:Array<StrumNote> = [];
 	public var chartNotes:Array<Note> = [];
@@ -62,17 +82,17 @@ class PlayState extends EventState {
 	public var scoreTxt:FormattedText;
 	public var iconP1:HealthIcon;
 	public var iconP2:HealthIcon;
-	public var camHUD:FlxCamera;
-	public var camGame:FlxCamera;
 	public var ratingSpr:StaticSprite;
 	public var comboSprs:Array<StaticSprite> = [];
+	public var camHUD:FlxCamera;
+	public var camGame:FlxCamera;
 
 	public	var vocals:FlxSound;
 	private var followPos:FlxObject;
-	private var playerPos:Int = 1;
+	private var playerIndex:Int = 1;
 	private var allCharacters:Array<Character> = [];
 
-	private static var stepTime:Float = 0;
+	private var stepTime:Float = 0;
 
 	override public function create() {
 		// Camera Setup
@@ -91,23 +111,22 @@ class PlayState extends EventState {
 		super.create();
 		
 		// Song Setup
-		songName = songData.song.toLowerCase();
+		songData.name = songData.name.toLowerCase();
 		Song.musicSet(songData.bpm);
 
 		vocals = new FlxSound();
 		if (songData.needsVoices)
-			vocals.loadEmbedded(Paths.playableSong(songName, true));
+			vocals.loadEmbedded(Paths.playableSong(songData.name, true));
 
 		FlxG.sound.list.add(vocals);
-		FlxG.sound.playMusic(Paths.playableSong(songName), 1, false);
+		FlxG.sound.playMusic(Paths.playableSong(songData.name), 1, false);
 		FlxG.sound.music.onComplete = endSong;
 		FlxG.sound.music.stop();
 
 		// BG & UI setup
-		playerPos = songData.activePlayer;
+		playerIndex = songData.activePlayer;
 		handleStage();
 
-		strumLineY = Settings.downscroll ? FlxG.height - 150 : 50;
 		strumLineNotes = new FlxTypedGroup<StrumNote>();
 		currentNotes = new FlxTypedGroup<Note>();
 		add(strumLineNotes);
@@ -189,7 +208,7 @@ class PlayState extends EventState {
 		if(storyWeek >= 0 && lastSeenCutscene != storyPlaylist.length){	
 			lastSeenCutscene = storyPlaylist.length;
 
-			var dialoguePath:String = 'assets/data/${songName}/dialogue.json';			
+			var dialoguePath:String = 'assets/data/songs/${songData.name}/dialogue.json';			
 			var potentialJson:Null<String> = Assets.exists(dialoguePath) ? Assets.getText(dialoguePath) : null;
 
 			if(potentialJson != null) {
@@ -268,7 +287,7 @@ class PlayState extends EventState {
 
 	private function generateStrumArrows(player:Int)
 		for (i in 0...Note.keyCount) {
-			var babyArrow:StrumNote = new StrumNote(0, strumLineY - 10, i, player, songData.activePlayer == player);
+			var babyArrow:StrumNote = new StrumNote(0, Settings.downscroll ? 560 : 40, i, player, songData.activePlayer == player);
 
 			strumLineNotes.add(babyArrow);
 			if(babyArrow.isPlayer) 
@@ -330,6 +349,26 @@ class PlayState extends EventState {
 			});
 	}
 
+	public function beatHit() {
+		#if (flixel < "5.4.0")
+		FlxG.camera.followLerp = (1 - Math.pow(0.5, FlxG.elapsed * 6)) * (60 / Settings.framerate);
+		#end
+
+		var sec:SectionData = songData.notes[Song.currentBeat >> 2]; // Same result as 'Math.floor(Song.currentBeat / 4)'
+		if(Song.currentBeat & 3 == 0 && FlxG.sound.music.playing){   // Same result as 'Song.currentBeat % 4 == 0'
+			var currentlyFacing:Int = (sec != null ? cast(sec.cameraFacing, Int) : 0);
+			var char = allCharacters[CoolUtil.intBoundTo(currentlyFacing, 0, songData.playLength - 1)];
+
+			followPos.x = char.getMidpoint().x + char.camOffset[0];
+			followPos.y = char.getMidpoint().y + char.camOffset[1];
+		}
+	}
+
+	public function stepHit() 
+		if(Song.currentStep & 1 == 0 && FlxG.sound.music.playing)
+			stepTime = (Song.millisecond * Song.division * 0.25) + (stepTime * 0.75);
+
+
 	override public function update(elapsed:Float) 
 	if(!paused) {
 		Song.update(FlxG.sound.music.time);
@@ -343,77 +382,50 @@ class PlayState extends EventState {
 		super.update(elapsed);
 	}
 
-	public function beatHit() {
-		#if (flixel < "5.4.0")
-		FlxG.camera.followLerp = (1 - Math.pow(0.5, FlxG.elapsed * 6)) * (60 / Settings.framerate);
-		#end
+	private function scrollNotes(daNote:Note) {
+		var strumRef = strumLineNotes.members[daNote.noteData + (Note.keyCount * daNote.player)];
+		var nDiff:Float = stepTime - daNote.strumTime;
+		daNote.y = (Settings.downscroll ? 45 : -45) * nDiff * songData.speed;
+		daNote.y += strumRef.y  + daNote.offsetY;
 
-		var sec:SectionData = songData.notes[Song.currentBeat >> 2]; // Same result as 'Math.floor(Song.currentBeat / 4)'
-		if(Song.currentBeat & 3 == 0 && FlxG.sound.music.playing){ // Same result as 'Song.currentBeat % 4 == 0'
-			var currentlyFacing:Int = (sec != null ? cast(sec.cameraFacing, Int) : 0);
-			var char = allCharacters[CoolUtil.intBoundTo(currentlyFacing, 0, songData.playLength - 1)];
+		daNote.visible = daNote.y >= -daNote.height * daNote.scale.y && daNote.y <= FlxG.height;
+		if(!daNote.visible) 
+			return;
 
-			followPos.x = char.getMidpoint().x + char.camOffset[0];
-			followPos.y = char.getMidpoint().y + char.camOffset[1];
-		}
-	}
-
-	public function stepHit() 
-		if(Song.currentStep & 1 == 0 && FlxG.sound.music.playing)
-			stepTime = (Song.millisecond * Song.division * 0.25) + (stepTime * 0.75);
-
-	private static inline var iconSpacing:Int = 52;
-	public function updateHealth(change:Int) {
-		if(!Settings.botplay) {
-			var fcText:String = ['?', 'SFC', 'GFC', 'FC', '(Bad) FC', 'SDCB', 'Clear'][fcValue];
-			var accuracyCount:Float = CoolUtil.boundTo(Math.floor((songScore * 100) / ((hitCount + missCount) * 3.5)) * 0.01, 0, 100);
-
-			scoreTxt.text = 'Notes Hit: $hitCount | Notes Missed: $missCount | Accuracy: $accuracyCount% - $fcText | Score: $songScore';
-		}
-		scoreTxt.screenCenter(X);
+		daNote.x = strumRef.x + daNote.offsetX;
+		daNote.angle = strumRef.angle;
 		
-		health = CoolUtil.intBoundTo(health + change, 0, 100);
-		healthBar.percent = health;
-		
-		var calc = ((0 - ((health - 50) * 0.01)) * healthBar.width) + 565;
-		iconP1.x = calc + iconSpacing; 
-		iconP2.x = calc - iconSpacing;
-		iconP1.changeState(health < 20 ? 0 : 1);
-		iconP2.changeState(health > 80 ? 0 : 1);
+		// NPC Note Logic
+		if(daNote.player != playerIndex || Settings.botplay){
+			if(stepTime < daNote.strumTime || !daNote.curType.mustHit)
+				return;
 
-		if(health <= 0)
-			pauseAndOpenState(new GameOverSubstate(allCharacters[playerPos], camHUD, this));
-	}
+			allCharacters[daNote.player].playAnim('sing' + singDirections[daNote.noteData]);
+			strumRef.playAnim(2);
+			strumRef.pressTime = 1.05;
+			vocals.volume = 1;
 
-	public function hitNote(note:Note) {
-		destroyNote(note, 0);
-
-		if(!note.curType.mustHit) {
-			missNote(note.noteData);
+			currentNotes.remove(daNote, true);
+			daNote.destroy();
 			return;
 		}
 
-		confirmStrum(playerStrums[note.noteData], 0.66);
-		allCharacters[playerPos].playAnim('sing' + singDirections[note.noteData]);
-		vocals.volume = 1;
+		// Player Note Logic
+		if(nDiff > inputRange){
+			if(daNote.curType.mustHit)
+				missNote(daNote.noteData);
 
-		if(!note.isSustainNote)
-			popUpScore(note.strumTime);
-		
-		updateHealth(5);
-	}
+			destroyNote(daNote, 1);
+			return;
+		}
 
-	public function missNote(direction:Int = 1) {
-		vocals.volume = 0.5;
-		combo = 0;
-		songScore -= 50;
-		missCount++;
-		fcValue = missCount >= 10 ? 6 : 5;
-
-		FlxG.sound.play(Paths.lSound('gameplay/missnote' + (Math.round(Math.random() * 2) + 1)), 0.2);
-		allCharacters[playerPos].playAnim('sing' + singDirections[direction] + 'miss');
-
-		updateHealth(-10);
+		// Input range checks
+		if(daNote.isSustainNote) {
+			if(Math.abs(nDiff) < 0.8 && keysPressed[daNote.noteData])
+				hitNote(daNote);
+		} else 
+			if (hittableNotes[daNote.noteData] == null && Math.abs(nDiff) <= inputRange * daNote.curType.rangeMul)
+				hittableNotes[daNote.noteData] = daNote;
 	}
 
 	public var hittableNotes:Array<Note> = [null, null, null, null];
@@ -440,8 +452,8 @@ class PlayState extends EventState {
 		}
 
 		ev.keyCode.bindFunctions([
-			[[FlxKey.SEVEN],  ()->{ EventState.changeState(new ChartingState()); }],
-			[Binds.UI_ACCEPT, ()->{
+			[[FlxKey.SEVEN],  function(){ EventState.changeState(new ChartingState()); }],
+			[Binds.UI_ACCEPT, function(){
 				if(FlxG.sound.music.playing)
 					pauseAndOpenState(new PauseSubstate(camHUD, this));
 			}]
@@ -457,76 +469,63 @@ class PlayState extends EventState {
 		}
 	}
 
-	private function scrollNotes(daNote:Note) {
-		var nDiff:Float = stepTime - daNote.strumTime;
-		daNote.y = (Settings.downscroll ? 45 : -45) * nDiff * songData.speed;
-		daNote.y += strumLineY + daNote.offsetY;
+	private static inline var iconSpacing:Int = 52;
+	public function updateHealth(change:Int) {
+		if(!Settings.botplay) {
+			var fcText:String = ['?', 'SFC', 'GFC', 'FC', '(Bad) FC', 'SDCB', 'Clear'][fcValue];
+			var accuracyCount:Float = CoolUtil.boundTo(Math.floor((songScore * 100) / ((hitCount + missCount) * 3.5)) * 0.01, 0, 100);
 
-		daNote.visible = Settings.downscroll ? (daNote.y >= -daNote.height * daNote.scale.y) : (daNote.y <= FlxG.height);
-		if(!daNote.visible) 
-			return;
-
-		var strumRef = strumLineNotes.members[daNote.noteData + (Note.keyCount * daNote.player)];
-
-		daNote.x = strumRef.x + daNote.offsetX;
-		daNote.angle = strumRef.angle;
+			scoreTxt.text = 'Notes Hit: $hitCount | Notes Missed: $missCount | Accuracy: $accuracyCount% - $fcText | Score: $songScore';
+		}
+		scoreTxt.screenCenter(X);
 		
-		// NPC Note Logic
-		if(daNote.player != playerPos || Settings.botplay){
-			if(stepTime >= daNote.strumTime && daNote.curType.mustHit){
-				allCharacters[daNote.player].playAnim('sing' + singDirections[daNote.noteData]);
-				confirmStrum(strumRef);
-				vocals.volume = 1;
+		health = CoolUtil.intBoundTo(health + change, 0, 100);
+		healthBar.percent = health;
+		
+		var calc = ((0 - ((health - 50) * 0.01)) * healthBar.width) + 565;
+		iconP1.x = calc + iconSpacing; 
+		iconP2.x = calc - iconSpacing;
+		iconP1.changeState(health < 20 ? 0 : 1);
+		iconP2.changeState(health > 80 ? 0 : 1);
 
-				currentNotes.remove(daNote, true);
-				daNote.destroy();
-			}
+		if(health <= 0)
+			pauseAndOpenState(new GameOverSubstate(allCharacters[playerIndex], camHUD, this));
+	}
 
+	public function hitNote(note:Note) {
+		destroyNote(note, 0);
+
+		if(!note.curType.mustHit) {
+			missNote(note.noteData);
 			return;
 		}
 
-		// Player Note Logic
-		if(nDiff > inputRange){
-			destroyNote(daNote, 1);
-			if(daNote.curType.mustHit)
-				missNote(daNote.noteData);
-			
-			return;
-		}
+		playerStrums[note.noteData].playAnim(2);
+		playerStrums[note.noteData].pressTime = 0.66;
+		allCharacters[playerIndex].playAnim('sing' + singDirections[note.noteData]);
+		vocals.volume = 1;
 
-		// Input range checks
-		if(daNote.isSustainNote) {
-			if(Math.abs(nDiff) < 0.8 && keysPressed[daNote.noteData])
-				hitNote(daNote);
-		} else 
-			if (hittableNotes[daNote.noteData] == null && Math.abs(nDiff) <= inputRange * daNote.curType.rangeMul)
-				hittableNotes[daNote.noteData] = daNote;
+		if(!note.isSustainNote)
+			popUpScore(note.strumTime);
+		
+		updateHealth(5);
+	}
+
+	public function missNote(direction:Int = 1) {
+		vocals.volume = 0.5;
+		combo = 0;
+		songScore -= 50;
+		missCount++;
+		fcValue = missCount >= 10 ? 6 : 5;
+
+		FlxG.sound.play(Paths.lSound('gameplay/missnote' + (Math.round(Math.random() * 2) + 1)), 0.2);
+		allCharacters[playerIndex].playAnim('sing' + singDirections[direction] + 'miss');
+
+		updateHealth(-10);
 	}
 
 	private var previousValue:Int;
 	private var scoreTweens:Array<FlxTween> = [];
-	public static var possibleScores:Array<RatingData> = [
-		{
-			score: 350,  
-			threshold: 0,
-			name: 'sick'
-		},
-		{
-			score: 200,		 // Points to give
-			threshold: 0.45, // Threshold of a step where you get the score, E:G less than half a step.
-			name: 'good'	 // Asset to load
-		},
-		{
-			score: 100,
-			threshold: 0.65,
-			name: 'bad'
-		},
-		{
-			score: 25,
-			threshold: 1,
-			name: 'superbad'
-		}
-	];
 	private function popUpScore(strumtime:Float) {
 		var noteDiff:Float = Math.abs(strumtime - stepTime);
 		var curScore:RatingData = possibleScores[0];
@@ -572,7 +571,7 @@ class PlayState extends EventState {
 		vocals.volume = 0;
 		paused = true;
 
-		HighScore.saveScore(songData.song, songScore, curDifficulty);
+		HighScore.saveScore(songData.name, songScore, curDifficulty);
 
 		if (storyWeek == -1){ // If it's freeplay
 			exitPlayState();
@@ -596,7 +595,7 @@ class PlayState extends EventState {
 	public function exitPlayState()
 		EventState.changeState(PlayState.storyWeek >= 0 ? new StoryMenuState() : new FreeplayState());
 
-	function pauseAndOpenState(state:EventSubstate) {
+	private function pauseAndOpenState(state:EventSubstate) {
 		paused = true;
 		FlxG.sound.music.pause();
 		vocals.pause();
@@ -604,20 +603,16 @@ class PlayState extends EventState {
 		openSubState(state);
 	}
 
-	inline function destroyNote(note:Note, act:Int) {
+	private inline function destroyNote(note:Note, act:Int) {
 		note.typeAction(act);
 		currentNotes.remove(note, true);
 		note.destroy();
 
-		if (hittableNotes[note.noteData] == note)
+		if(hittableNotes[note.noteData] == note)
 			hittableNotes[note.noteData] = null;
 	}
 
-	inline function confirmStrum(strum:StrumNote, pressTime:Float = 1.05){
-		strum.playAnim(2);
-		strum.pressTime = Song.stepCrochet * 0.001 * pressTime;
-	}
-
+	// TODO: Just redo this
 	private function introSpriteTween(spr:StaticSprite, steps:Int, delay:Float = 0, destroy:Bool):FlxTween {
 		spr.alpha = 1;
 		return FlxTween.tween(spr, {y: spr.y + 10, alpha: 0}, (steps * Song.stepCrochet) / 1000, { ease: FlxEase.cubeInOut, startDelay: delay * 0.001,

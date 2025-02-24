@@ -14,8 +14,8 @@ using StringTools;
 
 #if !debug @:noDebug #end
 class TitleState extends EventState {
-	public static var initialized:Bool = false;
-	public static var textSequence:Array<Array<String>> = [ // % = Random Text
+	private var initialized:Bool = false;
+	private var textSequence:Array<Array<String>> = [ // % = Random Text
 		['welcome', 'traveller'],
 		['Original game by','ninjamuffin'],
 		['assorion engine by', 'antivirus', 'and barzil'],
@@ -34,6 +34,11 @@ class TitleState extends EventState {
 	var textGroup:FlxGroup;
 	var postFlashGroup:FlxTypedGroup<FlxSprite>;
 	var soundTween:FlxTween;
+
+	public function new(?firstLoad:Bool = true){
+		initialized = !firstLoad;
+		super();
+	}
 
 	override public function create() {
 		allIntroTexts = cast haxe.Json.parse(Paths.lText('introText.json'));

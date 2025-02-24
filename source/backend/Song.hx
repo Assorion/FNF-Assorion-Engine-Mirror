@@ -16,7 +16,7 @@ typedef CharacterData = {
 }
 
 typedef SongData = {
-	var song:String;
+	var name:String;
 	var bpm:Float;
 	var needsVoices:Bool;
 	var speed:Float;

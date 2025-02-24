@@ -1,6 +1,6 @@
 {
 	"song": {
-		"song": "demo-song",
+		"name": "demo-song",
 		"bpm": 140,
 		"needsVoices": true,
 		"speed": 2.15,

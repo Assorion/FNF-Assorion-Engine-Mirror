@@ -119,7 +119,7 @@ class ChartingState extends EventState {
 		FlxG.sound.music.volume = 0.7;
         vocals = new FlxSound();
 		if (song.needsVoices)
-			vocals.loadEmbedded(Paths.playableSong(PlayState.songName, true));
+			vocals.loadEmbedded(Paths.playableSong(PlayState.songData.name, true));
 
         vocals.time = 0;
 		FlxG.sound.list.add(vocals);
@@ -297,8 +297,8 @@ class ChartingState extends EventState {
             case 0, 1:
                 // # Safety Checks
 
-                if(song.song == '' || !lime.utils.Assets.exists(Paths.playableSong(song.song))){
-                    postWarning('Warning: The song name either is empty or asset doesn\'t exist. ${song.song} / ${Paths.playableSong(song.song)}', 0xFFFF00);
+                if(song.name == '' || !lime.utils.Assets.exists(Paths.playableSong(song.name))){
+                    postWarning('Warning: The song name either is empty or asset doesn\'t exist. ${song.name} / ${Paths.playableSong(song.name)}', 0xFFFF00);
                     return;
                 }
                 if(song.playLength > song.characters.length){
@@ -701,9 +701,9 @@ class ChartingState extends EventState {
 
         // Top stuff
 
-        var nameBox:ChartUI_InputBox = new ChartUI_InputBox(0, 0, 190, 30, song.song, function(ch:String){
-            song.song = ch;
-            PlayState.songName = ch.toLowerCase();
+        var nameBox:ChartUI_InputBox = new ChartUI_InputBox(0, 0, 190, 30, song.name, function(ch:String){
+            song.name = ch;
+            PlayState.songData.name = ch.toLowerCase();
         });
         var bpmBox:ChartUI_InputBox = new ChartUI_InputBox(200, 0, 90, 30, Std.string(song.bpm), function(ch:String){
             song.bpm = Std.parseFloat(ch);
@@ -732,12 +732,12 @@ class ChartingState extends EventState {
 
             if(!ch) return;
 
-            vocals.loadEmbedded(Paths.playableSong(song.song, true));
+            vocals.loadEmbedded(Paths.playableSong(song.name, true));
         });
         var reloadButton:ChartUI_Button = new ChartUI_Button(260, 430, 130, 30, function(){
             pauseSong();
 
-            FlxG.sound.playMusic(Paths.playableSong(song.song, false));
+            FlxG.sound.playMusic(Paths.playableSong(song.name, false));
 
             FlxG.sound.music.pause();
             FlxG.sound.music.time = 0;
@@ -745,7 +745,7 @@ class ChartingState extends EventState {
 
             vocals = new FlxSound();
             vocals.time = 0;
-            vocals.loadEmbedded(Paths.playableSong(song.song, true));
+            vocals.loadEmbedded(Paths.playableSong(song.name, true));
 
             FlxG.sound.list.add(vocals);
         }, 'Update Song');
@@ -773,7 +773,7 @@ class ChartingState extends EventState {
             reloadNotes();
         }, 'Clear Song');
         var saveSong:ChartUI_Button = new ChartUI_Button(260, 550, 130, 30, function(){
-            var path = 'assets/data/songs/${PlayState.songName}/edited.json';
+            var path = 'assets/data/songs/${song.name}/edited.json';
             var saveString:String = 'You cannot save charts in web build.';
 
             #if desktop

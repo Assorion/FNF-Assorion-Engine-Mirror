@@ -24,7 +24,7 @@ typedef FreeplaySongData = {
 #if !debug @:noDebug #end
 class FreeplayState extends MenuTemplate
 {
-	public static var curDifficulty:Int = 1;
+	private static var curDifficulty:Int = 1;
 	public var songList:Array<FreeplaySongData> = [];
 	public var intendedScore:Int = 0;
 
@@ -86,7 +86,7 @@ class FreeplayState extends MenuTemplate
 		super.keyHit(ev);
 
 		ev.keyCode.bindFunctions([
-			[[FlxKey.SPACE], ()->{
+			[[FlxKey.SPACE], function(){
 				playing = !playing;
 
 				if(playing){
@@ -110,7 +110,7 @@ class FreeplayState extends MenuTemplate
 				vocals.play();
 				vocals.time = FlxG.sound.music.time = 0;	
 			}],
-			[Binds.UI_ACCEPT, ()->{
+			[Binds.UI_ACCEPT, function(){
 				if(NewTransition.skip()) 
 					return;
 

@@ -3,6 +3,7 @@ package gameplay;
 import flixel.FlxG;
 import flixel.FlxSprite;
 
+import backend.Song;
 import states.PlayState;
 
 #if !debug @:noDebug #end
@@ -41,7 +42,7 @@ class StrumNote extends FlxSprite {
 		if(pressTime < 0) 
 			return;
 
-		pressTime -= elapsed;
+		pressTime -= elapsed * Song.division * 1000;
 		if(pressTime <= 0 && (!isPlayer || Settings.botplay))
 			playAnim();
 	}

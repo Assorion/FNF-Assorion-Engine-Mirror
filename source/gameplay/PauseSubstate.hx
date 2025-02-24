@@ -16,7 +16,7 @@ import states.PlayState;
 #if !debug @:noDebug #end
 class PauseSubstate extends EventSubstate {
 	public static inline var botplayText:String = 'BOTPLAY'; // Text that shows in PlayState when Botplay is turned on
-	public static var optionList:Array<String> = ['Resume Game', 'Restart Song', 'Toggle Botplay', 'Exit To Menu'];
+	private var optionList:Array<String> = ['Resume Game', 'Restart Song', 'Toggle Botplay', 'Exit To Menu'];
 	
 	public var curSelected:Int = 0;
 	public var pauseText:FormattedText;
@@ -76,7 +76,7 @@ class PauseSubstate extends EventSubstate {
 
 	private function updatePauseText(){
 		var coolString:String = 
-		'SONG: ${PlayState.songName.toUpperCase()}' +
+		'SONG: ${PlayState.songData.name.toUpperCase()}' +
 		' | WEEK: ${PlayState.storyWeek >= 0 ? Std.string(PlayState.storyWeek + 1) : "FREEPLAY"}' +
 		' | BOTPLAY: ${Settings.botplay ? "YES" : "NO"}' +
 		' | DIFFICULTY: ${CoolUtil.diffString(PlayState.curDifficulty, 1).toUpperCase()}' +

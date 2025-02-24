@@ -22,15 +22,17 @@ typedef StoryData = {
 #if !debug @:noDebug #end
 class StoryMenuState extends MenuTemplate
 {
-	public static var curDif:Int = 1;
-
-	static var weekData:Array<StoryData> = [
+	public static inline var selectColour:Int = 0xFF00FFFF;
+	public static inline var whiteColour:Int  = 0xFFFFFFFF;
+	private var weekData:Array<StoryData> = [
 		{
 			weekAsset: 'demo', // Graphic used for selecting (doesn't have to be a number)
 			songs: ['tutorial', 'demo'], 
 			topText: 'THIS IS A TEST'
 		}
 	];
+
+	private static var curDif:Int = 1;
 
 	public var weekBG:FlxSprite;
 	public var topText:FormattedText;
@@ -39,9 +41,6 @@ class StoryMenuState extends MenuTemplate
 	var arrowSpr1:StaticSprite;
 	var arrowSpr2:StaticSprite;
 	var diffImage:StaticSprite;
-
-	public static inline var selectColour:Int = 0xFF00FFFF;
-	public static inline var whiteColour:Int  = 0xFFFFFFFF;
 
 	override function create(){
 		super.create();

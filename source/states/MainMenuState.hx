@@ -14,8 +14,8 @@ using StringTools;
 
 #if !debug @:noDebug #end
 class MainMenuState extends EventState {
-	public static var optionList :Array<String> = ['story mode', 'freeplay', 'github',	'options'];
-	public static var optionAssets:Array<String> = ['FNF_main'  , 'FNF_main', 'FNF_main', 'FNF_main'];
+	private var optionList :Array<String> = ['story mode', 'freeplay', 'github',	'options'];
+	private var optionAssets:Array<String> = ['FNF_main'  , 'FNF_main', 'FNF_main', 'FNF_main'];
 
 	private static var curSelected:Int = 0;
 
@@ -104,7 +104,7 @@ class MainMenuState extends EventState {
 				}
 
 				FlxG.sound.play(Paths.lSound('ui/cancelMenu'));
-				EventState.changeState(new TitleState());
+				EventState.changeState(new TitleState(false));
 				leaving = true;
 			}]
 		]);

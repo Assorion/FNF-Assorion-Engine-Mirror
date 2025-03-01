@@ -8,7 +8,6 @@ import flixel.group.FlxGroup;
 import flixel.system.FlxSound;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
-import flixel.graphics.FlxGraphic;
 import flixel.input.keyboard.FlxKey;
 import openfl.utils.Assets;
 
@@ -33,7 +32,7 @@ typedef RatingData = {
 class PlayState extends EventState {
 	public static inline var inputRange:Float = 1.25; // The input range is measured in steps. By default it is 1 and a quarter steps of input range. 
 	public static var singDirections:Array<String> = ['LEFT', 'DOWN', 'UP', 'RIGHT'];
-	public static var possibleScores:Array<RatingData> = [
+	public var possibleScores:Array<RatingData> = [
 		{
 			score: 350,  
 			threshold: 0,
@@ -82,8 +81,7 @@ class PlayState extends EventState {
 	public var scoreTxt:FormattedText;
 	public var iconP1:HealthIcon;
 	public var iconP2:HealthIcon;
-	public var ratingSpr:StaticSprite;
-	public var comboSprs:Array<StaticSprite> = [];
+	public var ratingSprite:RatingGraphics;
 	public var camHUD:FlxCamera;
 	public var camGame:FlxCamera;
 
@@ -136,30 +134,6 @@ class PlayState extends EventState {
 		for(i in 0...songData.playLength)
 			generateStrumArrows(i);
 
-		// Score setup
-		for(i in 0...possibleScores.length)
-			FlxGraphic.fromAssetKey(Paths.lImage('gameplay/${possibleScores[i].name}'), false, null, true).persist = true;
-
-		ratingSpr = new StaticSprite(0,0);
-		ratingSpr.scale.set(0.7, 0.7);
-		ratingSpr.alpha = 0;
-		add(ratingSpr);
-
-		for(i in 0...3){
-			var sRef = comboSprs[i] = new StaticSprite(0,0);
-			sRef.frames = Paths.lSparrow('gameplay/comboNumbers');
-			for(i in 0...10) 
-				sRef.animation.addByPrefix('$i', '${i}num', 1, false);
-			sRef.animation.play('0');
-			sRef.centerOrigin();
-			sRef.screenCenter();
-			sRef.y += 120;
-			sRef.x += (i - 1) * 60;
-			sRef.scale.set(0.6, 0.6);
-			sRef.alpha = 0;
-			add(sRef);
-		}
-
 		// UI Setup
 		var baseY:Int = Settings.downscroll ? 80 : 650;
 
@@ -180,6 +154,9 @@ class PlayState extends EventState {
 		iconP2 = new HealthIcon(songData.characters[0].name, false, true);
 		iconP1.y = baseY - (iconP1.height / 2);
 		iconP2.y = baseY - (iconP2.height / 2);
+
+		ratingSprite = new RatingGraphics(possibleScores, 0, 100);
+		add(ratingSprite);
 
 		// Add to cameras
 		strumLineNotes.cameras = [camHUD];
@@ -206,14 +183,12 @@ class PlayState extends EventState {
 
 		// If storyWeek is equal to -1 then it means that it's Freeplay. So if it's higher that means we're in story mode.
 		if(storyWeek >= 0 && lastSeenCutscene != storyPlaylist.length){	
+			var dialoguePath:String = 'assets/data/songs/${songData.name}/dialogue.json';			
 			lastSeenCutscene = storyPlaylist.length;
 
-			var dialoguePath:String = 'assets/data/songs/${songData.name}/dialogue.json';			
-			var potentialJson:Null<String> = Assets.exists(dialoguePath) ? Assets.getText(dialoguePath) : null;
-
-			if(potentialJson != null) {
+			if(Assets.exists(dialoguePath)) {
 				// The delay is purely for the transitions. If your transitions are longer or shorter then change the event delay.	
-				postEvent(0.5, function(){ pauseAndOpenState(new DialogueSubstate(this, camHUD, potentialJson)); });
+				postEvent(0.5, function(){ pauseAndOpenState(new DialogueSubstate(this, camHUD, Assets.getText(dialoguePath))); });
 				return;
 			}
 		}
@@ -306,17 +281,17 @@ class PlayState extends EventState {
 		];
  
 		for(i in 0...4){
-			var snd:FlxSound = new FlxSound().loadEmbedded(Paths.lSound('gameplay/' + introAssets[i + Std.int(introAssets.length * 0.5)]));
-				snd.volume = 0.6;
+			var snd:FlxSound = new FlxSound().loadEmbedded(Paths.lSound('gameplay/' + introAssets[i + (introAssets.length >> 1)]));
+			snd.volume = 0.6;
 			introSounds[i] = snd;
 
 			if(introAssets[i] == '') 
 				continue;
 
-			var spr:StaticSprite = new StaticSprite().loadGraphic(Paths.lImage('gameplay/${ introAssets[i] }'));
-				spr.cameras = [camHUD];
-				spr.screenCenter();
-				spr.alpha = 0;
+			var spr:StaticSprite = new StaticSprite().loadGraphic(Paths.lImage('gameplay/${introAssets[i]}'));
+			spr.cameras = [camHUD];
+			spr.screenCenter();
+			spr.alpha = 0;
 			add(spr);
 
 			introSprites[i+1] = spr;
@@ -342,11 +317,19 @@ class PlayState extends EventState {
 				for(pc in allCharacters)
 					pc.dance();
 	
-				if(introSprites[introBeatCounter] != null)	
-					introSpriteTween(introSprites[introBeatCounter], 3, Song.stepCrochet, true);
 				introSounds[introBeatCounter].play();
-	
-				introBeatCounter++;
+				var introSpr = introSprites[introBeatCounter++];
+				if(introSpr == null)
+					return;
+
+				introSpr.alpha = 1;
+				FlxTween.tween(introSpr, {y: introSpr.y + 10, alpha: 0}, Song.stepCrochet * 0.003, { 
+					ease: FlxEase.cubeInOut,
+					startDelay: Song.stepCrochet * 0.001,
+					onComplete: function(twn:FlxTween) {
+						remove(introSpr);
+					}
+				});
 			});
 	}
 
@@ -421,12 +404,10 @@ class PlayState extends EventState {
 		}
 
 		// Input range checks
-		if(daNote.isSustainNote) {
-			if(Math.abs(nDiff) < 0.8 && keysPressed[daNote.noteData])
-				hitNote(daNote);
-		} else 
-			if (hittableNotes[daNote.noteData] == null && Math.abs(nDiff) <= inputRange * daNote.curType.rangeMul)
-				hittableNotes[daNote.noteData] = daNote;
+		if(daNote.isSustainNote && Math.abs(nDiff) < 0.8 && keysPressed[daNote.noteData])
+			hitNote(daNote);
+		else if (hittableNotes[daNote.noteData] == null && Math.abs(nDiff) <= inputRange * daNote.curType.rangeMul)
+			hittableNotes[daNote.noteData] = daNote;
 	}
 
 	public var hittableNotes:Array<Note> = [null, null, null, null];
@@ -440,9 +421,9 @@ class PlayState extends EventState {
 			var strumRef = playerStrums[nkey];
 			keysPressed[nkey] = true;
 			
-			if(hittableNotes[nkey] != null)
+			if(hittableNotes[nkey] != null) {
 				hitNote(hittableNotes[nkey]);
-			else if(strumRef.pressTime <= 0){
+			} else if(strumRef.pressTime <= 0){
 				strumRef.playAnim(1);
 
 				if(!Settings.ghost_tapping)
@@ -464,7 +445,7 @@ class PlayState extends EventState {
 	override public function keyRel(ev:KeyboardEvent) {
 		var nkey = ev.keyCode.deepCheck(keysArray);
 
-		if (nkey != -1 && !paused){
+		if(nkey != -1 && !paused){
 			keysPressed[nkey] = false;
 			playerStrums[nkey].playAnim(0);
 		}
@@ -506,9 +487,27 @@ class PlayState extends EventState {
 		allCharacters[playerIndex].playAnim('sing' + singDirections[note.noteData]);
 		vocals.volume = 1;
 
-		if(!note.isSustainNote)
-			popUpScore(note.strumTime);
-		
+		if(note.isSustainNote){
+			updateHealth(2);
+			return;
+		}
+
+		var curScore:RatingData = possibleScores[0];
+		var curValue:Int = 0;
+
+		for(i in 1...possibleScores.length)
+			if(Math.abs(note.strumTime - stepTime) >= possibleScores[i].threshold){
+				curValue = i+1;
+				curScore = possibleScores[i];
+			} else
+				break;
+
+		++hitCount;
+		songScore += curScore.score;
+		combo	   = curScore.score > 50 && combo < 1000 ? combo + 1 : 0;
+		fcValue    = curValue > fcValue ? curValue : fcValue;
+
+		ratingSprite.displayScore(curScore, combo);
 		updateHealth(5);
 	}
 
@@ -523,48 +522,6 @@ class PlayState extends EventState {
 		allCharacters[playerIndex].playAnim('sing' + singDirections[direction] + 'miss');
 
 		updateHealth(-10);
-	}
-
-	private var previousValue:Int;
-	private var scoreTweens:Array<FlxTween> = [];
-	private function popUpScore(strumtime:Float) {
-		var noteDiff:Float = Math.abs(strumtime - stepTime);
-		var curScore:RatingData = possibleScores[0];
-		var curValue:Int = 1;
-
-		for(i in 1...possibleScores.length)
-			if(noteDiff >= possibleScores[i].threshold){
-				curValue = i+1;
-				curScore = possibleScores[i];
-			} else break;
-
-		hitCount  += 1;
-		songScore += curScore.score;
-		combo	   = curScore.score > 50 && combo < 1000 ? combo + 1 : 0;
-		fcValue    = curValue > fcValue ? curValue : fcValue;
-
-		// Everything below here is to handle graphics.
-
-		if(scoreTweens[0] != null)
-			for(i in 0...4) scoreTweens[i].cancel();
-
-		if(previousValue != curValue){
-			ratingSpr.loadGraphic(Paths.lImage('gameplay/' + curScore.name));
-			ratingSpr.centerOrigin();
-			previousValue = curValue;
-		}
-		ratingSpr.screenCenter();
-
-		var comsplit:Array<String> = Std.string(combo).split('');
-		for(i in 0...3){
-			var sRef = comboSprs[i];
-			sRef.animation.play((3 - comsplit.length <= i) ? comsplit[i + (comsplit.length - 3)] : '0');
-			sRef.screenCenter(Y);
-			sRef.y += 120;
-
-			scoreTweens[i+1] = introSpriteTween(sRef, 3, Song.stepCrochet * 0.5, false);
-		}
-		scoreTweens[0] = introSpriteTween(ratingSpr, 3,  Song.stepCrochet * 0.5, false);
 	}
 
 	public function endSong():Void {
@@ -611,18 +568,6 @@ class PlayState extends EventState {
 
 		if(hittableNotes[note.noteData] == note)
 			hittableNotes[note.noteData] = null;
-	}
-
-	// TODO: Just redo this
-	private function introSpriteTween(spr:StaticSprite, steps:Int, delay:Float = 0, destroy:Bool):FlxTween {
-		spr.alpha = 1;
-		return FlxTween.tween(spr, {y: spr.y + 10, alpha: 0}, (steps * Song.stepCrochet) / 1000, { ease: FlxEase.cubeInOut, startDelay: delay * 0.001,
-			onComplete: function(twn:FlxTween)
-			{
-				if(destroy)
-					spr.destroy();
-			}
-		});
 	}
 
 	override function onFocusLost() {

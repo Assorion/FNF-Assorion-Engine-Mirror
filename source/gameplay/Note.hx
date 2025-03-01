@@ -18,7 +18,7 @@ class Note extends StaticSprite { // If animated notes are desired, this will ha
 	public static var colourArray:Array<String> = ['purple', 'blue', 'green', 'red'];
 	public static var possibleTypes:Array<NoteType> = [
 		{
-			assets: 'NOTE_assets',
+			assets: 'noteAssets',
 			mustHit: true,
 			rangeMul: 1,
 			onHit: null, 

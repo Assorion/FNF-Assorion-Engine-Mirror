@@ -14,8 +14,8 @@ using StringTools;
 
 #if !debug @:noDebug #end
 class MainMenuState extends EventState {
-	private var optionList :Array<String> = ['story mode', 'freeplay', 'github',	'options'];
-	private var optionAssets:Array<String> = ['FNF_main'  , 'FNF_main', 'FNF_main', 'FNF_main'];
+	private var optionList :Array<String>  = ['story mode',        'freeplay',        'github',           'options'];
+	private var optionAssets:Array<String> = ['mainMenuOptions'  , 'mainMenuOptions', 'mainMenuOptions', 'mainMenuOptions'];
 
 	private static var curSelected:Int = 0;
 

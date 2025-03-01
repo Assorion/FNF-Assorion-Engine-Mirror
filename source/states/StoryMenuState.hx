@@ -2,10 +2,9 @@ package states;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.math.FlxMath;
 import flixel.util.FlxColor;
 import flixel.tweens.FlxTween;
-import flixel.group.FlxGroup.FlxTypedGroup;
+
 import backend.Song;
 import backend.HighScore;
 import ui.MenuTemplate;
@@ -20,17 +19,12 @@ typedef StoryData = {
 }
 
 #if !debug @:noDebug #end
-class StoryMenuState extends MenuTemplate
-{
+class StoryMenuState extends MenuTemplate {
 	public static inline var selectColour:Int = 0xFF00FFFF;
 	public static inline var whiteColour:Int  = 0xFFFFFFFF;
-	private var weekData:Array<StoryData> = [
-		{
-			weekAsset: 'demo', // Graphic used for selecting (doesn't have to be a number)
-			songs: ['tutorial', 'demo'], 
-			topText: 'THIS IS A TEST'
-		}
-	];
+
+	// TODO: Put this in a JŚON file
+	private var weekData:Array<StoryData> = [];
 
 	private static var curDif:Int = 1;
 
@@ -44,34 +38,29 @@ class StoryMenuState extends MenuTemplate
 
 	override function create(){
 		super.create();
+
+		weekData = cast haxe.Json.parse(Paths.lText('storyWeeks.json'));
 		
-		for(i in 0...weekData.length){
-			var weekGraphic:FlxSprite = new FlxSprite(0,0).loadGraphic(Paths.lImage('ui/storyMenu/week-' + weekData[i].weekAsset));
+		for(i in 0...weekData.length) {
+			var weekGraphic:FlxSprite = new FlxSprite(0,0).loadGraphic(Paths.lImage('storyMenu/weeks/week-' + weekData[i].weekAsset));
 			weekGraphic.updateHitbox();
 			weekGraphic.centerOrigin();
 			weekGraphic.scale.set(0.7, 0.7);
-			weekGraphic.offset.x += 75;
+			weekGraphic.offset.x += 100;
 
 			pushObject(weekGraphic);
 		}
 
 		var topBlack:StaticSprite = new StaticSprite(0,0).makeGraphic(640, 20, FlxColor.fromRGB(25,25,25));
-		topText = new FormattedText(0, 2, 0, "1234567890ABCDEFG", null, 18, FlxColor.GRAY, CENTER);
+		topText = new FormattedText(0, 2, 0, "", null, 18, FlxColor.GRAY, CENTER);
 		topText.screenCenter(X);
 		topText.x -= 320;
-		add(topBlack);
-		add(topText);
 
-		// bruh
-		arrowSpr1 = new StaticSprite(640 - 50, 30).loadGraphic(Paths.lImage('ui/storyArrow'));
-		arrowSpr1.updateHitbox();
+		arrowSpr1 = new StaticSprite(640 - 50, 30).loadGraphic(Paths.lImage('storyMenu/storyArrow'));
 		arrowSpr1.centerOrigin();
-		arrowSpr1.scale.set(0.7,0.7);
-		arrowSpr2 = new StaticSprite(640 - 330, 30).loadGraphic(Paths.lImage('ui/storyArrow'));
+		arrowSpr2 = new StaticSprite(640 - 330, 30).loadGraphic(Paths.lImage('storyMenu/storyArrow'));
 		arrowSpr2.flipX = true;
-		arrowSpr2.updateHitbox();
 		arrowSpr2.centerOrigin();
-		arrowSpr2.scale.set(0.7, 0.7);
 
 		diffImage = new StaticSprite(640, 45);
 		diffImage.scale.set(0.7, 0.7);
@@ -79,6 +68,9 @@ class StoryMenuState extends MenuTemplate
 		trackList = new FormattedText(0, 110, 0, "Tracks", null, 32, 0xFFE55777, CENTER);
 		trackList.screenCenter(X);
 		trackList.x -= 167.5;
+
+		add(topBlack);
+		add(topText);
 		add(arrowSpr1);
 		add(arrowSpr2);
 		add(diffImage);
@@ -100,21 +92,15 @@ class StoryMenuState extends MenuTemplate
 			return;
 		}
 
+		FlxG.sound.play(Paths.lSound('ui/confirmMenu'));
 		leaving = true;
 
-		// can't just use the songs array outright.
-		// otherwise it will end up deleting them.
-		var nSongs:Array<String> = [];
-		for(s in weekData[curSel].songs)
-			nSongs.push(s);
-
-		FlxG.sound.play(Paths.lSound('ui/confirmMenu'));
 		PlayState.lastSeenCutscene = 0;	
-		PlayState.storyPlaylist = nSongs;
-		PlayState.curDifficulty = curDif;
-		PlayState.storyWeek     = curSel;
-		PlayState.totalScore    = 0;
-		PlayState.songData      = Song.loadFromJson(nSongs[0], curDif);
+		PlayState.storyPlaylist    = weekData[curSel].songs;
+		PlayState.curDifficulty    = curDif;
+		PlayState.storyWeek        = curSel;
+		PlayState.totalScore       = 0;
+		PlayState.songData         = Song.loadFromJson(weekData[curSel].songs[0], curDif);
 
 		for(i in 0...8)
 			postEvent(i / 8, function(){
@@ -131,9 +117,15 @@ class StoryMenuState extends MenuTemplate
 	}
 
 	public function changeDiff(to:Int, showArr:Bool){
+		if(showArr){
+			var arrow = [arrowSpr2, arrowSpr1][CoolUtil.intBoundTo(to, 0, 1)];
+			arrow.color = selectColour;
+			arrow.scale.set(0.9, 0.9);
+		}
+
 		curDif = ((curDif + to) + CoolUtil.diffNumb) % CoolUtil.diffNumb;
 
-		diffImage.loadGraphic(Paths.lImage('ui/' + CoolUtil.diffString(curDif, 1).toLowerCase()));
+		diffImage.loadGraphic(Paths.lImage('storyMenu/' + CoolUtil.diffString(curDif, 1).toLowerCase()));
 		diffImage.centerOrigin();
 		diffImage.updateHitbox();
 		diffImage.screenCenter(X);
@@ -142,16 +134,21 @@ class StoryMenuState extends MenuTemplate
 		topText.text = weekData[curSel].topText + ' - ${HighScore.getScore('week-$curSel', curDif)}';
 		topText.screenCenter(X);
 		topText.x -= 320;
+	}
 
-		if(!showArr) return;
-
-		var arrow = [arrowSpr2, arrowSpr1][to >= 0 ? 1 : 0];
-		arrow.color = selectColour;
-		arrow.scale.set(0.6, 0.6);
-		postEvent(0.08, function(){
-			arrow.color = whiteColour;
-			arrow.scale.set(0.7, 0.7);
-		});
+	override function keyRel(ev:KeyboardEvent){
+		super.keyRel(ev);
+		
+		ev.keyCode.bindFunctions([
+			[Binds.UI_LEFT, function(){
+				arrowSpr2.scale.set(1, 1);
+				arrowSpr2.color = whiteColour;
+			}],
+			[Binds.UI_RIGHT, function(){
+				arrowSpr1.scale.set(1, 1);
+				arrowSpr1.color = whiteColour;
+			}]
+		]);
 	}
 	
 	override function changeSelection(to:Int = 0){
@@ -169,13 +166,13 @@ class StoryMenuState extends MenuTemplate
 		trackList.screenCenter(X);
 		trackList.x -= 167.5;
 
-		// handle fades
-
+		// Portrait code
 		var oldRef:FlxSprite = weekBG;
-		weekBG = new FlxSprite(640, 0).loadGraphic(Paths.lImage('ui/storyMenu/portrait-' + weekData[curSel].weekAsset));
+		weekBG = new FlxSprite(640, 0).loadGraphic(Paths.lImage('storyMenu/weeks/portrait-' + weekData[curSel].weekAsset));
 		add(weekBG);
 
-		if(oldRef == null) return;
+		if(oldRef == null)
+			return;
 
 		weekBG.alpha = 0;
 		FlxTween.tween(weekBG, {alpha: 1}, 0.2);

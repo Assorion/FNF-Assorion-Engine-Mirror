@@ -46,7 +46,7 @@ class GameOverSubstate extends EventSubstate {
 		camFollow = new FlxObject(deadChar.getGraphicMidpoint().x, deadChar.getGraphicMidpoint().y, 1, 1);
 
 		FlxG.sound.music.time = 0;
-		FlxG.sound.play(Paths.lSound('gameplay/fnf_loss_sfx'));
+		FlxG.sound.play(Paths.lSound('gameplay/death'));
 		FlxG.camera.follow(camFollow, LOCKON, 0.023);
 
 		Song.musicSet(100);

@@ -1,8 +1,10 @@
-{
-	"songs": [
-		{
-			"name": "demo-song",
-			"icon": "demo"
-		}
-	]
-}
+[
+	{
+		"name": "tutorial",
+		"icon": "gf"
+	},
+	{
+		"name": "demo-song",
+		"icon": "demo"
+	}
+]

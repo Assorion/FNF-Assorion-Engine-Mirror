@@ -15,7 +15,7 @@ class StrumNote extends FlxSprite {
 	public function new(X:Float, Y:Float, data:Int = 0, player:Int = 0, isPlayer:Bool = false){
 		super(X,Y);
 		
-		frames = Paths.lSparrow('gameplay/NOTE_assets');
+		frames = Paths.lSparrow('gameplay/noteAssets');
 
 		// Load animations into cache
 		animation.addByPrefix('static', 'arrow' + PlayState.singDirections[data]);

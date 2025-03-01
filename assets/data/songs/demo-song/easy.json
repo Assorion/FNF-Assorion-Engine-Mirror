@@ -1,31 +1,5 @@
 {
 	"song": {
-		"name": "demo-song",
-		"bpm": 140,
-		"needsVoices": true,
-		"speed": 2.15,
-		"stage": "demo-stage",
-		"playLength": 2,
-		"activePlayer": 1,
-		"characters": [
-			{
-				"x": 100,
-				"y": 100,
-				"name": "demo"
-			},
-			{
-				"x": 770,
-				"y": 450,
-				"name": "bf"
-			},
-			{
-				"x": 400,
-				"y": 130,
-				"name": "gf"
-			}
-		],
-		"renderBackwards": false,
-		"startDelay": 0.5,
 		"notes": [
 			{
 				"sectionNotes": [],
@@ -2927,7 +2901,7 @@
 						0
 					],
 					[
-						877,
+						878,
 						0,
 						0,
 						1,
@@ -5265,6 +5239,32 @@
 				"sectionNotes": [],
 				"cameraFacing": 0
 			}
-		]
+		],
+		"startDelay": 0.5,
+		"renderBackwards": false,
+		"characters": [
+			{
+				"x": 100,
+				"name": "demo",
+				"y": 100
+			},
+			{
+				"x": 770,
+				"name": "bf",
+				"y": 450
+			},
+			{
+				"x": 400,
+				"name": "gf",
+				"y": 130
+			}
+		],
+		"playLength": 2,
+		"name": "demo-song",
+		"needsVoices": true,
+		"stage": "demo-stage",
+		"speed": 2.15,
+		"bpm": 140,
+		"activePlayer": 1
 	}
 }

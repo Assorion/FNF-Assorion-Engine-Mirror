@@ -1,4 +1,5 @@
 {
+	"idleSpeed": 0,
     "leftRightIdle": false,
     "flipX": true,
     "cameraOffsetX": 0,

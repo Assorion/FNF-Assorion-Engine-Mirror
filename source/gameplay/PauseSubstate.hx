@@ -33,7 +33,7 @@ class PauseSubstate extends EventSubstate {
 
 		playState = ps;
 
-		pauseMusic = new FlxSound().loadEmbedded(Paths.lMusic('breakfast'), true, true);
+		pauseMusic = new FlxSound().loadEmbedded(Paths.lMusic('gameplay/breakfast'), true, true);
 		pauseMusic.volume = 0;
 		pauseMusic.play();
 		FlxG.sound.list.add(pauseMusic);

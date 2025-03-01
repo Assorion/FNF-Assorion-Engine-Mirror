@@ -1,0 +1,75 @@
+{
+	"slides": [
+		{
+			"text": "This is the first slide. This slide demonstrates using 1 portrait, text, and the default speed.",
+			"characters": [
+				{
+					"portrait": "gf_portrait",
+					"alpha": 1,
+					"centerOffsetX": -300
+				}
+			],
+			"speed": 0.04
+		},
+		{
+			"text": "This is the second slide. This slide demonstrates using 2 portraits at different positions and alpha values. It should also say the text slower than usual.",
+			"characters": [
+				{
+					"portrait": "gf_portrait",
+					"alpha": 0.7,
+					"centerOffsetX": -300
+				},
+				{	
+					"portrait": "bf_portrait",
+					"alpha": 1,
+					"centerOffsetX": 300
+				}
+			],
+			"speed": 0.06
+		},
+		{
+			"text": "This is the third slide. This demonstrates using 3 portraits, with one on the left, one in the middle, and one on the right. It also demonstrates that they can move. The text should go by twice as fast.",
+			"characters": [
+				{
+					"portrait": "gf_portrait",
+					"alpha": 1,
+					"centerOffsetX": -280
+				},
+				{	
+					"portrait": "bf_portrait",
+					"alpha": 0.7,
+					"centerOffsetX": 0
+				},
+				{	
+					"portrait": "bf_portrait",
+					"alpha": 0.7,
+					"centerOffsetX": 280
+				}
+			],
+			"speed": 0.02
+		},	
+		{
+			"text": "This is the fourth slide. Here the text speed is normal, and shows how to enter newlines\nin\nthe middle of text as you can see there. It also shows an alpha value of 0.3, to show that it is not hard-coded.",
+			"characters": [
+				{
+					"portrait": "gf_portrait",
+					"alpha": 0.3,
+					"centerOffsetX": 0
+				}
+			],
+			"speed": 0.04
+		},
+		{
+			"text": "Yes by the way, this is sample dialogue. This is designed to show how write the JSON and also what features are avaliable by default. Assorion Engine is a minimalist engine, what you are playing is a demo, NOT week one.",
+			"characters": [
+				{
+					"portrait": "bf_portrait",
+					"alpha": 1,
+					"centerOffsetX": 0
+				}
+			],
+			"speed": 0.04
+		}	
+		
+	]
+}

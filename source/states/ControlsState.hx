@@ -1,7 +1,5 @@
 package states;
 
-import flixel.util.FlxColor;
-
 import ui.Alphabet;
 import ui.MenuTemplate;
 import ui.NewTransition;
@@ -25,7 +23,7 @@ class ControlsState extends MenuTemplate {
 	];
 
 	override function create() {
-		addBG(FlxColor.fromRGB(0,255,110));
+		addBG(0,255,110);
 		columns = 3;
 
 		super.create();

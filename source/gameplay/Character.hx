@@ -1,6 +1,7 @@
 package gameplay;
 
 import flixel.FlxSprite;
+import flixel.math.FlxMath;
 import haxe.Json;
 
 import backend.Song;
@@ -15,7 +16,9 @@ typedef AnimationData = {
 	var offsetX:Int;
 	var offsetY:Int;
 }
+
 typedef CharacterData = {
+	var idleSpeed:Int;
 	var leftRightIdle:Bool;
 	var flipX:Bool;
 	var cameraOffsetX:Int;
@@ -25,8 +28,6 @@ typedef CharacterData = {
 
 #if !debug @:noDebug #end
 class Character extends FlxSprite {
-	public static inline var beatHalfingTime:Int = 192; 
-
 	public var animOffsets:Map<String, Array<Int>> = new Map<String, Array<Int>>();
 	public var camOffset:Array<Int> = [0,0];
 	public var curCharacter:String;
@@ -34,6 +35,7 @@ class Character extends FlxSprite {
 
 	public var leftRightIdle:Bool = false;
 	public var idleNextBeat :Bool = true;
+	public var idlingSpeed:Int = 0;
 	public var danced:Bool = false;
 
 	public function new(x:Float, y:Float, ?character:String = "bf", ?isPlayer:Bool = false) {
@@ -43,9 +45,10 @@ class Character extends FlxSprite {
 		curCharacter  = character;
 		this.isPlayer = isPlayer;
 
-		frames = Paths.lSparrow('characters/$character');
+		frames = Paths.lSparrow('gameplay/characters/$character');
 		var charData:CharacterData = cast Json.parse(Paths.lText('characters/${character}.json'));
 
+		idlingSpeed   = charData.idleSpeed;
 		leftRightIdle = charData.leftRightIdle;
 		flipX		  = charData.flipX;
 		camOffset	  = [charData.cameraOffsetX, charData.cameraOffsetY];
@@ -64,11 +67,9 @@ class Character extends FlxSprite {
 		}
 	}
 
-	public function dance() {
-		if(Song.currentBeat % (Math.floor(Song.BPM / beatHalfingTime) + 1) != 0)
-			return;
-
-		if(!idleNextBeat) {
+	public function dance() // 1 << idlingSpeed exponentially increases the beats per idle.
+	if(FlxMath.absInt(Song.currentBeat) & (1 << idlingSpeed) - 1 == 0){
+		if(!idleNextBeat){
 			idleNextBeat = true;
 			return;
 		}

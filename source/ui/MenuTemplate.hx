@@ -5,6 +5,7 @@ import flixel.FlxSprite;
 import flixel.FlxObject;
 import flixel.FlxBasic;
 import flixel.math.FlxMath;
+import flixel.util.FlxColor;
 import flixel.group.FlxGroup;
 
 import backend.Song;
@@ -37,11 +38,11 @@ class MenuTemplate extends EventState {
 	private var arrIcons:FlxTypedGroup<HealthIcon>;
 	private var camFollow:FlxObject;
 
-	private inline function addBG(bgColour:Int, ?sprite:String = "ui/menuDesat"){
+	private inline function addBG(red:Int, green:Int, blue:Int, ?sprite:String = "ui/menuDesat"){
 		var background = new StaticSprite(0,0).loadGraphic(Paths.lImage('ui/menuDesat'));
 		background.scale.set(1.1, 1.1);
 		background.screenCenter();
-		background.color = bgColour;
+		background.color = FlxColor.fromRGB(red, green, blue);
 
 		add(background);
 		background.scrollFactor.set(0, 0.5);
@@ -85,13 +86,13 @@ class MenuTemplate extends EventState {
 	}
 
 	override function keyHit(ev:KeyboardEvent)
-	ev.keyCode.bindFunctions([
-		[Binds.UI_UP,	 function(){ changeSelection(-1); }],
-		[Binds.UI_DOWN,  function(){ changeSelection(1);	}],
-		[Binds.UI_LEFT,  function(){ altChange(-1);       }],
-		[Binds.UI_RIGHT, function(){ altChange(1);        }],
-		[Binds.UI_BACK,  function(){ exitFunction();      }]
-	]);
+		ev.keyCode.bindFunctions([
+			[Binds.UI_UP,	 function(){ changeSelection(-1); }],
+			[Binds.UI_DOWN,  function(){ changeSelection(1);	}],
+			[Binds.UI_LEFT,  function(){ altChange(-1);       }],
+			[Binds.UI_RIGHT, function(){ altChange(1);        }],
+			[Binds.UI_BACK,  function(){ exitFunction();      }]
+		]);
 
 	override function update(elapsed:Float){
 		#if (flixel < "5.4.0")

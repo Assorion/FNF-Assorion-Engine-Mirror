@@ -53,8 +53,8 @@ class Song {
 		stepCrochet = newCrochet;
 		division	= 1 / newCrochet;
 		millisecond = -Settings.audio_offset;
-		currentStep = 0;
-		currentBeat = 0;
+		currentStep = -1;
+		currentBeat = -1;
 	}
 
 	public static function clearHooks() {
@@ -63,10 +63,11 @@ class Song {
 	}
 
 	public static function update(followTime:Float){
+		var oldStep = currentStep;
 		millisecond = followTime - Settings.audio_offset;
+		currentStep = Math.floor(millisecond * division);
 
-		var newStep = Math.floor(millisecond * division);
-		if (currentStep != newStep && (currentStep = newStep) >= -1)
+		if(oldStep != currentStep)
 			stepHit();
 	}
 

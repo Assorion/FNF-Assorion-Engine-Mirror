@@ -61,17 +61,17 @@ class TitleState extends EventState {
 		}
 
 		funkinLogo = new FlxSprite(-150, -100);
-		funkinLogo.frames = Paths.lSparrow('ui/logoBumpin');
+		funkinLogo.frames = Paths.lSparrow('titleScreen/logoBumpin');
 		funkinLogo.animation.addByPrefix('bump', 'logo bumpin', 24);
 		funkinLogo.updateHitbox();
 
 		gfDance = new FlxSprite(FlxG.width * 0.4, FlxG.height * 0.07);
-		gfDance.frames = Paths.lSparrow('ui/gfDanceTitle');
+		gfDance.frames = Paths.lSparrow('titleScreen/gfDanceTitle');
 		gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
 		gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
 
 		enterText = new FlxSprite(100, FlxG.height * 0.8);
-		enterText.frames = Paths.lSparrow('ui/titleEnter');
+		enterText.frames = Paths.lSparrow('titleScreen/titleEnter');
 		enterText.animation.addByPrefix('idle', "Press Enter to Begin", 24);
 		enterText.animation.addByPrefix('press', "ENTER PRESSED", 24);
 		enterText.updateHitbox();

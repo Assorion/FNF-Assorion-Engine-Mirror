@@ -48,7 +48,7 @@ class OptionsState extends MenuTemplate
 
 	override function create() {
 		columns = 1;
-		addBG(0xFFea71fd);
+		addBG(234, 113, 253);
 		super.create();
 
 		var bottomBlack:StaticSprite = new StaticSprite(0, FlxG.height - 30).makeGraphic(1280, 30, FlxColor.BLACK);
@@ -131,6 +131,7 @@ class OptionsState extends MenuTemplate
 				atg.text = Std.string(Settings.framerate);
 				SettingsManager.apply();
 		}
+
 		changeSelection(0);
 	}
 

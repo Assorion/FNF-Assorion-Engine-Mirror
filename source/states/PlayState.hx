@@ -234,22 +234,22 @@ class PlayState extends EventState {
 			default:
 				FlxG.camera.zoom = 0.9;
 
-				var bg:StaticSprite = new StaticSprite(-600, -200).loadGraphic(Paths.lImage('stages/demo/stageback'));
+				var bg:StaticSprite = new StaticSprite(-600, -200).loadGraphic(Paths.lImage('gameplay/stages/demo/stageback'));
 					bg.setGraphicSize(Std.int(bg.width * 2));
 					bg.updateHitbox();
 					bg.scrollFactor.set(0.9, 0.9);
 				add(bg);
-				var stageFront:StaticSprite = new StaticSprite(-650, 600).loadGraphic(Paths.lImage('stages/demo/stagefront'));
+				var stageFront:StaticSprite = new StaticSprite(-650, 600).loadGraphic(Paths.lImage('gameplay/stages/demo/stagefront'));
 					stageFront.setGraphicSize(Std.int(stageFront.width * 2.2));
 					stageFront.updateHitbox();
 					stageFront.scrollFactor.set(0.9, 0.9);
 				add(stageFront);
-				var curtainLeft:StaticSprite = new StaticSprite(-500, -165).loadGraphic(Paths.lImage('stages/demo/curtainLeft'));
+				var curtainLeft:StaticSprite = new StaticSprite(-500, -165).loadGraphic(Paths.lImage('gameplay/stages/demo/curtainLeft'));
 					curtainLeft.setGraphicSize(Std.int(curtainLeft.width * 1.8));
 					curtainLeft.updateHitbox();
 					curtainLeft.scrollFactor.set(1.3, 1.3);
 				add(curtainLeft);
-				var curtainRight:StaticSprite = new StaticSprite(1406, -165).loadGraphic(Paths.lImage('stages/demo/curtainRight'));
+				var curtainRight:StaticSprite = new StaticSprite(1406, -165).loadGraphic(Paths.lImage('gameplay/stages/demo/curtainRight'));
 					curtainRight.setGraphicSize(Std.int(curtainRight.width * 1.8));
 					curtainRight.updateHitbox();
 					curtainRight.scrollFactor.set(1.3, 1.3);
@@ -335,12 +335,13 @@ class PlayState extends EventState {
 					return;
 				}
 
+				Song.currentBeat = introBeatCounter - 4;
+				stepTime = (introBeatCounter - 4) * 4;
+				stepTime -= Settings.audio_offset * Song.division;
+
 				for(pc in allCharacters)
 					pc.dance();
 	
-				stepTime = (introBeatCounter - 4) * 4;
-				stepTime -= Settings.audio_offset * Song.division;
-				
 				if(introSprites[introBeatCounter] != null)	
 					introSpriteTween(introSprites[introBeatCounter], 3, Song.stepCrochet, true);
 				introSounds[introBeatCounter].play();
@@ -365,8 +366,8 @@ class PlayState extends EventState {
 	}
 
 	public function stepHit() 
-		if(Song.currentStep & 1 == 0 && FlxG.sound.music.playing)
-			stepTime = (Song.millisecond * Song.division * 0.25) + (stepTime * 0.75);
+	if(Song.currentStep & 1 == 0 && FlxG.sound.music.playing)
+		stepTime = (Song.millisecond * Song.division * 0.25) + (stepTime * 0.75);
 
 
 	override public function update(elapsed:Float) 
@@ -518,7 +519,7 @@ class PlayState extends EventState {
 		missCount++;
 		fcValue = missCount >= 10 ? 6 : 5;
 
-		FlxG.sound.play(Paths.lSound('gameplay/missnote' + (Math.round(Math.random() * 2) + 1)), 0.2);
+		FlxG.sound.play(Paths.lSound('gameplay/missNote' + (Math.round(Math.random() * 2) + 1)), 0.2);
 		allCharacters[playerIndex].playAnim('sing' + singDirections[direction] + 'miss');
 
 		updateHealth(-10);

@@ -49,7 +49,7 @@ class DialogueSubstate extends EventSubstate {
 		characterSpriteGroup = new FlxTypedGroup<StaticSprite>();
 		add(characterSpriteGroup);
 
-		dialogueBGSprite = new StaticSprite(0,0).loadGraphic(Paths.lImage('gameplay/dialoguebox'));
+		dialogueBGSprite = new StaticSprite(0,0).loadGraphic(Paths.lImage('gameplay/dialogueBox'));
 		dialogueBGSprite.screenCenter();
 		dialogueBGSprite.y += 200;
 		dialogueBGSprite.alpha = 0;
@@ -98,7 +98,7 @@ class DialogueSubstate extends EventSubstate {
 				characterSpriteGroup.add(characterSprites[i]);
 			}
 
-			characterSprites[i].loadGraphic(Paths.lImage('characters/${totalSlides[currentSlide].characters[i].portrait}'));
+			characterSprites[i].loadGraphic(Paths.lImage('gameplay/characters/${totalSlides[currentSlide].characters[i].portrait}'));
 			characterSprites[i].screenCenter();
 			characterSprites[i].y -= 20;
 			characterSprites[i].x += totalSlides[currentSlide].characters[i].centerOffsetX;

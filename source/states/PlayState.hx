@@ -23,11 +23,6 @@ typedef RatingData = {
 	var name:String;
 }
 
-/*
-	TODO: Put the combo rating sprites into their own class. They intrude a little too much into Playstates code for my liking.
-	I'm putting this down for future me to fix!
-*/
-
 #if !debug @:noDebug #end
 class PlayState extends EventState {
 	public static inline var inputRange:Float = 1.25; // The input range is measured in steps. By default it is 1 and a quarter steps of input range. 
@@ -67,8 +62,7 @@ class PlayState extends EventState {
 	public var chartNotes:Array<Note> = [];
 	public var currentNotes:FlxTypedGroup<Note>;
 
-	// health now goes from 0 - 100, unlike the base game
-	public var health	:Int = 50;
+	public var health	:Int = 50; // Ranges from 0 to 100.
 	public var combo	:Int = 0;
 	public var hitCount :Int = 0;
 	public var missCount:Int = 0;
@@ -385,7 +379,7 @@ class PlayState extends EventState {
 				return;
 
 			allCharacters[daNote.player].playAnim('sing' + singDirections[daNote.noteData]);
-			strumRef.playAnim(2);
+			strumRef.playAnim('glow');
 			strumRef.pressTime = 1.05;
 			vocals.volume = 1;
 
@@ -424,7 +418,7 @@ class PlayState extends EventState {
 			if(hittableNotes[nkey] != null) {
 				hitNote(hittableNotes[nkey]);
 			} else if(strumRef.pressTime <= 0){
-				strumRef.playAnim(1);
+				strumRef.playAnim('press');
 
 				if(!Settings.ghost_tapping)
 					missNote(nkey);
@@ -447,7 +441,7 @@ class PlayState extends EventState {
 
 		if(nkey != -1 && !paused){
 			keysPressed[nkey] = false;
-			playerStrums[nkey].playAnim(0);
+			playerStrums[nkey].playAnim('static');
 		}
 	}
 
@@ -482,7 +476,7 @@ class PlayState extends EventState {
 			return;
 		}
 
-		playerStrums[note.noteData].playAnim(2);
+		playerStrums[note.noteData].playAnim('glow');
 		playerStrums[note.noteData].pressTime = 0.66;
 		allCharacters[playerIndex].playAnim('sing' + singDirections[note.noteData]);
 		vocals.volume = 1;
@@ -524,6 +518,16 @@ class PlayState extends EventState {
 		updateHealth(-10);
 	}
 
+	private inline function destroyNote(note:Note, act:Int) {
+		note.typeAction(act);
+		currentNotes.remove(note, true);
+		note.destroy();
+
+		if(hittableNotes[note.noteData] == note)
+			hittableNotes[note.noteData] = null;
+	}
+
+
 	public function endSong():Void {
 		FlxG.sound.music.volume = 0;
 		vocals.volume = 0;
@@ -559,15 +563,6 @@ class PlayState extends EventState {
 		vocals.pause();
 
 		openSubState(state);
-	}
-
-	private inline function destroyNote(note:Note, act:Int) {
-		note.typeAction(act);
-		currentNotes.remove(note, true);
-		note.destroy();
-
-		if(hittableNotes[note.noteData] == note)
-			hittableNotes[note.noteData] = null;
 	}
 
 	override function onFocusLost() {

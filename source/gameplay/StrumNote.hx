@@ -12,7 +12,6 @@ class StrumNote extends FlxSprite {
 	// or B) when it's a player's strum: pressTime will be used instead for double-tapping prevention.
 	public var pressTime:Float = 0; 
 	public var isPlayer:Bool = false;
-	public var curState:Int = 0;
 
 	public function new(X:Float, Y:Float, data:Int = 0, player:Int = 0, isPlayer:Bool = false){
 		super(X,Y);
@@ -21,11 +20,11 @@ class StrumNote extends FlxSprite {
 
 		// Load animations into cache
 		animation.addByPrefix('static', 'arrow' + PlayState.singDirections[data]);
-		animation.addByPrefix('pressed', Note.colourArray[data] + ' press'	, 24, false);
-		animation.addByPrefix('confirm', Note.colourArray[data] + ' confirm', 24, false);
-		playAnim(2);
-		playAnim(1);
-		playAnim(0);
+		animation.addByPrefix('press', Note.colourArray[data] + ' press'	, 24, false);
+		animation.addByPrefix('glow', Note.colourArray[data] + ' confirm', 24, false);
+		playAnim('glow');
+		playAnim('press');
+		playAnim('static');
 
 		setGraphicSize(Math.round(width * 0.7));
 		updateHitbox();
@@ -49,11 +48,8 @@ class StrumNote extends FlxSprite {
 			playAnim();
 	}
 
-	// This 'state' variable is used simply cause string checks are more expensive than integer checks.
-	public function playAnim(state:Int = 0){
-		curState = state;
-
-		animation.play(['static', 'pressed', 'confirm'][state], true);
+	public function playAnim(?animationName:String = 'static'){
+		animation.play(animationName, true);
 		centerOffsets();
 		centerOrigin ();
 	}  

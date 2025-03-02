@@ -6,8 +6,6 @@ import flixel.util.FlxColor;
 
 #if !debug @:noDebug #end
 class CoolUtil {
-	public static var canvas:BitmapData;
-
 	public static inline var diffNumb:Int = 3;
 	public static var diffArr:Array<String> = [
 		// File names

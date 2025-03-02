@@ -3,10 +3,5 @@
 		"weekAsset": "demo",
 		"songs": ["tutorial", "demo"],
 		"topText": "THIS IS A TEST, REMOVE IF MODDING"
-	},
-	{
-		"weekAsset": "demo",
-		"songs": ["tutorial"],
-		"topText": "This is a second week (trust)"
 	}
 ]

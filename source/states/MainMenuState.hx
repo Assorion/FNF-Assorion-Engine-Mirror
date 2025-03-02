@@ -135,8 +135,14 @@ class MainMenuState extends EventState {
 					case 1:
 						EventState.changeState(new FreeplayState());
 					case 2:
-						FlxG.openURL('https://codeberg.org/Assorion/FNF-Assorion-Engine');
+						var site = 'https://codeberg.org/Assorion/FNF-Assorion-Engine';
 						FlxG.resetState();
+
+						#if linux
+						Sys.command('xdg-open', [site]);
+						#else
+						FlxG.openURL(site);
+						#end
 					case 3:
 						EventState.changeState(new OptionsState());
 				}

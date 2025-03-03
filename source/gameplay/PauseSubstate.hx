@@ -31,7 +31,8 @@ class PauseSubstate extends EventSubstate {
 	public function new(camera:FlxCamera, ps:PlayState) {
 		super();
 
-		playState = ps;
+		playState = ps;	
+		ps.tabOutTimeStamp = CoolUtil.getCurrentTime();
 
 		pauseMusic = new FlxSound().loadEmbedded(Paths.lMusic('gameplay/breakfast'), true, true);
 		pauseMusic.volume = 0;
@@ -98,27 +99,26 @@ class PauseSubstate extends EventSubstate {
 		FlxTween.tween(bottomBlack,{ alpha:  0 }, 0.4);
 		FlxTween.tween(pauseMusic, { volume: 0 }, 0.4);
 		FlxTween.tween(blackSpr,   { alpha:  0 }, 0.4, {onComplete: 
+			function(t:FlxTween){ // Closing
+				pauseMusic.stop();
+				pauseMusic.destroy();
+				playState.paused = false;
+				close();
 
-		// Closing
-		function(t:FlxTween){
-			pauseMusic.stop();
-			pauseMusic.destroy();
-			playState.paused = false;
-			close();
+				for(ev in playState.events)
+					ev.endTime += CoolUtil.getCurrentTime() - playState.tabOutTimeStamp;
 
-			if(FlxG.sound.music.time > 0){
+				if(FlxG.sound.music.time <= 0)
+					return;
+
 				playState.vocals.play();
 				FlxG.sound.music.play();
 				FlxG.sound.music.time = playState.vocals.time = Song.millisecond + Settings.audio_offset;
 			}
-		}});
+		});
 	}
 
-	private function changeSelection(change:Int = 0)
-	{
-		if(leaving)
-			return;
-
+	private function changeSelection(change:Int = 0) {
 		FlxG.sound.play(Paths.lSound('ui/scrollMenu'), 0.4);
 		curSelected = (curSelected + change + optionList.length) % optionList.length;
 
@@ -134,13 +134,12 @@ class PauseSubstate extends EventSubstate {
 	}
 
 	override public function keyHit(ev:KeyboardEvent)
+	if(!leaving)
 		ev.keyCode.bindFunctions([
+			[Binds.UI_BACK, leave],
 			[Binds.UI_UP,   function(){ changeSelection(-1); }],
 			[Binds.UI_DOWN, function(){ changeSelection(1);  }],
 			[Binds.UI_ACCEPT, function(){
-				if(leaving)
-					return;
-	
 				switch(curSelected){
 					case 0:
 						leave();

@@ -7,16 +7,7 @@ import EventState;
 
 #if !debug @:noDebug #end
 class EventSubstate extends FlxSubState {
-	public function new()
-		super();
-
 	private var events:Array<DelayedEvent> = [];
-
-	private inline function postEvent(forward:Float, func:Void->Void)
-		events.push({
-			endTime: CoolUtil.getCurrentTime() + forward,
-			exeFunc: func
-		});
 
 	public function keyHit(ev:KeyboardEvent){}
 	public function keyRel(ev:KeyboardEvent){}
@@ -38,14 +29,18 @@ class EventSubstate extends FlxSubState {
 	override function update(elapsed:Float) {
 		var i = -1;
 		var cTime = CoolUtil.getCurrentTime();
-		while(++i < events.length){
-			if(cTime < events[i].endTime)
-				continue;
-
-			events[i].exeFunc();
-			events.splice(i--, 1);
-		}
+		while(++i < events.length)
+			if(cTime >= events[i].endTime){
+				events[i].exeFunc();
+				events.splice(i--, 1);
+			}
 
 		super.update(elapsed);
 	}
+
+	private inline function postEvent(forward:Float, func:Void->Void)
+		events.push({
+			endTime: CoolUtil.getCurrentTime() + forward,
+			exeFunc: func
+		});
 }

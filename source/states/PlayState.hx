@@ -428,11 +428,9 @@ class PlayState extends EventState {
 		}
 
 		ev.keyCode.bindFunctions([
-			[[FlxKey.SEVEN],  function(){ EventState.changeState(new ChartingState()); }],
-			[Binds.UI_ACCEPT, function(){
-				if(FlxG.sound.music.playing)
-					pauseAndOpenState(new PauseSubstate(camHUD, this));
-			}]
+			[Binds.UI_ACCEPT, function(){ pauseAndOpenState(new PauseSubstate(camHUD, this)); }],
+			[Binds.UI_BACK,   function(){ pauseAndOpenState(new PauseSubstate(camHUD, this)); }],
+			[[FlxKey.SEVEN],  function(){ EventState.changeState(new ChartingState()); }]
 		]);
 	}
 
@@ -487,7 +485,7 @@ class PlayState extends EventState {
 		}
 
 		var curScore:RatingData = possibleScores[0];
-		var curValue:Int = 0;
+		var curValue:Int = 1;
 
 		for(i in 1...possibleScores.length)
 			if(Math.abs(note.strumTime - stepTime) >= possibleScores[i].threshold){
@@ -526,7 +524,6 @@ class PlayState extends EventState {
 		if(hittableNotes[note.noteData] == note)
 			hittableNotes[note.noteData] = null;
 	}
-
 
 	public function endSong():Void {
 		FlxG.sound.music.volume = 0;

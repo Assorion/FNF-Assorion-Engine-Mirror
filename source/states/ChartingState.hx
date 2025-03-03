@@ -7,7 +7,6 @@ import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.group.FlxGroup;
 import flixel.group.FlxSpriteGroup;
-import flixel.system.FlxSound;
 import flixel.tweens.FlxTween;
 import flixel.input.keyboard.FlxKey;
 import openfl.events.MouseEvent;
@@ -72,8 +71,7 @@ class ChartingState extends EventState {
         camGR.bgColor.alpha = camUI.bgColor.alpha = 0;
 
         FlxG.cameras.reset(camUI);
-		FlxG.cameras.add(camGR);
-		FlxCamera.defaultCameras = [camUI];
+		FlxG.cameras.add(camGR, false);
 
         // Create background, grid, notes, etc
         var bgspr:StaticSprite = new StaticSprite(0,0).loadGraphic(Paths.lImage('ui/menuDesat'));

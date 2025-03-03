@@ -5,7 +5,6 @@ import flixel.FlxSprite;
 import flixel.FlxObject;
 import flixel.FlxCamera;
 import flixel.group.FlxGroup;
-import flixel.system.FlxSound;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.input.keyboard.FlxKey;
@@ -96,8 +95,7 @@ class PlayState extends EventState {
 		followPos.setPosition(FlxG.width / 2, FlxG.height / 2);
 
 		FlxG.cameras.reset(camGame);
-		FlxG.cameras.add(camHUD);
-		FlxCamera.defaultCameras = [camGame];
+		FlxG.cameras.add(camHUD, false);
 		FlxG.camera.follow(followPos, LOCKON, 0.067);
 		
 		super.create();

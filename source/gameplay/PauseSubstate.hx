@@ -5,7 +5,6 @@ import flixel.FlxCamera;
 import flixel.math.FlxMath;
 import flixel.util.FlxColor;
 import flixel.tweens.FlxTween;
-import flixel.system.FlxSound;
 
 import backend.Song;
 import ui.Alphabet;

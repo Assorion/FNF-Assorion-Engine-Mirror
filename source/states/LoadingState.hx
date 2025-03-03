@@ -3,7 +3,6 @@ package states;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.util.FlxColor;
-import flixel.system.FlxSound;
 import flixel.addons.ui.FlxUIState;
 import openfl.utils.Assets;
 import openfl.geom.Rectangle;

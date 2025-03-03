@@ -2,7 +2,6 @@ package states;
 
 import flixel.FlxG;
 import flixel.util.FlxColor;
-import flixel.system.FlxSound;
 import flixel.input.keyboard.FlxKey;
 
 import backend.Song;

@@ -1,4 +1,4 @@
-package gameplay;
+package ui;
 
 import lime.utils.Assets;
 import flixel.FlxSprite;
@@ -6,7 +6,7 @@ import flixel.FlxSprite;
 import backend.Song;
 
 #if !debug @:noDebug #end
-class HealthIcon extends FlxSprite {
+class CharacterIcon extends FlxSprite {
 	public var originalScale:Float = 1;
 	public var curChar:String = '';
 
@@ -39,10 +39,7 @@ class HealthIcon extends FlxSprite {
 		scrollFactor.set();
 	}
 
-	public function changeState(state:Int)
-		animation.play(['losing', 'neutral'][state]);
-
-	public function iconBop():Void
+	private function iconBop():Void
 		scale.x = scale.y += 0.2;
 
 	override function update(elapsed:Float)

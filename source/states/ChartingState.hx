@@ -18,9 +18,9 @@ import sys.FileSystem;
 
 import backend.Song;
 import backend.Settings;
+import ui.CharacterIcon;
 import ui.CustomChartUI;
 import gameplay.Note;
-import gameplay.HealthIcon;
 
 using StringTools;
 
@@ -171,7 +171,7 @@ class ChartingState extends EventState {
         for(i in 0...song.playLength){
             if(song.characters.length - 1 < i) break;
 
-            var tmpIcon = new HealthIcon(song.characters[i].name);
+            var tmpIcon = new CharacterIcon(song.characters[i].name);
             tmpIcon.x = gridSize * i * Note.keyCount + gridSize;
             tmpIcon.y = gridSprite.height + 10;
             tmpIcon.scale.set(0.5, 0.5);

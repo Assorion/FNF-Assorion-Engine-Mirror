@@ -9,7 +9,7 @@ import backend.Song;
 import states.PlayState;
 
 #if !debug @:noDebug #end
-class RatingGraphics extends FlxSpriteGroup {
+class ComboDisplay extends FlxSpriteGroup {
 	private var comboNumbers:Array<StaticSprite> = [];
 	private var ratingSprite:StaticSprite;
 	private var offsetX:Int;

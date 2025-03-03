@@ -12,6 +12,7 @@ import openfl.utils.Assets;
 
 import backend.Song;
 import backend.HighScore;
+import ui.CharacterIcon;
 import gameplay.*;
 
 using StringTools;
@@ -25,7 +26,7 @@ typedef RatingData = {
 #if !debug @:noDebug #end
 class PlayState extends EventState {
 	public static inline var inputRange:Float = 1.25; // The input range is measured in steps. By default it is 1 and a quarter steps of input range. 
-	public static var singDirections:Array<String> = ['LEFT', 'DOWN', 'UP', 'RIGHT'];
+	public var singDirections:Array<String> = ['LEFT', 'DOWN', 'UP', 'RIGHT'];
 	public var possibleScores:Array<RatingData> = [
 		{
 			score: 350,  
@@ -72,9 +73,9 @@ class PlayState extends EventState {
 	public var healthBarBG:StaticSprite;
 	public var healthBar:HealthBar;
 	public var scoreTxt:FormattedText;
-	public var iconP1:HealthIcon;
-	public var iconP2:HealthIcon;
-	public var ratingSprite:RatingGraphics;
+	public var iconP1:CharacterIcon;
+	public var iconP2:CharacterIcon;
+	public var comboDisplay:ComboDisplay;
 	public var camHUD:FlxCamera;
 	public var camGame:FlxCamera;
 
@@ -142,13 +143,13 @@ class PlayState extends EventState {
 		scoreTxt.scrollFactor.set();
 		scoreTxt.screenCenter(X);
 
-		iconP1 = new HealthIcon(songData.characters[1].name, true, true);
-		iconP2 = new HealthIcon(songData.characters[0].name, false, true);
+		iconP1 = new CharacterIcon(songData.characters[1].name, true, true);
+		iconP2 = new CharacterIcon(songData.characters[0].name, false, true);
 		iconP1.y = baseY - (iconP1.height / 2);
 		iconP2.y = baseY - (iconP2.height / 2);
 
-		ratingSprite = new RatingGraphics(possibleScores, 0, 100);
-		add(ratingSprite);
+		comboDisplay = new ComboDisplay(possibleScores, 0, 100);
+		add(comboDisplay);
 
 		// Add to cameras
 		strumLineNotes.cameras = [camHUD];
@@ -254,7 +255,7 @@ class PlayState extends EventState {
 
 	private function generateStrumArrows(player:Int)
 		for (i in 0...Note.keyCount) {
-			var babyArrow:StrumNote = new StrumNote(0, Settings.downscroll ? 560 : 40, i, player, songData.activePlayer == player);
+			var babyArrow:StrumNote = new StrumNote(0, Settings.downscroll ? 560 : 40, singDirections, i, player, songData.activePlayer == player);
 
 			strumLineNotes.add(babyArrow);
 			if(babyArrow.isPlayer) 
@@ -457,8 +458,8 @@ class PlayState extends EventState {
 		var calc = ((0 - ((health - 50) * 0.01)) * healthBar.width) + 565;
 		iconP1.x = calc + iconSpacing; 
 		iconP2.x = calc - iconSpacing;
-		iconP1.changeState(health < 20 ? 0 : 1);
-		iconP2.changeState(health > 80 ? 0 : 1);
+		iconP1.animation.play(health < 20 ? 'losing' : 'neutral');
+		iconP2.animation.play(health > 80 ? 'losing' : 'neutral');
 
 		if(health <= 0)
 			pauseAndOpenState(new GameOverSubstate(allCharacters[playerIndex], camHUD, this));
@@ -497,7 +498,7 @@ class PlayState extends EventState {
 		combo	   = curScore.score > 50 && combo < 1000 ? combo + 1 : 0;
 		fcValue    = curValue > fcValue ? curValue : fcValue;
 
-		ratingSprite.displayScore(curScore, combo);
+		comboDisplay.displayScore(curScore, combo);
 		updateHealth(5);
 	}
 

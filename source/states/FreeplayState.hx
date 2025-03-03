@@ -9,6 +9,7 @@ import backend.HighScore;
 import ui.Alphabet;
 import ui.MenuTemplate;
 import ui.NewTransition;
+import ui.CharacterIcon;
 
 using StringTools;
 
@@ -35,7 +36,7 @@ class FreeplayState extends MenuTemplate {
 		songList = cast haxe.Json.parse(Paths.lText('freeplaySongList.json'));
 		for(i in 0...songList.length){
 			pushObject(new Alphabet(0, (60 * i) + 30, songList[i].name, true));
-			pushIcon(new gameplay.HealthIcon(songList[i].icon, false));
+			pushIcon(new CharacterIcon(songList[i].icon, false));
 		}
 
 		var scoreBG:StaticSprite = new StaticSprite((FlxG.width * 0.7) - 6, 0).makeGraphic(Std.int(FlxG.width * 0.35), 66, 0xFF000000);

@@ -5,9 +5,9 @@ import flixel.util.FlxColor;
 
 import backend.Settings;
 import ui.NewTransition;
+import ui.CharacterIcon;
 import ui.MenuTemplate;
 import ui.Alphabet;
-import gameplay.HealthIcon;
 
 #if !debug @:noDebug #end
 class OptionsState extends MenuTemplate
@@ -75,8 +75,8 @@ class OptionsState extends MenuTemplate
 			pushObject(new Alphabet(0, (60 * i), optsAndDescriptions[currentCategory][i][0], true));
 
 			if(!showOptionValues) {
-				var categoryIcon:HealthIcon = new HealthIcon('settings' + (Math.floor(i / 2) + 1), false);
-				categoryIcon.changeState((i+1) & 1);
+				var categoryIcon:CharacterIcon = new CharacterIcon('settings' + (Math.floor(i / 2) + 1), false);
+				categoryIcon.animation.play(['neutral', 'losing'][i & 1]);
 				pushIcon(categoryIcon);
 				continue;
 			}

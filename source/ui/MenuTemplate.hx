@@ -9,7 +9,6 @@ import flixel.util.FlxColor;
 import flixel.group.FlxGroup;
 
 import backend.Song;
-import gameplay.HealthIcon;
 import states.MainMenuState;
 
 typedef MenuObject = {
@@ -35,7 +34,7 @@ class MenuTemplate extends EventState {
 	public var columns:Int = 1;
 
 	private var arrGroup:Array<MenuObject> = [];
-	private var arrIcons:FlxTypedGroup<HealthIcon>;
+	private var arrIcons:FlxTypedGroup<CharacterIcon>;
 	private var camFollow:FlxObject;
 
 	private inline function addBG(red:Int, green:Int, blue:Int, ?sprite:String = "ui/menuDesat"){
@@ -72,7 +71,7 @@ class MenuTemplate extends EventState {
 	}
 
 	override function create(){
-		arrIcons = new FlxTypedGroup<HealthIcon>();
+		arrIcons = new FlxTypedGroup<CharacterIcon>();
 		camFollow = new FlxObject(0,0,1,1);
 		FlxG.camera.follow(camFollow, null, 0.023);
 
@@ -110,7 +109,7 @@ class MenuTemplate extends EventState {
 				curMember.obj.y		= FlxMath.lerp(curMember.targetY, curMember.obj.y	 , lerpVal);
 			}
 
-			var icn:HealthIcon = arrIcons.members[i * columns];
+			var icn:CharacterIcon = arrIcons.members[i * columns];
 
 			if(icn == null) 
 				continue;
@@ -140,7 +139,7 @@ class MenuTemplate extends EventState {
 		add(cr.obj);
 	}
 
-	public function pushIcon(icn:HealthIcon){
+	public function pushIcon(icn:CharacterIcon){
 		arrIcons.add(icn);
 		icn.scale.set(0.85, 0.85);
 	}

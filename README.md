@@ -26,6 +26,11 @@
 </div>
 
 -------------------------------------------------------------
+
+# WARNING!
+
+Assorion 1.5.0 is incomplete, do not clone the main branch!  
+Please instead use the 1.4.0 release for now. This warning will be removed once 1.5.0 is considered complete.
  
 # ⚝ | What is Assorion Engine?
 

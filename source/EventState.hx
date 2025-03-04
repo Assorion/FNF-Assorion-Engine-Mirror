@@ -58,13 +58,13 @@ class EventState extends FlxUIState {
 		super.update(elapsed);
 	}
 
-	private function postEvent(forward:Float, func:Void->Void)
+	public function postEvent(forward:Float, func:Void->Void)
 		events.push({
 			endTime: CoolUtil.getCurrentTime() + forward,
 			exeFunc: func
 		});
 
-	private inline function executeAllEvents()
+	public inline function executeAllEvents()
 		for(i in 0...events.length)
 			events[i].exeFunc();
 

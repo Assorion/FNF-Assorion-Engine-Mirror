@@ -27,7 +27,6 @@ using StringTools;
 #if !debug @:noDebug #end
 class ChartingState extends EventState {
     public static inline var defaultGridSize:Int = 40;
-    public static var stageList:Array<String> = ['demo-stage'];
     public static var zooms:Array<Float> = [0.5, 0.75, 1, 1.5, 2, 3, 4, 6, 8];
 
     public var gridSize:Int;
@@ -711,7 +710,7 @@ class ChartingState extends EventState {
             song.startDelay = Std.parseFloat(ch);
         });
 
-        var stageDrop:ChartUI_DropDown = new ChartUI_DropDown(0, 80, 160, 30, stageList, song.stage, function(index:Int, ch:String){
+        var stageDrop:ChartUI_DropDown = new ChartUI_DropDown(0, 80, 160, 30, gameplay.StageLogic.stageList, song.stage, function(index:Int, ch:String){
             song.stage = ch;
         }, uiElements);
         var speedBox:ChartUI_InputBox = new ChartUI_InputBox(200, 80, 90, 30, Std.string(song.speed), function(ch:String){

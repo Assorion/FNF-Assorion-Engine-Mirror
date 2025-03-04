@@ -79,29 +79,18 @@ class PlayState extends EventState {
 	public var camHUD:FlxCamera;
 	public var camGame:FlxCamera;
 
-	public	var vocals:FlxSound;
-	private var followPos:FlxObject;
-	private var playerIndex:Int = 1;
-	private var allCharacters:Array<Character> = [];
+	public var vocals:FlxSound;
+	public var playerIndex:Int = 1;
+	public var allCharacters:Array<Character> = [];
+	public var stage:StageLogic;
 
+	private var followPos:FlxObject;
 	private var stepTime:Float = 0;
 
 	override public function create() {
-		// Camera Setup
-		camGame = new FlxCamera();
-		camHUD	= new FlxCamera();
-		camHUD.bgColor.alpha = 0;
-
-		followPos = new FlxObject(0, 0, 1, 1);
-		followPos.setPosition(FlxG.width / 2, FlxG.height / 2);
-
-		FlxG.cameras.reset(camGame);
-		FlxG.cameras.add(camHUD, false);
-		FlxG.camera.follow(followPos, LOCKON, 0.067);
-		
 		super.create();
 		
-		// Song Setup
+		// Song setup
 		songData.name = songData.name.toLowerCase();
 		Song.musicSet(songData.bpm);
 
@@ -114,10 +103,22 @@ class PlayState extends EventState {
 		FlxG.sound.music.onComplete = endSong;
 		FlxG.sound.music.stop();
 
-		// BG & UI setup
-		playerIndex = songData.activePlayer;
-		handleStage();
+		// Cameras and background
+		camGame = new FlxCamera();
+		camHUD	= new FlxCamera();
+		camHUD.bgColor.alpha = 0;
 
+		followPos = new FlxObject(0, 0, 1, 1);
+		followPos.setPosition(FlxG.width / 2, FlxG.height / 2);
+
+		FlxG.cameras.reset(camGame);
+		FlxG.cameras.add(camHUD, false);
+		FlxG.camera.follow(followPos, LOCKON, 0.067);
+		
+		playerIndex = songData.activePlayer;
+		stage = new StageLogic(songData.stage, this);
+		
+		// Strumline and note generation
 		strumLineNotes = new FlxTypedGroup<StrumNote>();
 		currentNotes = new FlxTypedGroup<Note>();
 		add(strumLineNotes);
@@ -127,7 +128,7 @@ class PlayState extends EventState {
 		for(i in 0...songData.playLength)
 			generateStrumArrows(i);
 
-		// UI Setup
+		// UI setup
 		var baseY:Int = Settings.downscroll ? 80 : 650;
 
 		healthBarBG = new StaticSprite(0, baseY).loadGraphic(Paths.lImage('gameplay/healthBar'));
@@ -187,44 +188,6 @@ class PlayState extends EventState {
 		}
 
 		postEvent(songData.startDelay + 0.1, startCountdown);
-	}
-
-	public inline function addCharacters() {
-		for(i in 0...songData.characters.length)
-			allCharacters.push(new Character(songData.characters[i].x, songData.characters[i].y, songData.characters[i].name, i == 1));
-		
-		for(i in 0...songData.characters.length)
-			add(allCharacters[songData.renderBackwards ? i : (songData.characters.length - 1) - i]);
-	}
-
-	public function handleStage() {
-		switch(songData.stage){
-			default:
-				FlxG.camera.zoom = 0.9;
-
-				var bg:StaticSprite = new StaticSprite(-600, -200).loadGraphic(Paths.lImage('gameplay/stages/demo/stageback'));
-					bg.setGraphicSize(Std.int(bg.width * 2));
-					bg.updateHitbox();
-					bg.scrollFactor.set(0.9, 0.9);
-				add(bg);
-				var stageFront:StaticSprite = new StaticSprite(-650, 600).loadGraphic(Paths.lImage('gameplay/stages/demo/stagefront'));
-					stageFront.setGraphicSize(Std.int(stageFront.width * 2.2));
-					stageFront.updateHitbox();
-					stageFront.scrollFactor.set(0.9, 0.9);
-				add(stageFront);
-				var curtainLeft:StaticSprite = new StaticSprite(-500, -165).loadGraphic(Paths.lImage('gameplay/stages/demo/curtainLeft'));
-					curtainLeft.setGraphicSize(Std.int(curtainLeft.width * 1.8));
-					curtainLeft.updateHitbox();
-					curtainLeft.scrollFactor.set(1.3, 1.3);
-				add(curtainLeft);
-				var curtainRight:StaticSprite = new StaticSprite(1406, -165).loadGraphic(Paths.lImage('gameplay/stages/demo/curtainRight'));
-					curtainRight.setGraphicSize(Std.int(curtainRight.width * 1.8));
-					curtainRight.updateHitbox();
-					curtainRight.scrollFactor.set(1.3, 1.3);
-				add(curtainRight);
-
-				addCharacters();
-		}
 	}
 
 	private function generateChart() {
@@ -455,9 +418,9 @@ class PlayState extends EventState {
 		health = CoolUtil.intBoundTo(health + change, 0, 100);
 		healthBar.percent = health;
 		
-		var calc = ((0 - ((health - 50) * 0.01)) * healthBar.width) + 565;
-		iconP1.x = calc + iconSpacing; 
-		iconP2.x = calc - iconSpacing;
+		var iconsMiddle = ((0 - ((health - 50) * 0.01)) * healthBar.width) + 565;
+		iconP1.x = iconsMiddle + iconSpacing; 
+		iconP2.x = iconsMiddle - iconSpacing;
 		iconP1.animation.play(health < 20 ? 'losing' : 'neutral');
 		iconP2.animation.play(health > 80 ? 'losing' : 'neutral');
 

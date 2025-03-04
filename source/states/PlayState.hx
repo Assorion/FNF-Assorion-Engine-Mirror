@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxObject;
 import flixel.FlxCamera;
+import flixel.ui.FlxBar;
 import flixel.group.FlxGroup;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -71,7 +72,7 @@ class PlayState extends EventState {
 	public var paused:Bool = false;
 
 	public var healthBarBG:StaticSprite;
-	public var healthBar:HealthBar;
+	public var healthBar:FlxBar;
 	public var scoreTxt:FormattedText;
 	public var iconP1:CharacterIcon;
 	public var iconP2:CharacterIcon;
@@ -136,7 +137,8 @@ class PlayState extends EventState {
 		healthBarBG.scrollFactor.set();
 
 		var healthColours:Array<Int> = [0xFFFF0000, 0xFF66FF33];
-		healthBar = new HealthBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8));
+		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), null);
+		healthBar.active = false;
 		healthBar.scrollFactor.set();
 		healthBar.createFilledBar(healthColours[0], healthColours[1]);
 

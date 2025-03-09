@@ -381,12 +381,12 @@ class PlayState extends EventState {
 			
 			if(hittableNotes[nkey] != null) {
 				hitNote(hittableNotes[nkey]);
-			} else if(strumRef.pressTime <= 0){
-				strumRef.playAnim('press');
-
+			} else if(strumRef.pressTime <= 0) {
 				if(!Settings.ghost_tapping)
 					missNote(nkey);
-			}
+
+				strumRef.playAnim('press');
+			} 
 
 			return;
 		}

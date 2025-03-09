@@ -32,9 +32,8 @@
 Assorion Engine is a simple and minimal Friday Night Funkin' engine with a focus having the tiniest and easiest to mod source code possible in a HaxeFlixel-based engine.
 Every source file has had work done to it, so the code will look completely different to the base game source code.
 
-The main goal was to create an engine that can have complete control over the codebase, where making big changes will not cause (m)any unintended side effects.
-As such, Assorion Engine doesn't have many features that are standard for other engines; Things such as Discord RPC, cutscenes, or mods folder capabilities.
-The idea is that the code is so small and easy to modify, that adding in the specific functionality that a mod requires wouldn't be hard at all.
+The main goal is to create a dynamic and malleable codebase, where making big changes will not cause (m)any unintended side effects.
+As such, Assorion Engine doesn't have many features that are standard for other engines; Things such as Discord RPC, cutscenes, or mods folder capabilities. Since said features are often not used in every mod released, it makes more sense to only implement what a specific mod requires.
 
 ## ⚡ | Why choose Assorion Engine?
 
@@ -101,19 +100,20 @@ If you want to try out the engine you can acquire releases <a href="https://code
 - Run `haxelib setup` in CMD. Using the defaults is fine
 - Install [libraries](#libraries) below
 - Run `haxelib run lime setup` in CMD
-- Download and extract the <a href="https://codeberg.org/Assorion/FNF-Assorion-Engine/releases">latest release's</a> source code
-- Setup <a href="https://codeberg.org/Assorion/FNF-Assorion-Engine/src/branch/main/.github/MinGW-Setup.md">MinGW-w64</a> and make sure the PATH is set correctly
-- Test to make sure both the `gcc` and `g++` commands work in CMD
-- Run `lime test windows -D HXCPP_MINGW` in CMD. Make sure it's in the project root folder, not the source folder
+- Clone (or download) the source code
+- Install Visual Studio (tested on 2017) with the Windows SDK, MSVC, and Clang Compiler
+- Open CMD within the project root folder
+- Run `lime test windows` in CMD
 
 #### **For Linux:**
 - Install Haxe using your package manager
 - Run `haxelib setup` in your terminal
 - Install [libraries](#libraries) below
 - Run `haxelib run lime setup`
-- Download and extract the <a href="https://codeberg.org/Assorion/FNF-Assorion-Engine/releases">latest release's</a> source code
+- Clone (or download) the source code
 - Make sure both `gcc` and `g++` commands work. If not, install GCC using your package manager
-- Run `lime test linux` in your terminal. Make sure it's in the project root folder, not the source folder
+- Open your preferred terminal within the project root folder
+- Run `lime test linux` in your terminal
 
 #### **Libraries:**  
 Run `haxelib install <library name>` replacing `<library name>` with these libraries below:
@@ -125,7 +125,7 @@ Run `haxelib install <library name>` replacing `<library name>` with these libra
 - `flixel-ui`
 
 #### **If you're confused:**  
-Follow a YouTube guide, or the <a href="https://github.com/FunkinCrew/Funkin/tree/v0.2.7.1#build-instructions">base game instructions</a> on compiling. It's recommended to use <a href="https://codeberg.org/Assorion/FNF-Assorion-Engine/src/branch/main/.github/MinGW-Setup.md">**`MinGW-w64`**</a> however the compiler may error out, if that happens then just use **`Visual Studio's Clang Compiler`**.  
+The <a href="https://github.com/FunkinCrew/Funkin/tree/v0.2.7.1#build-instructions">original game's compiling instructions</a> should be attiquete. There are also a few helpful resources on YouTube and other places if needed.
 
 # ⚠️ | License
 **<a href="https://codeberg.org/Assorion/FNF-Assorion-Engine/src/branch/main/LICENSE">GPL-3.0 Public License</a>, Version 3, 29 June 2007**

@@ -23,9 +23,7 @@ class OptionsState extends MenuTemplate
 			['start_fullscreen',  'Start the game in fullscreen mode'],
 			['start_volume',	  'Change the volume of the game on launch'],
 			['skip_intro',        'Allows skipping the HaxeFlixel logo on launch'],
-			#if desktop
 			['cache_assets',	  'Loads all assets into memory and keeps them there. DISABLE WHEN MODDING!']
-			#end
 		],
 		[
 			['audio_offset',  'Audio offset in milliseconds. Press \'${CoolUtil.getKeyNameFromString(Binds.UI_ACCEPT[0], true, false)}\' to enter hte offset wizard'],

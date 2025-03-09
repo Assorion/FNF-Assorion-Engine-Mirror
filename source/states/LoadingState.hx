@@ -7,14 +7,8 @@ import flixel.addons.ui.FlxUIState;
 import openfl.utils.Assets;
 import openfl.geom.Rectangle;
 import openfl.display.BitmapData;
-#if desktop
-import sys.FileSystem;
 
 using StringTools;
-
-/*
-	Not possible in web builds: Web builds cannot arbitarily read files.
-*/
 
 #if !debug @:noDebug #end
 class LoadingState extends FlxUIState {
@@ -28,32 +22,15 @@ class LoadingState extends FlxUIState {
 	private var assetText:FormattedText;
 	private var keepGraphic:BitmapData;
 
-	public var objects:Array<String> = [];
-
-	private function findItems(path:String) {
-		var keepDirectories:Array<String> = [];
-		var itemsInDir:Array<String> = FileSystem.readDirectory(path);
-
-		for(i in 0...itemsInDir.length){
-			var curItem:String = path + itemsInDir[i];
-
-			if(FileSystem.isDirectory(curItem)){
-				keepDirectories.push(curItem + '/');
-				continue;
-			}
-
-			if(Assets.exists(curItem))
-				objects.push(curItem);
-		}
-
-		for(i in 0...keepDirectories.length)
-			findItems(keepDirectories[i]);
-	}
+	public var objects:Array<String> = Assets.list();
 
 	override function create(){
 		FlxG.mouse.visible = persistentUpdate = false;
 
-		findItems('assets/');
+		var i = -1;
+		while(++i < objects.length)
+			if(objects[i].split('/')[0] != 'assets')
+				objects.splice(i--, 1);
 
 		var lbBG:BitmapData = new BitmapData(barWidth, barTopLn, true);
 		lbBG.fillRect(new Rectangle(0 , 0 , barWidth   , barTopLn), 0xFFFFFFFF);
@@ -147,4 +124,3 @@ class LoadingState extends FlxUIState {
 		FlxG.camera.bgColor = FlxColor.fromRGB(0, Math.round(percent * 120), Math.round(percent * 103));
 	}
 }
-#end

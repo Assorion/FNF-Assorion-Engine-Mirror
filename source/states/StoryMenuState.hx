@@ -56,9 +56,9 @@ class StoryMenuState extends MenuTemplate {
 		topText.screenCenter(X);
 		topText.x -= 320;
 
-		arrowSpr1 = new StaticSprite(640 - 50, 30).loadGraphic(Paths.lImage('storyMenu/storyArrow'));
+		arrowSpr1 = new StaticSprite(640 - 50, 42).loadGraphic(Paths.lImage('storyMenu/storyArrow'));
 		arrowSpr1.centerOrigin();
-		arrowSpr2 = new StaticSprite(640 - 330, 30).loadGraphic(Paths.lImage('storyMenu/storyArrow'));
+		arrowSpr2 = new StaticSprite(640 - 330, 42).loadGraphic(Paths.lImage('storyMenu/storyArrow'));
 		arrowSpr2.flipX = true;
 		arrowSpr2.centerOrigin();
 

@@ -27,48 +27,48 @@
 
 -------------------------------------------------------------
 
-# WARNING!
-
-Assorion 1.5.0 is incomplete, do not clone the main branch!  
-Please instead use the 1.4.0 release for now. This warning will be removed once 1.5.0 is considered complete.
- 
 # ⚝ | What is Assorion Engine?
 
-Assorion Engine is a minimalist engine, focusing on modding primarily the source code, as opposed to external scripting languages. 
-Most original <a href="https://ninja-muffin24.itch.io/funkin">Friday Night Funkin'</a> code has been replaced / revised with more efficient, optimized code & modular code.
+Assorion Engine is a simple and minimal Friday Night Funkin' engine with a focus having the tiniest and easiest to mod source code possible in a HaxeFlixel-based engine.
+Every source file has had work done to it, so the code will look completely different to the base game source code.
 
-Assorion Engine doesn't have mods folder capabilities planned nor will it be implemented. 
-In addition, things such as cutscenes, events, discordRPC, etc, will have to be added yourself. 
-Though, Assorion Engine does have several <a href="https://codeberg.org/Assorion/FNF-Assorion-Engine#branches">branches</a> planned with more features soon.
-
-Assorion is a very simple engine and thus, it may not receive many feature updates; Though it will continue to have bug fixes and optimizations. 
-It is worth noting that this is a pure engine. Assorion does not contain the base game but instead contains a short demo. 
+The main goal was to create an engine that can have complete control over the codebase, where making big changes will not cause (m)any unintended side effects.
+As such, Assorion Engine doesn't have many features that are standard for other engines; Things such as Discord RPC, cutscenes, or mods folder capabilities.
+The idea is that the code is so small and easy to modify, that adding in the specific functionality that a mod requires wouldn't be hard at all.
 
 ## ⚡ | Why choose Assorion Engine?
 
-1. Assorion Engine is incredibly fast and stable
-2. Assorion's Code is much better streamlined, and much easier to mod
-3. Assorion has an emphasis on simplicity, over bloat
-4. Assorion is actively maintained, adding many fixes
+**1. Clearer variable names:**
+Assorion Engine has more verbose variable and function names, making it easier to understand what the code is doing.
+The engine also uses "camel case" for every variable, function, and even the assets, making it more consistent.
 
-# 🗒️ | Important Notes/RoadMap
+**2. Much smaller code:**
+There is not as much code to sift through with Assorion Engine, as there's only 4 folders within the source directory
+and each source file tends to be quite small. E.G: PlayState being under 600 lines of code.
+
+**3. Easier to compile:**
+Assorion Engine is very lenient when it comes to compiling. There are only 5 dependiences (6 if HXCPP is counted) which
+the engine needs to compile. The game will also compile with Haxe 4.0.0 up to Haxe 4.3.6, and Flixel 5.0.0 up to latest.
+
+**4. Less hacky:**
+There is an emphasis on avoiding weird compiler tricks or modifying the underlying Flixel, Lime, or OpenFL source files.
+Assorion Engine is simple and straight forward, without having to modify the source code for it's dependencies.
+
+**5. More portable:**
+With less dependencies comes less problems when porting. Assorion has been compiled for Windows and Linux (32bit and 64bit),
+MacOS High Sierra, <a href="https://codeberg.org/Assorion/FNF-Assorion-XP-Compatible">Windows 2000</a>, and even NetBSD.
+
+# 🗒️ | Important Notes
 
 - Assorion Engine is based off <a href="https://github.com/FunkinCrew/Funkin/releases/tag/v0.2.6">`0.2.6`</a> version of the base game, though has been radically altered
 - Assorion's chart editor has been completely overhauled
 - Assorion allows skipping most transitions by hitting enter twice
 - Botplay does not count scoring or health. This is intentional to stop cheating
-- Chart speed changes depending on BPM; This is a known early bug that will never be fixed
+- Chart speed will change depending on BPM; This is a known early bug that will never be fixed
 - Ratings (E:G Sick or Bad), losing and gaining health, and menu positions are inaccurate to the base game
 - Porting other mods is very hard. Charts, characters, and weeks are handled much differently
-- The song can have as many characters as it needs, instead of the usual 3 (opponent, GF, BF)
-- Songs folder has been merged with the Data folder for convenience
+- The players in a song are handled dynamically, and are not hardcoded to Opponent, BF, GF.
   
- **RoadMap**
-* [X] Move away from Github
-* [X] Re-work Dialogue
-* [X] Fix minor annoyances/bugs
-* [ ] Improve Wiki/Documentation
- 
 #### **Branches**
 
 > <details>
@@ -126,28 +126,6 @@ Run `haxelib install <library name>` replacing `<library name>` with these libra
 
 #### **If you're confused:**  
 Follow a YouTube guide, or the <a href="https://github.com/FunkinCrew/Funkin/tree/v0.2.7.1#build-instructions">base game instructions</a> on compiling. It's recommended to use <a href="https://codeberg.org/Assorion/FNF-Assorion-Engine/src/branch/main/.github/MinGW-Setup.md">**`MinGW-w64`**</a> however the compiler may error out, if that happens then just use **`Visual Studio's Clang Compiler`**.  
-
-## 💻 | Minimum Requirements
-
-The engine *should* be able to run smoothly (max framerate) on at least an **`Intel Core2 Duo E6850`** with an **`AMD Radeon R5 240`**. 
-The engine runs *perfectly* on an **`Intel i7-2600`**, and an **`Nvidia GT 1030`** at 1440p.
-
-> [!tip]
-> Any games performance will decrease with higher resolutions.  
-> Un-fullscreen and resize the game if encountering performance issues.
-
-These should be the lowest minimum requirements to run the engine:
-
-- **Windows**: Windows 7 64-Bit or Higher
-  
-- **Linux**: Any 64-Bit Distro With GLibC 2.36 or Equivilant
-  
-- **Processor**: Intel Celeron (SSE to SSE4 with MMX) or Higher
-  
-- **Memory**: 512MB - 1GB of Ram. 256mb VRam or Higher
-  
-- **Storage**: ~70MB Available Space
-
 
 # ⚠️ | License
 **<a href="https://codeberg.org/Assorion/FNF-Assorion-Engine/src/branch/main/LICENSE">GPL-3.0 Public License</a>, Version 3, 29 June 2007**

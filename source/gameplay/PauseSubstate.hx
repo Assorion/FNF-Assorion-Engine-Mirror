@@ -25,13 +25,14 @@ class PauseSubstate extends EventSubstate {
 	var blackSpr:StaticSprite;
 	var pauseMusic:FlxSound;
 	var playState:PlayState;
+	var creationTimeStamp:Float;
 	var activeTweens:Array<FlxTween> = [];
 
 	public function new(camera:FlxCamera, ps:PlayState) {
 		super();
 
 		playState = ps;	
-		ps.tabOutTimeStamp = CoolUtil.getCurrentTime();
+		creationTimeStamp = CoolUtil.getCurrentTime();
 
 		pauseMusic = new FlxSound().loadEmbedded(Paths.lMusic('gameplay/breakfast'), true, true);
 		pauseMusic.volume = 0;
@@ -105,8 +106,8 @@ class PauseSubstate extends EventSubstate {
 				close();
 
 				for(ev in playState.events)
-					ev.endTime += CoolUtil.getCurrentTime() - playState.tabOutTimeStamp;
-
+					ev.endTime += CoolUtil.getCurrentTime() - creationTimeStamp;
+				
 				if(FlxG.sound.music.time <= 0)
 					return;
 

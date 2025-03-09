@@ -26,7 +26,7 @@ class MainMenuState extends EventState {
 	override function create() {
 		Paths.clearCache();
 
-		var bg:StaticSprite = new StaticSprite(-80).loadGraphic('assets/images/ui/menuDesat.png');
+		var bg:StaticSprite = new StaticSprite(-80).loadGraphic(Paths.lImage('ui/defaultMenuBackground'));
 		bg.scrollFactor.x = 0;
 		bg.scrollFactor.y = 0.18 * (3 / optionList.length);
 		bg.setGraphicSize(Std.int(bg.width * 1.1));

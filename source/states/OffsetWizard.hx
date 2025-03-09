@@ -34,7 +34,7 @@ class OffsetWizard extends EventState {
 		oldOffset = Settings.audio_offset;
 		Settings.audio_offset = 0;
 
-		var bgImage:StaticSprite = new StaticSprite(0,0).loadGraphic(Paths.lImage("ui/menuDesat"));
+		var bgImage:StaticSprite = new StaticSprite(0,0).loadGraphic(Paths.lImage("ui/defaultMenuBackground"));
 		bgImage.color = FlxColor.fromRGB(110, 120, 255);
 		
 		infoText = new FormattedText(0, 0, 0, "Tap a key to the beat until the short song is over.\nIt is recommended to do this with your eyes closed.", null, 30, 0xFFFFFFFF, CENTER, OUTLINE);

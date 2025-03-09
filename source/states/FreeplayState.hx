@@ -25,6 +25,7 @@ class FreeplayState extends MenuTemplate {
 	public var songList:Array<FreeplaySongData> = [];
 	public var intendedScore:Int = 0;
 
+	private var scoreBG:StaticSprite;
 	private var scoreText:FormattedText;
 	private var diffText:FormattedText;
 	private var vocals:FlxSound;
@@ -39,11 +40,11 @@ class FreeplayState extends MenuTemplate {
 			pushIcon(new CharacterIcon(songList[i].icon, false));
 		}
 
-		var scoreBG:StaticSprite = new StaticSprite((FlxG.width * 0.7) - 6, 0).makeGraphic(Std.int(FlxG.width * 0.35), 66, 0xFF000000);
 		var bottomBlack:StaticSprite = new StaticSprite(0, FlxG.height - 30).makeGraphic(1280, 30, FlxColor.BLACK);
 		var descText = new FormattedText(5, FlxG.height - 25, 0, "Press Space to preview song / stop song. Left or Right to change the difficulty.", null, 20);
+		scoreBG   = new StaticSprite(0, 0).makeGraphic(128, 66, 0xFF000000);
 		scoreText = new FormattedText(scoreBG.x + 6, 5, 0, null, null, 32, FlxColor.WHITE, LEFT);
-		diffText = new FormattedText(scoreText.x, scoreText.y + 36, 0, "< NORMAL >", null, 24);
+		diffText  = new FormattedText(scoreText.x, scoreText.y + 36, 0, "< NORMAL >", null, 24);
 		scoreBG.alpha = 0.6;
 		bottomBlack.alpha = 0.6;
 
@@ -66,11 +67,16 @@ class FreeplayState extends MenuTemplate {
 
 		diffText.text = '< ${CoolUtil.diffString(curDifficulty, 1).toUpperCase()} >';
 		scoreText.text = 'PERSONAL BEST: ${HighScore.getScore(songList[curSel].name, curDifficulty)}';
+
+		scoreBG.scale.x = (scoreText.width + 10) / scoreBG.frameWidth;
+		scoreBG.updateHitbox();
+		scoreBG.x = 1280 - scoreBG.width;
+		scoreText.x = diffText.x = scoreBG.x + 5;
 	}
 
 	override function changeSelection(chng:Int = 0){
 		super.changeSelection(chng);
-		scoreText.text = 'PERSONAL BEST: ${HighScore.getScore(songList[curSel].name, curDifficulty)}';
+		altChange();
 	}
 
 	private var prevTime:Float = 0;

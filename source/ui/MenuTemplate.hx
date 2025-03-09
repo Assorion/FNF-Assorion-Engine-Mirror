@@ -37,8 +37,8 @@ class MenuTemplate extends EventState {
 	private var arrIcons:FlxTypedGroup<CharacterIcon>;
 	private var camFollow:FlxObject;
 
-	private inline function addBG(red:Int, green:Int, blue:Int, ?sprite:String = "ui/menuDesat"){
-		var background = new StaticSprite(0,0).loadGraphic(Paths.lImage('ui/menuDesat'));
+	private inline function addBG(red:Int, green:Int, blue:Int, ?sprite:String = "ui/defaultMenuBackground") {
+		var background = new StaticSprite(0,0).loadGraphic(Paths.lImage(sprite));
 		background.scale.set(1.1, 1.1);
 		background.screenCenter();
 		background.color = FlxColor.fromRGB(red, green, blue);

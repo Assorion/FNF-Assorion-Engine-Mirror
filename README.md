@@ -21,7 +21,7 @@
 </div>
 <div align="center">
  
-┃ [**`• What is Assorion?`**](#what-is-assorion-engine) ┃ [**`• Important Notes`**](#important-notes-roadmap) ┃ [**`• Compiling`**](#compiling) ┃ [**`• Min Reqs`**](#minimum-requirements) ┃ <a href="https://assorion.github.io/wiki/">**`• Wiki (WIP)`**</a> ┃ <a href="https://discord.gg/nbhWWxKxTe">**`• Discord`**</a> ┃
+┃ [**`• What is Assorion?`**](#what-is-assorion-engine) ┃ [**`• Important Notes`**](#important-notes) ┃ [**`• Compiling`**](#compiling) ┃ <a href="https://assorion.github.io/wiki/">**`• Wiki (WIP)`**</a> ┃ <a href="https://discord.gg/nbhWWxKxTe">**`• Discord`**</a> ┃
 
 </div>
 
@@ -37,23 +37,23 @@ As such, Assorion Engine doesn't have many features that are standard for other 
 
 ## ⚡ | Why choose Assorion Engine?
 
-**1. Clearer variable names:**
+**1. Clearer variable names:**  
 Assorion Engine has more verbose variable and function names, making it easier to understand what the code is doing.
 The engine also uses "camel case" for every variable, function, and even the assets, making it more consistent.
 
-**2. Much smaller code:**
+**2. Much smaller code:**  
 There is not as much code to sift through with Assorion Engine, as there's only 4 folders within the source directory
 and each source file tends to be quite small. E.G: PlayState being under 600 lines of code.
 
-**3. Easier to compile:**
+**3. Easier to compile:**  
 Assorion Engine is very lenient when it comes to compiling. There are only 5 dependiences (6 if HXCPP is counted) which
 the engine needs to compile. The game will also compile with Haxe 4.0.0 up to Haxe 4.3.6, and Flixel 5.0.0 up to latest.
 
-**4. Less hacky:**
+**4. Less hacky:**  
 There is an emphasis on avoiding weird compiler tricks or modifying the underlying Flixel, Lime, or OpenFL source files.
 Assorion Engine is simple and straight forward, without having to modify the source code for it's dependencies.
 
-**5. More portable:**
+**5. More portable:**  
 With less dependencies comes less problems when porting. Assorion has been compiled for Windows and Linux (32bit and 64bit),
 MacOS High Sierra, <a href="https://codeberg.org/Assorion/FNF-Assorion-XP-Compatible">Windows 2000</a>, and even NetBSD.
 

@@ -23,27 +23,26 @@ Thanks for downloading Assorion Engine!
 
 As this engine is based off the popular rhthym game Friday Night Funkin'
 
-Assorion Engine should not be Bought/Obtained from anywhere other than the official GitHub.
+Assorion Engine should not be Bought/Obtained from anywhere that isn't Codeberg or the 
+official Github mirror.
 If you got it from any other place. You may be in danger or gotten scammed!!!
 
 
 If you desire to create a Friday Night Funkin' mod using this engine
 I ask you to remove all base assets that aren't used, it would also be 
-ideal if it would remain open source and adhere to FNF's TOS.
+ideal if it would remain open source and adhere to FNF's TOS and the GPL.
 
 Giving credit to Assorion Engine would also be great but isn't necessary ( ͡° ͜ʖ ͡°)
 
-thank's again for downloading Assorion Engine!
+Thank's again for downloading Assorion Engine!
 
 ————————————————————————————————————————————————————————————————————————————————————————
 
 Information/Links and Credits:
 
-Official Github Repo 🢂 https://github.com/Legendary-Candice-Joe/FNF-Assorion-Engine
-GitHub Account       🢂 https://github.com/Legendary-Candice-Joe/
-Programmer           🢂 https://www.youtube.com/@rapidoffriends777
-Artist               🢂 https://www.youtube.com/@Byzol
-
+Official Codeberg Repo 🢂 https://codeberg.org/Assorion/FNF-Assorion-Engine
+Programmer             🢂 https://www.youtube.com/@rapidoffriends777
+Artist                 🢂 https://www.youtube.com/@Barzil5080
 
 Friday Night Funkin' Original Game 🢂 https://ninja-muffin24.itch.io/funkin 
 Friday Night Funkin' Original Code 🢂 https://github.com/ninjamuffin99/Funkin
@@ -61,28 +60,33 @@ Friday Night Funkin' Original Code 🢂 https://github.com/ninjamuffin99/Funkin
                                       /      /                                    
 
 
-                            _____ _ _   _           _     
-                           / ____(_) | | |         | |    
-                          | |  __ _| |_| |__  _   _| |__  
-                          | | |_ | | __| '_ \| | | | '_ \ 
-                          | |__| | | |_| | | | |_| | |_) |
-                           \_____|_|\__|_| |_|\__,_|_.__/ 
-                                                       
-                                    .@@@@@@@@@@@                   
-                                @@@@@@@@@@@@@@@@@@@@@              
-                             @@@@@@@@@@@@@@@@@@@@@@@@@@@           
-                           @@@@@   (@@@@@@@@@@@@@*  .@@@@@         
-                         %@@@@@@                     @@@@@@*       
-                        /@@@@@@@                     @@@@@@@       
-                        @@@@@@@                       @@@@@@@      
-                        @@@@@@(                       @@@@@@@      
-                        @@@@@@@                       @@@@@@@      
-                        @@@@@@@@                     @@@@@@@@      
-                         @@@@@@@@@                /@@@@@@@@@       
-                          @@@@(  @@@@@         @@@@@@@@@@@@        
-                            @@@@               @@@@@@@@@@          
-                              (@@@@@@@         @@@@@@@.            
-                                  @@@@         @@@%                
-                                                  
-                                                  
+                                        @@@@@                 
+                                  @@@@@@@@@@@@@@@@@           
+                               @@@@@@@@@@@@@@@@@@@@@@@        
+                             @@@@@@@@@@@@@@@@@@@@@@@@@@@      
+                           @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    
+                          @@@@@@@@@@@@@@@@ @@@@@@@@@@@@@@@@   
+                         @@@@@@@@@@@@@@@   @ @@@@@@@@@@@@@@@  
+                        @@@@@@@@@@@@@@@    @@ @@@@@@@@@@@@@@@ 
+                       @@@@@@@@@@@@@@       @@ @@@@@@@@@@@@@@@ 
+                       @@@@@@@@@@@@@         @@@ @@@@@@@@@@@@@
+                       @@@@@@@@@@@@          @@@@ @@@@@@@@@@@@
+                       @@@@@@@@@@             @@@@@ @@@@@@@@@@
+                       @@@@@@@@@              @@@@@@ @@@@@@@@@
+                        @@@@@@                 @@@@@@@ @@@@@@ 
+                        @@@@@                  @@@@@@@@ @@@@@ 
+                         @@                     @@@@@@@@@ @@  
+                                                @@@@@@@@@@    
+                                                 @@@@@@@@@    
+                                                 @@@@@@@      
+                                                  @           
+ _______  _______  ______   _______  ______   _______  _______  _______ 
+(  ____ \(  ___  )(  __  \ (  ____ \(  ___ \ (  ____ \(  ____ )(  ____ \
+| (    \/| (   ) || (  \  )| (    \/| (   ) )| (    \/| (    )|| (    \/
+| |      | |   | || |   ) || (__    | (__/ / | (__    | (____)|| |      
+| |      | |   | || |   | ||  __)   |  __ (  |  __)   |     __)| | ____ 
+| |      | |   | || |   ) || (      | (  \ \ | (      | (\ (   | | \_  )
+| (____/\| (___) || (__/  )| (____/\| )___) )| (____/\| ) \ \__| (___) |
+(_______/(_______)(______/ (_______/|/ \___/ (_______/|/   \__/(_______)	
+
 ————————————————————————————————————————————————————————————————————————————————————————

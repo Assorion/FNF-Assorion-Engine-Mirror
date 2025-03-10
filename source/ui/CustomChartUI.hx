@@ -21,43 +21,15 @@ using StringTools;
 	One day, this code may be replaced. As for now this will stay as-is.
 */
 
-class ChartUI_Grid extends StaticSprite {
-    public var gridColours:Array<Array<Array<Int>>> = [
-        [[255, 200, 200], [255, 215, 215]], // Red
-        [[200, 200, 255], [215, 215, 255]], // Blue
-        [[240, 240, 200], [240, 240, 215]], // Yellow / White
-        [[200, 255, 200], [215, 255, 215]], // Green
-    ];
-
-	public function new(cWidth:Int, cHeight:Int, columns:Int, rows:Int, division:Int = 4) {
-		var emptySprite:BitmapData = new BitmapData(cWidth * columns, cHeight * rows, true);
-		var colOffset:Int = 0;
-
-		for(i in 0...columns)
-			for(j in 0...rows){
-				var grCol = CoolUtil.cfArray(gridColours[j % division][(i + colOffset) % 2]);
-
-				emptySprite.fillRect(new Rectangle(i * cWidth, j * cHeight, cWidth, cHeight), grCol);
-				colOffset++;
-			}
-
-		// blackline down the middle.
-		for(i in 1...Math.floor(columns / Note.keyCount))
-			emptySprite.fillRect(new Rectangle((cWidth * Note.keyCount * i) - 2, 0, 4, cHeight * rows), FlxColor.BLACK);
-
-		super(0,0);
-		
-		loadGraphic(emptySprite);
-	}
+class ChartGrid extends StaticSprite {
 }
 
-class ChartUI_Generic extends FlxSprite {
+class ChartGeneric extends FlxSprite {
 	public static var uiColours:Array<Array<Int>> = [
 		[155, 100, 160], // Dark
 		[200, 120, 210], // Light
 		[240, 150, 250], // 3D light
-		[170, 170, 200], // Note select colour
-		[20,  45,  55 ], // Swamp green background colour
+		[170, 170, 200]  // Note select colour
 	];
 
 	public var blockInput:Bool = false;
@@ -95,15 +67,9 @@ class ChartUI_Generic extends FlxSprite {
 
 	public function keyInsert(k:Int){}
 	public function mouseOverlaps(){}
-	public function mouseDown(){
-		ChartingState.currentElement = this;
-	}
-	public function mouseUp(){
-		ChartingState.currentElement = null;
-	}
-	public function forceExit(){
-		ChartingState.currentElement = null;
-	}
+	public function mouseDown(){}
+	public function mouseUp(){}
+	public function forceExit(){}
 
 	public function new(x:Float, y:Float, w:Int, h:Int, i:Bool, t:String){
 		super(x,y);
@@ -115,7 +81,7 @@ class ChartUI_Generic extends FlxSprite {
 	}
 }
 
-class ChartUI_Text extends ChartUI_Generic {
+class ChartText extends ChartGeneric {
 	public function new(x:Float, y:Float, t:String){
 		super(x+1280,y, 0, 0, false, '');
 
@@ -126,7 +92,7 @@ class ChartUI_Text extends ChartUI_Generic {
 	}
 }
 
-class ChartUI_CheckBox extends ChartUI_Generic{
+class ChartCheckBox extends ChartGeneric {
 	public var changeFunc:Bool->Void;
 	public var checked:Bool = false;
 
@@ -161,7 +127,7 @@ class ChartUI_CheckBox extends ChartUI_Generic{
 	}
 }
 
-class ChartUI_Button extends ChartUI_Generic {
+class ChartButton extends ChartGeneric {
 	private static inline var clickTime:Float = 0.08;
 
 	public var dropDownButton:Bool = false;
@@ -200,7 +166,7 @@ class ChartUI_Button extends ChartUI_Generic {
 
 }
 
-class ChartUI_InputBox extends ChartUI_Generic {
+/*class ChartInputBox extends ChartGeneric {
 	public var curText:String = '';
 	public var changeFunc:String->Void;
 	public var uneditedText:String = '';
@@ -279,9 +245,9 @@ class ChartUI_InputBox extends ChartUI_Generic {
 }
 
 // This is super messy. Sorry.
-class ChartUI_DropDown extends ChartUI_Generic {
-	public var parentGroup:FlxTypedSpriteGroup<ChartUI_Generic>;
-	public var buttonList:Array<ChartUI_Button> = [];
+class ChartDropDown extends ChartGeneric {
+	public var parentGroup:FlxTypedSpriteGroup<ChartGeneric>;
+	public var buttonList:Array<ChartButton> = [];
 	public var changeFunc:Int->String->Void;
 	public var expanded:Bool = false;
 	public var items:Array<String>;
@@ -298,7 +264,7 @@ class ChartUI_DropDown extends ChartUI_Generic {
 		prevDotButton = open;
 	}
 
-	public function new(x:Float, y:Float, ?w:Int = 90, ?h:Int = 30, items:Array<String>, text:String = '', onChange:Int->String->Void, parent:FlxTypedSpriteGroup<ChartUI_Generic>){
+	public function new(x:Float, y:Float, ?w:Int = 90, ?h:Int = 30, items:Array<String>, text:String = '', onChange:Int->String->Void, parent:FlxTypedSpriteGroup<ChartGeneric>){
 		super(x,y,w + 30,h,false,'');
 
 		changeFunc	= onChange;
@@ -321,7 +287,7 @@ class ChartUI_DropDown extends ChartUI_Generic {
 	}
 	
 	override public function forceExit(){
-		if(!buttonList.contains(cast(ChartingState.overlappingElement, ChartUI_Button))){
+		if(!buttonList.contains(cast(ChartingState.overlappingElement, ChartButton))){
 			expanded = false;
 			removeButtons();
 
@@ -348,7 +314,7 @@ class ChartUI_DropDown extends ChartUI_Generic {
 		var h:Int = Math.floor(height);
 
 		for(i in 0...items.length){
-			buttonList[i] = new ChartUI_Button(x - parentGroup.x,(y - parentGroup.y) + (h * (i + 1)), w, h, function(){
+			buttonList[i] = new ChartButton(x - parentGroup.x,(y - parentGroup.y) + (h * (i + 1)), w, h, function(){
 				curText = items[i];
 				expanded = false;
 
@@ -368,4 +334,4 @@ class ChartUI_DropDown extends ChartUI_Generic {
 		if(prevDotButton)
 			ChartingState.currentElement = null;
 	}
-}
+}*/

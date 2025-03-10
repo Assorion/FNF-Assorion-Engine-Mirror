@@ -79,13 +79,12 @@ class Note extends StaticSprite { // If animated notes are desired, this will ha
 		offsetY += defaultOffset;
 		animation.remove('scroll');
 
-		if (isEnd) 
-			return;
-
-		animation.play('hold');
-		scale.y = scale.y * (140 / 44);
-		offsetY = defaultOffset;
-		updateHitbox();
+		if(!isEnd) {
+			animation.play('hold');
+			scale.y = scale.y * (140 / 44);
+			offsetY = defaultOffset;
+			updateHitbox();
+		}
 	}
 
 	public inline function typeAction(action:Int) {

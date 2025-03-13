@@ -144,10 +144,8 @@ class MenuTemplate extends EventState {
 		icn.scale.set(0.85, 0.85);
 	}
 
-	public function altChange(change:Int = 0){
-		if(columns <= 2) 
-			return;
-
+	public function altChange(change:Int = 0)
+	if(columns > 2){
 		curAlt += change;
 		curAlt += columns - 1;
 		curAlt %= columns - 1;
@@ -178,7 +176,7 @@ class MenuTemplate extends EventState {
 				var offItem = arrGroup[(i * columns) + x];
 
 				offItem.obj.screenCenter(X);
-				offItem.obj.x += (x - Math.floor(sn * 0.5) + (sn & 0x01 == 0 ? 0.5 : 0)) * 320;
+				offItem.obj.x += (x - Math.floor(sn * 0.5) + (sn & 0x01 == 0 ? 0.5 : 0)) * 323;
 
 				offItem.targetX = Math.round(offItem.obj.x);
 				offItem.targetY = item.targetY;

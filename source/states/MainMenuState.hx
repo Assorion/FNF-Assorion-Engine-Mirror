@@ -130,21 +130,21 @@ class MainMenuState extends EventState {
 
 			postEvent(1, function() {
 				switch (curSelected){
-					case 0:
-						EventState.changeState(new StoryMenuState());
-					case 1:
-						EventState.changeState(new FreeplayState());
-					case 2:
-						var site = 'https://codeberg.org/Assorion/FNF-Assorion-Engine';
-						FlxG.resetState();
+				case 0:
+					EventState.changeState(new StoryMenuState());
+				case 1:
+					EventState.changeState(new FreeplayState());
+				case 2:
+					var site = 'https://codeberg.org/Assorion/FNF-Assorion-Engine';
+					FlxG.resetState();
 
-						#if linux
-						Sys.command('xdg-open', [site]);
-						#else
-						FlxG.openURL(site);
-						#end
-					case 3:
-						EventState.changeState(new OptionsState());
+					#if linux
+					Sys.command('xdg-open', [site]);
+					#else
+					FlxG.openURL(site);
+					#end
+				case 3:
+					EventState.changeState(new OptionsState());
 				}
 			});
 	}

@@ -51,6 +51,7 @@ class ChartingState extends EventState {
 	var grid:StaticSprite;
 
 	var stepTime:Float = 0;
+	var sectionBounds:Array<Float> = [0, 16];
 
 	override function create(){
 		super.create();
@@ -132,7 +133,8 @@ class ChartingState extends EventState {
 	}
 
 	public function stepHit() 
-		stepTime = (Song.millisecond * Song.division * 0.25) + (stepTime * 0.75);
+		if(FlxG.sound.music.playing)
+			stepTime = (Song.millisecond * Song.division * 0.25) + (stepTime * 0.75);
 
 	public function mouseScroll(ev:MouseEvent){
 		FlxG.sound.music.pause();

@@ -232,27 +232,24 @@ class PlayState extends EventState {
 			FlxTween.tween(strumLineNotes.members[i], {alpha: 1, y: strumLineNotes.members[i].y + 10}, 0.5, {startDelay: ((i % Note.keyCount) + 1) * 0.2});
 
 		var introSprites:Array<StaticSprite> = [];
-		var introSounds:Array<FlxSound>   = [];
-		var introAssets :Array<String>	  = [
-			'ready', 'set', 'go', '',
-			'intro3', 'intro2', 'intro1', 'introGo'
+		var introSounds:Array<FlxSound> = [];
+		var introAssets :Array<Array<String>> = [
+			['', 'ready', 'set', 'go'],
+			['intro3', 'intro2', 'intro1', 'introGo']
 		];
  
 		for(i in 0...4){
-			var snd:FlxSound = new FlxSound().loadEmbedded(Paths.lSound('gameplay/' + introAssets[i + (introAssets.length >> 1)]));
+			var snd:FlxSound = new FlxSound().loadEmbedded(Paths.lSound('gameplay/' + introAssets[1][i]));
 			snd.volume = 0.6;
 			introSounds[i] = snd;
 
-			if(introAssets[i] == '') 
-				continue;
+			var spr:StaticSprite = new StaticSprite().loadGraphic(Paths.lImage('gameplay/${introAssets[0][i]}'));
+			if(introAssets[0][i] == '')
+				spr.makeGraphic(0,0,0x00000000);
 
-			var spr:StaticSprite = new StaticSprite().loadGraphic(Paths.lImage('gameplay/${introAssets[i]}'));
+			introSprites[i] = spr;
 			spr.cameras = [camHUD];
 			spr.screenCenter();
-			spr.alpha = 0;
-			add(spr);
-
-			introSprites[i+1] = spr;
 		}
 
 		var introBeatCounter:Int = 0;
@@ -272,22 +269,21 @@ class PlayState extends EventState {
 				stepTime = (introBeatCounter - 4) * 4;
 				stepTime -= Settings.audio_offset * Song.division;
 
-				for(pc in allCharacters)
-					pc.dance();
+				for(char in allCharacters)
+					char.dance();
 	
-				introSounds[introBeatCounter].play();
-				var introSpr = introSprites[introBeatCounter++];
-				if(introSpr == null)
-					return;
-
-				introSpr.alpha = 1;
-				FlxTween.tween(introSpr, {y: introSpr.y + 10, alpha: 0}, Song.stepCrochet * 0.003, { 
-					ease: FlxEase.cubeInOut,
+				var spr = introSprites[introBeatCounter];
+				add(spr);
+				FlxTween.tween(spr, {y: spr.y + 10, alpha: 0}, Song.stepCrochet * 0.003, {
+					ease: FlxEase.cubeInOut, 
 					startDelay: Song.stepCrochet * 0.001,
-					onComplete: function(twn:FlxTween) {
-						remove(introSpr);
+					onComplete: function(t:FlxTween){
+						remove(spr);
 					}
 				});
+
+				introSounds[introBeatCounter].play();
+				++introBeatCounter;
 			});
 	}
 

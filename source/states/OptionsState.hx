@@ -26,7 +26,7 @@ class OptionsState extends MenuTemplate
 			['cache_assets',	  'Loads all assets into memory and keeps them there. DISABLE WHEN MODDING!']
 		],
 		[
-			['audio_offset',  'Audio offset in milliseconds. Press \'${CoolUtil.getKeyNameFromString(Binds.UI_ACCEPT[0], true, false)}\' to enter hte offset wizard'],
+			['audio_offset',  'Audio offset in milliseconds. Press \'${CoolUtil.keyCodeToString(Binds.UI_ACCEPT[0], false)}\' to enter hte offset wizard'],
 			['downscroll',	  'Makes the notes scroll downwards instead of upwards'],
 			['ghost_tapping', 'Disables penalty for pressing a key when no note is hit'], 
 			['botplay',		  'Makes the game play itself']
@@ -111,23 +111,23 @@ class OptionsState extends MenuTemplate
 
 	// Add integer options here.
 	override function altChange(ch:Int = 0){
-		var atg:Alphabet = cast arrGroup[(curSel * 2) + 1].obj;
+		var curOptionText:Alphabet = cast arrGroup[(curSel * 2) + 1].obj;
 
 		switch(optsAndDescriptions[currentCategory][curSel][0]){
-			case 'start_volume':
-				Settings.start_volume = CoolUtil.intBoundTo(Settings.start_volume + (ch * 10), 0, 100);
-				atg.text = Std.string(Settings.start_volume);
+		case 'start_volume':
+			Settings.start_volume = CoolUtil.intBoundTo(Settings.start_volume + (ch * 10), 0, 100);
+			curOptionText.text = Std.string(Settings.start_volume);
 
-			// gameplay.
-			case 'audio_offset':
-				Settings.audio_offset = CoolUtil.intBoundTo(Settings.audio_offset + ch, 0, 300);
-				atg.text = Std.string(Settings.audio_offset);
+		// gameplay.
+		case 'audio_offset':
+			Settings.audio_offset = CoolUtil.intBoundTo(Settings.audio_offset + ch, 0, 300);
+			curOptionText.text = Std.string(Settings.audio_offset);
 
-			// visuals
-			case 'framerate':
-				Settings.framerate = SettingsManager.framerateClamp(Settings.framerate + (ch * 10));
-				atg.text = Std.string(Settings.framerate);
-				SettingsManager.apply();
+		// visuals
+		case 'framerate':
+			Settings.framerate = SettingsManager.framerateClamp(Settings.framerate + (ch * 10));
+			curOptionText.text = Std.string(Settings.framerate);
+			SettingsManager.apply();
 		}
 
 		changeSelection(0);
@@ -141,54 +141,54 @@ class OptionsState extends MenuTemplate
 			return;
 
 		switch(optsAndDescriptions[currentCategory][curSel][0]){
-			case 'basic':
-				curSel = 0;
-				currentCategory = 1;
-			case 'gameplay':
-				curSel = 0;
-				currentCategory = 2;
-			case 'visuals':
-				curSel = 0;
-				currentCategory = 3;
-			case 'controls':
-				if(NewTransition.skip()) 
-					return;
-
-				EventState.changeState(new ControlsState());
+		case 'basic':
+			curSel = 0;
+			currentCategory = 1;
+		case 'gameplay':
+			curSel = 0;
+			currentCategory = 2;
+		case 'visuals':
+			curSel = 0;
+			currentCategory = 3;
+		case 'controls':
+			if(NewTransition.skip()) 
 				return;
 
-			// basic
-			case 'start_fullscreen':
-				Settings.start_fullscreen = !Settings.start_fullscreen;
-			case 'skip_intro':
-				Settings.skip_intro = !Settings.skip_intro;
-			case 'cache_assets':
-				Settings.cache_assets = !Settings.cache_assets;
-				SettingsManager.apply();
+			EventState.changeState(new ControlsState());
+			return;
 
-			// gameplay
-			case 'audio_offset':
-				if(NewTransition.skip()) 
-					return;
+		// basic
+		case 'start_fullscreen':
+			Settings.start_fullscreen = !Settings.start_fullscreen;
+		case 'skip_intro':
+			Settings.skip_intro = !Settings.skip_intro;
+		case 'cache_assets':
+			Settings.cache_assets = !Settings.cache_assets;
+			SettingsManager.apply();
 
-				EventState.changeState(new OffsetWizard());
+		// gameplay
+		case 'audio_offset':
+			if(NewTransition.skip()) 
 				return;
-			case 'downscroll':
-				Settings.downscroll = !Settings.downscroll;
-			case 'botplay':
-				Settings.botplay = !Settings.botplay;
-			case 'ghost_tapping':
-				Settings.ghost_tapping = !Settings.ghost_tapping;
 
-			// visuals
-			case 'useful_info':
-				Settings.useful_info = !Settings.useful_info;
-				SettingsManager.apply();
-			case 'antialiasing':
-				Settings.antialiasing = !Settings.antialiasing;
-				SettingsManager.apply();
-			case 'show_hud':
-				Settings.show_hud = !Settings.show_hud;
+			EventState.changeState(new OffsetWizard());
+			return;
+		case 'downscroll':
+			Settings.downscroll = !Settings.downscroll;
+		case 'botplay':
+			Settings.botplay = !Settings.botplay;
+		case 'ghost_tapping':
+			Settings.ghost_tapping = !Settings.ghost_tapping;
+
+		// visuals
+		case 'useful_info':
+			Settings.useful_info = !Settings.useful_info;
+			SettingsManager.apply();
+		case 'antialiasing':
+			Settings.antialiasing = !Settings.antialiasing;
+			SettingsManager.apply();
+		case 'show_hud':
+			Settings.show_hud = !Settings.show_hud;
 		}
 
 		createNewList();

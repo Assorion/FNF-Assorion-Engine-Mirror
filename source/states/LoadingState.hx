@@ -63,30 +63,30 @@ class LoadingState extends FlxUIState {
 
 	private inline function addAsset(objectPath:String, objFormat:String)
 		switch(objFormat){
-			case 'png':
-				var tmpImg:FlxSprite = new FlxSprite(0,0).loadGraphic(objectPath);
-				tmpImg.graphic.persist = true;
-				tmpImg.graphic.destroyOnNoUse = false;
+		case 'png':
+			var tmpImg:FlxSprite = new FlxSprite(0,0).loadGraphic(objectPath);
+			tmpImg.graphic.persist = true;
+			tmpImg.graphic.destroyOnNoUse = false;
 
-				add(tmpImg);
-				remove(tmpImg);
-			case 'xml':
-				var tmpImg:FlxSprite = new FlxSprite(0,0);
-				tmpImg.frames = Paths.lSparrow(objectPath.substring(0, objectPath.length - 4), '');
-				tmpImg.graphic.persist = true;
-				tmpImg.graphic.destroyOnNoUse = false;
+			add(tmpImg);
+			remove(tmpImg);
+		case 'xml':
+			var tmpImg:FlxSprite = new FlxSprite(0,0);
+			tmpImg.frames = Paths.lSparrow(objectPath.substring(0, objectPath.length - 4), '');
+			tmpImg.graphic.persist = true;
+			tmpImg.graphic.destroyOnNoUse = false;
 
-				add(tmpImg);
-				remove(tmpImg);
-			
-			case 'ogg':
-				var sound:FlxSound = new FlxSound().loadEmbedded(objectPath);
-				sound.volume = 0.1;
+			add(tmpImg);
+			remove(tmpImg);
+		
+		case 'ogg', 'mp3':
+			var sound:FlxSound = new FlxSound().loadEmbedded(objectPath);
+			sound.volume = 0.1;
 
-				sound.play();
-				sound.stop();
-			case 'txt', 'json':
-				Paths.lText(objectPath, '');
+			sound.play();
+			sound.stop();
+		case 'txt', 'json':
+			Paths.lText(objectPath, '');
 		}
 
 	private var index:Int = 0;

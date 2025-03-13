@@ -141,22 +141,22 @@ class PauseSubstate extends EventSubstate {
 			[Binds.UI_DOWN, function(){ changeSelection(1);  }],
 			[Binds.UI_ACCEPT, function(){
 				switch(curSelected){
-					case 0:
-						leave();
-					case 1:
-						NewTransition.skippedLast = true;
-						FlxG.resetState();
-					case 2:
-						Settings.botplay = !Settings.botplay;
-						playState.scoreTxt.text = botplayText;
-						playState.updateHealth(0);
-	
-						updatePauseText();
-						pauseText.alpha = 0;
-						alphaTexts[curSelected].obj.alpha = 0;
-						activeTweens.push(FlxTween.tween(pauseText, {alpha: 1}, 0.3));
-					case 3:
-						playState.exitPlayState();
+				case 0:
+					leave();
+				case 1:
+					NewTransition.skippedLast = true;
+					FlxG.resetState();
+				case 2:
+					Settings.botplay = !Settings.botplay;
+					playState.scoreTxt.text = botplayText;
+					playState.updateHealth(0);
+
+					updatePauseText();
+					pauseText.alpha = 0;
+					alphaTexts[curSelected].obj.alpha = 0;
+					activeTweens.push(FlxTween.tween(pauseText, {alpha: 1}, 0.3));
+				case 3:
+					playState.exitPlayState();
 				}
 			}]
 		]);

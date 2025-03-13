@@ -44,8 +44,8 @@ class ControlsState extends MenuTemplate {
 
 			if(controlList[i] != ''){
 				var val:Dynamic = Reflect.field(Binds, controlList[i]);
-				firstBind  = CoolUtil.getKeyNameFromString(val[0], false, false);
-				secondBind = CoolUtil.getKeyNameFromString(val[1], false, false);
+				firstBind  = CoolUtil.keyCodeToString(val[0], false);
+				secondBind = CoolUtil.keyCodeToString(val[1], false);
 			}
 
 			pushObject(new Alphabet(0, MenuTemplate.yOffset+20, firstBind , true));
@@ -57,7 +57,7 @@ class ControlsState extends MenuTemplate {
 
 	override public function exitFunction(){
 		if(NewTransition.skip())
-					return;
+			return;
 
 		EventState.changeState(new OptionsState());
 	}
@@ -72,13 +72,13 @@ class ControlsState extends MenuTemplate {
 
 	override public function keyHit(ev:KeyboardEvent){
 		if(rebinding){ 
-				var original:Dynamic = Reflect.field(Binds, controlList[curSel]);
-				original[curAlt] = ev.keyCode;
-				Reflect.setField(Binds, '${controlList[curSel]}', original);
+			var original:Dynamic = Reflect.field(Binds, controlList[curSel]);
+			original[curAlt] = ev.keyCode;
+			Reflect.setField(Binds, '${controlList[curSel]}', original);
 
-				rebinding = false;
-				createNewList();
-				return;
+			rebinding = false;
+			createNewList();
+			return;
 		}
 
 		if(ev.keyCode.check(Binds.UI_ACCEPT)) {

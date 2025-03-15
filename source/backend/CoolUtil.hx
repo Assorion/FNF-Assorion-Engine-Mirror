@@ -6,22 +6,6 @@ import flixel.util.FlxColor;
 
 #if !debug @:noDebug #end
 class CoolUtil {
-	public static inline var diffNumb:Int = 3;
-	public static var diffArr:Array<String> = [
-		// File names
-		'easy',
-		'normal',
-		'hard',
-		// Text names
-		'Easy',
-		'Normal',
-		'Hard'
-	];
-
-	// Used for getting a difficulty value out of the array above.
-	public static function diffString(diff:Int, mode:Int):String
-		return diffArr[diff + (diffNumb * mode)];
-
 	// Clamps a value to be between to other values.
 	public static function boundTo(val:Float, min:Float, max:Float):Float
 		return Math.min(Math.max(val, min), max);

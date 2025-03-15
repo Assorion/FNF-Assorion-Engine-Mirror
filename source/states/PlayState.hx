@@ -26,9 +26,11 @@ typedef RatingData = {
 
 #if !debug @:noDebug #end
 class PlayState extends EventState {
-	public static inline var inputRange:Float = 1.25; // The input range is measured in steps. By default it is 1 and a quarter steps of input range. 
-	public var singDirections:Array<String> = ['LEFT', 'DOWN', 'UP', 'RIGHT'];
-	public var possibleScores:Array<RatingData> = [
+	public static inline var KEY_COUNT:Int = 4;
+	public static inline var INPUT_RANGE:Float = 1.25; // The input range is measured in steps. By default it is 1 and a quarter steps of input range. 
+	public var SING_DIRECTIONS:Array<String> = ['LEFT', 'DOWN', 'UP', 'RIGHT'];
+	public var BIND_ARRAY:Array<Array<Int>> = [Binds.note_left, Binds.note_down, Binds.note_up, Binds.note_right];
+	public var POSSIBLE_SCORES:Array<RatingData> = [
 		{
 			score: 350,  
 			threshold: 0,
@@ -142,7 +144,7 @@ class PlayState extends EventState {
 		healthBar.scrollFactor.set();
 		healthBar.createFilledBar(healthColours[0], healthColours[1]);
 
-		scoreTxt = new FormattedText(0, baseY + 40, 0, PauseSubstate.botplayText, null, 16, 0xFFFFFFFF, CENTER, OUTLINE);
+		scoreTxt = new FormattedText(0, baseY + 40, 0, PauseSubstate.BOTPLAY_TEXT, null, 16, 0xFFFFFFFF, CENTER, OUTLINE);
 		scoreTxt.scrollFactor.set();
 		scoreTxt.screenCenter(X);
 
@@ -151,7 +153,7 @@ class PlayState extends EventState {
 		iconP1.y = baseY - (iconP1.height / 2);
 		iconP2.y = baseY - (iconP2.height / 2);
 
-		comboDisplay = new ComboDisplay(possibleScores, 0, 100);
+		comboDisplay = new ComboDisplay(POSSIBLE_SCORES, 0, 100);
 		add(comboDisplay);
 
 		// Add to cameras
@@ -219,8 +221,8 @@ class PlayState extends EventState {
 	}
 
 	private function generateStrumArrows(player:Int)
-		for (i in 0...Note.keyCount) {
-			var babyArrow:StrumNote = new StrumNote(0, Settings.downscroll ? 560 : 40, singDirections, i, player, songData.activePlayer == player);
+		for (i in 0...KEY_COUNT) {
+			var babyArrow:StrumNote = new StrumNote(0, Settings.downscroll ? 560 : 40, SING_DIRECTIONS, i, player, songData.activePlayer == player);
 
 			strumLineNotes.add(babyArrow);
 			if(babyArrow.isPlayer) 
@@ -229,7 +231,7 @@ class PlayState extends EventState {
 	
 	public function startCountdown() { 
 		for(i in 0...strumLineNotes.length)
-			FlxTween.tween(strumLineNotes.members[i], {alpha: 1, y: strumLineNotes.members[i].y + 10}, 0.5, {startDelay: ((i % Note.keyCount) + 1) * 0.2});
+			FlxTween.tween(strumLineNotes.members[i], {alpha: 1, y: strumLineNotes.members[i].y + 10}, 0.5, {startDelay: ((i % KEY_COUNT) + 1) * 0.2});
 
 		var introSprites:Array<StaticSprite> = [];
 		var introSounds:Array<FlxSound> = [];
@@ -321,7 +323,7 @@ class PlayState extends EventState {
 	}
 
 	private function scrollNotes(daNote:Note) {
-		var strumRef = strumLineNotes.members[daNote.noteData + (Note.keyCount * daNote.player)];
+		var strumRef = strumLineNotes.members[daNote.noteData + (KEY_COUNT * daNote.player)];
 		var nDiff:Float = stepTime - daNote.strumTime;
 		daNote.y = (Settings.downscroll ? 45 : -45) * nDiff * songData.speed;
 		daNote.y += strumRef.y  + daNote.offsetY;
@@ -338,7 +340,7 @@ class PlayState extends EventState {
 			if(stepTime < daNote.strumTime || !daNote.curType.mustHit)
 				return;
 
-			allCharacters[daNote.player].playAnim('sing' + singDirections[daNote.noteData]);
+			allCharacters[daNote.player].playAnim('sing' + SING_DIRECTIONS[daNote.noteData]);
 			strumRef.playAnim('glow');
 			strumRef.pressTime = 1.05;
 			vocals.volume = 1;
@@ -349,7 +351,7 @@ class PlayState extends EventState {
 		}
 
 		// Player Note Logic
-		if(nDiff > inputRange){
+		if(nDiff > INPUT_RANGE){
 			if(daNote.curType.mustHit)
 				missNote(daNote.noteData);
 
@@ -360,17 +362,16 @@ class PlayState extends EventState {
 		// Input range checks
 		if(daNote.isSustainNote && Math.abs(nDiff) < 0.8 && keysPressed[daNote.noteData])
 			hitNote(daNote);
-		else if (hittableNotes[daNote.noteData] == null && Math.abs(nDiff) <= inputRange * daNote.curType.rangeMul)
+		else if (hittableNotes[daNote.noteData] == null && Math.abs(nDiff) <= INPUT_RANGE * daNote.curType.rangeMul)
 			hittableNotes[daNote.noteData] = daNote;
 	}
 
 	public var hittableNotes:Array<Note> = [null, null, null, null];
 	public var keysPressed:Array<Bool>	 = [false, false, false, false];
-	public var keysArray:Array<Array<Int>> = [Binds.NOTE_LEFT, Binds.NOTE_DOWN, Binds.NOTE_UP, Binds.NOTE_RIGHT];
 	override function keyHit(ev:KeyboardEvent) 
 	if(!paused) {
 		// Assorions input system
-		var nkey = ev.keyCode.deepCheck(keysArray);
+		var nkey = ev.keyCode.deepCheck(BIND_ARRAY);
 		if(nkey != -1 && !keysPressed[nkey] && !Settings.botplay){
 			var strumRef = playerStrums[nkey];
 			keysPressed[nkey] = true;
@@ -388,14 +389,14 @@ class PlayState extends EventState {
 		}
 
 		ev.keyCode.bindFunctions([
-			[Binds.UI_ACCEPT, function(){ pauseAndOpenState(new PauseSubstate(camHUD, this)); }],
-			[Binds.UI_BACK,   function(){ pauseAndOpenState(new PauseSubstate(camHUD, this)); }],
+			[Binds.ui_accept, function(){ pauseAndOpenState(new PauseSubstate(camHUD, this)); }],
+			[Binds.ui_back,   function(){ pauseAndOpenState(new PauseSubstate(camHUD, this)); }],
 			[[FlxKey.SEVEN],  function(){ EventState.changeState(new ChartingState()); }]
 		]);
 	}
 
 	override public function keyRel(ev:KeyboardEvent) {
-		var nkey = ev.keyCode.deepCheck(keysArray);
+		var nkey = ev.keyCode.deepCheck(BIND_ARRAY);
 
 		if(nkey != -1 && !paused){
 			keysPressed[nkey] = false;
@@ -436,7 +437,7 @@ class PlayState extends EventState {
 
 		playerStrums[note.noteData].playAnim('glow');
 		playerStrums[note.noteData].pressTime = 0.66;
-		allCharacters[playerIndex].playAnim('sing' + singDirections[note.noteData]);
+		allCharacters[playerIndex].playAnim('sing' + SING_DIRECTIONS[note.noteData]);
 		vocals.volume = 1;
 
 		if(note.isSustainNote){
@@ -444,13 +445,13 @@ class PlayState extends EventState {
 			return;
 		}
 
-		var curScore:RatingData = possibleScores[0];
+		var curScore:RatingData = POSSIBLE_SCORES[0];
 		var curValue:Int = 1;
 
-		for(i in 1...possibleScores.length)
-			if(Math.abs(note.strumTime - stepTime) >= possibleScores[i].threshold){
+		for(i in 1...POSSIBLE_SCORES.length)
+			if(Math.abs(note.strumTime - stepTime) >= POSSIBLE_SCORES[i].threshold){
 				curValue = i+1;
-				curScore = possibleScores[i];
+				curScore = POSSIBLE_SCORES[i];
 			} else
 				break;
 
@@ -471,7 +472,7 @@ class PlayState extends EventState {
 		fcValue = missCount >= 10 ? 6 : 5;
 
 		FlxG.sound.play(Paths.lSound('gameplay/missNote' + (Math.round(Math.random() * 2) + 1)), 0.2);
-		allCharacters[playerIndex].playAnim('sing' + singDirections[direction] + 'miss');
+		allCharacters[playerIndex].playAnim('sing' + SING_DIRECTIONS[direction] + 'miss');
 
 		updateHealth(-10);
 	}

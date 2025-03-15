@@ -12,7 +12,7 @@ import ui.Alphabet;
 #if !debug @:noDebug #end
 class OptionsState extends MenuTemplate
 {
-	private var optsAndDescriptions:Array<Array<Array<String>>> = [
+	private var OPTS_AND_DESCRIPTIONS:Array<Array<Array<String>>> = [
 		[
 			['basic',	 'Settings that apply when the game launches'],
 			['gameplay', 'Options that only apply in game'],
@@ -26,7 +26,7 @@ class OptionsState extends MenuTemplate
 			['cache_assets',	  'Loads all assets into memory and keeps them there. DISABLE WHEN MODDING!']
 		],
 		[
-			['audio_offset',  'Audio offset in milliseconds. Press \'${CoolUtil.keyCodeToString(Binds.UI_ACCEPT[0], false)}\' to enter hte offset wizard'],
+			['audio_offset',  'Audio offset in milliseconds. Press \'${CoolUtil.keyCodeToString(Binds.ui_accept[0], false)}\' to enter hte offset wizard'],
 			['downscroll',	  'Makes the notes scroll downwards instead of upwards'],
 			['ghost_tapping', 'Disables penalty for pressing a key when no note is hit'], 
 			['botplay',		  'Makes the game play itself']
@@ -69,8 +69,8 @@ class OptionsState extends MenuTemplate
 		arrIcons.clear();
 		columns = showOptionValues ? 2 : 1;
 
-		for(i in 0...optsAndDescriptions[currentCategory].length) {
-			pushObject(new Alphabet(0, (60 * i), optsAndDescriptions[currentCategory][i][0], true));
+		for(i in 0...OPTS_AND_DESCRIPTIONS[currentCategory].length) {
+			pushObject(new Alphabet(0, (60 * i), OPTS_AND_DESCRIPTIONS[currentCategory][i][0], true));
 
 			if(!showOptionValues) {
 				var categoryIcon:CharacterIcon = new CharacterIcon('settings' + (Math.floor(i / 2) + 1), false);
@@ -80,7 +80,7 @@ class OptionsState extends MenuTemplate
 			}
 
 			var optionStr:String = '';
-			var val:Dynamic = Reflect.field(Settings, optsAndDescriptions[currentCategory][i][0]);
+			var val:Dynamic = Reflect.field(Settings, OPTS_AND_DESCRIPTIONS[currentCategory][i][0]);
 
 			optionStr = Std.string(val);
 			if(Std.is(val, Bool))
@@ -106,14 +106,15 @@ class OptionsState extends MenuTemplate
 
 	override function changeSelection(change:Int = 0){
 		super.changeSelection(change);
-		descText.text = optsAndDescriptions[currentCategory][curSel][1];
+		descText.text = OPTS_AND_DESCRIPTIONS[currentCategory][curSel][1];
 	}
 
 	// Add integer options here.
-	override function altChange(ch:Int = 0){
+	override function altChange(ch:Int = 0)
+	if(currentCategory > 0){
 		var curOptionText:Alphabet = cast arrGroup[(curSel * 2) + 1].obj;
 
-		switch(optsAndDescriptions[currentCategory][curSel][0]){
+		switch(OPTS_AND_DESCRIPTIONS[currentCategory][curSel][0]){
 		case 'start_volume':
 			Settings.start_volume = CoolUtil.intBoundTo(Settings.start_volume + (ch * 10), 0, 100);
 			curOptionText.text = Std.string(Settings.start_volume);
@@ -137,10 +138,10 @@ class OptionsState extends MenuTemplate
 	override public function keyHit(ev:KeyboardEvent){
 		super.keyHit(ev);
 
-		if(!ev.keyCode.check(Binds.UI_ACCEPT)) 
+		if(!ev.keyCode.check(Binds.ui_accept)) 
 			return;
 
-		switch(optsAndDescriptions[currentCategory][curSel][0]){
+		switch(OPTS_AND_DESCRIPTIONS[currentCategory][curSel][0]){
 		case 'basic':
 			curSel = 0;
 			currentCategory = 1;

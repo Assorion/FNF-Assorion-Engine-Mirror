@@ -123,7 +123,7 @@ class OffsetWizard extends EventState {
 
 	private var leaving:Bool = false;	
 	override function keyHit(ev:KeyboardEvent){
-		if(ev.keyCode.check(Binds.UI_BACK) || leaving){
+		if(ev.keyCode.check(Binds.ui_back) || leaving){
 			if(leaving){
 				NewTransition.skip();
 				return;

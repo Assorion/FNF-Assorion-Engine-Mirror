@@ -86,14 +86,14 @@ class GameOverSubstate extends EventSubstate {
 			return;
 		}
 
-		if(ev.keyCode.check(Binds.UI_BACK)){
+		if(ev.keyCode.check(Binds.ui_back)){
 			leaving = true;
 			FlxG.sound.music.stop();
 			playstateRef.exitPlayState();
 			return;
 		}
 
-		if(!ev.keyCode.check(Binds.UI_ACCEPT))
+		if(!ev.keyCode.check(Binds.ui_accept))
 			return;
 
 		leaving = true;

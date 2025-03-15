@@ -4,18 +4,18 @@ import flixel.input.keyboard.FlxKey;
 
 #if !debug @:noDebug #end
 class Binds {
-	public static var NOTE_LEFT :Array<Int> = [FlxKey.A, FlxKey.LEFT];
-	public static var NOTE_DOWN :Array<Int> = [FlxKey.S, FlxKey.DOWN];
-	public static var NOTE_UP	:Array<Int> = [FlxKey.W, FlxKey.UP];
-	public static var NOTE_RIGHT:Array<Int> = [FlxKey.D, FlxKey.RIGHT];
+	public static var note_left :Array<Int> = [FlxKey.A, FlxKey.LEFT];
+	public static var note_down :Array<Int> = [FlxKey.S, FlxKey.DOWN];
+	public static var note_up	:Array<Int> = [FlxKey.W, FlxKey.UP];
+	public static var note_right:Array<Int> = [FlxKey.D, FlxKey.RIGHT];
 
-	public static var UI_LEFT :Array<Int>	= [FlxKey.A, FlxKey.LEFT];
-	public static var UI_RIGHT:Array<Int>	= [FlxKey.D, FlxKey.RIGHT];
-	public static var UI_UP   :Array<Int>	= [FlxKey.W, FlxKey.UP];
-	public static var UI_DOWN :Array<Int>	= [FlxKey.S, FlxKey.DOWN];
+	public static var ui_left :Array<Int>	= [FlxKey.A, FlxKey.LEFT];
+	public static var ui_right:Array<Int>	= [FlxKey.D, FlxKey.RIGHT];
+	public static var ui_up   :Array<Int>	= [FlxKey.W, FlxKey.UP];
+	public static var ui_down :Array<Int>	= [FlxKey.S, FlxKey.DOWN];
 
-	public static var UI_ACCEPT:Array<Int>	= [FlxKey.ENTER, FlxKey.SPACE];
-	public static var UI_BACK:Array<Int>	= [FlxKey.ESCAPE, FlxKey.BACKSPACE];
+	public static var ui_accept:Array<Int>	= [FlxKey.ENTER, FlxKey.SPACE];
+	public static var ui_back:Array<Int>	= [FlxKey.ESCAPE, FlxKey.BACKSPACE];
 
 	public inline static function loadControls(map:Map<String, Dynamic>){
 		var bindsItems:Array<String> = Type.getClassFields(Binds);

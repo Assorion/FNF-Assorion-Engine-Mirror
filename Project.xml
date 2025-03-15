@@ -27,7 +27,7 @@
 	<assets path="assets" exclude="*.mp3|*.mdp" unless="web"/>
 	<assets path="assets" exclude="*.ogg|*.mdp" if="web"/>
 	<assets path="embedded" rename="assets" embed="true"/>
-	<assets path="art/Assorion.txt" rename="cool text file.txt"/>
+	<assets path="art/bin/Assorion.txt" rename="Distribution Note.txt"/>
 
 	<assets path="CHANGELOG.md"/>
 
@@ -54,6 +54,6 @@
 	<haxedef name="no-debug" unless="debug"/>
 
 	<!-- Have to admit, took this from psych engine. I didn't really know how to get icons working on linux -->
-	<assets path="art/icon.png" rename="assets/images/icon.png" if="linux"/>	
-	<icon path="art/icon.png" />
+	<assets path="art/bin/icon.png" rename="icon.png" if="linux"/>	
+	<icon path="art/bin/icon.png" />
 </project>

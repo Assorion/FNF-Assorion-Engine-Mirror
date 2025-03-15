@@ -6,21 +6,22 @@ import ui.NewTransition;
 
 #if !debug @:noDebug #end
 class ControlsState extends MenuTemplate {
-	private var rebinding:Bool = false;
-	private var controlList:Array<String> = [
-		'NOTE_LEFT',
-		'NOTE_DOWN',
-		'NOTE_UP',
-		'NOTE_RIGHT',
-		'',
-		'UI_LEFT',
-		'UI_DOWN',
-		'UI_UP',
-		'UI_RIGHT',
-		'',
-		'UI_ACCEPT',
-		'UI_BACK'
+	private var CONTROL_LIST:Array<Dynamic> = [
+		['note left',  Binds.note_left],
+		['note down',  Binds.note_down],
+		['note up',    Binds.note_up],
+		['note right', Binds.note_right],
+		['', null],
+		['ui left',    Binds.ui_left],
+		['ui down',    Binds.ui_down],
+		['ui up',      Binds.ui_up],
+		['ui right',   Binds.ui_right],
+		['', null],
+		['select',     Binds.ui_accept],
+		['back',       Binds.ui_back]
 	];
+
+	private var rebinding:Bool = false;
 
 	override function create() {
 		addBG(0,255,110);
@@ -36,20 +37,18 @@ class ControlsState extends MenuTemplate {
 		
 		arrGroup = [];
 
-		for(i in 0...controlList.length){
-			pushObject(new Alphabet(0, MenuTemplate.yOffset+20, controlList[i], true));
-
-			var firstBind:String = '';
+		for(i in 0...CONTROL_LIST.length){
+			var firstBind:String  = '';
 			var secondBind:String = '';
 
-			if(controlList[i] != ''){
-				var val:Dynamic = Reflect.field(Binds, controlList[i]);
-				firstBind  = CoolUtil.keyCodeToString(val[0], false);
-				secondBind = CoolUtil.keyCodeToString(val[1], false);
+			if(CONTROL_LIST[i][0] != ''){
+				firstBind  = CoolUtil.keyCodeToString(CONTROL_LIST[i][1][0], false);
+				secondBind = CoolUtil.keyCodeToString(CONTROL_LIST[i][1][1], false);
 			}
 
-			pushObject(new Alphabet(0, MenuTemplate.yOffset+20, firstBind , true));
-			pushObject(new Alphabet(0, MenuTemplate.yOffset+20, secondBind, true));
+			pushObject(new Alphabet(0, MenuTemplate.Y_OFFSET + 20, CONTROL_LIST[i][0], true));
+			pushObject(new Alphabet(0, MenuTemplate.Y_OFFSET + 20, firstBind, true));
+			pushObject(new Alphabet(0, MenuTemplate.Y_OFFSET + 20, secondBind, true));
 		}
 
 		changeSelection();
@@ -62,9 +61,9 @@ class ControlsState extends MenuTemplate {
 		EventState.changeState(new OptionsState());
 	}
 
-	// Skip blank space
 	override public function changeSelection(to:Int = 0) {
-		if(curSel + to >= 0 && controlList[curSel + to] == '')
+		// Skip blank space
+		if(curSel + to >= 0 && CONTROL_LIST[curSel + to] == '')
 			to *= 2;
 
 		super.changeSelection(to);
@@ -72,16 +71,14 @@ class ControlsState extends MenuTemplate {
 
 	override public function keyHit(ev:KeyboardEvent){
 		if(rebinding){ 
-			var original:Dynamic = Reflect.field(Binds, controlList[curSel]);
-			original[curAlt] = ev.keyCode;
-			Reflect.setField(Binds, '${controlList[curSel]}', original);
-
+			CONTROL_LIST[curSel][1][curAlt] = ev.keyCode;
 			rebinding = false;
+
 			createNewList();
 			return;
 		}
 
-		if(ev.keyCode.check(Binds.UI_ACCEPT)) {
+		if(ev.keyCode.check(Binds.ui_accept)) {
 			for(i in 0...arrGroup.length)
 				if(Math.floor(i / columns) != curSel)
 					arrGroup[i].targetA = 0;

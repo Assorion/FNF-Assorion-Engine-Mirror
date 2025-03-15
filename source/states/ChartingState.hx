@@ -31,8 +31,8 @@ class ChartGrid extends StaticSprite {
 				colOffset++;
 			}
 
-		for(i in 1...Math.floor(columns / Note.keyCount))
-			emptySprite.fillRect(new Rectangle((cWidth * Note.keyCount * i) - 2, 0, 4, cHeight * rows), FlxColor.BLACK);
+		for(i in 1...Math.floor(columns / PlayState.KEY_COUNT))
+			emptySprite.fillRect(new Rectangle((cWidth * PlayState.KEY_COUNT * i) - 2, 0, 4, cHeight * rows), FlxColor.BLACK);
 
 		super(0,0);
 		loadGraphic(emptySprite);
@@ -105,7 +105,7 @@ class ChartingState extends EventState {
 		gridGroup = new FlxSpriteGroup(10, 100);
 		add(gridGroup);
 
-		grid     = new ChartGrid(40, 40, Note.keyCount * songData.playLength, 16, 4);
+		grid     = new ChartGrid(40, 40, PlayState.KEY_COUNT * songData.playLength, 16, 4);
 		noteLine = new StaticSprite(0, 0).makeGraphic(Math.round(grid.width), 4, 0xFFFFFFFF);
 
 		gridGroup.add(grid);
@@ -149,11 +149,11 @@ class ChartingState extends EventState {
 
 	override function keyHit(ev:KeyboardEvent){
 		ev.keyCode.bindFunctions([
-			[Binds.UI_BACK, function(){
+			[Binds.ui_back, function(){
 				FlxG.mouse.visible = false;
 				EventState.changeState(new PlayState());
 			}],
-			[Binds.UI_ACCEPT, function(){
+			[Binds.ui_accept, function(){
 				FlxG.sound.music.playing ? FlxG.sound.music.pause() : FlxG.sound.music.play();
 				
 				if(songData.needsVoices){

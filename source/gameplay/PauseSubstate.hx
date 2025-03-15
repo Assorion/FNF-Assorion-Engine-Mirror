@@ -14,8 +14,8 @@ import states.PlayState;
 
 #if !debug @:noDebug #end
 class PauseSubstate extends EventSubstate {
-	public static inline var botplayText:String = 'BOTPLAY'; // Text that shows in PlayState when Botplay is turned on
-	private var optionList:Array<String> = ['Resume Game', 'Restart Song', 'Toggle Botplay', 'Exit To Menu'];
+	public static inline var BOTPLAY_TEXT:String = 'BOTPLAY'; 
+	private var OPTION_LIST:Array<String> = ['Resume Game', 'Restart Song', 'Toggle Botplay', 'Exit To Menu'];
 	
 	public var curSelected:Int = 0;
 	public var pauseText:FormattedText;
@@ -43,8 +43,8 @@ class PauseSubstate extends EventSubstate {
 		blackSpr.alpha = 0;
 		add(blackSpr);
 
-		for (i in 0...optionList.length) {
-			var option:Alphabet = new Alphabet(0, MenuTemplate.yDiffer * i, optionList[i], true);
+		for (i in 0...OPTION_LIST.length) {
+			var option:Alphabet = new Alphabet(0, MenuTemplate.Y_SPACING * i, OPTION_LIST[i], true);
 			option.alpha = 0;
 			add(option);
 
@@ -80,7 +80,7 @@ class PauseSubstate extends EventSubstate {
 		'SONG: ${PlayState.songData.name.toUpperCase()}' +
 		' | WEEK: ${PlayState.storyWeek >= 0 ? Std.string(PlayState.storyWeek + 1) : "FREEPLAY"}' +
 		' | BOTPLAY: ${Settings.botplay ? "YES" : "NO"}' +
-		' | DIFFICULTY: ${CoolUtil.diffString(PlayState.curDifficulty, 1).toUpperCase()}' +
+		' | DIFFICULTY: Song.DIFFICULTIES[PlayState.curDifficulty].toUpperCase()}' +
 		' | ';
 		pauseText.text = '$coolString$coolString$coolString';
 	}
@@ -120,26 +120,26 @@ class PauseSubstate extends EventSubstate {
 
 	private function changeSelection(change:Int = 0) {
 		FlxG.sound.play(Paths.lSound('ui/scrollMenu'), 0.4);
-		curSelected = (curSelected + change + optionList.length) % optionList.length;
+		curSelected = (curSelected + change + OPTION_LIST.length) % OPTION_LIST.length;
 
 		for(i in 0...alphaTexts.length){
 			var item = alphaTexts[i];
 			item.targetA = i != curSelected ? 0.4 : 1;
 
-			item.targetY = (i - curSelected) * MenuTemplate.yDiffer;
-			item.targetX = (i - curSelected) * MenuTemplate.xDiffer;
-			item.targetY += MenuTemplate.yOffset;
-			item.targetX += MenuTemplate.xOffset;
+			item.targetY = (i - curSelected) * MenuTemplate.Y_SPACING;
+			item.targetX = (i - curSelected) * MenuTemplate.X_SPACING;
+			item.targetY += MenuTemplate.Y_OFFSET;
+			item.targetX += MenuTemplate.X_OFFSET;
 		}
 	}
 
 	override public function keyHit(ev:KeyboardEvent)
 	if(!leaving)
 		ev.keyCode.bindFunctions([
-			[Binds.UI_BACK, leave],
-			[Binds.UI_UP,   function(){ changeSelection(-1); }],
-			[Binds.UI_DOWN, function(){ changeSelection(1);  }],
-			[Binds.UI_ACCEPT, function(){
+			[Binds.ui_back, leave],
+			[Binds.ui_up,   function(){ changeSelection(-1); }],
+			[Binds.ui_down, function(){ changeSelection(1);  }],
+			[Binds.ui_accept, function(){
 				switch(curSelected){
 				case 0:
 					leave();
@@ -148,7 +148,7 @@ class PauseSubstate extends EventSubstate {
 					FlxG.resetState();
 				case 2:
 					Settings.botplay = !Settings.botplay;
-					playState.scoreTxt.text = botplayText;
+					playState.scoreTxt.text = BOTPLAY_TEXT;
 					playState.updateHealth(0);
 
 					updatePauseText();

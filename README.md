@@ -1,6 +1,6 @@
 # Friday Night Funkin' Assorion Engine!
 
-<img src="https://codeberg.org/Assorion/FNF-Assorion-Engine/raw/branch/main/art/assorion-engine.png"/>
+<img src="https://codeberg.org/Assorion/FNF-Assorion-Engine/raw/branch/main/art/assorion/logoWithText.png"/>
 
 -------------------------------------------------------------
  <div align="center">
@@ -89,7 +89,7 @@ Until the **primary Assorion Engine repository** is finalized, the following bra
 
 ## 🖼️ | Screenshots and Builds
 
-Take a look at <a href="https://codeberg.org/Assorion/FNF-Assorion-Engine/src/branch/main/.github/Screenshots.md">`art/screenshots.md`</a>. 
+Take a look at <a href="https://codeberg.org/Assorion/FNF-Assorion-Engine/src/branch/main/.github/Screenshots.md">screenshots here</a>. 
 
 If you want to try out the engine you can acquire releases <a href="https://codeberg.org/Assorion/FNF-Assorion-Engine/releases">here</a>.
 

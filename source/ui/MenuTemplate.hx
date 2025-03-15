@@ -23,11 +23,11 @@ class MenuTemplate extends EventState {
 		Configure menu spacings. This applies to PauseSubstate as well.
 		If you want the menus to have the base game positioning, replace the values with the comment values. 
 	*/
-	public static inline var xOffset:Int = 60;	// 90
-	public static inline var xDiffer:Int = 20;
-	public static inline var yOffset:Int = 110; // 345
-	public static inline var yDiffer:Int = 110; // 156
-	public static inline var unselectedAlpha:Float = 0.35;
+	public static inline var X_OFFSET:Int  = 60;  // 90
+	public static inline var X_SPACING:Int = 20;
+	public static inline var Y_OFFSET:Int  = 110; // 345
+	public static inline var Y_SPACING:Int = 110; // 156
+	public static inline var DESELECTED_ALPHA:Float = 0.35;
 
 	public var curSel:Int  = 0;
 	public var curAlt:Int  = 0;
@@ -79,18 +79,18 @@ class MenuTemplate extends EventState {
 		super.create();
 
 		if(FlxG.sound.music == null || !FlxG.sound.music.playing) {
-			Song.musicSet(Paths.menuTempo);
-			FlxG.sound.playMusic(Paths.lMusic(Paths.menuMusic));
+			Song.musicSet(Paths.MENU_TEMPO);
+			FlxG.sound.playMusic(Paths.lMusic(Paths.MENU_MUSIC));
 		}
 	}
 
 	override function keyHit(ev:KeyboardEvent)
 		ev.keyCode.bindFunctions([
-			[Binds.UI_UP,	 function(){ changeSelection(-1); }],
-			[Binds.UI_DOWN,  function(){ changeSelection(1);	}],
-			[Binds.UI_LEFT,  function(){ altChange(-1);       }],
-			[Binds.UI_RIGHT, function(){ altChange(1);        }],
-			[Binds.UI_BACK,  function(){ exitFunction();      }]
+			[Binds.ui_up,	 function(){ changeSelection(-1); }],
+			[Binds.ui_down,  function(){ changeSelection(1);  }],
+			[Binds.ui_left,  function(){ altChange(-1);       }],
+			[Binds.ui_right, function(){ altChange(1);        }],
+			[Binds.ui_back,  function(){ exitFunction();      }]
 		]);
 
 	override function update(elapsed:Float){
@@ -127,12 +127,12 @@ class MenuTemplate extends EventState {
 	public function pushObject(spr:FlxBasic){
 		var cr:MenuObject = {
 			obj: cast spr,
-			targetX: xOffset + ((arrGroup.length + 1) * xDiffer),
-			targetY: yOffset + Math.round((arrGroup.length + 1) * yDiffer / columns),
-			targetA: unselectedAlpha
+			targetX: X_OFFSET + ((arrGroup.length + 1) * X_SPACING),
+			targetY: Y_OFFSET + Math.round((arrGroup.length + 1) * Y_SPACING / columns),
+			targetA: DESELECTED_ALPHA
 		};
 
-		cr.obj.alpha = unselectedAlpha;
+		cr.obj.alpha = DESELECTED_ALPHA;
 		cr.obj.scrollFactor.set();
 
 		arrGroup.push(cr);
@@ -162,11 +162,11 @@ class MenuTemplate extends EventState {
 		for(i in 0...loopNum){
 			var item = arrGroup[i * columns];
 
-			item.targetX = (i - curSel) * xDiffer;
-			item.targetX += xOffset;
-			item.targetY = (i - curSel) * yDiffer;
-			item.targetY += yOffset;
-			item.targetA = i == curSel ? 1 : unselectedAlpha;
+			item.targetX = (i - curSel) * X_SPACING;
+			item.targetX += X_OFFSET;
+			item.targetY = (i - curSel) * Y_SPACING;
+			item.targetY += Y_OFFSET;
+			item.targetA = i == curSel ? 1 : DESELECTED_ALPHA;
 
 			if(columns <= 1) 
 				continue;
@@ -180,7 +180,7 @@ class MenuTemplate extends EventState {
 
 				offItem.targetX = Math.round(offItem.obj.x);
 				offItem.targetY = item.targetY;
-				offItem.targetA = x-1 == curAlt ? item.targetA : unselectedAlpha;
+				offItem.targetA = x-1 == curAlt ? item.targetA : DESELECTED_ALPHA;
 			}
 		}
 

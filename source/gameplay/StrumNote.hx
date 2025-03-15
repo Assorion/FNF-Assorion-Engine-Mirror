@@ -8,8 +8,10 @@ import states.PlayState;
 
 #if !debug @:noDebug #end
 class StrumNote extends FlxSprite {
-	// pressTime is used in two ways: A) When it's an NPC strum: it's used to time how long is left before making the strum go static again.
-	// or B) when it's a player's strum: pressTime will be used instead for double-tapping prevention.
+	public static inline var NOTE_SPACING:Float = 160 * 0.7;
+
+	/* pressTime is used in two ways: A) When it's an NPC strum: it's used to time how long is left before making the strum go static again.
+	   or B) when it's a player's strum: pressTime will be used instead for double-tapping prevention. */
 	public var pressTime:Float = 0; 
 	public var isPlayer:Bool = false;
 
@@ -20,8 +22,8 @@ class StrumNote extends FlxSprite {
 
 		// Load animations into cache
 		animation.addByPrefix('static', 'arrow' + directions[data]);
-		animation.addByPrefix('press', Note.colourArray[data] + ' press'	, 24, false);
-		animation.addByPrefix('glow', Note.colourArray[data] + ' confirm', 24, false);
+		animation.addByPrefix('press', Note.NOTE_COLOURS[data] + ' press'  , 24, false);
+		animation.addByPrefix('glow',  Note.NOTE_COLOURS[data] + ' confirm', 24, false);
 		playAnim('glow');
 		playAnim('press');
 		playAnim('static');
@@ -29,7 +31,7 @@ class StrumNote extends FlxSprite {
 		setGraphicSize(Math.round(width * 0.7));
 		updateHitbox();
 
-		x += Note.swagWidth * data;
+		x += NOTE_SPACING * data;
 		x += 98;
 		x += (FlxG.width / 2) * player;
 		alpha = 0;

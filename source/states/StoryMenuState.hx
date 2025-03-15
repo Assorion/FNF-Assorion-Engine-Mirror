@@ -20,10 +20,9 @@ typedef StoryData = {
 
 #if !debug @:noDebug #end
 class StoryMenuState extends MenuTemplate {
-	public static inline var selectColour:Int = 0xFF00FFFF;
-	public static inline var whiteColour:Int  = 0xFFFFFFFF;
+	public static inline var SELECT_COLOUR:Int = 0xFF00FFFF;
+	public static inline var WHITE_COLOUR :Int = 0xFFFFFFFF;
 
-	// TODO: Put this in a JŚON file
 	private var weekData:Array<StoryData> = [];
 
 	private static var curDif:Int = 1;
@@ -83,7 +82,7 @@ class StoryMenuState extends MenuTemplate {
 	override function keyHit(ev:KeyboardEvent){
 		super.keyHit(ev);
 
-		if(!ev.keyCode.check(Binds.UI_ACCEPT)) 
+		if(!ev.keyCode.check(Binds.ui_accept)) 
 			return;
 
 		if(leaving){
@@ -104,7 +103,7 @@ class StoryMenuState extends MenuTemplate {
 
 		for(i in 0...8)
 			postEvent(i / 8, function(){
-				arrGroup[curSel].obj.color = (i & 0x01 == 0 ? whiteColour : selectColour);
+				arrGroup[curSel].obj.color = (i & 0x01 == 0 ? WHITE_COLOUR : SELECT_COLOUR);
 			});
 
 		// SWITCH!
@@ -119,13 +118,13 @@ class StoryMenuState extends MenuTemplate {
 	public function changeDiff(to:Int, showArr:Bool){
 		if(showArr){
 			var arrow = [arrowSpr2, arrowSpr1][CoolUtil.intBoundTo(to, 0, 1)];
-			arrow.color = selectColour;
+			arrow.color = SELECT_COLOUR;
 			arrow.scale.set(0.9, 0.9);
 		}
 
-		curDif = ((curDif + to) + CoolUtil.diffNumb) % CoolUtil.diffNumb;
+		curDif = ((curDif + to) + Song.DIFFICULTIES.length) % Song.DIFFICULTIES.length;
 
-		diffImage.loadGraphic(Paths.lImage('storyMenu/' + CoolUtil.diffString(curDif, 1).toLowerCase()));
+		diffImage.loadGraphic(Paths.lImage('storyMenu/' + Song.DIFFICULTIES[curDif]));
 		diffImage.centerOrigin();
 		diffImage.updateHitbox();
 		diffImage.screenCenter(X);
@@ -140,24 +139,24 @@ class StoryMenuState extends MenuTemplate {
 		super.keyRel(ev);
 		
 		ev.keyCode.bindFunctions([
-			[Binds.UI_LEFT, function(){
+			[Binds.ui_left, function(){
 				arrowSpr2.scale.set(1, 1);
-				arrowSpr2.color = whiteColour;
+				arrowSpr2.color = WHITE_COLOUR;
 			}],
-			[Binds.UI_RIGHT, function(){
+			[Binds.ui_right, function(){
 				arrowSpr1.scale.set(1, 1);
-				arrowSpr1.color = whiteColour;
+				arrowSpr1.color = WHITE_COLOUR;
 			}]
 		]);
 	}
 	
 	override function changeSelection(to:Int = 0){
-		arrGroup[curSel].obj.color = whiteColour;
+		arrGroup[curSel].obj.color = WHITE_COLOUR;
 
 		super.changeSelection(to);
 		changeDiff(0, false);
 
-		arrGroup[curSel].obj.color = selectColour;
+		arrGroup[curSel].obj.color = SELECT_COLOUR;
 
 		trackList.text = 'Tracks:\n';
 		for(i in 0...weekData[curSel].songs.length)

@@ -15,7 +15,7 @@ class HighScore {
 	}
 
 	public static function saveScore(song:String, score:Int, diff:Int){
-		var songNaem:String = song.toLowerCase().trim() + CoolUtil.diffString(diff, 0);
+		var songNaem:String = song.toLowerCase().trim() + Song.DIFFICULTIES[diff];
 
 		if(scoreExists(songNaem) >= score) 
 			return;
@@ -26,5 +26,5 @@ class HighScore {
 	}
 
 	public static function getScore(song:String, diff:Int):Int
-		return scoreExists(song + CoolUtil.diffString(diff, 0));
+		return scoreExists(song + Song.DIFFICULTIES[diff]);
 }

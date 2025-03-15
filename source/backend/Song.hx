@@ -34,6 +34,8 @@ typedef SongData = {
 
 #if !debug @:noDebug #end
 class Song {
+	public static var DIFFICULTIES:Array<String> = ['easy', 'normal', 'hard'];
+
 	public static var beatHooks:Array<Void->Void> = [];
 	public static var stepHooks:Array<Void->Void> = [];
 
@@ -87,7 +89,7 @@ class Song {
 	public static function loadFromJson(songStr:String, diff:Int):SongData {
 		songStr = songStr.toLowerCase();
 		
-		var tmpCast:SongData = cast Json.parse(Paths.lText('songs/$songStr/${CoolUtil.diffString(diff, 0)}.json')).song;
+		var tmpCast:SongData = cast Json.parse(Paths.lText('songs/$songStr/${DIFFICULTIES[diff]}.json')).song;
 
 		if (cast(tmpCast.playLength, Int) <= 0) 
 			tmpCast.playLength = 2;

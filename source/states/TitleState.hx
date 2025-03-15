@@ -14,8 +14,7 @@ using StringTools;
 
 #if !debug @:noDebug #end
 class TitleState extends EventState {
-	private var initialized:Bool = false;
-	private var textSequence:Array<Array<String>> = [ // % = Random Text
+	private var TEXT_SEQUENCE:Array<Array<String>> = [ // % = Random Text
 		['welcome', 'traveller'],
 		['Original game by','ninjamuffin'],
 		['assorion engine by', 'antivirus', 'and barzil'],
@@ -35,6 +34,8 @@ class TitleState extends EventState {
 	var postFlashGroup:FlxTypedGroup<FlxSprite>;
 	var soundTween:FlxTween;
 
+	private var initialized:Bool = false;
+
 	public function new(?firstLoad:Bool = true){
 		initialized = !firstLoad;
 		super();
@@ -43,16 +44,16 @@ class TitleState extends EventState {
 	override public function create() {
 		allIntroTexts = cast haxe.Json.parse(Paths.lText('introText.json'));
 
-		for(i in 0...textSequence.length) 
-			if(textSequence[i][0] == '%') 
-				textSequence[i] = allIntroTexts.splice(CoolUtil.randomRange(0, allIntroTexts.length - 1), 1)[0];
+		for(i in 0...TEXT_SEQUENCE.length) 
+			if (TEXT_SEQUENCE[i][0] == '%') 
+				TEXT_SEQUENCE[i] = allIntroTexts.splice(CoolUtil.randomRange(0, allIntroTexts.length - 1), 1)[0];
 
 		super.create();
 
 		if (!initialized) {
 			if(FlxG.sound.music == null || !FlxG.sound.music.playing) {
-				Song.musicSet(Paths.menuTempo);
-				FlxG.sound.playMusic(Paths.lMusic(Paths.menuMusic));
+				Song.musicSet(Paths.MENU_TEMPO);
+				FlxG.sound.playMusic(Paths.lMusic(Paths.MENU_MUSIC));
 			}
 
 			FlxG.sound.volume = Settings.start_volume / 100;
@@ -97,7 +98,7 @@ class TitleState extends EventState {
 	private var leaving:Bool = false;
 	override public function keyHit(ev:KeyboardEvent)
 		ev.keyCode.bindFunctions([
-			[Binds.UI_ACCEPT, function(){
+			[Binds.ui_accept, function(){
 				if(leaving) {
 					if(soundTween != null){ 
 						soundTween.cancel();
@@ -154,13 +155,13 @@ class TitleState extends EventState {
 		if (tsubStep < 0){
 			tsubStep = 0;
 
-			if(++textStep == textSequence.length){
+			if(++textStep == TEXT_SEQUENCE.length){
 				skipIntro();
 				return;
 			}
 		}
 
-		if(tsubStep == textSequence[textStep].length){
+		if(tsubStep == TEXT_SEQUENCE[textStep].length){
 			textGroup.clear();
 			tsubStep = -1;
 			
@@ -168,7 +169,7 @@ class TitleState extends EventState {
 		}
 
 		if(Song.currentBeat & 0x01 == 0)
-			createCoolText(tsubStep, textSequence[textStep].length, textSequence[textStep][tsubStep++]);
+			createCoolText(tsubStep, TEXT_SEQUENCE[textStep].length, TEXT_SEQUENCE[textStep][tsubStep++]);
 	}
 
 	private var skippedIntro:Bool = false;

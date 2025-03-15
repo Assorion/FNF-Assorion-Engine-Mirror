@@ -13,10 +13,8 @@ typedef NoteType = {
 
 #if !debug @:noDebug #end
 class Note extends StaticSprite { // If animated notes are desired, this will have to be changed from a StaticSprite to FlxSprite.
-	public static inline var keyCount:Int = 4;
-	public static inline var swagWidth:Float = 160 * 0.7;
-	public static var colourArray:Array<String> = ['purple', 'blue', 'green', 'red'];
-	public static var possibleTypes:Array<NoteType> = [
+	public static var NOTE_COLOURS:Array<String> = ['purple', 'blue', 'green', 'red'];
+	public static var NOTE_TYPES:Array<NoteType> = [
 		{
 			assets: 'noteAssets',
 			mustHit: true,
@@ -40,10 +38,10 @@ class Note extends StaticSprite { // If animated notes are desired, this will ha
 
 		isSustainNote  = sustainNote;
 		this.strumTime = strumTime;
-		this.noteData  = data % keyCount;
-		this.curType   = possibleTypes[type];
+		this.noteData  = data % PlayState.KEY_COUNT;
+		this.curType   = NOTE_TYPES[type];
 
-		var colour = colourArray[noteData];
+		var colour = NOTE_COLOURS[noteData];
 		frames = Paths.lSparrow('gameplay/${curType.assets}');
 
 		animation.addByPrefix('scroll' , colour + '0');

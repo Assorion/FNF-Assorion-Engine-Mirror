@@ -12,10 +12,10 @@ using StringTools;
 
 #if !debug @:noDebug #end
 class LoadingState extends FlxUIState {
-	public static inline var barWidth:Int = 1150;
-	public static inline var barTopLn:Int = 150; 
-	public static inline var inBarWidth:Int = 1120;
-	public static inline var inBarTopLn:Int = 120;
+	public static inline var BAR_WIDTH :Int = 1150;
+	public static inline var BAR_HEIGHT:Int = 150; 
+	public static inline var INNER_BAR_WIDTH :Int = 1120;
+	public static inline var INNER_BAR_HEIGHT:Int = 120;
 
 	private var loadingBarBG:FlxSprite;
 	private var loadingBarPC:FlxSprite;
@@ -32,12 +32,12 @@ class LoadingState extends FlxUIState {
 			if(objects[i].split('/')[0] != 'assets')
 				objects.splice(i--, 1);
 
-		var lbBG:BitmapData = new BitmapData(barWidth, barTopLn, true);
-		lbBG.fillRect(new Rectangle(0 , 0 , barWidth   , barTopLn), 0xFFFFFFFF);
-		lbBG.fillRect(new Rectangle(10, 10, barWidth-20, barTopLn-20), 0);
+		var lbBG:BitmapData = new BitmapData(BAR_WIDTH  , BAR_HEIGHT, true);
+		lbBG.fillRect(new Rectangle(0 , 0 , BAR_WIDTH   , BAR_HEIGHT), 0xFFFFFFFF);
+		lbBG.fillRect(new Rectangle(10, 10, BAR_WIDTH-20, BAR_HEIGHT-20), 0);
 
-		keepGraphic = new BitmapData(inBarWidth, inBarTopLn, true);
-		keepGraphic.fillRect(new Rectangle(0,0,inBarWidth,inBarTopLn), 0);
+		keepGraphic = new BitmapData(INNER_BAR_WIDTH, INNER_BAR_HEIGHT, true);
+		keepGraphic.fillRect(new Rectangle(0,0, INNER_BAR_WIDTH, INNER_BAR_HEIGHT), 0);
 
 		loadingBarBG = new FlxSprite(0,0).loadGraphic(lbBG);
 		loadingBarBG.screenCenter();
@@ -95,7 +95,7 @@ class LoadingState extends FlxUIState {
 			objects = null;
 			FlxG.camera.bgColor = 0x00000000;
 			FlxG.camera.bgColor.alpha = 0;
-			FlxG.switchState(cast Type.createInstance(Main.initState, []));
+			FlxG.switchState(cast Type.createInstance(Main.INITIAL_STATE, []));
 			return;
 		}
 		
@@ -120,7 +120,7 @@ class LoadingState extends FlxUIState {
 			155 + Math.round(100 * percent)
 		);
 
-		keepGraphic.fillRect(new Rectangle(0,0,   Math.round(percent * inBarWidth), inBarTopLn), selColour);
+		keepGraphic.fillRect(new Rectangle(0,0,   Math.round(percent * INNER_BAR_WIDTH), INNER_BAR_HEIGHT), selColour);
 		FlxG.camera.bgColor = FlxColor.fromRGB(0, Math.round(percent * 120), Math.round(percent * 103));
 	}
 }

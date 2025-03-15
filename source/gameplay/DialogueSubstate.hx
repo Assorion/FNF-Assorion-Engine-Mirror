@@ -119,7 +119,7 @@ class DialogueSubstate extends EventSubstate {
 	override public function keyHit(ev:KeyboardEvent){
 		super.keyHit(ev);
 
-		if(!ev.keyCode.check(Binds.UI_ACCEPT) || leaving || currentSlide < 0)
+		if(!ev.keyCode.check(Binds.ui_accept) || leaving || currentSlide < 0)
 			return;
 
 		if(++currentSlide == totalSlides.length){

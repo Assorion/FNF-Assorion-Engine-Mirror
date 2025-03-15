@@ -8,9 +8,9 @@ using StringTools;
 
 #if !debug @:noDebug #end
 class Paths {
-	public static inline var sndExt:String = #if desktop 'ogg' #else 'mp3' #end;
-	public static inline var menuMusic:String = 'ui/freakyMenu';
-	public static inline var menuTempo:Int = 102;
+	public static inline var SOUND_FORMAT:String = #if desktop 'ogg' #else 'mp3' #end;
+	public static inline var MENU_MUSIC:String = 'ui/freakyMenu';
+	public static inline var MENU_TEMPO:Int = 102;
 
 	private static var cachedLines:Map<String, Array<String>>		 = new Map<String, Array<String>>();
 	private static var cachedFrames:Map<String, FlxFramesCollection> = new Map<String, FlxFramesCollection>();
@@ -19,13 +19,13 @@ class Paths {
 		return 'assets/images/$path.png';
 	}
 	public static inline function lMusic(path:String):String {
-		return 'assets/music/$path.$sndExt';
+		return 'assets/music/$path.$SOUND_FORMAT';
 	}
 	public static inline function lSound(path:String):String {
-		return 'assets/sounds/$path.$sndExt';
+		return 'assets/sounds/$path.$SOUND_FORMAT';
 	}
 	public static inline function playableSong(path:String, retVoices:Bool = false):String {
-		var endingStr:String = retVoices ? 'voices.$sndExt' : 'inst.$sndExt';
+		var endingStr:String = retVoices ? 'voices.$SOUND_FORMAT' : 'inst.$SOUND_FORMAT';
 		return 'assets/music/songs/${path.toLowerCase()}/$endingStr';
 	}
 	public static function lSparrow(path:String, ?prePath:String = 'assets/images/'):FlxFramesCollection {

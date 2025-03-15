@@ -18,7 +18,6 @@ typedef FreeplaySongData = {
 	var icon:String;
 }
 
-// TODO: Fix positioning on the score background when the score is too huge
 #if !debug @:noDebug #end
 class FreeplayState extends MenuTemplate {
 	private static var curDifficulty:Int = 1;
@@ -62,10 +61,10 @@ class FreeplayState extends MenuTemplate {
 	}
 
 	override function altChange(change:Int = 0){
-		curDifficulty += change + CoolUtil.diffNumb;
-		curDifficulty %= CoolUtil.diffNumb;
+		curDifficulty += change + Song.DIFFICULTIES.length;
+		curDifficulty %= Song.DIFFICULTIES.length;
 
-		diffText.text = '< ${CoolUtil.diffString(curDifficulty, 1).toUpperCase()} >';
+		diffText.text = '< ${Song.DIFFICULTIES[curDifficulty].toUpperCase()} >';
 		scoreText.text = 'PERSONAL BEST: ${HighScore.getScore(songList[curSel].name, curDifficulty)}';
 
 		scoreBG.scale.x = (scoreText.width + 10) / scoreBG.frameWidth;
@@ -89,9 +88,9 @@ class FreeplayState extends MenuTemplate {
 				playing = !playing;
 
 				if(playing){
-					FlxG.sound.playMusic(Paths.lMusic(Paths.menuMusic));
+					FlxG.sound.playMusic(Paths.lMusic(Paths.MENU_MUSIC));
 					FlxG.sound.music.time = prevTime;
-					Song.musicSet(100);
+					Song.musicSet(Paths.MENU_TEMPO);
 
 					if(vocals == null) 
 						return;
@@ -109,7 +108,7 @@ class FreeplayState extends MenuTemplate {
 				vocals.play();
 				vocals.time = FlxG.sound.music.time = 0;	
 			}],
-			[Binds.UI_ACCEPT, function(){
+			[Binds.ui_accept, function(){
 				if(NewTransition.skip()) 
 					return;
 

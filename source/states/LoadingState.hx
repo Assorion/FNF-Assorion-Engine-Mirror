@@ -12,10 +12,10 @@ using StringTools;
 
 #if !debug @:noDebug #end
 class LoadingState extends FlxUIState {
-	public static inline var BAR_WIDTH :Int = 1150;
-	public static inline var BAR_HEIGHT:Int = 150; 
-	public static inline var INNER_BAR_WIDTH :Int = 1120;
-	public static inline var INNER_BAR_HEIGHT:Int = 120;
+	public static inline final BAR_WIDTH :Int = 1150;
+	public static inline final BAR_HEIGHT:Int = 150; 
+	public static inline final INNER_BAR_WIDTH :Int = 1120;
+	public static inline final INNER_BAR_HEIGHT:Int = 120;
 
 	private var loadingBarBG:FlxSprite;
 	private var loadingBarPC:FlxSprite;
@@ -61,7 +61,7 @@ class LoadingState extends FlxUIState {
 		super.create();
 	}
 
-	private inline function addAsset(objectPath:String, objFormat:String)
+	private function addAsset(objectPath:String, objFormat:String)
 		switch(objFormat){
 		case 'png':
 			var tmpImg:FlxSprite = new FlxSprite(0,0).loadGraphic(objectPath);

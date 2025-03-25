@@ -38,7 +38,7 @@ class EventSubstate extends FlxSubState {
 		super.update(elapsed);
 	}
 
-	private inline function postEvent(forward:Float, func:Void->Void)
+	private function postEvent(forward:Float, func:Void->Void)
 		events.push({
 			endTime: CoolUtil.getCurrentTime() + forward,
 			exeFunc: func

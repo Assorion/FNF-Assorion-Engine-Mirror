@@ -64,7 +64,7 @@ class EventState extends FlxUIState {
 			exeFunc: func
 		});
 
-	public inline function executeAllEvents()
+	public function executeAllEvents()
 		for(i in 0...events.length)
 			events[i].exeFunc();
 

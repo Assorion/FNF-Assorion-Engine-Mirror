@@ -1,7 +1,7 @@
 [
 	{
 		"weekAsset": "demo",
-		"songs": ["tutorial", "demo"],
+		"songs": ["tutorial", "demo-song"],
 		"topText": "THIS IS A TEST, REMOVE IF MODDING"
 	}
 ]

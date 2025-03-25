@@ -34,7 +34,7 @@ typedef SongData = {
 
 #if !debug @:noDebug #end
 class Song {
-	public static var DIFFICULTIES:Array<String> = ['easy', 'normal', 'hard'];
+	public static final DIFFICULTIES:Array<String> = ['easy', 'normal', 'hard'];
 
 	public static var beatHooks:Array<Void->Void> = [];
 	public static var stepHooks:Array<Void->Void> = [];

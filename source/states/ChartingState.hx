@@ -12,7 +12,7 @@ import backend.Song;
 import gameplay.Note;
 
 class ChartGrid extends StaticSprite {
-    public var gridColours:Array<Array<Array<Int>>> = [
+    public final gridColours:Array<Array<Array<Int>>> = [
         [[255, 200, 200], [255, 215, 215]], // Red
         [[200, 200, 255], [215, 215, 255]], // Blue
         [[240, 240, 200], [240, 240, 215]], // Yellow / White
@@ -40,8 +40,8 @@ class ChartGrid extends StaticSprite {
 }
 
 class ChartingState extends EventState {
-	public var noteList:Array<Note> = [];
 	public var songData:SongData;
+	public var noteList:Array<Array<Note>> = [];
 	public var gridSize:Int = 40;
 
 	public var vocals:FlxSound;
@@ -51,7 +51,7 @@ class ChartingState extends EventState {
 	var grid:StaticSprite;
 
 	var stepTime:Float = 0;
-	var sectionBounds:Array<Float> = [0, 16];
+	var curSection:Int = -1;
 
 	override function create(){
 		super.create();
@@ -73,8 +73,11 @@ class ChartingState extends EventState {
 		FlxG.stage.addEventListener(MouseEvent.MOUSE_WHEEL, mouseScroll);
 		FlxG.stage.addEventListener(MouseEvent.RIGHT_CLICK, mouseRightClick);
 
-		for(section in songData.notes)
-			for(fNote in section.sectionNotes){
+		for(section in 0...songData.notes.length)
+			for(fNote in songData.notes[section].sectionNotes){
+				if(noteList[section] == null)
+					noteList[section] = [];
+
 				var noteData :Int = Std.int(fNote[1]);
 				var susLength:Int = Std.int(fNote[2]);
 				var player	 :Int = CoolUtil.intBoundTo(Std.int(fNote[3]), 0, songData.playLength - 1);
@@ -82,7 +85,7 @@ class ChartingState extends EventState {
 
 				var newNote = new Note(fNote[0], noteData, ntype, false, false);
 				newNote.player = player;
-				noteList.push(newNote);
+				noteList[section].push(newNote);
 
 				/*if(susLength > 1)
 					for(i in 0...susLength+1){
@@ -93,7 +96,7 @@ class ChartingState extends EventState {
 					}*/
 			}
 
-		noteList.sort((A,B) -> Std.int(A.strumTime - B.strumTime));
+		//noteList.sort((A,B) -> Std.int(A.strumTime - B.strumTime));
 
 		var bg:StaticSprite = new StaticSprite().loadGraphic(Paths.lImage('ui/defaultMenuBackground'));
 		bg.setGraphicSize(1280, 720);
@@ -103,6 +106,7 @@ class ChartingState extends EventState {
 		add(bg);
 
 		gridGroup = new FlxSpriteGroup(10, 100);
+		gridGroup.y = 50;
 		add(gridGroup);
 
 		grid     = new ChartGrid(40, 40, PlayState.KEY_COUNT * songData.playLength, 16, 4);
@@ -128,8 +132,22 @@ class ChartingState extends EventState {
 		if(FlxG.sound.music.playing)
 			stepTime += elapsed * 1000 * Song.division;
 
+		var oldCurSec:Int = curSection;
+
 		noteLine.y = ((stepTime % 16) * 0.0625 * grid.height) + gridGroup.y;
-		gridGroup.y = 100 - ((stepTime % 16) * 8);
+		curSection = Math.floor(stepTime * 0.0625);
+
+		//if(curSection != oldCurSec)
+		//	sectionChange(Math.oldCurSec));
+	}
+
+	public function sectionChange(oldSection:Int){
+		for(i in 0...noteList[oldSection].length)
+			if(noteList[oldSection][i] != null)
+				gridGroup.remove(noteList[oldSection][i]);
+
+		for(i in 0...noteList[curSection].length)
+			gridGroup.add(noteList[curSection][i]);
 	}
 
 	public function stepHit() 

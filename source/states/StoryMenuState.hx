@@ -20,8 +20,8 @@ typedef StoryData = {
 
 #if !debug @:noDebug #end
 class StoryMenuState extends MenuTemplate {
-	public static inline var SELECT_COLOUR:Int = 0xFF00FFFF;
-	public static inline var WHITE_COLOUR :Int = 0xFFFFFFFF;
+	public static inline final SELECT_COLOUR:Int = 0xFF00FFFF;
+	public static inline final WHITE_COLOUR :Int = 0xFFFFFFFF;
 
 	private var weekData:Array<StoryData> = [];
 

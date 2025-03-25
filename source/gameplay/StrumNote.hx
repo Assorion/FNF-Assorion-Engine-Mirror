@@ -8,7 +8,7 @@ import states.PlayState;
 
 #if !debug @:noDebug #end
 class StrumNote extends FlxSprite {
-	public static inline var NOTE_SPACING:Float = 160 * 0.7;
+	public static inline final NOTE_SPACING:Float = 160 * 0.7;
 
 	/* pressTime is used in two ways: A) When it's an NPC strum: it's used to time how long is left before making the strum go static again.
 	   or B) when it's a player's strum: pressTime will be used instead for double-tapping prevention. */

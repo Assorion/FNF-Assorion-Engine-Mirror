@@ -35,7 +35,7 @@ class ChartGeneric extends FlxSprite {
 	public var blockInput:Bool = false;
 	public var canvas:BitmapData;
 
-	public inline function drawSquare(dx:Int, dy:Int, w:Int, h:Int, ?indent:Bool = false){
+	public function drawSquare(dx:Int, dy:Int, w:Int, h:Int, ?indent:Bool = false){
 		var col1:Int = indent ? 0 : 2;
 		var col2:Int = indent ? 2 : 0;
 
@@ -56,7 +56,7 @@ class ChartGeneric extends FlxSprite {
 
 	}
 
-	public inline function makeText(w:Int, h:Int, ?indent:Bool = false, ?txt:String = '', ?dx:Int = 0, ?dy:Int = 0){
+	public function makeText(w:Int, h:Int, ?indent:Bool = false, ?txt:String = '', ?dx:Int = 0, ?dy:Int = 0){
 		drawSquare(dx,dy, w,h, indent);
 
 		if(txt != null && txt != '') {

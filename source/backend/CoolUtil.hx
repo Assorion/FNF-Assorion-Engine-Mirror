@@ -17,7 +17,7 @@ class CoolUtil {
 		return min + Math.round(Math.random() * (max - min));
 
 	// Used for converting arrays of integers to colours.
-	public inline static function cfArray(array:Array<Int>):Int
+	public static function cfArray(array:Array<Int>):Int
 			return FlxColor.fromRGB(array[0], array[1], array[2]);
 	
 	// Cross Platform method for returning the exact time in ticks

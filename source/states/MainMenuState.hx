@@ -109,7 +109,7 @@ class MainMenuState extends EventState {
 			}]
 		]);
 
-	private inline function changeState(){
+	private function changeState(){
 		if(itemWasSelected){
 			executeAllEvents();
 			NewTransition.skip();

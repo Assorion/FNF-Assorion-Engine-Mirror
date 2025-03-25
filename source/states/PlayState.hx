@@ -21,40 +21,40 @@ using StringTools;
 typedef RatingData = {
 	var score:Int;
 	var threshold:Float;
-	var name:String;
+	var asset:String;
 }
 
 #if !debug @:noDebug #end
 class PlayState extends EventState {
-	public static inline var KEY_COUNT:Int = 4;
-	public static inline var INPUT_RANGE:Float = 1.25; // The input range is measured in steps. By default it is 1 and a quarter steps of input range. 
-	public var SING_DIRECTIONS:Array<String> = ['LEFT', 'DOWN', 'UP', 'RIGHT'];
-	public var BIND_ARRAY:Array<Array<Int>> = [Binds.note_left, Binds.note_down, Binds.note_up, Binds.note_right];
-	public var POSSIBLE_SCORES:Array<RatingData> = [
+	public static inline final KEY_COUNT:Int = 4;
+	public static inline final INPUT_RANGE:Float = 1.25; // Input range is measured in steps (1/16th notes)
+	public final  SING_DIRECTIONS:Array<String> = ['LEFT', 'DOWN', 'UP', 'RIGHT'];
+	public final BIND_ARRAY:Array<Array<Int>> = [Binds.note_left, Binds.note_down, Binds.note_up, Binds.note_right];
+	public final POSSIBLE_SCORES:Array<RatingData> = [
 		{
 			score: 350,  
 			threshold: 0,
-			name: 'sick'
+			asset: 'sick'
 		},
 		{
-			score: 200,		  // Points to give
-			threshold: 0.43,  // Threshold of a step where you get the score, E:G less than half a step.
-			name: 'good'	  // Asset to load
+			score: 200,
+			threshold: 0.43,
+			asset: 'good'
 		},
 		{
 			score: 100,
 			threshold: 0.65,
-			name: 'bad'
+			asset: 'bad'
 		},
 		{
 			score: 25,
 			threshold: 0.9,
-			name: 'superbad'
+			asset: 'superbad'
 		}
 	];
 
 	public static var songData:SongData;
-	public static var storyWeek:Int = 0;
+	public static var storyWeek:Int = -1; // If story week is less than 0, we're in free play.
 	public static var storyPlaylist:Array<String> = [];
 	public static var curDifficulty:Int = 1;
 	public static var totalScore:Int = 0;
@@ -65,13 +65,12 @@ class PlayState extends EventState {
 	public var chartNotes:Array<Note> = [];
 	public var currentNotes:FlxTypedGroup<Note>;
 
-	public var health	:Int = 50; // Ranges from 0 to 100.
-	public var combo	:Int = 0;
-	public var hitCount :Int = 0;
+	public var health:Int    = 50; // Ranges from 0 to 100.
+	public var combo:Int     = 0;
+	public var hitCount:Int  = 0;
 	public var missCount:Int = 0;
-	public var fcValue	:Int = 0;
+	public var fcValue:Int   = 0;
 	public var songScore:Int = 0;
-	public var paused:Bool = false;
 
 	public var healthBarBG:StaticSprite;
 	public var healthBar:FlxBar;
@@ -91,8 +90,6 @@ class PlayState extends EventState {
 	private var stepTime:Float = 0;
 
 	override public function create() {
-		super.create();
-		
 		// Song setup
 		songData.name = songData.name.toLowerCase();
 		Song.musicSet(songData.bpm);
@@ -117,10 +114,12 @@ class PlayState extends EventState {
 		FlxG.cameras.reset(camGame);
 		FlxG.cameras.add(camHUD, false);
 		FlxG.camera.follow(followPos, LOCKON, 0.067);
+
+		super.create();
 		
 		playerIndex = songData.activePlayer;
 		stage = new StageLogic(songData.stage, this);
-		
+
 		// Strumline and note generation
 		strumLineNotes = new FlxTypedGroup<StrumNote>();
 		currentNotes = new FlxTypedGroup<Note>();
@@ -179,14 +178,13 @@ class PlayState extends EventState {
 		Song.beatHooks.push(beatHit);
 		Song.stepHooks.push(stepHit);
 
-		// If storyWeek is equal to -1 then it means that it's Freeplay. So if it's higher that means we're in story mode.
 		if(storyWeek >= 0 && lastSeenCutscene != storyPlaylist.length){	
 			var dialoguePath:String = 'assets/data/songs/${songData.name}/dialogue.json';			
 			lastSeenCutscene = storyPlaylist.length;
 
 			if(Assets.exists(dialoguePath)) {
-				// The delay is purely for the transitions. If your transitions are longer or shorter then change the event delay.	
-				postEvent(0.5, function(){ pauseAndOpenState(new DialogueSubstate(this, camHUD, Assets.getText(dialoguePath))); });
+				persistentUpdate = false;
+				postEvent(0.1, function(){ pauseAndOpenState(new DialogueSubstate(this, camHUD, Assets.getText(dialoguePath))); });
 				return;
 			}
 		}
@@ -247,7 +245,7 @@ class PlayState extends EventState {
 
 			var spr:StaticSprite = new StaticSprite().loadGraphic(Paths.lImage('gameplay/${introAssets[0][i]}'));
 			if(introAssets[0][i] == '')
-				spr.makeGraphic(0,0,0x00000000);
+				spr.alpha = 0;
 
 			introSprites[i] = spr;
 			spr.cameras = [camHUD];
@@ -268,7 +266,7 @@ class PlayState extends EventState {
 				}
 
 				Song.currentBeat = introBeatCounter - 4;
-				stepTime = (introBeatCounter - 4) * 4;
+				stepTime = Song.currentBeat * 4;
 				stepTime -= Settings.audio_offset * Song.division;
 
 				for(char in allCharacters)
@@ -309,12 +307,11 @@ class PlayState extends EventState {
 		stepTime = (Song.millisecond * Song.division * 0.25) + (stepTime * 0.75);
 
 
-	override public function update(elapsed:Float) 
-	if(!paused) {
+	override public function update(elapsed:Float) {
 		Song.update(FlxG.sound.music.time);
 		stepTime += elapsed * 1000 * Song.division;
 
-		while(chartNotes[0] != null && chartNotes[0].strumTime - stepTime < 32)
+		while(chartNotes[0] != null && chartNotes[0].strumTime - stepTime < 24)
 			currentNotes.add(chartNotes.shift());	
 
 		currentNotes.forEachAlive(scrollNotes);
@@ -327,8 +324,8 @@ class PlayState extends EventState {
 		var nDiff:Float = stepTime - daNote.strumTime;
 		daNote.y = (Settings.downscroll ? 45 : -45) * nDiff * songData.speed;
 		daNote.y += strumRef.y  + daNote.offsetY;
+		daNote.visible = daNote.y >= -daNote.height && daNote.y <= FlxG.height;
 
-		daNote.visible = daNote.y >= -daNote.height * daNote.scale.y && daNote.y <= FlxG.height;
 		if(!daNote.visible) 
 			return;
 
@@ -362,14 +359,14 @@ class PlayState extends EventState {
 		// Input range checks
 		if(daNote.isSustainNote && Math.abs(nDiff) < 0.8 && keysPressed[daNote.noteData])
 			hitNote(daNote);
-		else if (hittableNotes[daNote.noteData] == null && Math.abs(nDiff) <= INPUT_RANGE * daNote.curType.rangeMul)
+		else if(hittableNotes[daNote.noteData] == null && Math.abs(nDiff) <= INPUT_RANGE)
 			hittableNotes[daNote.noteData] = daNote;
 	}
 
 	public var hittableNotes:Array<Note> = [null, null, null, null];
 	public var keysPressed:Array<Bool>	 = [false, false, false, false];
 	override function keyHit(ev:KeyboardEvent) 
-	if(!paused) {
+	if(persistentUpdate) {
 		// Assorions input system
 		var nkey = ev.keyCode.deepCheck(BIND_ARRAY);
 		if(nkey != -1 && !keysPressed[nkey] && !Settings.botplay){
@@ -398,13 +395,13 @@ class PlayState extends EventState {
 	override public function keyRel(ev:KeyboardEvent) {
 		var nkey = ev.keyCode.deepCheck(BIND_ARRAY);
 
-		if(nkey != -1 && !paused){
+		if(nkey != -1){
 			keysPressed[nkey] = false;
 			playerStrums[nkey].playAnim('static');
 		}
 	}
 
-	private static inline var iconSpacing:Int = 52;
+	private var iconSpacing:Int = 52;
 	public function updateHealth(change:Int) {
 		if(!Settings.botplay) {
 			var fcText:String = ['?', 'SFC', 'GFC', 'FC', '(Bad) FC', 'SDCB', 'Clear'][fcValue];
@@ -477,7 +474,7 @@ class PlayState extends EventState {
 		updateHealth(-10);
 	}
 
-	private inline function destroyNote(note:Note, act:Int) {
+	private function destroyNote(note:Note, act:Int) {
 		note.typeAction(act);
 		currentNotes.remove(note, true);
 		note.destroy();
@@ -487,13 +484,12 @@ class PlayState extends EventState {
 	}
 
 	public function endSong():Void {
-		FlxG.sound.music.volume = 0;
-		vocals.volume = 0;
-		paused = true;
+		FlxG.sound.music.stop();
+		vocals.stop();
 
 		HighScore.saveScore(songData.name, songScore, curDifficulty);
 
-		if (storyWeek == -1){ // If it's freeplay
+		if (storyWeek == -1){ 
 			exitPlayState();
 			return;
 		}
@@ -508,7 +504,6 @@ class PlayState extends EventState {
 		}
 
 		songData = Song.loadFromJson(storyPlaylist[0], curDifficulty);
-		FlxG.sound.music.stop();
 		EventState.changeState(new PlayState());
 	}
 
@@ -516,7 +511,8 @@ class PlayState extends EventState {
 		EventState.changeState(PlayState.storyWeek >= 0 ? new StoryMenuState() : new FreeplayState());
 
 	private function pauseAndOpenState(state:EventSubstate) {
-		paused = true;
+		persistentUpdate = false;
+		keysPressed = [];
 		FlxG.sound.music.pause();
 		vocals.pause();
 
@@ -524,7 +520,7 @@ class PlayState extends EventState {
 	}
 
 	override function onFocusLost() {
-		if(!paused)
+		if(persistentUpdate)
 			pauseAndOpenState(new PauseSubstate(camHUD, this));
 
 		super.onFocusLost();

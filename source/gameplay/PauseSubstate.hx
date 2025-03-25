@@ -14,8 +14,8 @@ import states.PlayState;
 
 #if !debug @:noDebug #end
 class PauseSubstate extends EventSubstate {
-	public static inline var BOTPLAY_TEXT:String = 'BOTPLAY'; 
-	private var OPTION_LIST:Array<String> = ['Resume Game', 'Restart Song', 'Toggle Botplay', 'Exit To Menu'];
+	public static inline final BOTPLAY_TEXT:String = 'BOTPLAY'; 
+	private final OPTION_LIST:Array<String> = ['Resume Game', 'Restart Song', 'Toggle Botplay', 'Exit To Menu'];
 	
 	public var curSelected:Int = 0;
 	public var pauseText:FormattedText;
@@ -80,7 +80,7 @@ class PauseSubstate extends EventSubstate {
 		'SONG: ${PlayState.songData.name.toUpperCase()}' +
 		' | WEEK: ${PlayState.storyWeek >= 0 ? Std.string(PlayState.storyWeek + 1) : "FREEPLAY"}' +
 		' | BOTPLAY: ${Settings.botplay ? "YES" : "NO"}' +
-		' | DIFFICULTY: Song.DIFFICULTIES[PlayState.curDifficulty].toUpperCase()}' +
+		' | DIFFICULTY: ${Song.DIFFICULTIES[PlayState.curDifficulty].toUpperCase()}' +
 		' | ';
 		pauseText.text = '$coolString$coolString$coolString';
 	}
@@ -102,7 +102,7 @@ class PauseSubstate extends EventSubstate {
 			function(t:FlxTween){ // Closing
 				pauseMusic.stop();
 				pauseMusic.destroy();
-				playState.paused = false;
+				playState.persistentUpdate = true;
 				close();
 
 				for(ev in playState.events)

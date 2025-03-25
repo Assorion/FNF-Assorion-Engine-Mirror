@@ -6,19 +6,17 @@ import states.PlayState;
 typedef NoteType = {
 	var assets:String;
 	var mustHit:Bool;
-	var rangeMul:Float;
 	var onHit:Void->Void;
 	var onMiss:Void->Void;
 }
 
 #if !debug @:noDebug #end
 class Note extends StaticSprite { // If animated notes are desired, this will have to be changed from a StaticSprite to FlxSprite.
-	public static var NOTE_COLOURS:Array<String> = ['purple', 'blue', 'green', 'red'];
-	public static var NOTE_TYPES:Array<NoteType> = [
+	public static final NOTE_COLOURS:Array<String> = ['purple', 'blue', 'green', 'red'];
+	public static final NOTE_TYPES:Array<NoteType> = [
 		{
 			assets: 'noteAssets',
 			mustHit: true,
-			rangeMul: 1,
 			onHit: null, 
 			onMiss: null
 		}
@@ -85,7 +83,7 @@ class Note extends StaticSprite { // If animated notes are desired, this will ha
 		}
 	}
 
-	public inline function typeAction(action:Int) {
+	public function typeAction(action:Int) {
 		var curAct:Void->Void = [curType.onHit, curType.onMiss][action];
 		if(curAct != null)
 			curAct();

@@ -17,7 +17,7 @@ class Binds {
 	public static var ui_accept:Array<Int>	= [FlxKey.ENTER, FlxKey.SPACE];
 	public static var ui_back:Array<Int>	= [FlxKey.ESCAPE, FlxKey.BACKSPACE];
 
-	public inline static function loadControls(map:Map<String, Dynamic>){
+	public static function loadControls(map:Map<String, Dynamic>){
 		var bindsItems:Array<String> = Type.getClassFields(Binds);
 
 		for(key in map.keys())

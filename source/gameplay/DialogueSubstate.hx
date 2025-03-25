@@ -122,25 +122,23 @@ class DialogueSubstate extends EventSubstate {
 		if(!ev.keyCode.check(Binds.ui_accept) || leaving || currentSlide < 0)
 			return;
 
-		if(++currentSlide == totalSlides.length){
-			leaving = true;
-			
-			for(i in 0...characterSprites.length)
-				FlxTween.tween(characterSprites[i], {alpha: 0}, 0.45);
-	
-			FlxTween.tween( dialogueBGSprite, {alpha: 0}, 0.45);
-			FlxTween.tween( dialogueText, {alpha: 0}, 0.45);
-			FlxTween.tween( graySprite, {alpha: 0}, 0.46, {onComplete: function(t:FlxTween){
-				close();
-
-				playState.paused = false;
-				playState.startCountdown();
-			}});	
-		
+		if(++currentSlide < totalSlides.length){
+			changeSlide(currentSlide, true);
 			return;
 		}
+
+		leaving = true;
 		
-		// The ++currentSlide in the prior if statement will increase the value by 1
-		changeSlide(currentSlide, true);
+		for(i in 0...characterSprites.length)
+			FlxTween.tween(characterSprites[i], {alpha: 0}, 0.45);
+
+		FlxTween.tween( dialogueBGSprite, {alpha: 0}, 0.45);
+		FlxTween.tween( dialogueText, {alpha: 0}, 0.45);
+		FlxTween.tween( graySprite, {alpha: 0}, 0.46, {onComplete: function(t:FlxTween){
+			close();
+
+			playState.persistentUpdate = true;
+			playState.startCountdown();
+		}});	
 	}	
 }

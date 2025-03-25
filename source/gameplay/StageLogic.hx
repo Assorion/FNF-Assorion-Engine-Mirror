@@ -7,8 +7,8 @@ import states.PlayState;
 import EventState;
 
 class StageLogic {
-	public static var STAGE_NAME_LIST:Array<String> = ['demo-stage'];
-	private var STAGE_CLASS_LIST:Array<Dynamic> = [DemoStage];
+	public static final STAGE_NAME_LIST:Array<String> = ['demo-stage'];
+	private final STAGE_CLASS_LIST:Array<Dynamic> = [DemoStage];
 
 	public var playStateRef:PlayState;
 	public var currentStage:Dynamic;

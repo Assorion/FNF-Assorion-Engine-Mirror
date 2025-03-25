@@ -8,9 +8,9 @@ using StringTools;
 
 #if !debug @:noDebug #end
 class Paths {
-	public static inline var SOUND_FORMAT:String = #if desktop 'ogg' #else 'mp3' #end;
-	public static inline var MENU_MUSIC:String = 'ui/freakyMenu';
-	public static inline var MENU_TEMPO:Int = 102;
+	public static inline final SOUND_FORMAT:String = #if desktop 'ogg' #else 'mp3' #end;
+	public static inline final MENU_MUSIC:String = 'ui/freakyMenu';
+	public static inline final MENU_TEMPO:Int = 102;
 
 	private static var cachedLines:Map<String, Array<String>>		 = new Map<String, Array<String>>();
 	private static var cachedFrames:Map<String, FlxFramesCollection> = new Map<String, FlxFramesCollection>();

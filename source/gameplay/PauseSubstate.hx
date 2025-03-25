@@ -14,7 +14,6 @@ import states.PlayState;
 
 #if !debug @:noDebug #end
 class PauseSubstate extends EventSubstate {
-	public static inline final BOTPLAY_TEXT:String = 'BOTPLAY'; 
 	private final OPTION_LIST:Array<String> = ['Resume Game', 'Restart Song', 'Toggle Botplay', 'Exit To Menu'];
 	
 	public var curSelected:Int = 0;
@@ -148,7 +147,6 @@ class PauseSubstate extends EventSubstate {
 					FlxG.resetState();
 				case 2:
 					Settings.botplay = !Settings.botplay;
-					playState.scoreTxt.text = BOTPLAY_TEXT;
 					playState.updateHealth(0);
 
 					updatePauseText();

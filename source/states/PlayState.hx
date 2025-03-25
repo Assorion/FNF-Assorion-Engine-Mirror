@@ -143,7 +143,7 @@ class PlayState extends EventState {
 		healthBar.scrollFactor.set();
 		healthBar.createFilledBar(healthColours[0], healthColours[1]);
 
-		scoreTxt = new FormattedText(0, baseY + 40, 0, PauseSubstate.BOTPLAY_TEXT, null, 16, 0xFFFFFFFF, CENTER, OUTLINE);
+		scoreTxt = new FormattedText(0, baseY + 40, 0, '', null, 16, 0xFFFFFFFF, CENTER, OUTLINE);
 		scoreTxt.scrollFactor.set();
 		scoreTxt.screenCenter(X);
 
@@ -403,12 +403,9 @@ class PlayState extends EventState {
 
 	private var iconSpacing:Int = 52;
 	public function updateHealth(change:Int) {
-		if(!Settings.botplay) {
-			var fcText:String = ['?', 'SFC', 'GFC', 'FC', '(Bad) FC', 'SDCB', 'Clear'][fcValue];
-			var accuracyCount:Float = CoolUtil.boundTo(Math.floor((songScore * 100) / ((hitCount + missCount) * 3.5)) * 0.01, 0, 100);
-
-			scoreTxt.text = 'Notes Hit: $hitCount | Notes Missed: $missCount | Accuracy: $accuracyCount% - $fcText | Score: $songScore';
-		}
+		var fcText:String = ['?', 'SFC', 'GFC', 'FC', '(Bad) FC', 'SDCB', 'Clear'][fcValue];
+		var accuracy:Float = CoolUtil.boundTo(Math.floor((songScore * 100) / ((hitCount + missCount) * 3.5)) * 0.01, 0, 100);
+		scoreTxt.text = !Settings.botplay ? 'Notes Hit: $hitCount | Notes Missed: $missCount | Accuracy: $accuracy% - $fcText | Score: $songScore' : 'BOTPLAY';
 		scoreTxt.screenCenter(X);
 		
 		health = CoolUtil.intBoundTo(health + change, 0, 100);

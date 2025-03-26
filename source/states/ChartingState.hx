@@ -44,6 +44,7 @@ class ChartingState extends EventState {
 
 	public var noteList:Array<Array<Array<Note>>> = [];
 	public var selectedNotes:Array<Array<Note>> = [];
+	public var curNoteType:Int = 0;
 	public var songData:SongData;
 	public var gridSize:Int = 40;
 
@@ -58,6 +59,18 @@ class ChartingState extends EventState {
 	var curSection:Int = -1;
 	var selCelX:Int = 0;
 	var selCelY:Float = 0;
+
+	public function generateNote(strumTime:Float, noteData:Int, sustainNote:Bool, player:Int):Note {
+		var newNote = new Note(strumTime, noteData, curNoteType, sustainNote, false);
+		newNote.player = player;
+		newNote.setGraphicSize(sustainNote ? 15 : gridSize, gridSize);
+		newNote.updateHitbox();
+		newNote.x = (noteData + (player * PlayState.KEY_COUNT)) * gridSize;
+		newNote.x += sustainNote ? (gridSize - 15) * 0.5 : 0;
+		newNote.y = (strumTime % 16) * gridSize;
+
+		return newNote;
+	}
 
 	override function create(){
 		super.create();
@@ -93,25 +106,12 @@ class ChartingState extends EventState {
 				var player	 :Int = CoolUtil.intBoundTo(Std.int(fNote[3]), 0, songData.playLength - 1);
 				var ntype	 :Int = Std.int(fNote[4]);
 
-				var newNote = new Note(fNote[0], noteData, ntype, false, false);
-				newNote.x = (noteData + (player * PlayState.KEY_COUNT)) * gridSize;
-				newNote.y = (fNote[0] % 16) * gridSize;
-				newNote.player = player;
-				newNote.setGraphicSize(gridSize, gridSize);
-				newNote.updateHitbox();
-				noteChain.push(newNote);
+				curNoteType = ntype;
+				noteChain.push(generateNote(fNote[0], noteData, false, player));
 
 				if(susLength > 1)
-					for(i in 1...susLength+1){
-						var susNote = new Note(fNote[0] + i, noteData, ntype, true, false);
-						susNote.player = player;
-						susNote.setGraphicSize(15, gridSize);
-						susNote.updateHitbox();
-						susNote.x = (noteData + (player * PlayState.KEY_COUNT)) * gridSize;
-						susNote.x += (gridSize - 15) * 0.5;
-						susNote.y = ((fNote[0] % 16) + i) * gridSize;
-						noteChain.push(susNote);
-					}
+					for(i in 1...susLength+1)
+						noteChain.push(generateNote(fNote[0] + i, noteData, true, player));
 
 				noteList[section].push(noteChain);
 			}
@@ -200,6 +200,25 @@ class ChartingState extends EventState {
 				n.color = NOTE_SELECT_COLOUR;
 	}
 
+	public function changeSelectedNoteTypes(adder:Int){
+		curNoteType = CoolUtil.intBoundTo(curNoteType + adder, 0, Note.NOTE_TYPES.length - 1);
+
+		for(n in selectedNotes){
+			var newNoteChain:Array<Note> = [generateNote(n[0].strumTime, n[0].noteData, false, n[0].player)];
+
+			for(i in 1...n.length)
+				newNoteChain.push(generateNote(n[0].strumTime + i, n[0].noteData, true, n[0].player));
+			
+			for(i in 0...n.length){
+				gridGroup.remove(n[i]);
+				gridGroup.add(newNoteChain[i]);
+				n[i] = newNoteChain[i];
+			}
+
+			selectNote(n);
+		}
+	}
+
 	public function stepHit() 
 	if(FlxG.sound.music.playing)
 		stepTime = (Song.millisecond * Song.division * 0.25) + (stepTime * 0.75);
@@ -214,7 +233,6 @@ class ChartingState extends EventState {
 	public function mouseMove(ev:MouseEvent){
 		selCelX = CoolUtil.intBoundTo(Math.floor((FlxG.mouse.x - gridGroup.x) / gridSize), 0, (songData.playLength * PlayState.KEY_COUNT) - 1);
 		selCelY = CoolUtil.boundTo(Math.floor((FlxG.mouse.y - gridGroup.y) / gridSize), 0, 15);
-
 		highlightBox.x = (selCelX * gridSize) + gridGroup.x;
 		highlightBox.y = (selCelY * gridSize) + gridGroup.y;
 	}
@@ -231,12 +249,7 @@ class ChartingState extends EventState {
 			return;
 		}
 
-		var newNote = new Note(selCelY + (curSection * 16), selCelX % PlayState.KEY_COUNT, 0, false, false);
-		newNote.player = Math.floor(selCelX / PlayState.KEY_COUNT);
-		newNote.x = (newNote.noteData + (newNote.player * PlayState.KEY_COUNT)) * gridSize;
-		newNote.y = (newNote.strumTime % 16) * gridSize;
-		newNote.setGraphicSize(gridSize, gridSize);
-		newNote.updateHitbox();
+		var newNote = generateNote(selCelY + (curSection * 16), selCelX % PlayState.KEY_COUNT, false, Math.floor(selCelX / PlayState.KEY_COUNT));
 
 		noteList[curSection].push([newNote]);
 		selectNote([newNote]);
@@ -250,13 +263,7 @@ class ChartingState extends EventState {
 			ev.keyCode.bindFunctions([
 				[Binds.ui_down, function(){
 					for(n in selectedNotes){
-						var newSusNote = new Note(n[0].strumTime + n.length, n[0].noteData, 0, true, false);
-						newSusNote.setGraphicSize(15, gridSize);
-						newSusNote.updateHitbox();
-						newSusNote.player = n[0].player;
-						newSusNote.x = (newSusNote.noteData + (newSusNote.player * PlayState.KEY_COUNT)) * gridSize;
-						newSusNote.x += (gridSize - 15) * 0.5;
-						newSusNote.y = (newSusNote.strumTime % 16) * gridSize;
+						var newSusNote = generateNote(n[0].strumTime + n.length, n[0].noteData, true, n[0].player);
 						newSusNote.color = NOTE_SELECT_COLOUR;
 
 						n.push(newSusNote);
@@ -264,17 +271,20 @@ class ChartingState extends EventState {
 					}
 				}],
 				[Binds.ui_up, function(){
-					for(n in selectedNotes){
-						if(n.length <= 1)
-							continue;
-
-						gridGroup.remove(n.pop());
-					}
+					for(n in selectedNotes)
+						if(n.length > 1)
+							gridGroup.remove(n.pop());
 				}],
 				[Binds.ui_back, function(){
 					stepTime = 0;
 					FlxG.sound.music.time = 0;
-				}]
+				}],
+				[Binds.ui_left, function(){
+					changeSelectedNoteTypes(-1);
+				}],
+				[Binds.ui_right, function(){
+					changeSelectedNoteTypes(1);
+				}],
 			]);
 
 			return;

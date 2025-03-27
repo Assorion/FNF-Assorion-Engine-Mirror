@@ -368,16 +368,16 @@ class PlayState extends EventState {
 	override function keyHit(ev:KeyboardEvent) 
 	if(persistentUpdate) {
 		// Assorions input system
-		var nkey = ev.keyCode.deepCheck(BIND_ARRAY);
-		if(nkey != -1 && !keysPressed[nkey] && !Settings.botplay){
-			var strumRef = playerStrums[nkey];
-			keysPressed[nkey] = true;
+		var strumIndex = ev.keyCode.deepCheck(BIND_ARRAY);
+		if(strumIndex != -1 && !keysPressed[strumIndex] && !Settings.botplay){
+			var strumRef = playerStrums[strumIndex];
+			keysPressed[strumIndex] = true;
 			
-			if(hittableNotes[nkey] != null) {
-				hitNote(hittableNotes[nkey]);
+			if(hittableNotes[strumIndex] != null) {
+				hitNote(hittableNotes[strumIndex]);
 			} else if(strumRef.pressTime <= 0) {
 				if(!Settings.ghost_tapping)
-					missNote(nkey);
+					missNote(strumIndex);
 
 				strumRef.playAnim('press');
 			} 
@@ -393,11 +393,11 @@ class PlayState extends EventState {
 	}
 
 	override public function keyRel(ev:KeyboardEvent) {
-		var nkey = ev.keyCode.deepCheck(BIND_ARRAY);
+		var strumIndex = ev.keyCode.deepCheck(BIND_ARRAY);
 
-		if(nkey != -1){
-			keysPressed[nkey] = false;
-			playerStrums[nkey].playAnim('static');
+		if(strumIndex != -1){
+			keysPressed[strumIndex] = false;
+			playerStrums[strumIndex].playAnim('static');
 		}
 	}
 

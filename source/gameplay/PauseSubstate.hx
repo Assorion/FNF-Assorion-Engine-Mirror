@@ -87,6 +87,7 @@ class PauseSubstate extends EventSubstate {
 	private var leaving:Bool = false;
 	private function leave(){
 		leaving = true;
+
 		for(i in 0...activeTweens.length)
 			if (activeTweens[i] != null)
 				activeTweens[i].cancel();

@@ -67,10 +67,10 @@ class ComboDisplay extends FlxSpriteGroup {
 		ratingSprite.x += offsetX;
 		ratingSprite.y += offsetY;
 
-		var comsplit:Array<String> = Std.string(combo).split('');
+		var scoreCharacters:Array<String> = Std.string(combo).split('');
 		for(i in 0...3){
 			var sRef = comboNumbers[i];
-			sRef.animation.play((3 - comsplit.length <= i) ? comsplit[i + (comsplit.length - 3)] : '0');
+			sRef.animation.play((3 - scoreCharacters.length <= i) ? scoreCharacters[i + (scoreCharacters.length - 3)] : '0');
 			sRef.screenCenter(Y);
 			sRef.y += 120 + offsetY;
 

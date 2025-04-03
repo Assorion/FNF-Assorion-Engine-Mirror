@@ -90,7 +90,7 @@ class AlphaCharacter extends FlxSprite {
 		for(i in 0...replacementArray[0].length)
 			if(letter == replacementArray[0][i]){
 				letter = replacementArray[1][i];
-				y	  += replacementArray[2][i];
+				y     += replacementArray[2][i];
 				break;
 			}
 

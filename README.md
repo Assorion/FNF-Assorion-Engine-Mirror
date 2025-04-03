@@ -55,7 +55,7 @@ Assorion Engine is simple and straight forward, without having to modify the sou
 
 **5. More portable:**  
 With less dependencies comes less problems when porting. Assorion has been compiled for Windows and Linux (32bit and 64bit),
-MacOS High Sierra, <a href="https://codeberg.org/Assorion/FNF-Assorion-XP-Compatible">Windows 2000</a>, and even NetBSD.
+MacOS, <a href="https://codeberg.org/Assorion/FNF-Assorion-XP-Compatible">Windows 2000</a>, NetBSD, and even Haiku.
 
 # 🗒️ | Important Notes
 

@@ -12,7 +12,7 @@ import backend.Song;
 import gameplay.Note;
 
 class ChartGrid extends StaticSprite {
-    public final gridColours:Array<Array<Array<Int>>> = [
+    public final GRID_COLOURS:Array<Array<Array<Int>>> = [
         [[255, 200, 200], [255, 215, 215]], // Red
         [[200, 200, 255], [215, 215, 255]], // Blue
         [[240, 240, 200], [240, 240, 215]], // Yellow / White
@@ -25,9 +25,9 @@ class ChartGrid extends StaticSprite {
 
 		for(i in 0...columns)
 			for(j in 0...rows){
-				var grCol = CoolUtil.cfArray(gridColours[j % division][(i + colOffset) % 2]);
+				var grCol = GRID_COLOURS[j % division][(i + colOffset) % 2];
 
-				emptySprite.fillRect(new Rectangle(i * cWidth, j * cHeight, cWidth, cHeight), grCol);
+				emptySprite.fillRect(new Rectangle(i * cWidth, j * cHeight, cWidth, cHeight), FlxColor.fromRGB(grCol[0], grCol[1], grCol[2]));
 				colOffset++;
 			}
 
@@ -54,20 +54,21 @@ class ChartingState extends EventState {
 	private var noteLine:StaticSprite;
 	private var grid:StaticSprite;
 	private var highlightBox:StaticSprite;
+	private var selectBox:StaticSprite;
 
 	var stepTime:Float = 0;
 	var curSection:Int = -1;
 	var selCelX:Int = 0;
 	var selCelY:Float = 0;
 
-	public function generateNote(strumTime:Float, noteData:Int, sustainNote:Bool, player:Int):Note {
+	public function generateNote(strumTime:Float, noteData:Int, sustainNote:Bool, player:Int, section:Int):Note {
 		var newNote = new Note(strumTime, noteData, curNoteType, sustainNote, false);
 		newNote.player = player;
 		newNote.setGraphicSize(sustainNote ? 15 : gridSize, gridSize);
 		newNote.updateHitbox();
 		newNote.x = (noteData + (player * PlayState.KEY_COUNT)) * gridSize;
 		newNote.x += sustainNote ? (gridSize - 15) * 0.5 : 0;
-		newNote.y = (strumTime % 16) * gridSize;
+		newNote.y = (strumTime - (section * 16)) * gridSize;
 
 		return newNote;
 	}
@@ -92,6 +93,7 @@ class ChartingState extends EventState {
 
 		FlxG.stage.addEventListener(MouseEvent.MOUSE_MOVE, mouseMove);
 		FlxG.stage.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
+		FlxG.stage.addEventListener(MouseEvent.MOUSE_UP,   mouseUp);
 		FlxG.stage.addEventListener(MouseEvent.MOUSE_WHEEL, mouseScroll);
 		FlxG.stage.addEventListener(MouseEvent.RIGHT_CLICK, mouseRightClick);
 
@@ -107,11 +109,11 @@ class ChartingState extends EventState {
 				var ntype	 :Int = Std.int(fNote[4]);
 
 				curNoteType = ntype;
-				noteChain.push(generateNote(fNote[0], noteData, false, player));
+				noteChain.push(generateNote(fNote[0], noteData, false, player, section));
 
 				if(susLength > 1)
 					for(i in 1...susLength+1)
-						noteChain.push(generateNote(fNote[0] + i, noteData, true, player));
+						noteChain.push(generateNote(fNote[0] + i, noteData, true, player, section));
 
 				noteList[section].push(noteChain);
 			}
@@ -135,6 +137,11 @@ class ChartingState extends EventState {
 		highlightBox = new StaticSprite(0, 0).makeGraphic(gridSize, gridSize, 0xFFFFFFFF);
 		highlightBox.alpha = 0.75;
 
+		selectBox = new StaticSprite(0, 0).makeGraphic(1, 1, NOTE_SELECT_COLOUR);
+		selectBox.alpha = 0;
+		selectBox.origin.set(0, 0);
+		add(selectBox);
+
 		gridGroup.add(grid);
 		gridGroup.add(noteLine);
 		gridGroup.add(highlightBox);
@@ -143,8 +150,9 @@ class ChartingState extends EventState {
 	override function destroy(){
 		super.destroy();
 
-		FlxG.stage.removeEventListener(MouseEvent.MOUSE_MOVE, mouseMove);
-		FlxG.stage.removeEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
+		FlxG.stage.removeEventListener(MouseEvent.MOUSE_MOVE,  mouseMove);
+		FlxG.stage.removeEventListener(MouseEvent.MOUSE_DOWN,  mouseDown);
+		FlxG.stage.removeEventListener(MouseEvent.MOUSE_UP,    mouseUp);
 		FlxG.stage.removeEventListener(MouseEvent.MOUSE_WHEEL, mouseScroll);
 		FlxG.stage.removeEventListener(MouseEvent.RIGHT_CLICK, mouseRightClick);
 	}
@@ -179,21 +187,13 @@ class ChartingState extends EventState {
 				gridGroup.add(noteList[curSection][i][j]);
 	}
 
+	// You have to be EXTREMELY careful and make sure that you call this function with a reference within noteList.
 	public function selectNote(newNoteChain:Array<Note>){
 		for(oldSel in selectedNotes)
 			for(n in oldSel)
 				n.color = 0xFFFFFFFF;
 
-		// We have to do all this madness to force Haxe into passing a reference to the note list.
-		var noteListIndex:Int = 0;
-
-		for(i in 0...noteList[curSection].length)
-			if(noteList[curSection][i][0] == newNoteChain[0]){
-				noteListIndex = i;
-				break;
-			}
-
-		selectedNotes = [noteList[curSection][noteListIndex]];
+		selectedNotes = [newNoteChain];
 
 		for(newSel in selectedNotes)
 			for(n in newSel)
@@ -204,18 +204,17 @@ class ChartingState extends EventState {
 		curNoteType = CoolUtil.intBoundTo(curNoteType + adder, 0, Note.NOTE_TYPES.length - 1);
 
 		for(n in selectedNotes){
-			var newNoteChain:Array<Note> = [generateNote(n[0].strumTime, n[0].noteData, false, n[0].player)];
+			var newNoteChain:Array<Note> = [generateNote(n[0].strumTime, n[0].noteData, false, n[0].player, Math.floor(n[0].strumTime / 16))];
 
 			for(i in 1...n.length)
-				newNoteChain.push(generateNote(n[0].strumTime + i, n[0].noteData, true, n[0].player));
+				newNoteChain.push(generateNote(n[0].strumTime + i, n[0].noteData, true, n[0].player, Math.floor(n[0].strumTime / 16)));
 			
 			for(i in 0...n.length){
 				gridGroup.remove(n[i]);
 				gridGroup.add(newNoteChain[i]);
 				n[i] = newNoteChain[i];
+				n[i].color = NOTE_SELECT_COLOUR;
 			}
-
-			selectNote(n);
 		}
 	}
 
@@ -223,36 +222,74 @@ class ChartingState extends EventState {
 	if(FlxG.sound.music.playing)
 		stepTime = (Song.millisecond * Song.division * 0.25) + (stepTime * 0.75);
 
-	public function mouseScroll(ev:MouseEvent){
+	public function mouseScroll(ev:MouseEvent) {
 		FlxG.sound.music.pause();
 		FlxG.sound.music.time = Math.max((Song.currentStep - (ev.delta - 1)) * Song.stepCrochet, 0);
 		Song.update(FlxG.sound.music.time);
 		stepTime = Math.max(Song.millisecond * Song.division, 0);
 	}
 	
-	public function mouseMove(ev:MouseEvent){
+	public function mouseUp(ev:MouseEvent) {
+		selectBox.alpha = 0;
+		selectBox.scale.set(0,0);
+	}
+
+	public function mouseMove(ev:MouseEvent) {
 		selCelX = CoolUtil.intBoundTo(Math.floor((FlxG.mouse.x - gridGroup.x) / gridSize), 0, (songData.playLength * PlayState.KEY_COUNT) - 1);
 		selCelY = CoolUtil.boundTo(Math.floor((FlxG.mouse.y - gridGroup.y) / gridSize), 0, 15);
 		highlightBox.x = (selCelX * gridSize) + gridGroup.x;
 		highlightBox.y = (selCelY * gridSize) + gridGroup.y;
+
+		if(!FlxG.mouse.pressed || !FlxG.keys.pressed.CONTROL)
+			return;
+			
+		selectBox.scale.x = FlxG.mouse.x - selectBox.x;
+		selectBox.scale.y = FlxG.mouse.y - selectBox.y;
+		var fakeX = selectBox.x + (selectBox.scale.x < 0 ? selectBox.scale.x : 0);
+		var fakeY = selectBox.y + (selectBox.scale.y < 0 ? selectBox.scale.y : 0);
+		
+		selectNote([]);
+		selectedNotes = [];
+
+		for(i in 0...noteList[curSection].length){
+			var n = noteList[curSection][i][0];
+			if (n.x < fakeX || n.x + gridSize > fakeX + Math.abs(selectBox.scale.x) ||
+				n.y < fakeY || n.y + gridSize > fakeY + Math.abs(selectBox.scale.y))
+				continue;
+
+			selectedNotes.push(noteList[curSection][i]);
+
+			for(selNote in noteList[curSection][i])
+				selNote.color = NOTE_SELECT_COLOUR;
+		}
 	}
 
-	public function mouseDown(ev:MouseEvent){
+	public function mouseDown(ev:MouseEvent) {
 		if(FlxG.keys.pressed.CONTROL){
-			for(note in noteList[curSection])
-				if (selCelX % PlayState.KEY_COUNT == note[0].noteData && Math.abs(selCelY - (note[0].strumTime % 16)) < 0.025 
-					&& Math.floor(selCelX / PlayState.KEY_COUNT) == note[0].player){
-					selectNote(note);
-					return;
-				}
-
+			selectBox.alpha = 0.5;
+			selectBox.x = FlxG.mouse.x;
+			selectBox.y = FlxG.mouse.y;
+			selectBox.scale.set(0,0);
 			return;
 		}
 
-		var newNote = generateNote(selCelY + (curSection * 16), selCelX % PlayState.KEY_COUNT, false, Math.floor(selCelX / PlayState.KEY_COUNT));
+		for(i in 0...noteList[curSection].length){
+			var note = noteList[curSection][i];
+			if (selCelX % PlayState.KEY_COUNT != note[0].noteData || Math.abs(selCelY - (note[0].strumTime % 16)) >= 0.025 ||
+				Math.floor(selCelX / PlayState.KEY_COUNT) != note[0].player)
+				continue;
 
-		noteList[curSection].push([newNote]);
-		selectNote([newNote]);
+			for(n in note)
+				gridGroup.remove(n);
+
+			noteList[curSection].splice(i, 1);
+			return;
+		}
+
+		var newNote = generateNote(selCelY + (curSection * 16), selCelX % PlayState.KEY_COUNT, false, Math.floor(selCelX / PlayState.KEY_COUNT), curSection);
+
+		var newNoteIndex = noteList[curSection].push([newNote]) - 1;
+		selectNote(noteList[curSection][newNoteIndex]);
 		gridGroup.add(newNote);
 	}
 
@@ -263,7 +300,7 @@ class ChartingState extends EventState {
 			ev.keyCode.bindFunctions([
 				[Binds.ui_down, function(){
 					for(n in selectedNotes){
-						var newSusNote = generateNote(n[0].strumTime + n.length, n[0].noteData, true, n[0].player);
+						var newSusNote = generateNote(n[0].strumTime + n.length, n[0].noteData, true, n[0].player, Math.floor(n[0].strumTime / 16));
 						newSusNote.color = NOTE_SELECT_COLOUR;
 
 						n.push(newSusNote);

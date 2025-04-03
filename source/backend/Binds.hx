@@ -6,7 +6,7 @@ import flixel.input.keyboard.FlxKey;
 class Binds {
 	public static var note_left :Array<Int> = [FlxKey.A, FlxKey.LEFT];
 	public static var note_down :Array<Int> = [FlxKey.S, FlxKey.DOWN];
-	public static var note_up	:Array<Int> = [FlxKey.W, FlxKey.UP];
+	public static var note_up   :Array<Int> = [FlxKey.W, FlxKey.UP];
 	public static var note_right:Array<Int> = [FlxKey.D, FlxKey.RIGHT];
 
 	public static var ui_left :Array<Int>	= [FlxKey.A, FlxKey.LEFT];
@@ -22,7 +22,7 @@ class Binds {
 
 		for(key in map.keys())
 			if(bindsItems.contains(key))
-		Reflect.setField(Binds, key, map.get(key));
+				Reflect.setField(Binds, key, map.get(key));
 	}
 
 	// Checks if a key array is currently pressed
@@ -43,12 +43,10 @@ class Binds {
 	}
 	
 	// Assigns a list of functions to a list of keys
-	public static function bindFunctions(key:Int, bindSets:Array<Array<Dynamic>>) {
-		for(bSet in bindSets){
+	public static function bindFunctions(key:Int, bindSets:Array<Array<Dynamic>>) 
+		for(bSet in bindSets)
 			if(bSet.length == 2 && bSet[1] != null && key.check(bSet[0])){
 				bSet[1]();
 				return;
 			}
-		}
-	}
 }

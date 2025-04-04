@@ -60,31 +60,30 @@ class Note extends StaticSprite { // If animated notes are desired, this will ha
 		alpha = 0.6;
 		flipY = Settings.downscroll;
 		offsetX += width / 2;
-		var defaultOffset = (flipY ? -7 : 7) * PlayState.songData.speed;
 
 		animation.play('holdend');
+		animation.remove('scroll');
 
 		var calc:Float = Song.stepCrochet / 100 * ((Song.BPM / 100) * (44 / 140)) * PlayState.songData.speed;
-		scale.y = (scale.y * calc);
 
-		if(Settings.downscroll)
+		if(Settings.downscroll && isEnd)
 			offsetY += height * (calc * 0.5);
 
+		scale.y = (scale.y * calc);
 		updateHitbox();
 		offsetX -= width / 2;
-		offsetY += defaultOffset;
-		animation.remove('scroll');
+		offsetY += (flipY ? -7 : 7) * PlayState.songData.speed;
 
 		if(!isEnd) {
 			animation.play('hold');
 			scale.y = scale.y * (140 / 44);
-			offsetY = defaultOffset;
 			updateHitbox();
 		}
 	}
 
 	public function typeAction(action:Int) {
 		var curAct:Void->Void = [curType.onHit, curType.onMiss][action];
+
 		if(curAct != null)
 			curAct();
 	}

@@ -129,7 +129,7 @@ class ChartingState extends EventState {
 		add(bg);
 
 		gridGroup = new FlxSpriteGroup(10, 100);
-		gridGroup.y = 65;
+		gridGroup.y = 70;
 		add(gridGroup);
 
 		grid = new ChartGrid(40, 40, PlayState.KEY_COUNT * songData.playLength, 16, 4);
@@ -200,9 +200,7 @@ class ChartingState extends EventState {
 				n.color = NOTE_SELECT_COLOUR;
 	}
 
-	public function changeSelectedNoteTypes(adder:Int){
-		curNoteType = CoolUtil.intBoundTo(curNoteType + adder, 0, Note.NOTE_TYPES.length - 1);
-
+	public function regenerateSelection(){
 		for(n in selectedNotes){
 			var newNoteChain:Array<Note> = [generateNote(n[0].strumTime, n[0].noteData, false, n[0].player, Math.floor(n[0].strumTime / 16))];
 
@@ -210,8 +208,10 @@ class ChartingState extends EventState {
 				newNoteChain.push(generateNote(n[0].strumTime + i, n[0].noteData, true, n[0].player, Math.floor(n[0].strumTime / 16)));
 			
 			for(i in 0...n.length){
+				if(Math.floor(newNoteChain[0].strumTime / 16) == curSection)
+					gridGroup.add(newNoteChain[i]);
+
 				gridGroup.remove(n[i]);
-				gridGroup.add(newNoteChain[i]);
 				n[i] = newNoteChain[i];
 				n[i].color = NOTE_SELECT_COLOUR;
 			}
@@ -275,6 +275,7 @@ class ChartingState extends EventState {
 
 		for(i in 0...noteList[curSection].length){
 			var note = noteList[curSection][i];
+
 			if (selCelX % PlayState.KEY_COUNT != note[0].noteData || Math.abs(selCelY - (note[0].strumTime % 16)) >= 0.025 ||
 				Math.floor(selCelX / PlayState.KEY_COUNT) != note[0].player)
 				continue;
@@ -303,8 +304,10 @@ class ChartingState extends EventState {
 						var newSusNote = generateNote(n[0].strumTime + n.length, n[0].noteData, true, n[0].player, Math.floor(n[0].strumTime / 16));
 						newSusNote.color = NOTE_SELECT_COLOUR;
 
+						if(Math.floor(n[0].strumTime / 16) == curSection)
+							gridGroup.add(newSusNote);
+						
 						n.push(newSusNote);
-						gridGroup.add(newSusNote);
 					}
 				}],
 				[Binds.ui_up, function(){
@@ -317,11 +320,54 @@ class ChartingState extends EventState {
 					FlxG.sound.music.time = 0;
 				}],
 				[Binds.ui_left, function(){
-					changeSelectedNoteTypes(-1);
+					curNoteType = CoolUtil.intBoundTo(curNoteType + 1, 0, Note.NOTE_TYPES.length - 1);
+					regenerateSelection();
 				}],
 				[Binds.ui_right, function(){
-					changeSelectedNoteTypes(1);
+					curNoteType = CoolUtil.intBoundTo(curNoteType - 1, 0, Note.NOTE_TYPES.length - 1);
+					regenerateSelection();
 				}],
+			]);
+
+			return;
+		}
+
+		if(FlxG.keys.pressed.CONTROL){
+			ev.keyCode.bindFunctions([
+				[Binds.ui_left, function(){
+					for(n in selectedNotes){
+						n[0].noteData = (n[0].noteData - 1) + (n[0].player * PlayState.KEY_COUNT);
+						n[0].player = CoolUtil.intCircularModulo(Math.floor(n[0].noteData / PlayState.KEY_COUNT), songData.playLength);
+						n[0].noteData = CoolUtil.intCircularModulo(n[0].noteData, PlayState.KEY_COUNT);
+					}
+					
+					regenerateSelection();
+				}],
+				[Binds.ui_right, function(){
+					for(n in selectedNotes){
+						n[0].noteData = (n[0].noteData + 1) + (n[0].player * PlayState.KEY_COUNT);
+						n[0].player = CoolUtil.intCircularModulo(Math.floor(n[0].noteData / PlayState.KEY_COUNT), songData.playLength);
+						n[0].noteData = CoolUtil.intCircularModulo(n[0].noteData, PlayState.KEY_COUNT);
+					}
+					
+					regenerateSelection();
+				}],
+				[Binds.ui_up, function(){
+					for(n in selectedNotes){
+						var sectionOrigin:Int = Math.floor(n[0].strumTime / 16) << 4;
+						n[0].strumTime = CoolUtil.circularModulo(n[0].strumTime - 1, 16) + sectionOrigin;
+					}
+
+					regenerateSelection();
+				}],
+				[Binds.ui_down, function(){
+					for(n in selectedNotes){
+						var sectionOrigin:Int = Math.floor(n[0].strumTime / 16) << 4;
+						n[0].strumTime = CoolUtil.circularModulo(n[0].strumTime + 1, 16) + sectionOrigin;
+					}
+
+					regenerateSelection();
+				}]
 			]);
 
 			return;

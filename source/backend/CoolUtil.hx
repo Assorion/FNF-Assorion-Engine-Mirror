@@ -15,6 +15,13 @@ class CoolUtil {
 	
 	public static function randomRange(min:Int, max:Int):Int
 		return min + Math.round(Math.random() * (max - min));
+
+	public static function circularModulo(value:Float, modBy:Float):Float
+		return (value + modBy) % modBy;
+
+	public static function intCircularModulo(value:Int, modBy:Int):Int
+		return (value + modBy) % modBy;
+
 	
 	// Cross Platform method for returning the exact time in ticks
 	public static function getCurrentTime()

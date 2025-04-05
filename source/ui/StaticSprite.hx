@@ -13,13 +13,11 @@ class StaticSprite extends FlxSprite {
     
     override public function loadGraphic(graphic:FlxGraphicAsset, animated = false, frameWidth = 0, 
 										 frameHeight = 0, unique = false, ?key:String):StaticSprite {
-
         super.loadGraphic(graphic, animated, frameWidth, frameHeight, unique, key);
         return this;
     }
     override public function makeGraphic(Width:Int, Height:Int, Color:Int = 0xFFFFFFFF, 
 										 Unique:Bool = false, ?Key:String):StaticSprite {
-
         super.makeGraphic(Width, Height, Color, Unique, Key);
         return this;
     }

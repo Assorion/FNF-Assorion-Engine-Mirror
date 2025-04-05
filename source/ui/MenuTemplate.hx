@@ -27,7 +27,7 @@ class MenuTemplate extends EventState {
 	public static inline var X_SPACING:Int = 20;
 	public static inline var Y_OFFSET:Int  = 110; // 345
 	public static inline var Y_SPACING:Int = 110; // 156
-	public static inline var DESELECTED_ALPHA:Float = 0.35;
+	public static inline var DESELECTED_ALPHA:Float = 0.375;
 
 	public var curSel:Int  = 0;
 	public var curAlt:Int  = 0;

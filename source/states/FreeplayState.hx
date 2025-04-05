@@ -61,8 +61,7 @@ class FreeplayState extends MenuTemplate {
 	}
 
 	override function altChange(change:Int = 0){
-		curDifficulty += change + Song.DIFFICULTIES.length;
-		curDifficulty %= Song.DIFFICULTIES.length;
+		curDifficulty = CoolUtil.intCircularModulo(curDifficulty + change, Song.DIFFICULTIES.length);
 
 		diffText.text = '< ${Song.DIFFICULTIES[curDifficulty].toUpperCase()} >';
 		scoreText.text = 'PERSONAL BEST: ${HighScore.getScore(songList[curSel].name, curDifficulty)}';

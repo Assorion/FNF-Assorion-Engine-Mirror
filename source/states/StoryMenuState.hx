@@ -122,7 +122,7 @@ class StoryMenuState extends MenuTemplate {
 			arrow.scale.set(0.9, 0.9);
 		}
 
-		curDif = ((curDif + to) + Song.DIFFICULTIES.length) % Song.DIFFICULTIES.length;
+		curDif = CoolUtil.intCircularModulo(curDif + to, Song.DIFFICULTIES.length);
 
 		diffImage.loadGraphic(Paths.lImage('storyMenu/' + Song.DIFFICULTIES[curDif]));
 		diffImage.centerOrigin();

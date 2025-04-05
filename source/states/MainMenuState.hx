@@ -154,7 +154,7 @@ class MainMenuState extends EventState {
 		FlxG.sound.play(Paths.lSound('ui/scrollMenu'));
 
 		var oldSel = curSelected;
-		curSelected = (curSelected + to + menuItems.length) % menuItems.length;
+		curSelected = CoolUtil.intCircularModulo(curSelected + to, menuItems.length);
 
 		var newItem = menuItems.members[curSelected];
 		var oldItem = menuItems.members[oldSel];

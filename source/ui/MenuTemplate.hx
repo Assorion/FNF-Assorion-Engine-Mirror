@@ -156,8 +156,7 @@ class MenuTemplate extends EventState {
 		FlxG.sound.play(Paths.lSound('ui/scrollMenu'));
 
 		var loopNum = Math.floor(arrGroup.length / columns);
-		curSel += to + loopNum;
-		curSel %= loopNum;
+		curSel = CoolUtil.intCircularModulo(curSel + to, loopNum);
 
 		for(i in 0...loopNum){
 			var item = arrGroup[i * columns];

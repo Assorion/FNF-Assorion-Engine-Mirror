@@ -16,6 +16,7 @@ class CoolUtil {
 	public static function randomRange(min:Int, max:Int):Int
 		return min + Math.round(Math.random() * (max - min));
 
+	// If value exceeds modby, it wraps to 0. If value is less than 0, it wraps to modby.
 	public static function circularModulo(value:Float, modBy:Float):Float
 		return (value + modBy) % modBy;
 

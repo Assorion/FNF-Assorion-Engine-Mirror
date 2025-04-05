@@ -120,7 +120,7 @@ class PauseSubstate extends EventSubstate {
 
 	private function changeSelection(change:Int = 0) {
 		FlxG.sound.play(Paths.lSound('ui/scrollMenu'), 0.4);
-		curSelected = (curSelected + change + OPTION_LIST.length) % OPTION_LIST.length;
+		curSelected = CoolUtil.intCircularModulo(curSelected + change, OPTION_LIST.length);
 
 		for(i in 0...alphaTexts.length){
 			var item = alphaTexts[i];

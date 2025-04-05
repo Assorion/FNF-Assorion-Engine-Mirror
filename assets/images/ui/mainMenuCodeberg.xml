@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="mainMenuCodeberg.xml">
+	<SubTexture name="idle0000" x="0"   y="0" width="437" height="113"/>
+	<SubTexture name="idle0001" x="438" y="0" width="437" height="113" frameX="0" frameY="-1" frameWidth="437" frameHeight="113"/>
+	<SubTexture name="idle0002" x="876" y="0" width="437" height="113" frameX="0" frameY="-1" frameWidth="437" frameHeight="113"/>
+
+	<SubTexture name="selected0000" x="0"    y="114" width="559" height="131"/>
+	<SubTexture name="selected0001" x="560"  y="114" width="557" height="127" frameX="-4" frameY="-2" frameWidth="557" frameHeight="127"/>
+	<SubTexture name="selected0002" x="1118" y="114" width="558" height="129" frameX="-3" frameY="0"  frameWidth="558" frameHeight="129"/>
+</TextureAtlas>

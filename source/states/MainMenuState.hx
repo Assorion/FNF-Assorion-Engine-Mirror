@@ -14,8 +14,7 @@ using StringTools;
 
 #if !debug @:noDebug #end
 class MainMenuState extends EventState {
-	private var OPTION_LIST  :Array<String> = ['story mode',        'freeplay',        'github',           'options'];
-	private var OPTION_ASSETS:Array<String> = ['mainMenuOptions'  , 'mainMenuOptions', 'mainMenuOptions', 'mainMenuOptions'];
+	private final OPTIONS:Array<String> = ['mainMenuStoryMode', 'mainMenuFreeplay', 'mainMenuCodeberg', 'mainMenuOptions'];
 
 	private static var curSelected:Int = 0;
 
@@ -28,7 +27,7 @@ class MainMenuState extends EventState {
 
 		var bg:StaticSprite = new StaticSprite(-80).loadGraphic(Paths.lImage('ui/defaultMenuBackground'));
 		bg.scrollFactor.x = 0;
-		bg.scrollFactor.y = 0.18 * (3 / OPTION_LIST.length);
+		bg.scrollFactor.y = 0.18 * (3 / OPTIONS.length);
 		bg.setGraphicSize(Std.int(bg.width * 1.1));
 		bg.updateHitbox();
 		bg.screenCenter();
@@ -45,17 +44,17 @@ class MainMenuState extends EventState {
 		add(versionNumber);
 		FlxG.camera.follow(camFollow, null, 0.023);
 
-		for (i in 0...OPTION_LIST.length) {
+		for (i in 0...OPTIONS.length) {
 			var menuItem:FlxSprite = new FlxSprite(0, 0);
-			menuItem.frames = Paths.lSparrow('ui/${OPTION_ASSETS[i]}');
+			menuItem.frames = Paths.lSparrow('ui/${OPTIONS[i]}');
 
-			menuItem.animation.addByPrefix('idle',	   OPTION_LIST[i] + " basic", 24);
-			menuItem.animation.addByPrefix('selected', OPTION_LIST[i] + " white", 24);
+			menuItem.animation.addByPrefix('idle',	   'idle', 8);
+			menuItem.animation.addByPrefix('selected', 'selected', 24);
 			menuItem.animation.play('idle');
 
 			menuItem.screenCenter();
 			menuItem.scrollFactor.set();
-			menuItem.y += (i - Math.floor(OPTION_LIST.length / 2) + (OPTION_LIST.length & 0x01 == 0 ? 0.5 : 0)) * 160;
+			menuItem.y += (i - Math.floor(OPTIONS.length / 2) + (OPTIONS.length & 0x01 == 0 ? 0.5 : 0)) * 160;
 
 			menuItems.add(menuItem);
 		}
@@ -85,7 +84,7 @@ class MainMenuState extends EventState {
 			[Binds.ui_accept, function(){ changeState();  }],
 			[Binds.ui_back,   function(){
 				if(itemWasSelected){
-					for(i in 0...OPTION_LIST.length){
+					for(i in 0...OPTIONS.length){
 						if(fadingTweens[i] != null) 
 							fadingTweens[i].cancel();
 
@@ -119,7 +118,7 @@ class MainMenuState extends EventState {
 		FlxG.sound.play(Paths.lSound('ui/confirmMenu'));
 		itemWasSelected = true;
 
-		for(i in 0...OPTION_LIST.length)
+		for(i in 0...OPTIONS.length)
 			if(i != curSelected)
 				fadingTweens.push(FlxTween.tween(menuItems.members[i], {alpha:0}, 0.8));
 

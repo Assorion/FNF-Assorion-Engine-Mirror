@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="mainMenuFreeplay.xml">
+	<SubTexture name="idle0000" x="0"   y="0" width="484" height="122"/>
+	<SubTexture name="idle0001" x="486" y="0" width="484" height="122" frameX="-1" frameY="1" frameWidth="484" frameHeight="122"/>
+	<SubTexture name="idle0002" x="972" y="0" width="485" height="123" frameX="0"  frameY="1" frameWidth="485" frameHeight="123"/>
+
+	<SubTexture name="selected0000" x="0"    y="123" width="627" height="169"/>
+	<SubTexture name="selected0001" x="628"  y="123" width="633" height="171" frameX="-3" frameY="-1" frameWidth="633" frameHeight="171"/>
+	<SubTexture name="selected0002" x="1261" y="123" width="628" height="174" frameX="-4" frameY="-1" frameWidth="628" frameHeight="174"/>
+</TextureAtlas>

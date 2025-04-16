@@ -27,7 +27,7 @@ typedef RatingData = {
 #if !debug @:noDebug #end
 class PlayState extends EventState {
 	public static inline final KEY_COUNT:Int = 4;
-	public static inline final INPUT_RANGE:Float = 1.25; // Input range is measured in steps (1/16th notes)
+	public static inline final INPUT_RANGE:Float = 1.25; // Input range is measured in steps (16th notes)
 	public final  SING_DIRECTIONS:Array<String> = ['LEFT', 'DOWN', 'UP', 'RIGHT'];
 	public final BIND_ARRAY:Array<Array<Int>> = [Binds.note_left, Binds.note_down, Binds.note_up, Binds.note_right];
 	public final POSSIBLE_SCORES:Array<RatingData> = [
@@ -364,22 +364,21 @@ class PlayState extends EventState {
 	}
 
 	public var hittableNotes:Array<Note> = [null, null, null, null];
-	public var keysPressed:Array<Bool>	 = [false, false, false, false];
+	public var keysPressed:Array<Bool>   = [false, false, false, false];
 	override function keyHit(ev:KeyboardEvent) 
 	if(persistentUpdate) {
 		// Assorions input system
 		var strumIndex = ev.keyCode.deepCheck(BIND_ARRAY);
 		if(strumIndex != -1 && !keysPressed[strumIndex] && !Settings.botplay){
-			var strumRef = playerStrums[strumIndex];
 			keysPressed[strumIndex] = true;
 			
 			if(hittableNotes[strumIndex] != null) {
 				hitNote(hittableNotes[strumIndex]);
-			} else if(strumRef.pressTime <= 0) {
+			} else if(playerStrums[strumIndex].pressTime <= 0) {
 				if(!Settings.ghost_tapping)
 					missNote(strumIndex);
 
-				strumRef.playAnim('press');
+				playerStrums[strumIndex].playAnim('press');
 			} 
 
 			return;
@@ -444,10 +443,11 @@ class PlayState extends EventState {
 
 		for(i in 1...POSSIBLE_SCORES.length)
 			if(Math.abs(note.strumTime - stepTime) >= POSSIBLE_SCORES[i].threshold){
-				curValue = i+1;
+				curValue = i + 1;
 				curScore = POSSIBLE_SCORES[i];
-			} else
+			} else {
 				break;
+			}
 
 		++hitCount;
 		songScore += curScore.score;
@@ -513,7 +513,8 @@ class PlayState extends EventState {
 		FlxG.sound.music.pause();
 		vocals.pause();
 
-		openSubState(state);
+		_requestedSubState = state;
+		resetSubState();
 	}
 
 	override function onFocusLost() {
@@ -523,5 +524,5 @@ class PlayState extends EventState {
 		super.onFocusLost();
 	}
 
-	override function onFocus(){}
+	override function onFocus() {}
 }

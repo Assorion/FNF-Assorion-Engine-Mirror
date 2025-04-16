@@ -54,7 +54,7 @@ class MainMenuState extends EventState {
 
 			menuItem.screenCenter();
 			menuItem.scrollFactor.set();
-			menuItem.y += (i - Math.floor(OPTIONS.length / 2) + (OPTIONS.length & 0x01 == 0 ? 0.5 : 0)) * 160;
+			menuItem.y += (i - Math.floor(OPTIONS.length / 2) + (OPTIONS.length & 1 == 0 ? 0.5 : 0)) * 160;
 
 			menuItems.add(menuItem);
 		}
@@ -67,7 +67,6 @@ class MainMenuState extends EventState {
 	}
 
 	// Camera fix across framerates (Not needed for newer flixel versions!)
-
 	#if (flixel < "5.4.0")
 	override function update(elapsed:Float){
 		super.update(elapsed);
@@ -83,28 +82,29 @@ class MainMenuState extends EventState {
 			[Binds.ui_down,   function(){ changeItem(1);  }],
 			[Binds.ui_accept, function(){ changeState();  }],
 			[Binds.ui_back,   function(){
-				if(itemWasSelected){
-					for(i in 0...OPTIONS.length){
-						if(fadingTweens[i] != null) 
-							fadingTweens[i].cancel();
-
-						menuItems.members[i].alpha = 1;
-					}
-	
-					events = [];
-					fadingTweens = [];
-					itemWasSelected = false;
-					return;
-				}
-
 				if(leaving){
 					NewTransition.skip();
 					return;
 				}
 
-				FlxG.sound.play(Paths.lSound('ui/cancelMenu'));
-				EventState.changeState(new TitleState(false));
-				leaving = true;
+				if(!itemWasSelected){
+					leaving = true;
+
+					FlxG.sound.play(Paths.lSound('ui/cancelMenu'));
+					EventState.changeState(new TitleState(false));
+					return;
+				}
+
+				for(i in 0...OPTIONS.length){
+					if(fadingTweens[i] != null) 
+						fadingTweens[i].cancel();
+
+					menuItems.members[i].alpha = 1;
+				}
+
+				events = [];
+				fadingTweens = [];
+				itemWasSelected = false;
 			}]
 		]);
 
@@ -124,28 +124,28 @@ class MainMenuState extends EventState {
 
 		for(i in 0...8)
 			postEvent(i / 8, function(){
-				menuItems.members[curSelected].alpha = (i & 0x01 == 0 ? 0 : 1);
+				menuItems.members[curSelected].alpha = (i & 1 == 0 ? 0 : 1);
 			});
 
-			postEvent(1, function() {
-				switch (curSelected){
-				case 0:
-					EventState.changeState(new StoryMenuState());
-				case 1:
-					EventState.changeState(new FreeplayState());
-				case 2:
-					var site = 'https://codeberg.org/Assorion/FNF-Assorion-Engine';
-					FlxG.resetState();
+		postEvent(1, function() {
+			switch (curSelected){
+			case 0:
+				EventState.changeState(new StoryMenuState());
+			case 1:
+				EventState.changeState(new FreeplayState());
+			case 2:
+				var site = 'https://codeberg.org/Assorion/FNF-Assorion-Engine';
+				FlxG.resetState();
 
-					#if linux
-					Sys.command('xdg-open', [site]);
-					#else
-					FlxG.openURL(site);
-					#end
-				case 3:
-					EventState.changeState(new OptionsState());
-				}
-			});
+				#if linux
+				Sys.command('xdg-open', [site]);
+				#else
+				FlxG.openURL(site);
+				#end
+			case 3:
+				EventState.changeState(new OptionsState());
+			}
+		});
 	}
 
 	private function changeItem(to:Int = 0)

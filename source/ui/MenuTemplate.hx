@@ -175,7 +175,7 @@ class MenuTemplate extends EventState {
 				var offItem = arrGroup[(i * columns) + x];
 
 				offItem.obj.screenCenter(X);
-				offItem.obj.x += (x - Math.floor(sn * 0.5) + (sn & 0x01 == 0 ? 0.5 : 0)) * 323;
+				offItem.obj.x += (x - Math.floor(sn * 0.5) + (sn & 1 == 0 ? 0.5 : 0)) * 323;
 
 				offItem.targetX = Math.round(offItem.obj.x);
 				offItem.targetY = item.targetY;

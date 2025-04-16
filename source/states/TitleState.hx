@@ -135,7 +135,7 @@ class TitleState extends EventState {
 	private function createCoolText(pos:Int, amount:Int, text:String) {
 		var txt:Alphabet = new Alphabet(0,0, text, true);
 		txt.screenCenter();
-		txt.y += (pos - Math.floor(amount / 2) + (amount & 0x01 == 0 ? 0.5 : 0)) * 75;
+		txt.y += (pos - Math.floor(amount / 2) + (amount & 1 == 0 ? 0.5 : 0)) * 75;
 
 		textGroup.add(txt);
 	}
@@ -168,7 +168,7 @@ class TitleState extends EventState {
 			return;
 		}
 
-		if(Song.currentBeat & 0x01 == 0)
+		if(Song.currentBeat & 1 == 0)
 			createCoolText(tsubStep, TEXT_SEQUENCE[textStep].length, TEXT_SEQUENCE[textStep][tsubStep++]);
 	}
 

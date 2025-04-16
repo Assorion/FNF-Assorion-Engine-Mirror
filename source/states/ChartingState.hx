@@ -276,6 +276,7 @@ class ChartingState extends EventState {
 		for(i in 0...noteList[curSection].length){
 			var note = noteList[curSection][i];
 
+			// Will need to be reworked when adding different zoom levels
 			if (selCelX % PlayState.KEY_COUNT != note[0].noteData || Math.abs(selCelY - (note[0].strumTime % 16)) >= 0.025 ||
 				Math.floor(selCelX / PlayState.KEY_COUNT) != note[0].player)
 				continue;

@@ -47,8 +47,9 @@ class EventState extends FlxUIState {
 	}
 
 	override function update(elapsed:Float) {
-		var i = -1;
 		var cTime = CoolUtil.getCurrentTime();
+
+		var i = -1;
 		while(++i < events.length)
 			if(cTime >= events[i].endTime){
 				events[i].exeFunc();

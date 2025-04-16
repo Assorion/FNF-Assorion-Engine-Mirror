@@ -15,8 +15,7 @@ import states.LoadingState;
 #if !debug
 @:noDebug
 #end
-class Main extends Sprite
-{
+class Main extends Sprite {
 	private static var fpsDisplay:FPSCounter;
 	private static var memDisplay:MemCounter;
 
@@ -35,12 +34,12 @@ class Main extends Sprite
 		fpsDisplay = new FPSCounter(10, 3, 0xFFFFFF);
 		memDisplay = new MemCounter(10, 18, 0xFFFFFF);
 
-		var ldState:Class<FlxState> = #if (desktop) Settings.cache_assets ? LoadingState : #end INITIAL_STATE;
+		var initState:Class<FlxState> = Settings.cache_assets ? LoadingState : INITIAL_STATE;
 
 		addChild(new FlxGame(
 			GAME_WIDTH,
 			GAME_HEIGHT, 
-			ldState, 
+			initState, 
 			#if (flixel < "5.0.0") 1, #end 
 			Settings.framerate, 
 			Settings.framerate, 
@@ -57,8 +56,7 @@ class Main extends Sprite
 		Settings.framerate = 60;
 		#end
 		
-		// I have to give credit to Psych Engine here.
-		// Wouldn't have cared enough to fix this on my own.
+		// Icon fix. Credits to Psych Engine.
 		#if linux
 		Lib.current.stage.window.setIcon(lime.graphics.Image.fromFile("icon.png"));
 		#end

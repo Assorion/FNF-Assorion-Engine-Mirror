@@ -62,7 +62,7 @@ class GameOverSubstate extends EventSubstate {
 
 		postEvent(2.5, function() {
 			if(!leaving)
-				FlxG.sound.playMusic(Paths.lMusic('gameOver'));
+				FlxG.sound.playMusic(Paths.lMusic('gameplay/gameOver'));
 		});
 	}
 
@@ -71,7 +71,7 @@ class GameOverSubstate extends EventSubstate {
 		FlxG.camera.followLerp = (1 - Math.pow(0.5, FlxG.elapsed * 2)) * (60 / Settings.framerate);
 		#end
 
-		if(characterRef.animation.curAnim.finished)
+		if(characterRef.animation.curAnim.finished && !leaving)
 			characterRef.playAnim('deathLoop');
 
 		super.update(elapsed);
@@ -88,6 +88,7 @@ class GameOverSubstate extends EventSubstate {
 
 		if(ev.keyCode.check(Binds.ui_back)){
 			leaving = true;
+
 			FlxG.sound.music.stop();
 			playstateRef.exitPlayState();
 			return;
@@ -101,8 +102,8 @@ class GameOverSubstate extends EventSubstate {
 		FlxG.sound.music.stop();
 		FlxG.sound.play(Paths.lSound('gameplay/gameOverEnd'));
 		
-		postEvent(0.7, function(){ FlxG.camera.fade(FlxColor.BLACK, 2, false); });
-		postEvent(2.7, function(){
+		postEvent(0.7, function(){ FlxG.camera.fade(FlxColor.BLACK, 2.2, false); });
+		postEvent(3, function(){
 			FlxG.resetState();
 		});
 	}

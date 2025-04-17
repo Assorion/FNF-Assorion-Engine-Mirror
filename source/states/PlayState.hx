@@ -465,7 +465,7 @@ class PlayState extends EventState {
 		missCount++;
 		fcValue = missCount >= 10 ? 6 : 5;
 
-		FlxG.sound.play(Paths.lSound('gameplay/missNote' + (Math.round(Math.random() * 2) + 1)), 0.2);
+		FlxG.sound.play(Paths.lSound('gameplay/missNote' + CoolUtil.randomRange(1, 3)), 0.2);
 		allCharacters[playerIndex].playAnim('sing' + SING_DIRECTIONS[direction] + 'miss');
 
 		updateHealth(-10);

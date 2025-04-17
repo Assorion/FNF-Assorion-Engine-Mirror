@@ -21,7 +21,7 @@ jobs:
     steps:
     - name: description
       run: |
-        SUMMARY=$'# HTML5 (Website) Builds\n The HTML5 (Website) Builds have not been thoroughly tested and will probably contain issues/bugs\n \n### If any bugs are found, Make an issue report in github\n'
+        SUMMARY=$'# HTML5 (Website) Builds\n The HTML5 (Website) Builds are currently broken as of now. They will be fixed, and tuned when Assorion 1.5.0 releases\n'
         echo "$SUMMARY" >> $GITHUB_STEP_SUMMARY
 
   HTML5-Build:

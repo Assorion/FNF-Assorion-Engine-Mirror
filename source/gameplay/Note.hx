@@ -26,24 +26,24 @@ class Note extends StaticSprite { // If animated notes are desired, this will ha
 	public var offsetY:Float = 0;
 
 	public var curType:NoteType;
-	public var player  :Int = 0;
-	public var noteData:Int = 0;
+	public var player:Int = 0;
+	public var column:Int = 0;
 	public var strumTime:Float = 0;
 	public var isSustainNote:Bool = false;
 
-	public function new(strumTime:Float, ?data:Int = 0, ?type:Int = 0, ?sustainNote:Bool = false, ?isEnd:Bool = false) {
+	public function new(strumTime:Float, ?initColumn:Int = 0, ?type:Int = 0, ?sustainNote:Bool = false, ?isEnd:Bool = false) {
 		super();
 
 		isSustainNote  = sustainNote;
 		this.strumTime = strumTime;
-		this.noteData  = data % PlayState.KEY_COUNT;
+		this.column    = initColumn % PlayState.KEY_COUNT;
 		this.curType   = NOTE_TYPES[type];
 
-		var colour = NOTE_COLOURS[noteData];
+		var colour = NOTE_COLOURS[column];
 		frames = Paths.lSparrow('gameplay/${curType.assets}');
 
 		animation.addByPrefix('scroll' , colour + '0');
-		if(isSustainNote){
+		if (isSustainNote){
 			animation.addByPrefix('holdend', '$colour hold end');
 			animation.addByPrefix('hold'   , '$colour hold piece');
 		} 
@@ -66,7 +66,7 @@ class Note extends StaticSprite { // If animated notes are desired, this will ha
 
 		var calc:Float = Song.stepCrochet / 100 * ((Song.BPM / 100) * (44 / 140)) * PlayState.songData.speed;
 
-		if(Settings.downscroll && isEnd)
+		if (Settings.downscroll && isEnd)
 			offsetY += height * (calc * 0.5);
 
 		scale.y = (scale.y * calc);
@@ -74,7 +74,7 @@ class Note extends StaticSprite { // If animated notes are desired, this will ha
 		offsetX -= width / 2;
 		offsetY += (flipY ? -7 : 7) * PlayState.songData.speed;
 
-		if(!isEnd) {
+		if (!isEnd) {
 			animation.play('hold');
 			scale.y = scale.y * (140 / 44);
 			updateHitbox();
@@ -84,7 +84,7 @@ class Note extends StaticSprite { // If animated notes are desired, this will ha
 	public function typeAction(action:Int) {
 		var curAct:Void->Void = [curType.onHit, curType.onMiss][action];
 
-		if(curAct != null)
+		if (curAct != null)
 			curAct();
 	}
 }

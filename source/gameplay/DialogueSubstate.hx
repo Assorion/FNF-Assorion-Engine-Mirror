@@ -73,7 +73,7 @@ class DialogueSubstate extends EventSubstate {
 
 	public function changeSlide(slideNumber:Int, playSound:Bool){
 		currentSlide = slideNumber;
-		if(playSound)
+		if (playSound)
 			FlxG.sound.play(Paths.lSound('ui/clickText'));
 		
 		while(events.length > 0)
@@ -92,7 +92,7 @@ class DialogueSubstate extends EventSubstate {
 		}
 
 		for(i in 0...charAmount){
-			if(characterSprites[i] == null){
+			if (characterSprites[i] == null){
 				characterSprites[i] = new StaticSprite(0,0);
 				characterSprites[i].scale.set(0.8, 0.8);
 				characterSpriteGroup.add(characterSprites[i]);
@@ -119,10 +119,10 @@ class DialogueSubstate extends EventSubstate {
 	override public function keyHit(ev:KeyboardEvent){
 		super.keyHit(ev);
 
-		if(!ev.keyCode.check(Binds.ui_accept) || leaving || currentSlide < 0)
+		if (!ev.keyCode.check(Binds.ui_accept) || leaving || currentSlide < 0)
 			return;
 
-		if(++currentSlide < totalSlides.length){
+		if (++currentSlide < totalSlides.length){
 			changeSlide(currentSlide, true);
 			return;
 		}

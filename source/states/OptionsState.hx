@@ -72,7 +72,7 @@ class OptionsState extends MenuTemplate
 		for(i in 0...OPTS_AND_DESCRIPTIONS[currentCategory].length) {
 			pushObject(new Alphabet(0, (60 * i), OPTS_AND_DESCRIPTIONS[currentCategory][i][0], true));
 
-			if(!showOptionValues) {
+			if (!showOptionValues) {
 				var categoryIcon:CharacterIcon = new CharacterIcon('settings' + (Math.floor(i / 2) + 1), false);
 				categoryIcon.animation.play(['neutral', 'losing'][i & 1]);
 				pushIcon(categoryIcon);
@@ -83,7 +83,7 @@ class OptionsState extends MenuTemplate
 			var val:Dynamic = Reflect.field(Settings, OPTS_AND_DESCRIPTIONS[currentCategory][i][0]);
 
 			optionStr = Std.string(val);
-			if(Std.is(val, Bool))
+			if (Std.is(val, Bool))
 				optionStr = val ? 'yes' : 'no';
 
 			pushObject(new Alphabet(0, (60 * i), optionStr, true));
@@ -93,7 +93,7 @@ class OptionsState extends MenuTemplate
 	}
 
 	override public function exitFunction(){
-		if(currentCategory > 0){
+		if (currentCategory > 0){
 			currentCategory = 0;
 			curSel = 0;
 			createNewList();
@@ -111,7 +111,7 @@ class OptionsState extends MenuTemplate
 
 	// Add integer options here.
 	override function altChange(ch:Int = 0)
-	if(currentCategory > 0){
+	if (currentCategory > 0){
 		var curOptionText:Alphabet = cast arrGroup[(curSel * 2) + 1].obj;
 
 		switch(OPTS_AND_DESCRIPTIONS[currentCategory][curSel][0]){
@@ -138,7 +138,7 @@ class OptionsState extends MenuTemplate
 	override public function keyHit(ev:KeyboardEvent){
 		super.keyHit(ev);
 
-		if(!ev.keyCode.check(Binds.ui_accept)) 
+		if (!ev.keyCode.check(Binds.ui_accept)) 
 			return;
 
 		switch(OPTS_AND_DESCRIPTIONS[currentCategory][curSel][0]){
@@ -152,7 +152,7 @@ class OptionsState extends MenuTemplate
 			curSel = 0;
 			currentCategory = 3;
 		case 'controls':
-			if(NewTransition.skip()) 
+			if (NewTransition.skip()) 
 				return;
 
 			EventState.changeState(new ControlsState());
@@ -169,7 +169,7 @@ class OptionsState extends MenuTemplate
 
 		// gameplay
 		case 'audio_offset':
-			if(NewTransition.skip()) 
+			if (NewTransition.skip()) 
 				return;
 
 			EventState.changeState(new OffsetWizard());

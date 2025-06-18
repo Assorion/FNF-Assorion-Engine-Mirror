@@ -61,20 +61,20 @@ class Character extends FlxSprite {
 
 		playAnim(leftRightIdle ? 'danceLeft' : 'idle');
 	
-		if(isPlayer) { 
+		if (isPlayer) { 
 			flipX = !flipX;
 			camOffset[0] = -camOffset[0];
 		}
 	}
 
 	public function dance() // 1 << idlingSpeed exponentially increases the beats per idle.
-	if(FlxMath.absInt(Song.currentBeat) & (1 << idlingSpeed) - 1 == 0){
-		if(!idleNextBeat){
+	if (FlxMath.absInt(Song.currentBeat) & (1 << idlingSpeed) - 1 == 0){
+		if (!idleNextBeat){
 			idleNextBeat = true;
 			return;
 		}
 
-		if(!leftRightIdle){
+		if (!leftRightIdle){
 			playAnim('idle', true);
 			return;
 		}

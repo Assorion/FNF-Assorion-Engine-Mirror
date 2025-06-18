@@ -13,7 +13,7 @@ class CharacterIcon extends FlxSprite {
 	public function new(char:String = 'bf', isPlayer:Bool = false, ?bopOnBeat:Bool = false) {
 		super();
 
-		if(bopOnBeat)
+		if (bopOnBeat)
 			Song.beatHooks.push(iconBop);
 
 		active = bopOnBeat;
@@ -24,7 +24,7 @@ class CharacterIcon extends FlxSprite {
 		var path = Paths.lImage('icons/$char');
 		loadGraphic(Paths.lImage('icons/face'), true, 150, 150);
 
-		if(Assets.exists(path))
+		if (Assets.exists(path))
 			loadGraphic(path, true, 150, 150);
 
 		animation.add('neutral', [0], 0, false, isPlayer);

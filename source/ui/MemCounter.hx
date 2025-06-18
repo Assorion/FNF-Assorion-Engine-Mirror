@@ -20,6 +20,6 @@ class MemCounter extends TextField {
 	}
 
 	private override function __enterFrame(deltaTime:Float):Void
-	if(visible)
+	if (visible)
 		text = 'MEM: ${Math.round(System.totalMemory / 1024 / 1024)} (MB)';
 }

@@ -158,7 +158,7 @@ class PlayState extends EventState {
 		// Add to cameras
 		strumLineNotes.cameras = [camHUD];
 		currentNotes.cameras   = [camHUD];
-		if(Settings.show_hud){
+		if (Settings.show_hud){
 			add(healthBarBG);
 			add(healthBar);
 			add(scoreTxt);
@@ -178,11 +178,11 @@ class PlayState extends EventState {
 		Song.beatHooks.push(beatHit);
 		Song.stepHooks.push(stepHit);
 
-		if(storyWeek >= 0 && lastSeenCutscene != storyPlaylist.length){	
+		if (storyWeek >= 0 && lastSeenCutscene != storyPlaylist.length){	
 			var dialoguePath:String = 'assets/data/songs/${songData.name}/dialogue.json';			
 			lastSeenCutscene = storyPlaylist.length;
 
-			if(Assets.exists(dialoguePath)) {
+			if (Assets.exists(dialoguePath)) {
 				persistentUpdate = false;
 				postEvent(0.1, function(){ pauseAndOpenState(new DialogueSubstate(this, camHUD, Assets.getText(dialoguePath))); });
 				return;
@@ -193,22 +193,18 @@ class PlayState extends EventState {
 	}
 
 	private function generateChart() {
-		for(section in songData.notes)
-			for(fNote in section.sectionNotes){
-				var time:Float = fNote[0];
-				var noteData :Int = Std.int(fNote[1]);
-				var susLength:Int = Std.int(fNote[2]);
-				var player	 :Int = CoolUtil.intBoundTo(Std.int(fNote[3]), 0, songData.playLength - 1);
-				var ntype	 :Int = Std.int(fNote[4]);
+		for(chartSection in songData.notes)
+			for(chartNote in section.sectionNotes){
+				var time:Float = chartNote.strumTime + (chartNote.section * 16);
 
-				var newNote = new Note(time, noteData, ntype, false, false);
+				var newNote = new Note(time, chartNote.column, chartNote.type, false, false);
 				newNote.scrollFactor.set();
 				newNote.player = player;
 				chartNotes.push(newNote);
 
-				if(susLength > 1)
+				if (chartNote.length > 1)
 					for(i in 0...susLength+1){
-						var susNote = new Note(time + i + 0.5, noteData, ntype, true, i == susLength);
+						var susNote = new Note(time + i + 0.5, chartNote.column, chartNote.type, true, i == chartNote.length);
 						susNote.scrollFactor.set();
 						susNote.player = player;
 						chartNotes.push(susNote);
@@ -219,11 +215,11 @@ class PlayState extends EventState {
 	}
 
 	private function generateStrumArrows(player:Int)
-		for (i in 0...KEY_COUNT) {
+		for(i in 0...KEY_COUNT) {
 			var babyArrow:StrumNote = new StrumNote(0, Settings.downscroll ? 560 : 40, SING_DIRECTIONS, i, player, songData.activePlayer == player);
 
 			strumLineNotes.add(babyArrow);
-			if(babyArrow.isPlayer) 
+			if (babyArrow.isPlayer) 
 				playerStrums[i] = babyArrow;
 		}
 	
@@ -244,7 +240,7 @@ class PlayState extends EventState {
 			introSounds[i] = snd;
 
 			var spr:StaticSprite = new StaticSprite().loadGraphic(Paths.lImage('gameplay/${introAssets[0][i]}'));
-			if(introAssets[0][i] == '')
+			if (introAssets[0][i] == '')
 				spr.alpha = 0;
 
 			introSprites[i] = spr;
@@ -255,7 +251,7 @@ class PlayState extends EventState {
 		var introBeatCounter:Int = 0;
 		for(i in 0...5)
 			postEvent(((Song.crochet * (i + 1)) + Settings.audio_offset) * 0.001, function(){
-				if(introBeatCounter >= 4){
+				if (introBeatCounter >= 4){
 					FlxG.sound.music.play();
 					FlxG.sound.music.volume = 1;
 					Song.millisecond = -Settings.audio_offset;
@@ -293,7 +289,7 @@ class PlayState extends EventState {
 		#end
 
 		var sec:SectionData = songData.notes[Song.currentBeat >> 2]; // Same result as 'Math.floor(Song.currentBeat / 4)'
-		if(Song.currentBeat & 3 == 0 && FlxG.sound.music.playing){   // Same result as 'Song.currentBeat % 4 == 0'
+		if (Song.currentBeat & 3 == 0 && FlxG.sound.music.playing){   // Same result as 'Song.currentBeat % 4 == 0'
 			var currentlyFacing:Int = (sec != null ? cast(sec.cameraFacing, Int) : 0);
 			var char = allCharacters[CoolUtil.intBoundTo(currentlyFacing, 0, songData.playLength - 1)];
 
@@ -303,7 +299,7 @@ class PlayState extends EventState {
 	}
 
 	public function stepHit() 
-	if(Song.currentStep & 1 == 0 && FlxG.sound.music.playing)
+	if (Song.currentStep & 1 == 0 && FlxG.sound.music.playing)
 		stepTime = (Song.millisecond * Song.division * 0.25) + (stepTime * 0.75);
 
 
@@ -320,24 +316,24 @@ class PlayState extends EventState {
 	}
 
 	private function scrollNotes(daNote:Note) {
-		var strumRef = strumLineNotes.members[daNote.noteData + (KEY_COUNT * daNote.player)];
+		var strumRef = strumLineNotes.members[daNote.column + (KEY_COUNT * daNote.player)];
 		var nDiff:Float = stepTime - daNote.strumTime;
 		daNote.y = (Settings.downscroll ? 45 : -45) * nDiff * songData.speed;
 		daNote.y += strumRef.y  + daNote.offsetY;
 		daNote.visible = daNote.y >= -daNote.height && daNote.y <= FlxG.height;
 
-		if(!daNote.visible) 
+		if (!daNote.visible) 
 			return;
 
 		daNote.x = strumRef.x + daNote.offsetX;
 		daNote.angle = strumRef.angle;
 		
 		// NPC Note Logic
-		if(daNote.player != playerIndex || Settings.botplay){
-			if(stepTime < daNote.strumTime || !daNote.curType.mustHit)
+		if (daNote.player != playerIndex || Settings.botplay){
+			if (stepTime < daNote.strumTime || !daNote.curType.mustHit)
 				return;
 
-			allCharacters[daNote.player].playAnim('sing' + SING_DIRECTIONS[daNote.noteData]);
+			allCharacters[daNote.player].playAnim('sing' + SING_DIRECTIONS[daNote.column]);
 			strumRef.playAnim('glow');
 			strumRef.pressTime = 1.05;
 			vocals.volume = 1;
@@ -348,34 +344,34 @@ class PlayState extends EventState {
 		}
 
 		// Player Note Logic
-		if(nDiff > INPUT_RANGE){
-			if(daNote.curType.mustHit)
-				missNote(daNote.noteData);
+		if (nDiff > INPUT_RANGE){
+			if (daNote.curType.mustHit)
+				missNote(daNote.column);
 
 			destroyNote(daNote, 1);
 			return;
 		}
 
 		// Input range checks
-		if(daNote.isSustainNote && Math.abs(nDiff) < 0.8 && keysPressed[daNote.noteData])
+		if (daNote.isSustainNote && Math.abs(nDiff) < 0.8 && keysPressed[daNote.column])
 			hitNote(daNote);
-		else if(hittableNotes[daNote.noteData] == null && Math.abs(nDiff) <= INPUT_RANGE)
-			hittableNotes[daNote.noteData] = daNote;
+		else if (hittableNotes[daNote.column] == null && Math.abs(nDiff) <= INPUT_RANGE)
+			hittableNotes[daNote.column] = daNote;
 	}
 
 	public var hittableNotes:Array<Note> = [null, null, null, null];
 	public var keysPressed:Array<Bool>   = [false, false, false, false];
 	override function keyHit(ev:KeyboardEvent) 
-	if(persistentUpdate) {
+	if (persistentUpdate) {
 		// Assorions input system
 		var strumIndex = ev.keyCode.deepCheck(BIND_ARRAY);
-		if(strumIndex != -1 && !keysPressed[strumIndex] && !Settings.botplay){
+		if (strumIndex != -1 && !keysPressed[strumIndex] && !Settings.botplay){
 			keysPressed[strumIndex] = true;
 			
-			if(hittableNotes[strumIndex] != null) {
+			if (hittableNotes[strumIndex] != null) {
 				hitNote(hittableNotes[strumIndex]);
-			} else if(playerStrums[strumIndex].pressTime <= 0) {
-				if(!Settings.ghost_tapping)
+			} else if (playerStrums[strumIndex].pressTime <= 0) {
+				if (!Settings.ghost_tapping)
 					missNote(strumIndex);
 
 				playerStrums[strumIndex].playAnim('press');
@@ -394,7 +390,7 @@ class PlayState extends EventState {
 	override public function keyRel(ev:KeyboardEvent) {
 		var strumIndex = ev.keyCode.deepCheck(BIND_ARRAY);
 
-		if(strumIndex != -1){
+		if (strumIndex != -1){
 			keysPressed[strumIndex] = false;
 			playerStrums[strumIndex].playAnim('static');
 		}
@@ -416,24 +412,24 @@ class PlayState extends EventState {
 		iconP1.animation.play(health < 20 ? 'losing' : 'neutral');
 		iconP2.animation.play(health > 80 ? 'losing' : 'neutral');
 
-		if(health <= 0)
+		if (health <= 0)
 			pauseAndOpenState(new GameOverSubstate(allCharacters[playerIndex], camHUD, this));
 	}
 
 	public function hitNote(note:Note) {
 		destroyNote(note, 0);
 
-		if(!note.curType.mustHit) {
-			missNote(note.noteData);
+		if (!note.curType.mustHit) {
+			missNote(note.column);
 			return;
 		}
 
-		playerStrums[note.noteData].playAnim('glow');
-		playerStrums[note.noteData].pressTime = 0.66;
-		allCharacters[playerIndex].playAnim('sing' + SING_DIRECTIONS[note.noteData]);
+		playerStrums[note.column].playAnim('glow');
+		playerStrums[note.column].pressTime = 0.66;
+		allCharacters[playerIndex].playAnim('sing' + SING_DIRECTIONS[note.column]);
 		vocals.volume = 1;
 
-		if(note.isSustainNote){
+		if (note.isSustainNote){
 			updateHealth(2);
 			return;
 		}
@@ -442,7 +438,7 @@ class PlayState extends EventState {
 		var curValue:Int = 1;
 
 		for(i in 1...POSSIBLE_SCORES.length)
-			if(Math.abs(note.strumTime - stepTime) >= POSSIBLE_SCORES[i].threshold){
+			if (Math.abs(note.strumTime - stepTime) >= POSSIBLE_SCORES[i].threshold){
 				curValue = i + 1;
 				curScore = POSSIBLE_SCORES[i];
 			} else {
@@ -476,8 +472,8 @@ class PlayState extends EventState {
 		currentNotes.remove(note, true);
 		note.destroy();
 
-		if(hittableNotes[note.noteData] == note)
-			hittableNotes[note.noteData] = null;
+		if (hittableNotes[note.column] == note)
+			hittableNotes[note.column] = null;
 	}
 
 	public function endSong():Void {
@@ -518,7 +514,7 @@ class PlayState extends EventState {
 	}
 
 	override function onFocusLost() {
-		if(persistentUpdate)
+		if (persistentUpdate)
 			pauseAndOpenState(new PauseSubstate(camHUD, this));
 
 		super.onFocusLost();

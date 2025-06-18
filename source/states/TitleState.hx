@@ -51,7 +51,7 @@ class TitleState extends EventState {
 		super.create();
 
 		if (!initialized) {
-			if(FlxG.sound.music == null || !FlxG.sound.music.playing) {
+			if (FlxG.sound.music == null || !FlxG.sound.music.playing) {
 				Song.musicSet(Paths.MENU_TEMPO);
 				FlxG.sound.playMusic(Paths.lMusic(Paths.MENU_MUSIC));
 			}
@@ -99,8 +99,8 @@ class TitleState extends EventState {
 	override public function keyHit(ev:KeyboardEvent)
 		ev.keyCode.bindFunctions([
 			[Binds.ui_accept, function(){
-				if(leaving) {
-					if(soundTween != null){ 
+				if (leaving) {
+					if (soundTween != null){ 
 						soundTween.cancel();
 						FlxG.sound.music.volume = 1;
 					}
@@ -110,7 +110,7 @@ class TitleState extends EventState {
 					return;
 				}
 
-				if(skippedIntro) {
+				if (skippedIntro) {
 					enterText.animation.play('press');
 					leaving = true;
 					FlxG.sound.play(Paths.lSound('ui/confirmMenu'));
@@ -141,7 +141,7 @@ class TitleState extends EventState {
 	}
 
 	public function beatHit() {
-		if(Song.currentBeat <= 0 || skippedIntro) {
+		if (Song.currentBeat <= 0 || skippedIntro) {
 			dancedLeft = !dancedLeft;
 
 			gfDance.animation.play('dance' + (dancedLeft ? 'Left' : 'Right'));
@@ -155,26 +155,26 @@ class TitleState extends EventState {
 		if (tsubStep < 0){
 			tsubStep = 0;
 
-			if(++textStep == TEXT_SEQUENCE.length){
+			if (++textStep == TEXT_SEQUENCE.length){
 				skipIntro();
 				return;
 			}
 		}
 
-		if(tsubStep == TEXT_SEQUENCE[textStep].length){
+		if (tsubStep == TEXT_SEQUENCE[textStep].length){
 			textGroup.clear();
 			tsubStep = -1;
 			
 			return;
 		}
 
-		if(Song.currentBeat & 1 == 0)
+		if (Song.currentBeat & 1 == 0)
 			createCoolText(tsubStep, TEXT_SEQUENCE[textStep].length, TEXT_SEQUENCE[textStep][tsubStep++]);
 	}
 
 	private var skippedIntro:Bool = false;
 	private function skipIntro()
-	if(!skippedIntro) {
+	if (!skippedIntro) {
 		FlxG.camera.flash(FlxColor.WHITE, 4);
 
 		textGroup.clear();

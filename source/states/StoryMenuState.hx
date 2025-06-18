@@ -82,10 +82,10 @@ class StoryMenuState extends MenuTemplate {
 	override function keyHit(ev:KeyboardEvent){
 		super.keyHit(ev);
 
-		if(!ev.keyCode.check(Binds.ui_accept)) 
+		if (!ev.keyCode.check(Binds.ui_accept)) 
 			return;
 
-		if(leaving){
+		if (leaving){
 			executeAllEvents();
 			NewTransition.skip();
 			return;
@@ -116,7 +116,7 @@ class StoryMenuState extends MenuTemplate {
 	}
 
 	public function changeDiff(to:Int, showArr:Bool){
-		if(showArr){
+		if (showArr){
 			var arrow = [arrowSpr2, arrowSpr1][CoolUtil.intBoundTo(to, 0, 1)];
 			arrow.color = SELECT_COLOUR;
 			arrow.scale.set(0.9, 0.9);
@@ -170,13 +170,13 @@ class StoryMenuState extends MenuTemplate {
 		weekBG = new FlxSprite(640, 0).loadGraphic(Paths.lImage('storyMenu/weeks/portrait-' + weekData[curSel].weekAsset));
 		add(weekBG);
 
-		if(oldRef == null)
+		if (oldRef == null)
 			return;
 
 		weekBG.alpha = 0;
 		FlxTween.tween(weekBG, {alpha: 1}, 0.2);
 		postEvent(0.21, function(){
-			if(oldRef == null)
+			if (oldRef == null)
 				return;
 
 			remove(oldRef);

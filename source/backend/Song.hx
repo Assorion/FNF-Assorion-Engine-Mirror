@@ -4,8 +4,16 @@ import haxe.Json;
 
 using StringTools;
 
+typedef NoteData = {
+	var strumTime:Float;
+	var column:Int;
+	var length:Int;
+	var type:Int;
+	var parentSection:Int;
+}
+
 typedef SectionData = {
-	var sectionNotes:Array<Dynamic>;
+	var sectionNotes:Array<NoteData>;
 	var cameraFacing:Int;
 }
 
@@ -69,7 +77,7 @@ class Song {
 		millisecond = followTime - Settings.audio_offset;
 		currentStep = Math.floor(millisecond * division);
 
-		if(oldStep != currentStep)
+		if (oldStep != currentStep)
 			stepHit();
 	}
 
@@ -79,7 +87,7 @@ class Song {
 
 	private static function stepHit():Void { 
 		currentBeat = currentStep >> 2; 
-		if(currentStep & 3 == 0)		
+		if (currentStep & 3 == 0)		
 			beatHit();
 
 		for(i in 0...stepHooks.length)

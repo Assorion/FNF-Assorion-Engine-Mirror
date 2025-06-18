@@ -111,7 +111,7 @@ class ChartingState extends EventState {
 				curNoteType = ntype;
 				noteChain.push(generateNote(fNote[0], noteData, false, player, section));
 
-				if(susLength > 1)
+				if (susLength > 1)
 					for(i in 1...susLength+1)
 						noteChain.push(generateNote(fNote[0] + i, noteData, true, player, section));
 
@@ -161,7 +161,7 @@ class ChartingState extends EventState {
 		Song.update(FlxG.sound.music.time);
 		super.update(elapsed);
 
-		if(FlxG.sound.music.playing)
+		if (FlxG.sound.music.playing)
 			stepTime += elapsed * 1000 * Song.division;
 
 		var oldCurSec:Int = curSection;
@@ -169,7 +169,7 @@ class ChartingState extends EventState {
 		noteLine.y = ((stepTime % 16) * 0.0625 * grid.height) + gridGroup.y;
 		curSection = Math.floor(stepTime * 0.0625);
 
-		if(curSection != oldCurSec)
+		if (curSection != oldCurSec)
 			sectionChange(Math.floor(Math.max(0, oldCurSec)));
 	}
 
@@ -178,7 +178,7 @@ class ChartingState extends EventState {
 			noteList[curSection] = [];
 
 		for(i in 0...noteList[oldSection].length)
-			if(noteList[oldSection][i] != null)
+			if (noteList[oldSection][i] != null)
 				for(j in 0...noteList[oldSection][i].length)
 					gridGroup.remove(noteList[oldSection][i][j]);
 
@@ -208,7 +208,7 @@ class ChartingState extends EventState {
 				newNoteChain.push(generateNote(n[0].strumTime + i, n[0].noteData, true, n[0].player, Math.floor(n[0].strumTime / 16)));
 			
 			for(i in 0...n.length){
-				if(Math.floor(newNoteChain[0].strumTime / 16) == curSection)
+				if (Math.floor(newNoteChain[0].strumTime / 16) == curSection)
 					gridGroup.add(newNoteChain[i]);
 
 				gridGroup.remove(n[i]);
@@ -219,7 +219,7 @@ class ChartingState extends EventState {
 	}
 
 	public function stepHit() 
-	if(FlxG.sound.music.playing)
+	if (FlxG.sound.music.playing)
 		stepTime = (Song.millisecond * Song.division * 0.25) + (stepTime * 0.75);
 
 	public function mouseScroll(ev:MouseEvent) {
@@ -240,7 +240,7 @@ class ChartingState extends EventState {
 		highlightBox.x = (selCelX * gridSize) + gridGroup.x;
 		highlightBox.y = (selCelY * gridSize) + gridGroup.y;
 
-		if(!FlxG.mouse.pressed || !FlxG.keys.pressed.CONTROL)
+		if (!FlxG.mouse.pressed || !FlxG.keys.pressed.CONTROL)
 			return;
 			
 		selectBox.scale.x = FlxG.mouse.x - selectBox.x;
@@ -265,7 +265,7 @@ class ChartingState extends EventState {
 	}
 
 	public function mouseDown(ev:MouseEvent) {
-		if(FlxG.keys.pressed.CONTROL){
+		if (FlxG.keys.pressed.CONTROL){
 			selectBox.alpha = 0.5;
 			selectBox.x = FlxG.mouse.x;
 			selectBox.y = FlxG.mouse.y;
@@ -298,14 +298,14 @@ class ChartingState extends EventState {
 	public function mouseRightClick(ev:MouseEvent){}
 
 	override function keyHit(ev:KeyboardEvent){
-		if(FlxG.keys.pressed.SHIFT){
+		if (FlxG.keys.pressed.SHIFT){
 			ev.keyCode.bindFunctions([
 				[Binds.ui_down, function(){
 					for(n in selectedNotes){
 						var newSusNote = generateNote(n[0].strumTime + n.length, n[0].noteData, true, n[0].player, Math.floor(n[0].strumTime / 16));
 						newSusNote.color = NOTE_SELECT_COLOUR;
 
-						if(Math.floor(n[0].strumTime / 16) == curSection)
+						if (Math.floor(n[0].strumTime / 16) == curSection)
 							gridGroup.add(newSusNote);
 						
 						n.push(newSusNote);
@@ -313,7 +313,7 @@ class ChartingState extends EventState {
 				}],
 				[Binds.ui_up, function(){
 					for(n in selectedNotes)
-						if(n.length > 1)
+						if (n.length > 1)
 							gridGroup.remove(n.pop());
 				}],
 				[Binds.ui_back, function(){
@@ -333,7 +333,7 @@ class ChartingState extends EventState {
 			return;
 		}
 
-		if(FlxG.keys.pressed.CONTROL){
+		if (FlxG.keys.pressed.CONTROL){
 			ev.keyCode.bindFunctions([
 				[Binds.ui_left, function(){
 					for(n in selectedNotes){
@@ -382,7 +382,7 @@ class ChartingState extends EventState {
 			[Binds.ui_accept, function(){
 				FlxG.sound.music.playing ? FlxG.sound.music.pause() : FlxG.sound.music.play();
 				
-				if(songData.needsVoices){
+				if (songData.needsVoices){
 					vocals.playing ? vocals.pause() : vocals.play();
 					vocals.time = FlxG.sound.music.time;
 				}

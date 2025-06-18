@@ -41,7 +41,7 @@ class NewTransition extends FlxSubState {
 		whiteSprite.camera = mainCamera;
 		add(whiteSprite);
 
-		if(skippedLast){
+		if (skippedLast){
 			skippedLast = false;
 			whiteSprite.alpha = 0;
 		}
@@ -58,7 +58,7 @@ class NewTransition extends FlxSubState {
 		close();
 
 	public static function skip():Bool {
-		if(activeTransition == null) 
+		if (activeTransition == null) 
 			return false;
 
 		skippedLast = true;
@@ -69,7 +69,7 @@ class NewTransition extends FlxSubState {
 	override function update(elapsed:Float){
 		whiteSprite.alpha += elapsed * (transitionIn ? 4 : -2);
 
-		if(whiteSprite.alpha == (transitionIn ? 1 : 0)) 
+		if (whiteSprite.alpha == (transitionIn ? 1 : 0)) 
 			transitionIn ? inComplete() : outComplete();
 	}
 

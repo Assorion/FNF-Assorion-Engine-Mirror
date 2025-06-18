@@ -29,7 +29,7 @@ class LoadingState extends FlxUIState {
 
 		var i = -1;
 		while(++i < objects.length)
-			if(objects[i].split('/')[0] != 'assets')
+			if (objects[i].split('/')[0] != 'assets')
 				objects.splice(i--, 1);
 
 		var lbBG:BitmapData = new BitmapData(BAR_WIDTH  , BAR_HEIGHT, true);
@@ -91,7 +91,7 @@ class LoadingState extends FlxUIState {
 
 	private var index:Int = 0;
 	override function update(elapsed:Float){
-		if(index == objects.length - 1) {
+		if (index == objects.length - 1) {
 			objects = null;
 			FlxG.camera.bgColor = 0x00000000;
 			FlxG.camera.bgColor.alpha = 0;

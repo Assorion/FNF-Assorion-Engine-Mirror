@@ -30,7 +30,7 @@ class EventSubstate extends FlxSubState {
 		var i = -1;
 		var cTime = CoolUtil.getCurrentTime();
 		while(++i < events.length)
-			if(cTime >= events[i].endTime){
+			if (cTime >= events[i].endTime){
 				events[i].exeFunc();
 				events.splice(i--, 1);
 			}

@@ -78,7 +78,7 @@ class MenuTemplate extends EventState {
 		add(arrIcons);
 		super.create();
 
-		if(FlxG.sound.music == null || !FlxG.sound.music.playing) {
+		if (FlxG.sound.music == null || !FlxG.sound.music.playing) {
 			Song.musicSet(Paths.MENU_TEMPO);
 			FlxG.sound.playMusic(Paths.lMusic(Paths.MENU_MUSIC));
 		}
@@ -111,7 +111,7 @@ class MenuTemplate extends EventState {
 
 			var icn:CharacterIcon = arrIcons.members[i * columns];
 
-			if(icn == null) 
+			if (icn == null) 
 				continue;
 
 			var grpMem = arrGroup[i * columns];
@@ -145,7 +145,7 @@ class MenuTemplate extends EventState {
 	}
 
 	public function altChange(change:Int = 0)
-	if(columns > 2){
+	if (columns > 2){
 		curAlt += change;
 		curAlt += columns - 1;
 		curAlt %= columns - 1;
@@ -167,7 +167,7 @@ class MenuTemplate extends EventState {
 			item.targetY += Y_OFFSET;
 			item.targetA = i == curSel ? 1 : DESELECTED_ALPHA;
 
-			if(columns <= 1) 
+			if (columns <= 1) 
 				continue;
 
 			for(x in 1...columns){
@@ -188,7 +188,7 @@ class MenuTemplate extends EventState {
 	}
 
 	public function exitFunction(){
-		if(NewTransition.skip()) 
+		if (NewTransition.skip()) 
 			return;
 
 		EventState.changeState(new MainMenuState());

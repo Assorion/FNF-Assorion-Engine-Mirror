@@ -37,7 +37,7 @@ class SettingsManager {
         var settingsItems:Array<String> = Type.getClassFields(Settings);
 
         for(key in settingsMap.keys())
-            if(settingsItems.contains(key))
+            if (settingsItems.contains(key))
                 Reflect.setField(Settings, key, settingsMap.get(key));
 
         Binds.loadControls(settingsMap);
@@ -62,7 +62,7 @@ class SettingsManager {
         for(bindItem in bindsItems){
             var item = Reflect.field(Binds, bindItem);
 
-            if(Std.is(item, Array))
+            if (Std.is(item, Array))
                 settingsMap.set(bindItem, item);
         }
 

@@ -55,15 +55,15 @@ class OffsetWizard extends EventState {
 	override function update(elapsed:Float){
 		super.update(elapsed);
 
-		if(activelyListening)
+		if (activelyListening)
 			Song.update(FlxG.sound.music.time);
 	}
 
 	public function stepHit() {
-		if((Song.currentStep - 2) & 3 == 0)
+		if ((Song.currentStep - 2) & 3 == 0)
 			lastBeatTime = CoolUtil.getCurrentTime() + (Song.crochet * 0.0005);
 
-		if(Song.currentStep <= 132)
+		if (Song.currentStep <= 132)
 			return;
 
 		activelyListening = false;
@@ -123,8 +123,8 @@ class OffsetWizard extends EventState {
 
 	private var leaving:Bool = false;	
 	override function keyHit(ev:KeyboardEvent){
-		if(ev.keyCode.check(Binds.ui_back) || leaving){
-			if(leaving){
+		if (ev.keyCode.check(Binds.ui_back) || leaving){
+			if (leaving){
 				NewTransition.skip();
 				return;
 			}
@@ -133,14 +133,14 @@ class OffsetWizard extends EventState {
 			EventState.changeState(new OptionsState());
 			leaving = true;
 
-			if(FlxG.sound.music != null && FlxG.sound.music.playing)
+			if (FlxG.sound.music != null && FlxG.sound.music.playing)
 				FlxG.sound.music.stop();
 
 			return;
 		}
 
-		if(!FlxG.sound.music.playing && !countdownHappening){
-			if(hitOffsets.length > 0){
+		if (!FlxG.sound.music.playing && !countdownHappening){
+			if (hitOffsets.length > 0){
 				Settings.audio_offset = newOffset;
 				EventState.changeState(new OptionsState());
 
@@ -151,7 +151,7 @@ class OffsetWizard extends EventState {
 			startCountdown();
 		}
 
-		if(!activelyListening)
+		if (!activelyListening)
 			return;
 		
 		var tappedOffset:Float = (CoolUtil.getCurrentTime() - lastBeatTime) * 1000;

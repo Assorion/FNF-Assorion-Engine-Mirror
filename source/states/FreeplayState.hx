@@ -86,12 +86,12 @@ class FreeplayState extends MenuTemplate {
 			[[FlxKey.SPACE], function(){
 				playing = !playing;
 
-				if(playing){
+				if (playing){
 					FlxG.sound.playMusic(Paths.lMusic(Paths.MENU_MUSIC));
 					FlxG.sound.music.time = prevTime;
 					Song.musicSet(Paths.MENU_TEMPO);
 
-					if(vocals == null) 
+					if (vocals == null) 
 						return;
 					
 					vocals.stop();
@@ -108,7 +108,7 @@ class FreeplayState extends MenuTemplate {
 				vocals.time = FlxG.sound.music.time = 0;	
 			}],
 			[Binds.ui_accept, function(){
-				if(NewTransition.skip()) 
+				if (NewTransition.skip()) 
 					return;
 
 				PlayState.storyPlaylist = [];

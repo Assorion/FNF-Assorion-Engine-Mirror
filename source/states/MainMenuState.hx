@@ -44,7 +44,7 @@ class MainMenuState extends EventState {
 		add(versionNumber);
 		FlxG.camera.follow(camFollow, null, 0.023);
 
-		for (i in 0...OPTIONS.length) {
+		for(i in 0...OPTIONS.length) {
 			var menuItem:FlxSprite = new FlxSprite(0, 0);
 			menuItem.frames = Paths.lSparrow('ui/${OPTIONS[i]}');
 
@@ -82,12 +82,12 @@ class MainMenuState extends EventState {
 			[Binds.ui_down,   function(){ changeItem(1);  }],
 			[Binds.ui_accept, function(){ changeState();  }],
 			[Binds.ui_back,   function(){
-				if(leaving){
+				if (leaving){
 					NewTransition.skip();
 					return;
 				}
 
-				if(!itemWasSelected){
+				if (!itemWasSelected){
 					leaving = true;
 
 					FlxG.sound.play(Paths.lSound('ui/cancelMenu'));
@@ -96,7 +96,7 @@ class MainMenuState extends EventState {
 				}
 
 				for(i in 0...OPTIONS.length){
-					if(fadingTweens[i] != null) 
+					if (fadingTweens[i] != null) 
 						fadingTweens[i].cancel();
 
 					menuItems.members[i].alpha = 1;
@@ -109,7 +109,7 @@ class MainMenuState extends EventState {
 		]);
 
 	private function changeState(){
-		if(itemWasSelected){
+		if (itemWasSelected){
 			executeAllEvents();
 			NewTransition.skip();
 			return;
@@ -119,7 +119,7 @@ class MainMenuState extends EventState {
 		itemWasSelected = true;
 
 		for(i in 0...OPTIONS.length)
-			if(i != curSelected)
+			if (i != curSelected)
 				fadingTweens.push(FlxTween.tween(menuItems.members[i], {alpha:0}, 0.8));
 
 		for(i in 0...8)
@@ -149,7 +149,7 @@ class MainMenuState extends EventState {
 	}
 
 	private function changeItem(to:Int = 0)
-	if(!itemWasSelected) {
+	if (!itemWasSelected) {
 		FlxG.sound.play(Paths.lSound('ui/scrollMenu'));
 
 		var oldSel = curSelected;

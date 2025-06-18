@@ -54,10 +54,10 @@ class ComboDisplay extends FlxSpriteGroup {
 	}
 
 	public function displayScore(rating:RatingData, combo:Int){
-		if(scoreTweens[0] != null)
+		if (scoreTweens[0] != null)
 			for(i in 0...4) scoreTweens[i].cancel();
 
-		if(previousRating != rating){
+		if (previousRating != rating){
 			ratingSprite.loadGraphic(Paths.lImage('gameplay/' + rating.asset));
 			ratingSprite.centerOrigin();
 			previousRating = rating;

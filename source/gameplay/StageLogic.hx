@@ -17,7 +17,7 @@ class StageLogic {
 		playStateRef = playState;
 		
 		for(i in 0...STAGE_NAME_LIST.length)
-			if(STAGE_NAME_LIST[i] == name){
+			if (STAGE_NAME_LIST[i] == name){
 				currentStage = Type.createInstance(STAGE_CLASS_LIST[i], [this]);
 				return;
 			}
@@ -27,6 +27,9 @@ class StageLogic {
 
 	public function add(obj:FlxBasic)
 		playStateRef.add(obj);
+
+	public function remove(obj:FlxBasic)
+		playStateRef.remove(obj);
 
 	public function addCharacters() {
 		var songData = PlayState.songData;

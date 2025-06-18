@@ -31,12 +31,12 @@ class Paths {
 	public static function lSparrow(path:String, ?prePath:String = 'assets/images/'):FlxFramesCollection {
 		var fStr = '$prePath$path';
 
-		if(!Settings.cache_assets)
+		if (!Settings.cache_assets)
 			return FlxAtlasFrames.fromSparrow('$fStr.png', '$fStr.xml');
 
 		var tmp:FlxFramesCollection = cachedFrames.get(path);
 
-		if(tmp != null) 
+		if (tmp != null) 
 			return tmp;
 
 		tmp = FlxAtlasFrames.fromSparrow('$fStr.png', '$fStr.xml');
@@ -45,12 +45,12 @@ class Paths {
 		return tmp;
 	}
 	public static function lText(path:String, ?prePath:String = 'assets/data/'):String {
-		if(!Settings.cache_assets)
+		if (!Settings.cache_assets)
 			return Assets.getText(prePath + path).replace('\r', '');
 
 		var tmp:Array<String> = cachedLines.get(path);
 
-		if(tmp != null) 
+		if (tmp != null) 
 			return tmp[0];
 
 		tmp = [Assets.getText(prePath + path).replace('\r', '')];
@@ -62,7 +62,7 @@ class Paths {
 	//////////////////////////////////////
 
 	public static function clearCache(){
-		if(Settings.cache_assets) 
+		if (Settings.cache_assets) 
 				return;
 
 		Assets.cache.clear();

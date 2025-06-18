@@ -51,7 +51,7 @@ class EventState extends FlxUIState {
 
 		var i = -1;
 		while(++i < events.length)
-			if(cTime >= events[i].endTime){
+			if (cTime >= events[i].endTime){
 				events[i].exeFunc();
 				events.splice(i--, 1);
 			}

@@ -20,8 +20,8 @@ class Alphabet extends FlxSpriteGroup {
 	}
 
 	public function addText()
-		for (character in text.split('')) {
-			if(' -_'.contains(character) || !AlphaCharacter.completeList.contains(character)) {
+		for(character in text.split('')) {
+			if (' -_'.contains(character) || !AlphaCharacter.completeList.contains(character)) {
 				letterOffset += 40;
 				continue;
 			}
@@ -74,7 +74,7 @@ class AlphaCharacter extends FlxSprite {
 	public function createLetter() {
 		var suffix = numbers.contains(letter) ? '' : ' capital';
 
-		if(symbols.contains(letter)) {
+		if (symbols.contains(letter)) {
 			replaceWithSymbol();
 			return;
 		}
@@ -88,7 +88,7 @@ class AlphaCharacter extends FlxSprite {
 
 	public function replaceWithSymbol() {
 		for(i in 0...replacementArray[0].length)
-			if(letter == replacementArray[0][i]){
+			if (letter == replacementArray[0][i]){
 				letter = replacementArray[1][i];
 				y     += replacementArray[2][i];
 				break;

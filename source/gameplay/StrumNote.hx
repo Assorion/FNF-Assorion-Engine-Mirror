@@ -42,11 +42,11 @@ class StrumNote extends FlxSprite {
 	override function update(elapsed:Float){
 		super.update(elapsed);
 
-		if(pressTime < 0) 
+		if (pressTime < 0) 
 			return;
 
 		pressTime -= elapsed * Song.division * 1000;
-		if(pressTime <= 0 && (!isPlayer || Settings.botplay))
+		if (pressTime <= 0 && (!isPlayer || Settings.botplay))
 			playAnim();
 	}
 

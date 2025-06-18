@@ -42,7 +42,7 @@ class PauseSubstate extends EventSubstate {
 		blackSpr.alpha = 0;
 		add(blackSpr);
 
-		for (i in 0...OPTION_LIST.length) {
+		for(i in 0...OPTION_LIST.length) {
 			var option:Alphabet = new Alphabet(0, MenuTemplate.Y_SPACING * i, OPTION_LIST[i], true);
 			option.alpha = 0;
 			add(option);
@@ -108,7 +108,7 @@ class PauseSubstate extends EventSubstate {
 				for(ev in playState.events)
 					ev.endTime += CoolUtil.getCurrentTime() - creationTimeStamp;
 				
-				if(FlxG.sound.music.time <= 0)
+				if (FlxG.sound.music.time <= 0)
 					return;
 
 				playState.vocals.play();
@@ -134,7 +134,7 @@ class PauseSubstate extends EventSubstate {
 	}
 
 	override public function keyHit(ev:KeyboardEvent)
-	if(!leaving)
+	if (!leaving)
 		ev.keyCode.bindFunctions([
 			[Binds.ui_back, leave],
 			[Binds.ui_up,   function(){ changeSelection(-1); }],

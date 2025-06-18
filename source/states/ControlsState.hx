@@ -41,7 +41,7 @@ class ControlsState extends MenuTemplate {
 			var firstBind:String  = '';
 			var secondBind:String = '';
 
-			if(CONTROL_LIST[i][0] != ''){
+			if (CONTROL_LIST[i][0] != ''){
 				firstBind  = CoolUtil.keyCodeToString(CONTROL_LIST[i][1][0], false);
 				secondBind = CoolUtil.keyCodeToString(CONTROL_LIST[i][1][1], false);
 			}
@@ -55,7 +55,7 @@ class ControlsState extends MenuTemplate {
 	}
 
 	override public function exitFunction(){
-		if(NewTransition.skip())
+		if (NewTransition.skip())
 			return;
 
 		EventState.changeState(new OptionsState());
@@ -63,14 +63,14 @@ class ControlsState extends MenuTemplate {
 
 	override public function changeSelection(to:Int = 0) {
 		// Skip blank space
-		if(curSel + to >= 0 && CONTROL_LIST[curSel + to] == '')
+		if (curSel + to >= 0 && CONTROL_LIST[curSel + to] == '')
 			to *= 2;
 
 		super.changeSelection(to);
 	}
 
 	override public function keyHit(ev:KeyboardEvent){
-		if(rebinding){ 
+		if (rebinding){ 
 			CONTROL_LIST[curSel][1][curAlt] = ev.keyCode;
 			rebinding = false;
 
@@ -78,9 +78,9 @@ class ControlsState extends MenuTemplate {
 			return;
 		}
 
-		if(ev.keyCode.check(Binds.ui_accept)) {
+		if (ev.keyCode.check(Binds.ui_accept)) {
 			for(i in 0...arrGroup.length)
-				if(Math.floor(i / columns) != curSel)
+				if (Math.floor(i / columns) != curSel)
 					arrGroup[i].targetA = 0;
 
 			rebinding = true;

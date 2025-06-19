@@ -194,7 +194,7 @@ class ChartingState extends EventState {
 
 		var createdNote:NoteData = {
 			strumTime: gridSelectY,
-			column: gridSelectX,
+			column: gridSelectX % PlayState.KEY_COUNT,
 			length: 0,
 			player: Math.floor(gridSelectX / PlayState.KEY_COUNT),
 			type: 0
@@ -210,6 +210,8 @@ class ChartingState extends EventState {
 				FlxG.mouse.visible = false;
 
 				FlxG.stage.removeEventListener(MouseEvent.MOUSE_WHEEL, mouseScroll);
+				FlxG.stage.removeEventListener(MouseEvent.MOUSE_MOVE, mouseMove);
+				FlxG.stage.removeEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
 
 				EventState.changeState(new PlayState());
 			}],
@@ -220,6 +222,20 @@ class ChartingState extends EventState {
 					vocals.playing ? vocals.pause() : vocals.play();
 					vocals.time = FlxG.sound.music.time;
 				}
+			}],
+			[Binds.ui_down, function(){
+				FlxG.sound.music.pause();
+				vocals.pause();
+
+				stepTime = (curSection + 1) * 16;
+				FlxG.sound.music.time = stepTime * Song.stepCrochet;
+			}],
+			[Binds.ui_up, function(){
+				FlxG.sound.music.pause();
+				vocals.pause();
+
+				stepTime = Math.max((curSection - 1) * 16, 0);
+				FlxG.sound.music.time = stepTime * Song.stepCrochet;
 			}]
 		]);
 	}

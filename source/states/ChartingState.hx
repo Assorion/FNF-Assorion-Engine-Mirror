@@ -43,8 +43,9 @@ class ChartingState extends EventState {
 	private static inline final NOTE_SELECT_COLOUR:Int = 0xFFAAAAAA;
 	private static inline final GRID_SIZE:Int = 40;
 
-	private var vocals:FlxSound;
-	private var songData:SongData;
+	public var vocals:FlxSound;
+	public var songData:SongData;
+	public var selectedNotes:Array<NoteData> = [];
 	
 	private var gridGroup:FlxSpriteGroup;
 	private var noteGroup:FlxSpriteGroup;
@@ -92,7 +93,7 @@ class ChartingState extends EventState {
 		add(noteGroup);
 
 		highlightBox = new StaticSprite(0, 0).makeGraphic(GRID_SIZE, GRID_SIZE, 0xFFFFFFFF);
-		highlightBox.alpha = 0.7;
+		highlightBox.alpha = 0.75;
 		
 		reloadGrid();
 		reloadNotes();
@@ -106,7 +107,6 @@ class ChartingState extends EventState {
 			stepTime += elapsed * 1000 * Song.division;
 
 		var oldSection = curSection;
-
 		timingLine.y = ((stepTime % 16) * 0.0625 * grid.height) + gridGroup.y;
 		curSection = Math.floor(stepTime * 0.0625);
 
@@ -114,7 +114,7 @@ class ChartingState extends EventState {
 			reloadNotes();
 
 		for(i in 0...noteGroup.length)
-			noteGroup.members[i].alpha = timingLine.y >= noteGroup.members[i].y ? 0.6 : 1;
+			noteGroup.members[i].alpha = stepTime % 16 >= cast(noteGroup.members[i], Note).strumTime ? 0.7 : 1;
 	}
 
 	public function stepHit()
@@ -141,13 +141,18 @@ class ChartingState extends EventState {
 				notes: []
 			};
 
-		for(noteData in songData.sections[curSection].notes){
+		for(i in 0...songData.sections[curSection].notes.length){
+			var noteData = songData.sections[curSection].notes[i];
+
 			var newNote = new Note(noteData.strumTime, noteData.column, noteData.type, false, false);
 			newNote.player = noteData.player;
 			newNote.setGraphicSize(GRID_SIZE, GRID_SIZE);
 			newNote.updateHitbox();
 			newNote.x = (noteData.column + (noteData.player * PlayState.KEY_COUNT)) * GRID_SIZE;
 			newNote.y = noteData.strumTime * GRID_SIZE;
+
+			if (selectedNotes.contains(noteData))
+				newNote.color = NOTE_SELECT_COLOUR;
 
 			for(i in 1...noteData.length + 1){
 				var susNote = new Note(noteData.strumTime + i, noteData.column, noteData.type, true, i == noteData.length);
@@ -157,14 +162,15 @@ class ChartingState extends EventState {
 				susNote.x = newNote.x + (GRID_SIZE * 0.3);
 				susNote.y = susNote.strumTime * GRID_SIZE;
 				susNote.flipY = false;
-				
+				susNote.color = newNote.color;
+
 				noteGroup.add(susNote);
 			}
 
 			noteGroup.add(newNote);
 		}
 	}
-
+	
 	public function mouseMove(ev:MouseEvent) {
 		gridSelectX = CoolUtil.intBoundTo(Math.floor((FlxG.mouse.x - gridGroup.x) / GRID_SIZE), 0, (songData.characterCharts * PlayState.KEY_COUNT) - 1);
 		gridSelectY = CoolUtil.boundTo(Math.floor((FlxG.mouse.y - gridGroup.y) / GRID_SIZE), 0, 15);
@@ -186,7 +192,7 @@ class ChartingState extends EventState {
 			if (Math.floor(tmpNote.strumTime) == gridSelectY 
 			 && tmpNote.column == gridSelectX % PlayState.KEY_COUNT
 			 && tmpNote.player == Math.floor(gridSelectX / PlayState.KEY_COUNT)){
-				songData.sections[curSection].notes.splice(i, 1);
+				FlxG.keys.pressed.CONTROL ? selectedNotes = [tmpNote] : songData.sections[curSection].notes.splice(i, 1);
 				reloadNotes();
 				return;
 			}
@@ -201,10 +207,30 @@ class ChartingState extends EventState {
 		};
 
 		songData.sections[curSection].notes.push(createdNote);
+		selectedNotes = [createdNote];
 		reloadNotes();
 	}
 
 	override function keyHit(ev:KeyboardEvent) {
+		if (FlxG.keys.pressed.SHIFT){
+			ev.keyCode.bindFunctions([
+				[Binds.ui_down, function(){
+					for(i in 0...selectedNotes.length)
+						selectedNotes[i].length++;
+					
+					reloadNotes();
+				}],
+				[Binds.ui_up, function(){
+					for(i in 0...selectedNotes.length)
+						selectedNotes[i].length = Math.floor(Math.max(selectedNotes[i].length - 1, 0));
+					
+					reloadNotes();
+				}]
+			]);
+
+			return;
+		}
+
 		ev.keyCode.bindFunctions([
 			[Binds.ui_back, function(){
 				FlxG.mouse.visible = false;

@@ -126,8 +126,7 @@ class PlayState extends EventState {
 		add(strumLineNotes);
 		add(currentNotes);
 
-		// TODO: REMOVE COMMENT
-		//generateChart();
+		generateChart();
 		for(i in 0...songData.characterCharts)
 			generateStrumArrows(i);
 
@@ -193,27 +192,27 @@ class PlayState extends EventState {
 		postEvent(songData.startDelay + 0.1, startCountdown);
 	}
 
-	/*private function generateChart() {
-		for(chartSection in songData.notes)
-			for(chartNote in section.sectionNotes){
-				var time:Float = chartNote.strumTime + (chartNote.section * 16);
+	private function generateChart() {
+		for(section in 0...songData.sections.length)
+			for(noteData in songData.sections[section].notes){
+				var time:Float = noteData.strumTime + (section * 16);
 
-				var newNote = new Note(time, chartNote.column, chartNote.type, false, false);
+				var newNote = new Note(time, noteData.column, noteData.type, false, false);
+				newNote.player = noteData.player;
 				newNote.scrollFactor.set();
-				newNote.player = player;
 				chartNotes.push(newNote);
 
-				if (chartNote.length > 1)
-					for(i in 0...susLength+1){
-						var susNote = new Note(time + i + 0.5, chartNote.column, chartNote.type, true, i == chartNote.length);
+				if (noteData.length > 1)
+					for(i in 0...noteData.length + 1){
+						var susNote = new Note(time + i + 0.5, noteData.column, noteData.type, true, i == noteData.length);
+						susNote.player = noteData.player;
 						susNote.scrollFactor.set();
-						susNote.player = player;
 						chartNotes.push(susNote);
 					}
 			}
 
 		chartNotes.sort((A,B) -> Std.int(A.strumTime - B.strumTime));
-	}*/
+	}
 
 	private function generateStrumArrows(player:Int)
 		for(i in 0...KEY_COUNT) {

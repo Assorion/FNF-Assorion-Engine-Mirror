@@ -92,10 +92,10 @@ class PlayState extends EventState {
 	override public function create() {
 		// Song setup
 		songData.name = songData.name.toLowerCase();
-		Song.musicSet(songData.bpm);
+		Song.musicSet(songData.BPM);
 
 		vocals = new FlxSound();
-		if (songData.needsVoices)
+		if (songData.hasVoices)
 			vocals.loadEmbedded(Paths.playableSong(songData.name, true));
 
 		FlxG.sound.list.add(vocals);
@@ -126,8 +126,9 @@ class PlayState extends EventState {
 		add(strumLineNotes);
 		add(currentNotes);
 
-		generateChart();
-		for(i in 0...songData.playLength)
+		// TODO: REMOVE COMMENT
+		//generateChart();
+		for(i in 0...songData.characterCharts)
 			generateStrumArrows(i);
 
 		// UI setup
@@ -192,7 +193,7 @@ class PlayState extends EventState {
 		postEvent(songData.startDelay + 0.1, startCountdown);
 	}
 
-	private function generateChart() {
+	/*private function generateChart() {
 		for(chartSection in songData.notes)
 			for(chartNote in section.sectionNotes){
 				var time:Float = chartNote.strumTime + (chartNote.section * 16);
@@ -212,7 +213,7 @@ class PlayState extends EventState {
 			}
 
 		chartNotes.sort((A,B) -> Std.int(A.strumTime - B.strumTime));
-	}
+	}*/
 
 	private function generateStrumArrows(player:Int)
 		for(i in 0...KEY_COUNT) {
@@ -288,10 +289,10 @@ class PlayState extends EventState {
 		FlxG.camera.followLerp = (1 - Math.pow(0.5, FlxG.elapsed * 6)) * (60 / Settings.framerate);
 		#end
 
-		var sec:SectionData = songData.notes[Song.currentBeat >> 2]; // Same result as 'Math.floor(Song.currentBeat / 4)'
+		var sec:SectionData = songData.sections[Song.currentBeat >> 2]; // Same result as 'Math.floor(Song.currentBeat / 4)'
 		if (Song.currentBeat & 3 == 0 && FlxG.sound.music.playing){   // Same result as 'Song.currentBeat % 4 == 0'
 			var currentlyFacing:Int = (sec != null ? cast(sec.cameraFacing, Int) : 0);
-			var char = allCharacters[CoolUtil.intBoundTo(currentlyFacing, 0, songData.playLength - 1)];
+			var char = allCharacters[CoolUtil.intBoundTo(currentlyFacing, 0, songData.characters.length - 1)];
 
 			followPos.x = char.getMidpoint().x + char.camOffset[0];
 			followPos.y = char.getMidpoint().y + char.camOffset[1];

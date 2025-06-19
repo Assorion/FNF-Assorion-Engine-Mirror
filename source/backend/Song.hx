@@ -8,13 +8,13 @@ typedef NoteData = {
 	var strumTime:Float;
 	var column:Int;
 	var length:Int;
+	var player:Int;
 	var type:Int;
-	var parentSection:Int;
 }
 
 typedef SectionData = {
-	var sectionNotes:Array<NoteData>;
 	var cameraFacing:Int;
+	var notes:Array<NoteData>;
 }
 
 typedef CharacterData = {
@@ -25,19 +25,19 @@ typedef CharacterData = {
 
 typedef SongData = {
 	var name:String;
-	var bpm:Float;
-	var needsVoices:Bool;
+	var BPM:Float;
 	var speed:Float;
 	var stage:String;
+	var hasVoices:Bool;
 
-	var playLength:Int;
-	var activePlayer:Int;
 	var characters:Array<CharacterData>;
+	var characterCharts:Int;
+	var activePlayer:Int;
 	var renderBackwards:Bool;
 
 	var startDelay:Float;
 
-	var notes:Array<SectionData>;
+	var sections:Array<SectionData>;
 }
 
 #if !debug @:noDebug #end
@@ -97,10 +97,10 @@ class Song {
 	public static function loadFromJson(songStr:String, diff:Int):SongData {
 		songStr = songStr.toLowerCase();
 		
-		var tmpCast:SongData = cast Json.parse(Paths.lText('songs/$songStr/${DIFFICULTIES[diff]}.json')).song;
+		var tmpCast:SongData = cast Json.parse(Paths.lText('songs/$songStr/${DIFFICULTIES[diff]}.json'));
 
-		if (cast(tmpCast.playLength, Int) <= 0) 
-			tmpCast.playLength = 2;
+		if (cast(tmpCast.characterCharts, Int) <= 0) 
+			tmpCast.characterCharts = 2;
 
 		return tmpCast;
 	}

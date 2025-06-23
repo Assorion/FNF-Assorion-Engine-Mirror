@@ -195,16 +195,14 @@ class PlayState extends EventState {
 	private function generateChart() {
 		for(section in 0...songData.sections.length)
 			for(noteData in songData.sections[section].notes){
-				var time:Float = noteData.strumTime + (section * 16);
-
-				var newNote = new Note(time, noteData.column, noteData.type, false, false);
+				var newNote = new Note(noteData.strumTime + (section * 16), noteData.column, noteData.type, false, false);
 				newNote.player = noteData.player;
 				newNote.scrollFactor.set();
 				chartNotes.push(newNote);
 
 				if (noteData.length > 1)
 					for(i in 0...noteData.length + 1){
-						var susNote = new Note(time + i + 0.5, noteData.column, noteData.type, true, i == noteData.length);
+						var susNote = new Note(newNote.strumTime + i + 0.5, noteData.column, noteData.type, true, i == noteData.length);
 						susNote.player = noteData.player;
 						susNote.scrollFactor.set();
 						chartNotes.push(susNote);

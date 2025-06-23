@@ -10,6 +10,7 @@ typedef NoteData = {
 	var length:Int;
 	var player:Int;
 	var type:Int;
+	var parentSection:Int;
 }
 
 typedef SectionData = {

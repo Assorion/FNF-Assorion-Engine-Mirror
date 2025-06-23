@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.FlxBasic;
 import flixel.util.FlxColor;
 import flixel.group.FlxSpriteGroup;
+import flixel.input.keyboard.FlxKey;
 import openfl.geom.Rectangle;
 import openfl.events.MouseEvent;
 import openfl.display.BitmapData;
@@ -40,7 +41,7 @@ class ChartGrid extends StaticSprite {
 }
 
 class ChartingState extends EventState {
-	private static inline final NOTE_SELECT_COLOUR:Int = 0xFFAAAAAA;
+	private static inline final NOTE_SELECT_COLOUR:Int = 0xFF9999CC;
 	private static inline final GRID_SIZE:Int = 40;
 
 	public var vocals:FlxSound;
@@ -51,6 +52,7 @@ class ChartingState extends EventState {
 	private var noteGroup:FlxSpriteGroup;
 	private var grid:StaticSprite;
 	private var highlightBox:StaticSprite;
+	private var selectionBox:StaticSprite;
 
 	var stepTime:Float = 0;
 	var curSection:Int = 0;
@@ -79,6 +81,7 @@ class ChartingState extends EventState {
 		FlxG.stage.addEventListener(MouseEvent.MOUSE_WHEEL, mouseScroll);
 		FlxG.stage.addEventListener(MouseEvent.MOUSE_MOVE, mouseMove);
 		FlxG.stage.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
+		FlxG.stage.addEventListener(MouseEvent.MOUSE_UP,   mouseUp);
 
 		var bg:StaticSprite = new StaticSprite().loadGraphic(Paths.lImage('ui/defaultMenuBackground'));
 		bg.setGraphicSize(1280, 720);
@@ -94,6 +97,11 @@ class ChartingState extends EventState {
 
 		highlightBox = new StaticSprite(0, 0).makeGraphic(GRID_SIZE, GRID_SIZE, 0xFFFFFFFF);
 		highlightBox.alpha = 0.75;
+
+		selectionBox = new StaticSprite(0, 0).makeGraphic(1, 1, NOTE_SELECT_COLOUR);
+		selectionBox.alpha = 0;
+		selectionBox.origin.set(0, 0);
+		add(selectionBox);
 		
 		reloadGrid();
 		reloadNotes();
@@ -114,7 +122,7 @@ class ChartingState extends EventState {
 			reloadNotes();
 
 		for(i in 0...noteGroup.length)
-			noteGroup.members[i].alpha = stepTime % 16 >= cast(noteGroup.members[i], Note).strumTime ? 0.7 : 1;
+			noteGroup.members[i].alpha = stepTime % 16 >= cast(noteGroup.members[i], Note).strumTime ? 0.75 : 1;
 	}
 
 	public function stepHit()
@@ -170,29 +178,105 @@ class ChartingState extends EventState {
 			noteGroup.add(newNote);
 		}
 	}
+
+	public function correctSection(sec:Int){
+		var i:Int = -1;
+
+		while(++i < songData.sections[sec].notes.length){
+			var tmpNote = songData.sections[sec].notes[i];
+
+			tmpNote.column = CoolUtil.intCircularModulo(tmpNote.column, PlayState.KEY_COUNT);
+			tmpNote.player = CoolUtil.intBoundTo(tmpNote.player, 0, songData.characterCharts - 1);
+			
+			if (tmpNote.strumTime < 0){
+				if (sec == 0){
+					tmpNote.strumTime = 0;
+					continue;
+				}
+
+				tmpNote.parentSection--;
+				tmpNote.strumTime = CoolUtil.circularModulo(tmpNote.strumTime, 16);
+				songData.sections[sec].notes.splice(i--, 1);
+				songData.sections[sec - 1].notes.push(tmpNote);
+				continue;
+			}
+
+			if (tmpNote.strumTime >= 16){
+				if (songData.sections[sec + 1] == null)
+					songData.sections[sec + 1] = {
+						cameraFacing: 0,
+						notes: []
+					};
+
+				tmpNote.parentSection++;
+				tmpNote.strumTime = CoolUtil.circularModulo(tmpNote.strumTime, 16);
+				songData.sections[sec].notes.splice(i--, 1);
+				songData.sections[sec + 1].notes.push(tmpNote);
+			}
+		}
+	}
 	
+	public function mouseScroll(ev:MouseEvent) {
+		vocals.pause();
+		FlxG.sound.music.pause();
+		FlxG.sound.music.time = Math.max((Song.currentStep - (ev.delta - (Settings.audio_offset > 0 ? 1 : 0))) * Song.stepCrochet, 0);
+
+		Song.update(FlxG.sound.music.time);
+		stepTime = Math.max(Song.millisecond * Song.division, 0);
+	}
+
 	public function mouseMove(ev:MouseEvent) {
 		gridSelectX = CoolUtil.intBoundTo(Math.floor((FlxG.mouse.x - gridGroup.x) / GRID_SIZE), 0, (songData.characterCharts * PlayState.KEY_COUNT) - 1);
 		gridSelectY = CoolUtil.boundTo(Math.floor((FlxG.mouse.y - gridGroup.y) / GRID_SIZE), 0, 15);
 		highlightBox.x = (gridSelectX * GRID_SIZE) + gridGroup.x;
 		highlightBox.y = (gridSelectY * GRID_SIZE) + gridGroup.y;
-	}
 
-	public function mouseScroll(ev:MouseEvent) {
-		FlxG.sound.music.pause();
-		FlxG.sound.music.time = Math.max((Song.currentStep - (ev.delta - 1)) * Song.stepCrochet, 0);
-		Song.update(FlxG.sound.music.time);
-		stepTime = Math.max(Song.millisecond * Song.division, 0);
+		if (FlxG.mouse.pressed && FlxG.keys.pressed.CONTROL){
+			selectionBox.scale.x = FlxG.mouse.x - selectionBox.x;
+			selectionBox.scale.y = FlxG.mouse.y - selectionBox.y;
+		}
+	}
+	
+	public function mouseUp(ev:MouseEvent)
+	if (FlxG.keys.pressed.CONTROL) {
+		var selBoxX = ((selectionBox.x + (selectionBox.scale.x < 0 ? selectionBox.scale.x : 0)) - gridGroup.x) / GRID_SIZE;
+		var selBoxY = ((selectionBox.y + (selectionBox.scale.y < 0 ? selectionBox.scale.y : 0)) - gridGroup.y) / GRID_SIZE;
+		var selBoxWidth  = Math.abs(selectionBox.scale.x) / GRID_SIZE;
+		var selBoxHeight = Math.abs(selectionBox.scale.y) / GRID_SIZE;
+
+		selectionBox.alpha = 0;
+		selectionBox.scale.set(0, 0);
+		selectedNotes = [];
+
+		for(i in 0...songData.sections[curSection].notes.length){
+			var tmpNote = songData.sections[curSection].notes[i];
+
+			if (tmpNote.column + (PlayState.KEY_COUNT * tmpNote.player) >= selBoxX
+			 && tmpNote.column + (PlayState.KEY_COUNT * tmpNote.player) + 1 < selBoxX + selBoxWidth
+			 && tmpNote.strumTime + 1 < selBoxY + selBoxHeight
+			 && tmpNote.strumTime >= selBoxY)
+				selectedNotes.push(tmpNote);
+		}
+
+		reloadNotes();
 	}
 
 	public function mouseDown(ev:MouseEvent) {
+		if (FlxG.keys.pressed.CONTROL){
+			selectionBox.alpha = 0.75;
+			selectionBox.x = FlxG.mouse.x;
+			selectionBox.y = FlxG.mouse.y;
+			selectionBox.scale.set(0, 0);
+			return;
+		}
+
 		for(i in 0...songData.sections[curSection].notes.length){
 			var tmpNote = songData.sections[curSection].notes[i];
 			
 			if (Math.floor(tmpNote.strumTime) == gridSelectY 
 			 && tmpNote.column == gridSelectX % PlayState.KEY_COUNT
 			 && tmpNote.player == Math.floor(gridSelectX / PlayState.KEY_COUNT)){
-				FlxG.keys.pressed.CONTROL ? selectedNotes = [tmpNote] : songData.sections[curSection].notes.splice(i, 1);
+				songData.sections[curSection].notes.splice(i, 1);
 				reloadNotes();
 				return;
 			}
@@ -203,11 +287,29 @@ class ChartingState extends EventState {
 			column: gridSelectX % PlayState.KEY_COUNT,
 			length: 0,
 			player: Math.floor(gridSelectX / PlayState.KEY_COUNT),
-			type: 0
+			type: 0,
+			parentSection: curSection
 		};
 
 		songData.sections[curSection].notes.push(createdNote);
 		selectedNotes = [createdNote];
+		reloadNotes();
+	}
+
+	function shiftNotes(strumAdd:Int, columnAdd:Int){
+		var secReloads:Array<Int> = [];				
+
+		for(i in 0...selectedNotes.length){
+			selectedNotes[i].strumTime += strumAdd;
+			selectedNotes[i].column    += columnAdd;
+
+			if (!secReloads.contains(selectedNotes[i].parentSection))
+				secReloads.push(selectedNotes[i].parentSection);
+		}
+
+		for(sec in secReloads)
+			correctSection(sec);
+
 		reloadNotes();
 	}
 
@@ -222,7 +324,8 @@ class ChartingState extends EventState {
 				}],
 				[Binds.ui_up, function(){
 					for(i in 0...selectedNotes.length)
-						selectedNotes[i].length = Math.floor(Math.max(selectedNotes[i].length - 1, 0));
+						if (selectedNotes[i].length > 0)
+							selectedNotes[i].length--;
 					
 					reloadNotes();
 				}]
@@ -231,13 +334,31 @@ class ChartingState extends EventState {
 			return;
 		}
 
+		if (FlxG.keys.pressed.CONTROL){
+			ev.keyCode.bindFunctions([
+				[Binds.ui_down, function(){
+					shiftNotes(1, 0);
+				}],
+				[Binds.ui_up, function(){
+					shiftNotes(-1, 0);
+				}],
+				[Binds.ui_right, function(){
+					shiftNotes(0, 1);
+				}],
+				[Binds.ui_left, function(){
+					shiftNotes(0, -1);
+				}]
+			]);
+			return;
+		}
+
 		ev.keyCode.bindFunctions([
 			[Binds.ui_back, function(){
 				FlxG.mouse.visible = false;
-
 				FlxG.stage.removeEventListener(MouseEvent.MOUSE_WHEEL, mouseScroll);
 				FlxG.stage.removeEventListener(MouseEvent.MOUSE_MOVE, mouseMove);
 				FlxG.stage.removeEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
+				FlxG.stage.removeEventListener(MouseEvent.MOUSE_DOWN, mouseUp);
 
 				EventState.changeState(new PlayState());
 			}],
@@ -264,5 +385,11 @@ class ChartingState extends EventState {
 				FlxG.sound.music.time = stepTime * Song.stepCrochet;
 			}]
 		]);
+	}
+
+	override function keyRel(ev:KeyboardEvent) 
+	if (ev.keyCode.check([FlxKey.CONTROL])){
+		selectionBox.alpha = 0;
+		selectionBox.scale.set(0, 0);
 	}
 }

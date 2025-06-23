@@ -41,16 +41,16 @@ class ChartGrid extends StaticSprite {
 }
 
 class ChartingState extends EventState {
-	private static inline final NOTE_SELECT_COLOUR:Int = 0xFF9999CC;
+	private static inline final NOTE_SELECT_COLOUR:Int = 0xFF9999CC; // RGB: 153 153 204
 	private static inline final GRID_SIZE:Int = 40;
 
 	public var vocals:FlxSound;
 	public var songData:SongData;
 	public var selectedNotes:Array<NoteData> = [];
 	
+	private var grid:StaticSprite;
 	private var gridGroup:FlxSpriteGroup;
 	private var noteGroup:FlxSpriteGroup;
-	private var grid:StaticSprite;
 	private var highlightBox:StaticSprite;
 	private var selectionBox:StaticSprite;
 
@@ -358,7 +358,7 @@ class ChartingState extends EventState {
 				FlxG.stage.removeEventListener(MouseEvent.MOUSE_WHEEL, mouseScroll);
 				FlxG.stage.removeEventListener(MouseEvent.MOUSE_MOVE, mouseMove);
 				FlxG.stage.removeEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
-				FlxG.stage.removeEventListener(MouseEvent.MOUSE_DOWN, mouseUp);
+				FlxG.stage.removeEventListener(MouseEvent.MOUSE_UP,   mouseUp);
 
 				EventState.changeState(new PlayState());
 			}],

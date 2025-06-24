@@ -29,16 +29,14 @@
 					"column": 0,
 					"length": 0,
 					"player": 0,
-					"type": 0,
-					"parentSection": 0
+					"type": 0
 				},
 				{
 					"strumTime": 2,
 					"column": 2,
 					"length": 4,
 					"player": 0,
-					"type": 0,
-					"parentSection": 0
+					"type": 0
 				}
 			]
 		}

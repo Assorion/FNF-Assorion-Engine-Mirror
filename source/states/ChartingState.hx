@@ -190,8 +190,8 @@ class ChartingState extends EventState {
 			var tmpNote = songData.sections[sec].notes[i];
 			var secOffset = Math.floor(tmpNote.strumTime / 16);
 
+			tmpNote.player = CoolUtil.intCircularModulo(tmpNote.player + Math.floor(tmpNote.column / PlayState.KEY_COUNT), songData.characterCharts);
 			tmpNote.column = CoolUtil.intCircularModulo(tmpNote.column, PlayState.KEY_COUNT);
-			tmpNote.player = CoolUtil.intBoundTo(tmpNote.player, 0, songData.characterCharts - 1);
 			tmpNote.strumTime = CoolUtil.circularModulo(tmpNote.strumTime, 16);
 
 			if (secOffset == 0 || (secOffset < 0 && sec == 0))
@@ -343,6 +343,36 @@ class ChartingState extends EventState {
 
 		if (FlxG.keys.pressed.CONTROL){
 			ev.keyCode.bindFunctions([
+				[[FlxKey.C], function(){
+					var newSelection:Map<Int, Array<NoteData>> = new Map<Int, Array<NoteData>>();
+
+					for(k in selectedNotes.keys()){
+						newSelection.set(k, []);
+
+						for(i in 0...selectedNotes.get(k).length){
+							var tmpNote:NoteData = selectedNotes.get(k)[i];
+							var newNoteData:NoteData = {
+								strumTime: tmpNote.strumTime,
+								column:    tmpNote.column,
+								length:    tmpNote.length,
+								player:    tmpNote.player,
+								type:      tmpNote.type
+							}
+
+							songData.sections[k].notes.push(newNoteData);
+							newSelection.get(k).push(newNoteData);
+						}
+					}
+
+					selectedNotes = newSelection;
+				}],
+				[[FlxKey.V], function(){
+					for(k in selectedNotes.keys())
+						for(n in selectedNotes.get(k))
+							n.column = PlayState.KEY_COUNT - 1 - n.column;
+
+					reloadNotes();
+				}],
 				[Binds.ui_down, function(){
 					shiftNotes(1, 0);
 				}],

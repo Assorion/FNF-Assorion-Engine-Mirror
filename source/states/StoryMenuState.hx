@@ -23,9 +23,9 @@ class StoryMenuState extends MenuTemplate {
 	public static inline final SELECT_COLOUR:Int = 0xFF00FFFF;
 	public static inline final WHITE_COLOUR :Int = 0xFFFFFFFF;
 
-	private var weekData:Array<StoryData> = [];
-
 	private static var curDif:Int = 1;
+
+	private var weekData:Array<StoryData> = [];
 
 	public var weekBG:FlxSprite;
 	public var topText:FormattedText;

@@ -30,23 +30,19 @@ class PlayState extends EventState {
 	public static inline final INPUT_RANGE:Float = 1.25; // Input range is measured in steps (16th notes)
 	public final  SING_DIRECTIONS:Array<String> = ['LEFT', 'DOWN', 'UP', 'RIGHT'];
 	public final BIND_ARRAY:Array<Array<Int>> = [Binds.note_left, Binds.note_down, Binds.note_up, Binds.note_right];
-	public final POSSIBLE_SCORES:Array<RatingData> = [
-		{
+	public final POSSIBLE_SCORES:Array<RatingData> = [{
 			score: 350,  
 			threshold: 0,
 			asset: 'sick'
-		},
-		{
+		}, {
 			score: 200,
 			threshold: 0.43,
 			asset: 'good'
-		},
-		{
+		}, {
 			score: 100,
 			threshold: 0.65,
 			asset: 'bad'
-		},
-		{
+		}, {
 			score: 25,
 			threshold: 0.9,
 			asset: 'superbad'

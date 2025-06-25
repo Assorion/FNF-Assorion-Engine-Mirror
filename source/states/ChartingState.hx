@@ -5,6 +5,7 @@ import flixel.FlxBasic;
 import flixel.util.FlxColor;
 import flixel.group.FlxSpriteGroup;
 import flixel.input.keyboard.FlxKey;
+import flixel.addons.ui.FlxUITabMenu;
 import openfl.geom.Rectangle;
 import openfl.events.MouseEvent;
 import openfl.display.BitmapData;
@@ -43,6 +44,20 @@ class ChartGrid extends StaticSprite {
 class ChartingState extends EventState {
 	private static inline final NOTE_SELECT_COLOUR:Int = 0xFF9999CC; // RGB: 153 153 204
 	private static inline final GRID_SIZE:Int = 40;
+	private final UI_TABS:Array<{name:String, label:String}> = [{
+			name: '1properties', // The number is required, otherwise Flixel will sort tabs alphabetically.
+			label: 'Properties'
+		}, {
+			name: '2section',
+			label: 'Section'
+		}, {
+			name: '3players',
+			label: 'Players'
+		}, {
+			name: '4help',
+			label: 'Help'
+		}
+	];
 
 	public var vocals:FlxSound;
 	public var songData:SongData;
@@ -53,6 +68,8 @@ class ChartingState extends EventState {
 	private var noteGroup:FlxSpriteGroup;
 	private var highlightBox:StaticSprite;
 	private var selectionBox:StaticSprite;
+
+	private var mainUIBox:FlxUITabMenu;
 
 	var stepTime:Float = 0;
 	var curSection:Int = 0;
@@ -97,13 +114,23 @@ class ChartingState extends EventState {
 		add(noteGroup);
 
 		highlightBox = new StaticSprite(0, 0).makeGraphic(GRID_SIZE, GRID_SIZE, 0xFFFFFFFF);
-		highlightBox.alpha = 0.75;
 
 		selectionBox = new StaticSprite(0, 0).makeGraphic(1, 1, NOTE_SELECT_COLOUR);
 		selectionBox.alpha = 0;
 		selectionBox.origin.set(0, 0);
 		add(selectionBox);
 		
+		// UI Stuff
+		mainUIBox = new FlxUITabMenu(null, null, UI_TABS, null, true);
+		mainUIBox.resize(410, 600);
+		mainUIBox.screenCenter(Y);
+		add(mainUIBox);
+
+		/*propertiesUI();
+		sectionUI();
+		playersUI();
+		helpUI();*/
+
 		reloadGrid();
 		reloadNotes();
 	}
@@ -130,7 +157,7 @@ class ChartingState extends EventState {
 	if (FlxG.sound.music.playing)
 		stepTime = (Song.millisecond * Song.division * 0.25) + (stepTime * 0.75);
 
-	private inline function noteSelected(noteData:NoteData, sec:Int):Bool
+	private inline function noteSelected(noteData:NoteData, sec:Int):Bool 
 		return selectedNotes.exists(sec) && (selectedNotes.get(sec)).contains(noteData);
 
 	public function reloadGrid() {
@@ -138,6 +165,7 @@ class ChartingState extends EventState {
 
 		grid = new ChartGrid(40, 40, PlayState.KEY_COUNT * songData.characterCharts, 16, 4);
 		timingLine = new StaticSprite(0, 0).makeGraphic(Math.round(grid.width), 4, 0xFFFFFFFF);
+		mainUIBox.x = gridGroup.x + grid.x + grid.width + 10;
 
 		gridGroup.add(grid);
 		gridGroup.add(timingLine);
@@ -230,6 +258,7 @@ class ChartingState extends EventState {
 		gridSelectY = CoolUtil.boundTo(Math.floor((FlxG.mouse.y - gridGroup.y) / GRID_SIZE), 0, 15);
 		highlightBox.x = (gridSelectX * GRID_SIZE) + gridGroup.x;
 		highlightBox.y = (gridSelectY * GRID_SIZE) + gridGroup.y;
+		highlightBox.alpha = FlxG.mouse.x > grid.x + grid.width ? 0 : 0.75;
 
 		if (FlxG.mouse.pressed && FlxG.keys.pressed.CONTROL){
 			selectionBox.scale.x = FlxG.mouse.x - selectionBox.x;
@@ -263,6 +292,9 @@ class ChartingState extends EventState {
 	}
 
 	public function mouseDown(ev:MouseEvent) {
+		if (highlightBox.alpha == 0)
+			return;
+
 		if (FlxG.keys.pressed.CONTROL){
 			selectionBox.alpha = 0.75;
 			selectionBox.x = FlxG.mouse.x;
@@ -305,18 +337,25 @@ class ChartingState extends EventState {
 		reloadNotes();
 	}
 
-	function shiftNotes(strumAdd:Int, columnAdd:Int){
+	inline function shiftNotes(strumAdd:Int, columnAdd:Int){
 		for(k in selectedNotes.keys())
 			for(i in 0...selectedNotes.get(k).length){
-				var tmpNote = selectedNotes.get(k)[i];	
-				tmpNote.strumTime += strumAdd;
-				tmpNote.column    += columnAdd;
+				selectedNotes.get(k)[i].strumTime += strumAdd;
+				selectedNotes.get(k)[i].column    += columnAdd;
 			}
 
 		for(k in selectedNotes.keys())
 			correctSection(k);
 
 		reloadNotes();
+	}
+
+	inline function jumpToSection(newStepTime:Float){
+		FlxG.sound.music.pause();
+		vocals.pause();
+	
+		stepTime = Math.max(newStepTime, 0);
+		FlxG.sound.music.time = stepTime * Song.stepCrochet;
 	}
 
 	override function keyHit(ev:KeyboardEvent) {
@@ -336,6 +375,9 @@ class ChartingState extends EventState {
 								selectedNotes.get(k)[i].length--;
 					
 					reloadNotes();
+				}],
+				[Binds.ui_back, function(){
+					jumpToSection(0);
 				}]
 			]);
 			return;
@@ -387,7 +429,10 @@ class ChartingState extends EventState {
 				}],
 				[Binds.ui_accept, function(){
 					selectedNotes.clear();
-					selectedNotes.set(curSection, songData.sections[curSection].notes);
+					selectedNotes.set(curSection, []);
+					for(n in songData.sections[curSection].notes)
+						(selectedNotes.get(curSection)).push(n);
+
 					reloadNotes();
 				}]
 			]);
@@ -414,18 +459,10 @@ class ChartingState extends EventState {
 				}
 			}],
 			[Binds.ui_down, function(){
-				FlxG.sound.music.pause();
-				vocals.pause();
-
-				stepTime = (curSection + 1) * 16;
-				FlxG.sound.music.time = stepTime * Song.stepCrochet;
+				jumpToSection((curSection + 1) * 16);
 			}],
 			[Binds.ui_up, function(){
-				FlxG.sound.music.pause();
-				vocals.pause();
-
-				stepTime = Math.max((curSection - 1) * 16, 0);
-				FlxG.sound.music.time = stepTime * Song.stepCrochet;
+				jumpToSection((curSection - 1) * 16);
 			}]
 		]);
 	}

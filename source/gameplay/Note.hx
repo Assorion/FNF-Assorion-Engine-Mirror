@@ -13,8 +13,7 @@ typedef NoteType = {
 #if !debug @:noDebug #end
 class Note extends StaticSprite { // If animated notes are desired, this will have to be changed from a StaticSprite to FlxSprite.
 	public static final NOTE_COLOURS:Array<String> = ['purple', 'blue', 'green', 'red'];
-	public static final NOTE_TYPES:Array<NoteType> = [
-		{
+	public static final NOTE_TYPES:Array<NoteType> = [{
 			assets: 'noteAssets',
 			mustHit: true,
 			onHit: null, 

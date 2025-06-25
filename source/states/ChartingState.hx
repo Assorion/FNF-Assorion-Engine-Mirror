@@ -2,16 +2,18 @@ package states;
 
 import flixel.FlxG;
 import flixel.FlxBasic;
+import flixel.FlxSprite;
+import flixel.addons.ui.*;
 import flixel.util.FlxColor;
 import flixel.group.FlxSpriteGroup;
 import flixel.input.keyboard.FlxKey;
-import flixel.addons.ui.FlxUITabMenu;
 import openfl.geom.Rectangle;
 import openfl.events.MouseEvent;
 import openfl.display.BitmapData;
 
 import backend.Song;
 import gameplay.Note;
+import gameplay.StageLogic;
 
 class ChartGrid extends StaticSprite {
     public final GRID_COLOURS:Array<Array<Array<Int>>> = [
@@ -41,6 +43,7 @@ class ChartGrid extends StaticSprite {
 	}
 }
 
+// TODO: ADD NOTE TYPE CHANGES!
 class ChartingState extends EventState {
 	private static inline final NOTE_SELECT_COLOUR:Int = 0xFF9999CC; // RGB: 153 153 204
 	private static inline final GRID_SIZE:Int = 40;
@@ -70,12 +73,15 @@ class ChartingState extends EventState {
 	private var selectionBox:StaticSprite;
 
 	private var mainUIBox:FlxUITabMenu;
+	private var typing:Bool;
 
 	var stepTime:Float = 0;
 	var curSection:Int = 0;
 	var timingLine:StaticSprite;
 	var gridSelectX:Int;
 	var gridSelectY:Float;
+
+	var oldMuteKeys:Array<FlxKey> = [];
 
 	override function create(){
 		super.create();
@@ -89,7 +95,9 @@ class ChartingState extends EventState {
 
 		vocals.play();
 		vocals.pause();
+		oldMuteKeys = FlxG.sound.muteKeys;
 		FlxG.mouse.visible = true;
+		FlxG.sound.muteKeys = [];
 		FlxG.sound.list.add(vocals);
 		FlxG.sound.music.play(); // Playing and immidietly pausing is required to handle some timing weirdness.
 		FlxG.sound.music.pause();
@@ -122,12 +130,12 @@ class ChartingState extends EventState {
 		
 		// UI Stuff
 		mainUIBox = new FlxUITabMenu(null, null, UI_TABS, null, true);
-		mainUIBox.resize(410, 600);
+		mainUIBox.resize(350, 500);
 		mainUIBox.screenCenter(Y);
 		add(mainUIBox);
 
-		/*propertiesUI();
-		sectionUI();
+		propertiesUI();
+		/*sectionUI();
 		playersUI();
 		helpUI();*/
 
@@ -211,7 +219,6 @@ class ChartingState extends EventState {
 		}
 	}
 
-	/* This function makes me want to barf */
 	public function correctSection(sec:Int){
 		var i:Int = -1;
 		while(++i < songData.sections[sec].notes.length){
@@ -359,6 +366,9 @@ class ChartingState extends EventState {
 	}
 
 	override function keyHit(ev:KeyboardEvent) {
+		if (typing || ev.keyCode.check([FlxKey.BACKSPACE])) // Ignore backspace because of Flixel UI!
+			return;
+
 		if (FlxG.keys.pressed.SHIFT){
 			ev.keyCode.bindFunctions([
 				[Binds.ui_down, function(){
@@ -442,6 +452,7 @@ class ChartingState extends EventState {
 		ev.keyCode.bindFunctions([
 			[Binds.ui_back, function(){
 				FlxG.mouse.visible = false;
+				FlxG.sound.muteKeys = oldMuteKeys;
 				FlxG.stage.removeEventListener(MouseEvent.MOUSE_WHEEL, mouseScroll);
 				FlxG.stage.removeEventListener(MouseEvent.MOUSE_MOVE,  mouseMove);
 				FlxG.stage.removeEventListener(MouseEvent.MOUSE_DOWN,  mouseDown);
@@ -471,5 +482,96 @@ class ChartingState extends EventState {
 	if (ev.keyCode.check([FlxKey.CONTROL])){
 		selectionBox.alpha = 0;
 		selectionBox.scale.set(0, 0);
+	}
+
+	// UI Stuff
+	private inline function generateLabel(widget:flixel.FlxSprite, labelText:String):FormattedText
+		return new FormattedText(widget.x + widget.width + 2, widget.y - 2, 0, labelText, null, 14, 0xFFFFFFFF, LEFT);
+
+	private inline function widgetOffset(y:Float, from:flixel.FlxSprite)
+		return from.y + from.height + y;
+
+	// Flixel UI is such a joke.
+	override function getEvent(id:String, sender:Dynamic, data:Dynamic, ?params:Array<Dynamic>)
+		switch(id){
+		case FlxUINumericStepper.CHANGE_EVENT:
+			var tmpStepper:FlxUINumericStepper = cast sender;
+
+			switch(tmpStepper.name){
+			case 'speed':
+				songData.speed = tmpStepper.value;
+			case 'startDelay':
+				songData.startDelay = tmpStepper.value;
+			}
+		case FlxUIInputText.CHANGE_EVENT:
+			var tmpBox:FlxUIInputText = cast sender;
+
+			switch(tmpBox.name){
+			case 'name':
+				songData.name = tmpBox.text;
+			case 'BPM':
+				FlxG.sound.music.pause();
+				vocals.pause();
+
+				songData.BPM = Math.isNaN(Std.parseFloat(tmpBox.text)) ? 120 : Std.parseFloat(tmpBox.text);
+				Song.musicSet(songData.BPM);
+			}
+		case FlxUIDropDownMenu.CLICK_EVENT:
+			var tmpDropDown:FlxUIDropDownMenu = cast sender;
+
+			switch(tmpDropDown.name){
+			case 'stage':
+				songData.stage = cast(data, String);
+			}
+		case FlxUICheckBox.CLICK_EVENT:
+			var tmpCheck:FlxUICheckBox = cast sender;
+			
+			switch(tmpCheck.name){
+			case 'hasVoices':
+				FlxG.sound.music.pause();
+				vocals.pause();
+
+				songData.hasVoices = tmpCheck.checked;
+				songData.hasVoices ? vocals.loadEmbedded(Paths.playableSong(songData.name, true)) : vocals = new FlxSound();
+			}
+		}
+
+	public function propertiesUI(){
+		var nameBox = new FlxUIInputText(10, 10, 120, songData.name, 8);
+		nameBox.name = 'name';
+
+		var stageDropDown = new FlxUIDropDownMenu(220, 10, FlxUIDropDownMenu.makeStrIdLabelArray(StageLogic.STAGE_NAME_LIST, false));
+		stageDropDown.name = 'stage';
+
+		var BPMBox = new FlxUIInputText(10, widgetOffset(10, nameBox), 120, Std.string(songData.BPM), 8); // Using input box instead of stepper because of how buggy they are.
+		BPMBox.focusGained = nameBox.focusGained = function(){ typing = true; };
+		BPMBox.focusLost   = nameBox.focusLost   = function(){ typing = false; };
+		BPMBox.name = 'BPM';
+
+		var speedStepper = new FlxUINumericStepper(10, widgetOffset(10, BPMBox), 0.1, songData.speed, 0.1, 10, 1);
+		speedStepper.name = 'speed';
+		
+		var delayStepper = new FlxUINumericStepper(10, widgetOffset(10, speedStepper), 0.5, songData.startDelay, 0, 100, 1);
+		delayStepper.name = 'startDelay';
+
+		var voicesCheck = new FlxUICheckBox(10, widgetOffset(10, delayStepper), null, null, '', 0);
+		voicesCheck.checked = songData.hasVoices;
+		voicesCheck.name = 'hasVoices';
+
+		var propertiesUIGroup = new FlxUI(null, mainUIBox);
+		propertiesUIGroup.add(generateLabel(nameBox, 'Song Name'));
+		propertiesUIGroup.add(generateLabel(BPMBox, 'Beats Per Minute'));
+		propertiesUIGroup.add(generateLabel(speedStepper, 'Scroll speed'));
+		propertiesUIGroup.add(generateLabel(delayStepper, 'Starting delay (seconds)'));
+		propertiesUIGroup.add(generateLabel(voicesCheck, 'Use voices'));
+		propertiesUIGroup.add(nameBox);
+		propertiesUIGroup.add(BPMBox);
+		propertiesUIGroup.add(speedStepper);
+		propertiesUIGroup.add(delayStepper);
+		propertiesUIGroup.add(voicesCheck);
+		propertiesUIGroup.add(stageDropDown);
+
+		propertiesUIGroup.name = '1properties';
+		mainUIBox.addGroup(propertiesUIGroup);
 	}
 }

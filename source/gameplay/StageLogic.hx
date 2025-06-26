@@ -7,8 +7,8 @@ import states.PlayState;
 import EventState;
 
 class StageLogic {
-	public static final STAGE_NAME_LIST:Array<String> = ['demo-stage'];
-	private final STAGE_CLASS_LIST:Array<Dynamic>     = [DemoStage];
+	public static final STAGE_NAMES:Array<String> = ['demo-stage'];
+	private final STAGE_CLASSES:Array<Dynamic>    = [DemoStage];
 
 	public var playStateRef:PlayState;
 	public var currentStage:Dynamic;
@@ -16,13 +16,13 @@ class StageLogic {
 	public function new(name:String, playState:PlayState) {
 		playStateRef = playState;
 		
-		for(i in 0...STAGE_NAME_LIST.length)
-			if (STAGE_NAME_LIST[i] == name){
-				currentStage = Type.createInstance(STAGE_CLASS_LIST[i], [this]);
+		for(i in 0...STAGE_NAMES.length)
+			if (STAGE_NAMES[i] == name){
+				currentStage = Type.createInstance(STAGE_CLASSES[i], [this]);
 				return;
 			}
 
-		currentStage = Type.createInstance(STAGE_CLASS_LIST[0], [this]);
+		currentStage = Type.createInstance(STAGE_CLASSES[0], [this]);
 	}
 
 	public function add(obj:FlxBasic)

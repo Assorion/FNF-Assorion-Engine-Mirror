@@ -2,7 +2,7 @@
 	"name": "demo-song",
 	"BPM": 140,
 	"speed": 1.0,
-	"stage": "stage",
+	"stage": "demo-stage",
 	"hasVoices": true,
 	"characters": [
 		{

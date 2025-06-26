@@ -4,12 +4,15 @@ import flixel.FlxG;
 import flixel.FlxBasic;
 import flixel.FlxSprite;
 import flixel.addons.ui.*;
+import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 import flixel.group.FlxSpriteGroup;
 import flixel.input.keyboard.FlxKey;
 import openfl.geom.Rectangle;
 import openfl.events.MouseEvent;
 import openfl.display.BitmapData;
+import haxe.Json;
+import sys.io.File;
 
 import backend.Song;
 import gameplay.Note;
@@ -43,6 +46,7 @@ class ChartGrid extends StaticSprite {
 	}
 }
 
+// TODO: Add different zoom/snapping levels!
 #if !debug @:noDebug #end
 class ChartingState extends EventState {
 	private static inline final NOTE_SELECT_COLOUR:Int = 0xFF9999CC; // RGB: 153 153 204
@@ -168,6 +172,18 @@ class ChartingState extends EventState {
 	private inline function noteSelected(noteData:NoteData, sec:Int):Bool 
 		return selectedNotes.exists(sec) && (selectedNotes.get(sec)).contains(noteData);
 
+	private inline function sectionNullCheck(sec:Int):Bool {
+		var wasNull:Bool = songData.sections[sec] == null;
+
+		if (wasNull)
+			songData.sections[sec] = {
+				cameraFacing: 0,
+				notes: []
+			};
+
+		return wasNull;
+	}
+
 	public function reloadGrid() {
 		gridGroup.clear();
 
@@ -181,13 +197,8 @@ class ChartingState extends EventState {
 	}
 
 	public function reloadNotes() {
+		sectionNullCheck(curSection);
 		noteGroup.clear();
-
-		if (songData.sections[curSection] == null)
-			songData.sections[curSection] = {
-				cameraFacing: 0,
-				notes: []
-			};
 
 		for(i in 0...songData.sections[curSection].notes.length){
 			var noteData = songData.sections[curSection].notes[i];
@@ -219,8 +230,10 @@ class ChartingState extends EventState {
 		}
 	}
 
-	public function correctSection(sec:Int){
+	public function correctSection(sec:Int):Bool {
+		var dirty:Bool = false;
 		var i:Int = -1;
+
 		while(++i < songData.sections[sec].notes.length){
 			var tmpNote = songData.sections[sec].notes[i];
 			var secOffset = Math.floor(tmpNote.strumTime / 16);
@@ -232,12 +245,8 @@ class ChartingState extends EventState {
 			if (secOffset == 0 || (secOffset < 0 && sec == 0))
 				continue;
 
-			if (songData.sections[sec + secOffset] == null)
-				songData.sections[sec + secOffset] = {
-					cameraFacing: 0,
-					notes: []
-				};
-
+			dirty = true;
+			sectionNullCheck(sec + secOffset);
 			songData.sections[sec].notes.splice(i--, 1);
 			songData.sections[sec + secOffset].notes.push(tmpNote);
 
@@ -249,6 +258,8 @@ class ChartingState extends EventState {
 				(selectedNotes.get(sec + secOffset)).push(tmpNote); 
 			}
 		}
+
+		return dirty;
 	}
 	
 	public function mouseScroll(ev:MouseEvent) {
@@ -360,7 +371,6 @@ class ChartingState extends EventState {
 	inline function jumpToSection(newStepTime:Float){
 		FlxG.sound.music.pause();
 		vocals.pause();
-	
 		stepTime = Math.max(newStepTime, 0);
 		FlxG.sound.music.time = stepTime * Song.stepCrochet;
 	}
@@ -509,9 +519,63 @@ class ChartingState extends EventState {
 	private inline function widgetOffset(y:Float, from:flixel.FlxSprite)
 		return from.y + from.height + y;
 
-	// Flixel UI is such a joke.
+	private inline function saveSong(){
+		var corrections:String = '';
+		var path = 'assets/data/songs/${PlayState.songData.name}';
+
+		// Safety checks. TODO: Add the postWarning function back.
+		if (!StageLogic.STAGE_NAMES.contains(songData.stage))
+			corrections += 'No stage called "${songData.stage}". (NOT Fixed)\n';
+
+		if (songData.characterCharts > songData.characters.length){
+			songData.characterCharts = songData.characters.length;
+			corrections += 'More charts than characters. (Fixed)\n';
+		}
+
+		if (songData.activePlayer >= songData.characterCharts){
+			songData.activePlayer = 0;
+			corrections += 'Active player was higher than amount of charts. (Defaulted to 0)\n';
+		}
+
+		if (songData.BPM < 0 || songData.speed < 0 || songData.activePlayer < 0 || songData.startDelay < 0)
+			corrections += 'Either BPM, speed, active player, or start delay was under 0. (NOT fixed)\n';
+
+		for(i in 0...songData.sections.length){
+			if (sectionNullCheck(i))
+				corrections += 'Section $i did not exist. (Fixed)\n';
+
+			if (correctSection(i))
+				corrections += 'Section $i contained notes outside of range. (Fixed)\n';
+
+			for(n in songData.sections[i].notes){
+				var j:Int = -1;
+				while(++j < songData.sections[i].notes.length){
+					var tmpNote = songData.sections[i].notes[j];
+
+					if (tmpNote == n 
+					 || tmpNote.strumTime != n.strumTime 
+				 	 || tmpNote.player != n.player 
+					 || tmpNote.column != n.column)
+						continue;
+
+					corrections += 'Found duplicate note at section $i, position ${tmpNote.strumTime}. (Fixed)\n';
+					songData.sections[i].notes.splice(j--, 1);
+				}
+			}
+		}
+
+		reloadNotes();
+		/////////////////////////
+
+		var JsonString:String = Json.stringify(songData, '\t'); // '\t' enables pretty printing.
+		File.saveContent('$path/edit.json', JsonString);
+		
+		if (corrections != '')
+			File.saveContent('$path/errors.txt', corrections);
+	}
+
 	override function getEvent(id:String, sender:Dynamic, data:Dynamic, ?params:Array<Dynamic>)
-		switch(id){
+		switch(id){ // Flixel UI is such a joke.
 		case FlxUINumericStepper.CHANGE_EVENT:
 			var tmpStepper:FlxUINumericStepper = cast sender;
 
@@ -558,7 +622,7 @@ class ChartingState extends EventState {
 		var nameBox = new FlxUIInputText(10, 10, 120, songData.name, 8);
 		nameBox.name = 'name';
 
-		var stageDropDown = new FlxUIDropDownMenu(220, 10, FlxUIDropDownMenu.makeStrIdLabelArray(StageLogic.STAGE_NAME_LIST, false));
+		var stageDropDown = new FlxUIDropDownMenu(220, 10, FlxUIDropDownMenu.makeStrIdLabelArray(StageLogic.STAGE_NAMES, false));
 		stageDropDown.name = 'stage';
 
 		var BPMBox = new FlxUIInputText(10, widgetOffset(10, nameBox), 120, Std.string(songData.BPM), 8); // Using input box instead of stepper because of how buggy they are.
@@ -576,6 +640,12 @@ class ChartingState extends EventState {
 		voicesCheck.checked = songData.hasVoices;
 		voicesCheck.name = 'hasVoices';
 
+		var saveButton = new FlxButton(10, 450, 'Save', saveSong);
+		/*
+		var clearButton = new FlxButton(10, 470, 'Clear', null);
+		var selectButton = new FlxButton(10, 470, 'Select All', null);
+		var updateButton = new FlxButton(10, 470, 'Update Song', null);*/
+
 		var propertiesUIGroup = new FlxUI(null, mainUIBox);
 		propertiesUIGroup.add(generateLabel(nameBox, 'Song Name'));
 		propertiesUIGroup.add(generateLabel(BPMBox, 'Beats Per Minute'));
@@ -588,6 +658,8 @@ class ChartingState extends EventState {
 		propertiesUIGroup.add(delayStepper);
 		propertiesUIGroup.add(voicesCheck);
 		propertiesUIGroup.add(stageDropDown);
+
+		propertiesUIGroup.add(saveButton);
 
 		propertiesUIGroup.name = '1properties';
 		mainUIBox.addGroup(propertiesUIGroup);

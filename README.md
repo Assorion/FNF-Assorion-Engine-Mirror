@@ -101,7 +101,7 @@ If you want to try out the engine you can acquire releases <a href="https://code
 - Install [libraries](#libraries) below
 - Run `haxelib run lime setup` in CMD
 - Clone (or download) the source code
-- Install Visual Studio (tested on 2017) with the Windows SDK, MSVC, and Clang Compiler
+- Install Visual Studio (tested on 2017) with the Windows SDK and MSVC
 - Open CMD within the project root folder
 - Run `lime test windows` in CMD
 

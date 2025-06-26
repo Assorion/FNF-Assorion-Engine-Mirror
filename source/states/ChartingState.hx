@@ -43,7 +43,7 @@ class ChartGrid extends StaticSprite {
 	}
 }
 
-// TODO: ADD NOTE TYPE CHANGES!
+#if !debug @:noDebug #end
 class ChartingState extends EventState {
 	private static inline final NOTE_SELECT_COLOUR:Int = 0xFF9999CC; // RGB: 153 153 204
 	private static inline final GRID_SIZE:Int = 40;
@@ -64,6 +64,7 @@ class ChartingState extends EventState {
 
 	public var vocals:FlxSound;
 	public var songData:SongData;
+	public var curNoteType:Int;
 	public var selectedNotes:Map<Int, Array<NoteData>> = new Map<Int, Array<NoteData>>();
 	
 	private var grid:StaticSprite;
@@ -72,6 +73,7 @@ class ChartingState extends EventState {
 	private var highlightBox:StaticSprite;
 	private var selectionBox:StaticSprite;
 
+	private var oldMuteKeys:Array<FlxKey> = [];
 	private var mainUIBox:FlxUITabMenu;
 	private var typing:Bool;
 
@@ -80,8 +82,6 @@ class ChartingState extends EventState {
 	var timingLine:StaticSprite;
 	var gridSelectX:Int;
 	var gridSelectY:Float;
-
-	var oldMuteKeys:Array<FlxKey> = [];
 
 	override function create(){
 		super.create();
@@ -327,7 +327,7 @@ class ChartingState extends EventState {
 			column: gridSelectX % PlayState.KEY_COUNT,
 			length: 0,
 			player: Math.floor(gridSelectX / PlayState.KEY_COUNT),
-			type: 0
+			type: curNoteType
 		};
 
 		songData.sections[curSection].notes.push(createdNote);
@@ -383,6 +383,24 @@ class ChartingState extends EventState {
 						for(i in 0...selectedNotes.get(k).length)
 							if (selectedNotes.get(k)[i].length > 0)
 								selectedNotes.get(k)[i].length--;
+					
+					reloadNotes();
+				}],
+				[Binds.ui_left, function(){
+					curNoteType = CoolUtil.intCircularModulo(--curNoteType, Note.NOTE_TYPES.length);
+
+					for(k in selectedNotes.keys())
+						for(i in 0...selectedNotes.get(k).length)
+							selectedNotes.get(k)[i].type = curNoteType;
+
+					reloadNotes();
+				}],
+				[Binds.ui_right, function(){
+					curNoteType = CoolUtil.intCircularModulo(++curNoteType, Note.NOTE_TYPES.length);
+
+					for(k in selectedNotes.keys())
+						for(i in 0...selectedNotes.get(k).length)
+							selectedNotes.get(k)[i].type = curNoteType;
 					
 					reloadNotes();
 				}],

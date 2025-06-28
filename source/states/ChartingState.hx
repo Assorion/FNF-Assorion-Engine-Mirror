@@ -6,6 +6,7 @@ import flixel.FlxSprite;
 import flixel.addons.ui.*;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
+import flixel.tweens.FlxTween;
 import flixel.group.FlxSpriteGroup;
 import flixel.input.keyboard.FlxKey;
 import openfl.geom.Rectangle;
@@ -46,7 +47,6 @@ class ChartGrid extends StaticSprite {
 	}
 }
 
-// TODO: Add different zoom/snapping levels!
 #if !debug @:noDebug #end
 class ChartingState extends EventState {
 	private static inline final NOTE_SELECT_COLOUR:Int = 0xFF9999CC; // RGB: 153 153 204
@@ -79,6 +79,10 @@ class ChartingState extends EventState {
 
 	private var oldMuteKeys:Array<FlxKey> = [];
 	private var mainUIBox:FlxUITabMenu;
+	private var warningText:FormattedText;
+	private var sectionText:FormattedText;
+	private var noteTypeText:FormattedText;
+	private var zoomText:FormattedText;
 	private var typing:Bool;
 
 	var stepTime:Float = 0;
@@ -86,6 +90,9 @@ class ChartingState extends EventState {
 	var timingLine:StaticSprite;
 	var gridSelectX:Int;
 	var gridSelectY:Float;
+
+	var zooms:Array<Float> = [1/2, 3/4, 1, 3/2, 2, 4]; // 0.5, 0.75, 1, 1.5, 2, 4
+	var curZoom:Int = 2;
 
 	override function create(){
 		super.create();
@@ -136,7 +143,20 @@ class ChartingState extends EventState {
 		mainUIBox = new FlxUITabMenu(null, null, UI_TABS, null, true);
 		mainUIBox.resize(350, 500);
 		mainUIBox.screenCenter(Y);
+		
+		warningText  = new FormattedText(0, 0, 0, '', null, 16, 0xFFFFFFFF, LEFT);
+		sectionText  = new FormattedText(0, 0, 0, '', null, 16, 0xFFFFFFFF, LEFT);
+		noteTypeText = new FormattedText(0, 0, 0, 'Note type: 0 (${Note.NOTE_TYPES[0].assets})', null, 16, 0xFFFFFFFF, LEFT);
+		zoomText     = new FormattedText(0, 0, 0, 'Snap: 1', null, 16, 0xFFFFFFFF, LEFT);
+		warningText.y  = mainUIBox.y - 20;
+		sectionText.y  = mainUIBox.y + mainUIBox.height + 5;
+		noteTypeText.y = mainUIBox.y + mainUIBox.height + 25;
+		zoomText.y     = mainUIBox.y + mainUIBox.height + 45;
 		add(mainUIBox);
+		add(warningText);
+		add(sectionText);
+		add(noteTypeText);
+		add(zoomText);
 
 		propertiesUI();
 		/*sectionUI();
@@ -190,6 +210,7 @@ class ChartingState extends EventState {
 		grid = new ChartGrid(40, 40, PlayState.KEY_COUNT * songData.characterCharts, 16, 4);
 		timingLine = new StaticSprite(0, 0).makeGraphic(Math.round(grid.width), 4, 0xFFFFFFFF);
 		mainUIBox.x = gridGroup.x + grid.x + grid.width + 10;
+		warningText.x = sectionText.x = noteTypeText.x = zoomText.x = mainUIBox.x;
 
 		gridGroup.add(grid);
 		gridGroup.add(timingLine);
@@ -197,6 +218,7 @@ class ChartingState extends EventState {
 	}
 
 	public function reloadNotes() {
+		sectionText.text = 'Section: $curSection';
 		sectionNullCheck(curSection);
 		noteGroup.clear();
 
@@ -273,7 +295,7 @@ class ChartingState extends EventState {
 
 	public function mouseMove(ev:MouseEvent) {
 		gridSelectX = CoolUtil.intBoundTo(Math.floor((FlxG.mouse.x - gridGroup.x) / GRID_SIZE), 0, (songData.characterCharts * PlayState.KEY_COUNT) - 1);
-		gridSelectY = CoolUtil.boundTo(Math.floor((FlxG.mouse.y - gridGroup.y) / GRID_SIZE), 0, 15);
+		gridSelectY = CoolUtil.boundTo(Math.floor(((FlxG.mouse.y - gridGroup.y) * zooms[curZoom]) / GRID_SIZE) / zooms[curZoom], 0, 15);
 		highlightBox.x = (gridSelectX * GRID_SIZE) + gridGroup.x;
 		highlightBox.y = (gridSelectY * GRID_SIZE) + gridGroup.y;
 		highlightBox.alpha = FlxG.mouse.x > grid.x + grid.width ? 0 : 0.75;
@@ -324,9 +346,9 @@ class ChartingState extends EventState {
 		for(i in 0...songData.sections[curSection].notes.length){
 			var tmpNote = songData.sections[curSection].notes[i];
 			
-			if (Math.floor(tmpNote.strumTime) == gridSelectY 
-			 && tmpNote.column == gridSelectX % PlayState.KEY_COUNT
-			 && tmpNote.player == Math.floor(gridSelectX / PlayState.KEY_COUNT)){
+			if (Math.floor(tmpNote.strumTime * 10) == Math.floor(gridSelectY * 10)
+			 && tmpNote.player == Math.floor(gridSelectX / PlayState.KEY_COUNT)
+			 && tmpNote.column == gridSelectX % PlayState.KEY_COUNT){
 				songData.sections[curSection].notes.splice(i, 1);
 				reloadNotes();
 				return;
@@ -398,15 +420,17 @@ class ChartingState extends EventState {
 				}],
 				[Binds.ui_left, function(){
 					curNoteType = CoolUtil.intCircularModulo(--curNoteType, Note.NOTE_TYPES.length);
+					noteTypeText.text = 'Note type: $curNoteType (${Note.NOTE_TYPES[curNoteType].assets})';
 
 					for(k in selectedNotes.keys())
 						for(i in 0...selectedNotes.get(k).length)
 							selectedNotes.get(k)[i].type = curNoteType;
-
+				
 					reloadNotes();
 				}],
 				[Binds.ui_right, function(){
 					curNoteType = CoolUtil.intCircularModulo(++curNoteType, Note.NOTE_TYPES.length);
+					noteTypeText.text = 'Note type: $curNoteType (${Note.NOTE_TYPES[curNoteType].assets})';
 
 					for(k in selectedNotes.keys())
 						for(i in 0...selectedNotes.get(k).length)
@@ -502,6 +526,14 @@ class ChartingState extends EventState {
 			}],
 			[Binds.ui_up, function(){
 				jumpToSection((curSection - 1) * 16);
+			}],
+			[Binds.ui_left, function(){
+				curZoom = CoolUtil.intBoundTo(curZoom - 1, 0, zooms.length - 1);
+				zoomText.text = 'Snap: ${1 / zooms[curZoom]}';
+			}],
+			[Binds.ui_right, function(){
+				curZoom = CoolUtil.intBoundTo(curZoom + 1, 0, zooms.length - 1);
+				zoomText.text = 'Snap: ${1 / zooms[curZoom]}';
 			}]
 		]);
 	}
@@ -519,11 +551,22 @@ class ChartingState extends EventState {
 	private inline function widgetOffset(y:Float, from:flixel.FlxSprite)
 		return from.y + from.height + y;
 
+	private var textTween:FlxTween;
+	private inline function postWarning(text:String, colour:Int){
+		if (textTween != null)
+			textTween.cancel();
+
+		warningText.alpha = 1;
+		warningText.color = colour;
+		warningText.text  = text;
+		textTween = FlxTween.tween(warningText, {alpha: 0}, 1.75, {startDelay: 1.25});
+	}
+
 	private inline function saveSong(){
 		var corrections:String = '';
 		var path = 'assets/data/songs/${PlayState.songData.name}';
 
-		// Safety checks. TODO: Add the postWarning function back.
+		// Safety checks
 		if (!StageLogic.STAGE_NAMES.contains(songData.stage))
 			corrections += 'No stage called "${songData.stage}". (NOT Fixed)\n';
 
@@ -569,9 +612,12 @@ class ChartingState extends EventState {
 
 		var JsonString:String = Json.stringify(songData, '\t'); // '\t' enables pretty printing.
 		File.saveContent('$path/edit.json', JsonString);
+		postWarning('File saved to "$path/edit.json"', 0xFFFFFFFF);
 		
-		if (corrections != '')
+		if (corrections != ''){
 			File.saveContent('$path/errors.txt', corrections);
+			postWarning('Check errors/warnings at "$path/errors.txt"', 0xFFFFFF00);
+		}
 	}
 
 	override function getEvent(id:String, sender:Dynamic, data:Dynamic, ?params:Array<Dynamic>)
@@ -641,10 +687,38 @@ class ChartingState extends EventState {
 		voicesCheck.name = 'hasVoices';
 
 		var saveButton = new FlxButton(10, 450, 'Save', saveSong);
-		/*
-		var clearButton = new FlxButton(10, 470, 'Clear', null);
-		var selectButton = new FlxButton(10, 470, 'Select All', null);
-		var updateButton = new FlxButton(10, 470, 'Update Song', null);*/
+		var clearButton = new FlxButton(10, 420, 'Clear', function(){
+			songData.sections = [];
+			sectionNullCheck(0);
+			jumpToSection(0);
+			reloadNotes();
+		});
+		var selectButton = new FlxButton(10, 390, 'Select All', function(){
+			selectedNotes.clear();
+
+			for(i in 0...songData.sections.length){
+				selectedNotes.set(i, []);
+
+				for(n in songData.sections[i].notes)
+					selectedNotes.get(i).push(n);
+			}
+
+			reloadNotes();
+		});
+		var updateButton = new FlxButton(10, 360, 'Update Song', function(){
+			postWarning('Using "${Paths.playableSong(songData.name, false)}"', 0xFFFFFFFF);
+			FlxG.sound.list.remove(vocals);
+			FlxG.sound.playMusic(Paths.playableSong(songData.name, false));
+			FlxG.sound.music.pause();
+			FlxG.sound.music.time = 0;
+
+			vocals.pause();
+			vocals = new FlxSound();
+			FlxG.sound.list.add(vocals);
+
+			if (songData.hasVoices)
+				vocals.loadEmbedded(Paths.playableSong(songData.name, true));
+		});
 
 		var propertiesUIGroup = new FlxUI(null, mainUIBox);
 		propertiesUIGroup.add(generateLabel(nameBox, 'Song Name'));
@@ -658,8 +732,10 @@ class ChartingState extends EventState {
 		propertiesUIGroup.add(delayStepper);
 		propertiesUIGroup.add(voicesCheck);
 		propertiesUIGroup.add(stageDropDown);
-
 		propertiesUIGroup.add(saveButton);
+		propertiesUIGroup.add(clearButton);
+		propertiesUIGroup.add(selectButton);
+		propertiesUIGroup.add(updateButton);
 
 		propertiesUIGroup.name = '1properties';
 		mainUIBox.addGroup(propertiesUIGroup);

@@ -82,7 +82,7 @@ class ChartingState extends EventState {
 	private var warningText:FormattedText;
 	private var sectionText:FormattedText;
 	private var noteTypeText:FormattedText;
-	private var zoomText:FormattedText;
+	private var snapText:FormattedText;
 	private var typing:Bool;
 
 	var stepTime:Float = 0;
@@ -91,7 +91,7 @@ class ChartingState extends EventState {
 	var gridSelectX:Int;
 	var gridSelectY:Float;
 
-	var zooms:Array<Float> = [1/2, 3/4, 1, 3/2, 2, 4]; // 0.5, 0.75, 1, 1.5, 2, 4
+	var snaps:Array<Float> = [1/2, 3/4, 1, 3/2, 2, 4]; // 0.5, 0.75, 1, 1.5, 2, 4
 	var curZoom:Int = 2;
 
 	override function create(){
@@ -147,20 +147,20 @@ class ChartingState extends EventState {
 		warningText  = new FormattedText(0, 0, 0, '', null, 16, 0xFFFFFFFF, LEFT);
 		sectionText  = new FormattedText(0, 0, 0, '', null, 16, 0xFFFFFFFF, LEFT);
 		noteTypeText = new FormattedText(0, 0, 0, 'Note type: 0 (${Note.NOTE_TYPES[0].assets})', null, 16, 0xFFFFFFFF, LEFT);
-		zoomText     = new FormattedText(0, 0, 0, 'Snap: 1', null, 16, 0xFFFFFFFF, LEFT);
+		snapText     = new FormattedText(0, 0, 0, 'Snap: 1', null, 16, 0xFFFFFFFF, LEFT);
 		warningText.y  = mainUIBox.y - 20;
 		sectionText.y  = mainUIBox.y + mainUIBox.height + 5;
 		noteTypeText.y = mainUIBox.y + mainUIBox.height + 25;
-		zoomText.y     = mainUIBox.y + mainUIBox.height + 45;
+		snapText.y     = mainUIBox.y + mainUIBox.height + 45;
 		add(mainUIBox);
 		add(warningText);
 		add(sectionText);
 		add(noteTypeText);
-		add(zoomText);
+		add(snapText);
 
 		propertiesUI();
-		/*sectionUI();
-		playersUI();
+		sectionUI();
+		/*playersUI();
 		helpUI();*/
 
 		reloadGrid();
@@ -210,7 +210,7 @@ class ChartingState extends EventState {
 		grid = new ChartGrid(40, 40, PlayState.KEY_COUNT * songData.characterCharts, 16, 4);
 		timingLine = new StaticSprite(0, 0).makeGraphic(Math.round(grid.width), 4, 0xFFFFFFFF);
 		mainUIBox.x = gridGroup.x + grid.x + grid.width + 10;
-		warningText.x = sectionText.x = noteTypeText.x = zoomText.x = mainUIBox.x;
+		warningText.x = sectionText.x = noteTypeText.x = snapText.x = mainUIBox.x;
 
 		gridGroup.add(grid);
 		gridGroup.add(timingLine);
@@ -218,8 +218,9 @@ class ChartingState extends EventState {
 	}
 
 	public function reloadNotes() {
-		sectionText.text = 'Section: $curSection';
 		sectionNullCheck(curSection);
+		sectionText.text = 'Section: $curSection';
+		sectionCameraStepper.value = songData.sections[curSection].cameraFacing;
 		noteGroup.clear();
 
 		for(i in 0...songData.sections[curSection].notes.length){
@@ -295,7 +296,7 @@ class ChartingState extends EventState {
 
 	public function mouseMove(ev:MouseEvent) {
 		gridSelectX = CoolUtil.intBoundTo(Math.floor((FlxG.mouse.x - gridGroup.x) / GRID_SIZE), 0, (songData.characterCharts * PlayState.KEY_COUNT) - 1);
-		gridSelectY = CoolUtil.boundTo(Math.floor(((FlxG.mouse.y - gridGroup.y) * zooms[curZoom]) / GRID_SIZE) / zooms[curZoom], 0, 15);
+		gridSelectY = CoolUtil.boundTo(Math.floor(((FlxG.mouse.y - gridGroup.y) * snaps[curZoom]) / GRID_SIZE) / snaps[curZoom], 0, 15);
 		highlightBox.x = (gridSelectX * GRID_SIZE) + gridGroup.x;
 		highlightBox.y = (gridSelectY * GRID_SIZE) + gridGroup.y;
 		highlightBox.alpha = FlxG.mouse.x > grid.x + grid.width ? 0 : 0.75;
@@ -528,12 +529,12 @@ class ChartingState extends EventState {
 				jumpToSection((curSection - 1) * 16);
 			}],
 			[Binds.ui_left, function(){
-				curZoom = CoolUtil.intBoundTo(curZoom - 1, 0, zooms.length - 1);
-				zoomText.text = 'Snap: ${1 / zooms[curZoom]}';
+				curZoom = CoolUtil.intBoundTo(curZoom - 1, 0, snaps.length - 1);
+				snapText.text = 'Snap: ${1 / snaps[curZoom]}';
 			}],
 			[Binds.ui_right, function(){
-				curZoom = CoolUtil.intBoundTo(curZoom + 1, 0, zooms.length - 1);
-				zoomText.text = 'Snap: ${1 / zooms[curZoom]}';
+				curZoom = CoolUtil.intBoundTo(curZoom + 1, 0, snaps.length - 1);
+				snapText.text = 'Snap: ${1 / snaps[curZoom]}';
 			}]
 		]);
 	}
@@ -630,6 +631,8 @@ class ChartingState extends EventState {
 				songData.speed = tmpStepper.value;
 			case 'startDelay':
 				songData.startDelay = tmpStepper.value;
+			case 'cameraFacing':
+				songData.sections[curSection].cameraFacing = Math.floor(tmpStepper.value);
 			}
 		case FlxUIInputText.CHANGE_EVENT:
 			var tmpBox:FlxUIInputText = cast sender;
@@ -664,10 +667,7 @@ class ChartingState extends EventState {
 			}
 		}
 
-	public function propertiesUI(){
-		var nameBox = new FlxUIInputText(10, 10, 120, songData.name, 8);
-		nameBox.name = 'name';
-
+	public function propertiesUI() { var nameBox = new FlxUIInputText(10, 10, 120, songData.name, 8); nameBox.name = 'name';
 		var stageDropDown = new FlxUIDropDownMenu(220, 10, FlxUIDropDownMenu.makeStrIdLabelArray(StageLogic.STAGE_NAMES, false));
 		stageDropDown.name = 'stage';
 
@@ -739,5 +739,59 @@ class ChartingState extends EventState {
 
 		propertiesUIGroup.name = '1properties';
 		mainUIBox.addGroup(propertiesUIGroup);
+	}
+
+	public var sectionCameraStepper = new FlxUINumericStepper(10, 10, 1, 0, 0, 0, 0);
+	public function sectionUI() {
+		sectionCameraStepper.value = songData.sections[curSection].cameraFacing;
+		sectionCameraStepper.max  = songData.characterCharts - 1;
+		sectionCameraStepper.name = 'cameraFacing';
+
+		var copySectionStepper = new FlxUINumericStepper(10, widgetOffset(10, sectionCameraStepper), 1, 1, 1);
+		copySectionStepper.name = 'copySectionStepper';
+
+		var copyButton = new FlxButton(10, 450, 'Copy section', function(){
+			var offSection = CoolUtil.intBoundTo(curSection - copySectionStepper.value, 0, songData.sections.length - 1);
+			sectionNullCheck(offSection);
+			
+			for(n in songData.sections[offSection].notes)
+				songData.sections[curSection].notes.push({ // We can't just push 'n', otherwise it will pass by reference.
+					strumTime: n.strumTime,
+					column: n.column,
+					length: n.length,
+					player: n.player,
+					type: n.type
+				});
+
+			reloadNotes();
+		});
+
+		var selectButton = new FlxButton(10, 420, 'Select notes', function(){
+			selectedNotes.clear();
+			selectedNotes.set(curSection, []);
+
+			for(n in songData.sections[curSection].notes)
+				selectedNotes.get(curSection).push(n);
+
+			reloadNotes();
+		});
+
+		var clearButton = new FlxButton(10, 390, 'Clear', function(){
+			songData.sections[curSection] = null;
+			sectionNullCheck(curSection);
+			reloadNotes();
+		});
+
+		var sectionUIGroup = new FlxUI(null, mainUIBox);
+		sectionUIGroup.add(generateLabel(sectionCameraStepper, 'Camera facing'));
+		sectionUIGroup.add(generateLabel(copySectionStepper, 'Copy offset'));
+		sectionUIGroup.add(sectionCameraStepper);
+		sectionUIGroup.add(copySectionStepper);
+		sectionUIGroup.add(copyButton);
+		sectionUIGroup.add(selectButton);
+		sectionUIGroup.add(clearButton);
+
+		sectionUIGroup.name = '2section';
+		mainUIBox.addGroup(sectionUIGroup);
 	}
 }

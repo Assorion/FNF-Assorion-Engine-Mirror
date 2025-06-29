@@ -9,6 +9,7 @@ import flixel.util.FlxColor;
 import flixel.tweens.FlxTween;
 import flixel.group.FlxSpriteGroup;
 import flixel.input.keyboard.FlxKey;
+import openfl.utils.Assets;
 import openfl.geom.Rectangle;
 import openfl.events.MouseEvent;
 import openfl.display.BitmapData;
@@ -47,6 +48,7 @@ class ChartGrid extends StaticSprite {
 	}
 }
 
+// TODO: 1) Add icons to the tops of the charts. 2) Finish with help UI. 3) Fix web build. 4) Any last minute optimizations/bug fixes.
 #if !debug @:noDebug #end
 class ChartingState extends EventState {
 	private static inline final NOTE_SELECT_COLOUR:Int = 0xFF9999CC; // RGB: 153 153 204
@@ -152,16 +154,17 @@ class ChartingState extends EventState {
 		sectionText.y  = mainUIBox.y + mainUIBox.height + 5;
 		noteTypeText.y = mainUIBox.y + mainUIBox.height + 25;
 		snapText.y     = mainUIBox.y + mainUIBox.height + 45;
-		add(mainUIBox);
 		add(warningText);
 		add(sectionText);
 		add(noteTypeText);
 		add(snapText);
+		add(mainUIBox);
 
 		propertiesUI();
 		sectionUI();
-		/*playersUI();
-		helpUI();*/
+		playersUI();
+		//helpUI();*/
+		mainUIBox.addGroup(playersUIGroup);
 
 		reloadGrid();
 		reloadNotes();
@@ -545,7 +548,10 @@ class ChartingState extends EventState {
 		selectionBox.scale.set(0, 0);
 	}
 
-	// UI Stuff
+	/*  !!! READ HERE !!!
+		Pretty much all the UI code is pure garbage. Which is mostly Flixel-UIs fault.
+		Huge apologies to anyone who wants/needs to tinker with the UI.
+	*/
 	private inline function generateLabel(widget:flixel.FlxSprite, labelText:String):FormattedText
 		return new FormattedText(widget.x + widget.width + 2, widget.y - 2, 0, labelText, null, 14, 0xFFFFFFFF, LEFT);
 
@@ -609,7 +615,6 @@ class ChartingState extends EventState {
 		}
 
 		reloadNotes();
-		/////////////////////////
 
 		var JsonString:String = Json.stringify(songData, '\t'); // '\t' enables pretty printing.
 		File.saveContent('$path/edit.json', JsonString);
@@ -633,6 +638,14 @@ class ChartingState extends EventState {
 				songData.startDelay = tmpStepper.value;
 			case 'cameraFacing':
 				songData.sections[curSection].cameraFacing = Math.floor(tmpStepper.value);
+			case 'activePlayer':
+				songData.activePlayer = Math.floor(tmpStepper.value) - 1;
+			case 'characterCharts':
+				songData.characterCharts = Math.floor(tmpStepper.value);
+				songData.activePlayer = CoolUtil.intBoundTo(songData.activePlayer, 0, songData.characterCharts - 1);
+				reloadGrid();
+				reloadNotes();
+				playersUI();
 			}
 		case FlxUIInputText.CHANGE_EVENT:
 			var tmpBox:FlxUIInputText = cast sender;
@@ -646,6 +659,13 @@ class ChartingState extends EventState {
 
 				songData.BPM = Math.isNaN(Std.parseFloat(tmpBox.text)) ? 120 : Std.parseFloat(tmpBox.text);
 				Song.musicSet(songData.BPM);
+			default:
+				var safeValue = Math.isNaN(Std.parseFloat(tmpBox.text)) ? 0 : Std.parseFloat(tmpBox.text);
+				var character = Std.parseInt(tmpBox.name.split('.')[0]);
+
+				tmpBox.name.split('.')[1] == 'x' ? 
+				songData.characters[character].x = safeValue :
+				songData.characters[character].y = safeValue;
 			}
 		case FlxUIDropDownMenu.CLICK_EVENT:
 			var tmpDropDown:FlxUIDropDownMenu = cast sender;
@@ -653,6 +673,10 @@ class ChartingState extends EventState {
 			switch(tmpDropDown.name){
 			case 'stage':
 				songData.stage = cast(data, String);
+			default:
+				var charIndex = Std.parseInt(tmpDropDown.name);
+				
+				songData.characters[Std.parseInt(tmpDropDown.name)].name = cast(data, String);
 			}
 		case FlxUICheckBox.CLICK_EVENT:
 			var tmpCheck:FlxUICheckBox = cast sender;
@@ -664,12 +688,18 @@ class ChartingState extends EventState {
 
 				songData.hasVoices = tmpCheck.checked;
 				songData.hasVoices ? vocals.loadEmbedded(Paths.playableSong(songData.name, true)) : vocals = new FlxSound();
+			case 'renderBackwards':
+				songData.renderBackwards = tmpCheck.checked;
 			}
 		}
 
-	public function propertiesUI() { var nameBox = new FlxUIInputText(10, 10, 120, songData.name, 8); nameBox.name = 'name';
+	public function propertiesUI() { 
+		var nameBox = new FlxUIInputText(10, 10, 120, songData.name, 8); 
+		nameBox.name = 'name';
+
 		var stageDropDown = new FlxUIDropDownMenu(220, 10, FlxUIDropDownMenu.makeStrIdLabelArray(StageLogic.STAGE_NAMES, false));
 		stageDropDown.name = 'stage';
+		stageDropDown.selectedLabel = songData.stage;
 
 		var BPMBox = new FlxUIInputText(10, widgetOffset(10, nameBox), 120, Std.string(songData.BPM), 8); // Using input box instead of stepper because of how buggy they are.
 		BPMBox.focusGained = nameBox.focusGained = function(){ typing = true; };
@@ -793,5 +823,99 @@ class ChartingState extends EventState {
 
 		sectionUIGroup.name = '2section';
 		mainUIBox.addGroup(sectionUIGroup);
+	}
+
+	private var characterNames:Array<String> = [];
+	private inline function getCharacterNames()
+	if (characterNames.length <= 0) {
+		characterNames = Assets.list();
+
+		var i = -1;
+		while(++i < characterNames.length)
+			if (characterNames[i].substring(0, 22) != 'assets/data/characters')
+				characterNames.splice(i--, 1);
+
+		for(i in 0...characterNames.length){
+			var nameSplit:Array<String> = characterNames[i].split('/');
+			characterNames[i] = nameSplit[nameSplit.length - 1];
+			characterNames[i] = characterNames[i].split('.json')[0];
+		}
+	}
+
+	public var playersUIGroup:FlxUI;
+	public function playersUI(){
+		if (playersUIGroup == null)
+			playersUIGroup = new FlxUI(null, mainUIBox);
+
+		sectionCameraStepper.max = songData.characters.length - 1;
+		playersUIGroup.name = '3players';
+		playersUIGroup.clear();
+		getCharacterNames();
+
+		var playerStepper = new FlxUINumericStepper(10, 450, 1, songData.activePlayer + 1, 1, songData.characterCharts);
+		playerStepper.name = 'activePlayer';
+
+		// The limit of 5 charts is only because more would push the UI off the screen. If you need more: lower GRID_SIZE.
+		var chartStepper = new FlxUINumericStepper(10, 420, 1, songData.characterCharts, 1, Math.floor(Math.min(songData.characters.length, 5)));
+		chartStepper.name = 'characterCharts';
+
+		var renderCheck = new FlxUICheckBox(10, 390, null, null, '', 0);
+		renderCheck.checked = songData.renderBackwards;
+		renderCheck.name = 'renderBackwards';
+
+		var addButton = new FlxButton(260, 10, 'Add', function(){
+			if (songData.characters.length >= 13)
+				return;
+
+			songData.characters.push({
+				name: characterNames[0],
+				x: 0,
+				y: 0
+			});
+			playersUI();
+		});
+
+		var removeButton = new FlxButton(260, widgetOffset(10, addButton), 'Remove', function(){
+			if (songData.characters.length <= 1)
+				return;
+
+			songData.characters.pop();
+			songData.characterCharts = CoolUtil.intBoundTo(songData.characterCharts, 1, songData.characters.length);
+			songData.activePlayer = CoolUtil.intBoundTo(songData.activePlayer, 0, songData.characterCharts - 1);
+			reloadGrid();
+			reloadNotes();
+			playersUI();
+		});
+
+		playersUIGroup.add(generateLabel(playerStepper, 'Active player'));
+		playersUIGroup.add(generateLabel(chartStepper, 'Charts'));
+		playersUIGroup.add(generateLabel(renderCheck, 'Render characters backwards'));
+		playersUIGroup.add(playerStepper);
+		playersUIGroup.add(chartStepper);
+		playersUIGroup.add(renderCheck);
+		playersUIGroup.add(addButton);
+		playersUIGroup.add(removeButton);
+
+		var dropDownList:Array<FlxUIDropDownMenu> = [];
+		for(i in 0...songData.characters.length){
+			var tmpPlayerDropDown = new FlxUIDropDownMenu(9, 10 + (i * 30), FlxUIDropDownMenu.makeStrIdLabelArray(characterNames, false));
+			tmpPlayerDropDown.selectedLabel = songData.characters[i].name;
+			tmpPlayerDropDown.name = '$i';
+			
+			var tmpPlayerX = new FlxUIInputText(142, 12 + (i * 30), 40, '${songData.characters[i].x}', 8);
+			var tmpPlayerY = new FlxUIInputText(192, 12 + (i * 30), 40, '${songData.characters[i].y}', 8);
+			tmpPlayerX.focusGained = tmpPlayerY.focusGained = function(){ typing = true; };
+			tmpPlayerX.focusLost   = tmpPlayerY.focusLost   = function(){ typing = false; };
+			tmpPlayerX.name = '$i.x';
+			tmpPlayerY.name = '$i.y';
+
+			dropDownList.push(tmpPlayerDropDown);
+			playersUIGroup.add(generateLabel(tmpPlayerY, '${i + 1}'));
+			playersUIGroup.add(tmpPlayerX);
+			playersUIGroup.add(tmpPlayerY);
+		}
+
+		for(i in 0...songData.characters.length)
+			playersUIGroup.add(dropDownList[dropDownList.length - 1 - i]);
 	}
 }

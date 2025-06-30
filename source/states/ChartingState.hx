@@ -14,7 +14,6 @@ import openfl.geom.Rectangle;
 import openfl.events.MouseEvent;
 import openfl.display.BitmapData;
 import haxe.Json;
-import sys.io.File;
 
 import backend.Song;
 import ui.CharacterIcon;
@@ -629,13 +628,20 @@ class ChartingState extends EventState {
 		reloadNotes();
 
 		var JsonString:String = Json.stringify(songData, '\t'); // '\t' enables pretty printing.
-		File.saveContent('$path/edit.json', JsonString);
+
+		#if desktop
+		sys.io.File.saveContent('$path/edit.json', JsonString);
 		postWarning('File saved to "$path/edit.json"', 0xFFFFFFFF);
 		
 		if (corrections != ''){
-			File.saveContent('$path/errors.txt', corrections);
+			sys.io.File.saveContent('$path/errors.txt', corrections);
 			postWarning('Check errors/warnings at "$path/errors.txt"', 0xFFFFFF00);
 		}
+		#else
+		var fileDialog = new lime.ui.FileDialog();
+		fileDialog.save(haxe.io.Bytes.ofString(JsonString), null, 'edit.json');
+		postWarning('File saved', 0xFFFFFFFF);
+		#end
 	}
 
 	override function getEvent(id:String, sender:Dynamic, data:Dynamic, ?params:Array<Dynamic>)
@@ -749,7 +755,7 @@ class ChartingState extends EventState {
 
 			reloadNotes();
 		});
-		var updateButton = new FlxButton(10, 360, 'Update Song', function(){
+		var updateButton = new FlxButton(10, 360, 'Reload audio', function(){
 			postWarning('Using "${Paths.playableSong(songData.name, false)}"', 0xFFFFFFFF);
 			FlxG.sound.list.remove(vocals);
 			FlxG.sound.playMusic(Paths.playableSong(songData.name, false));

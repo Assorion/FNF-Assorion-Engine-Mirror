@@ -35,26 +35,17 @@ class MenuTemplate extends EventState {
 
 	private var arrGroup:Array<MenuObject> = [];
 	private var arrIcons:FlxTypedGroup<CharacterIcon>;
-	private var camFollow:FlxObject;
+	private var background:FlxSprite;
+	private var backgroundY:Float = -72;
 
 	private function addBG(red:Int, green:Int, blue:Int, ?sprite:String = "ui/defaultMenuBackground") {
-		var background = new StaticSprite(0,0).loadGraphic(Paths.lImage(sprite));
+		background = new StaticSprite(0,-72).loadGraphic(Paths.lImage(sprite));
 		background.scale.set(1.1, 1.1);
-		background.screenCenter();
+		background.origin.set(0, 0);
+		background.screenCenter(X);
 		background.color = FlxColor.fromRGB(red, green, blue);
 
 		add(background);
-		background.scrollFactor.set(0, 0.5);
-	}
-
-	override function add(Sprite:FlxBasic):FlxBasic {
-		super.add(Sprite);
-
-		var castedSprite:FlxObject = cast Sprite;
-		if (castedSprite != null)
-			castedSprite.scrollFactor.set();
-		
-		return Sprite;
 	}
 
 	override function clear(){
@@ -72,8 +63,6 @@ class MenuTemplate extends EventState {
 
 	override function create(){
 		arrIcons = new FlxTypedGroup<CharacterIcon>();
-		camFollow = new FlxObject(0,0,1,1);
-		FlxG.camera.follow(camFollow, null, 0.023);
 
 		add(arrIcons);
 		super.create();
@@ -94,11 +83,11 @@ class MenuTemplate extends EventState {
 		]);
 
 	override function update(elapsed:Float){
-		#if (flixel < "5.4.0")
-		FlxG.camera.followLerp = (1 - Math.pow(0.5, elapsed * 2)) * (60 / Settings.framerate);
-		#end
-
 		var lerpVal = Math.pow(0.5, elapsed * 15);
+		var bgLerp  = Math.pow(0.5, elapsed);
+
+		if (background != null)
+			background.y = FlxMath.lerp(backgroundY, background.y, bgLerp);
 
 		for(i in 0...Math.floor(arrGroup.length / columns)){
 			for(x in 0...columns){
@@ -133,7 +122,6 @@ class MenuTemplate extends EventState {
 		};
 
 		cr.obj.alpha = DESELECTED_ALPHA;
-		cr.obj.scrollFactor.set();
 
 		arrGroup.push(cr);
 		add(cr.obj);
@@ -183,8 +171,8 @@ class MenuTemplate extends EventState {
 			}
 		}
 
-		camFollow.y = (curSel / loopNum) * 80;
-		camFollow.y += 320;
+		backgroundY = (curSel / loopNum) * 72;
+		backgroundY -= 72;
 	}
 
 	public function exitFunction(){

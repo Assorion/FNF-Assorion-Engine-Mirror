@@ -20,7 +20,9 @@ class OptionsState extends MenuTemplate
 			['controls', 'Change the default key bindings']
 		],
 		[
+			#if desktop
 			['start_fullscreen',  'Start the game in fullscreen mode'],
+			#end
 			['start_volume',	  'Change the volume of the game on launch'],
 			['skip_intro',        'Allows skipping the HaxeFlixel logo on launch'],
 			['cache_assets',	  'Loads all assets into memory and keeps them there. DISABLE WHEN MODDING!']
@@ -41,7 +43,7 @@ class OptionsState extends MenuTemplate
 		]
 	];
 
-	public var currentCategory:Int;
+	public var currentCategory:Int = 0;
 	public var descText:FormattedText;
 
 	override function create() {

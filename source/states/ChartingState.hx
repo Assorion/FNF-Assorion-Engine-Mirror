@@ -17,6 +17,7 @@ import haxe.Json;
 import sys.io.File;
 
 import backend.Song;
+import ui.CharacterIcon;
 import gameplay.Note;
 import gameplay.StageLogic;
 
@@ -48,7 +49,7 @@ class ChartGrid extends StaticSprite {
 	}
 }
 
-// TODO: 1) Add icons to the tops of the charts. 2) Finish with help UI. 3) Fix web build. 4) Any last minute optimizations/bug fixes.
+// TODO: 2) Finish with help UI. 3) Fix web build. 4) Any last minute optimizations/bug fixes.
 #if !debug @:noDebug #end
 class ChartingState extends EventState {
 	private static inline final NOTE_SELECT_COLOUR:Int = 0xFF9999CC; // RGB: 153 153 204
@@ -163,7 +164,7 @@ class ChartingState extends EventState {
 		propertiesUI();
 		sectionUI();
 		playersUI();
-		//helpUI();*/
+		helpUI();
 		mainUIBox.addGroup(playersUIGroup);
 
 		reloadGrid();
@@ -209,6 +210,17 @@ class ChartingState extends EventState {
 
 	public function reloadGrid() {
 		gridGroup.clear();
+
+		for(i in 0...songData.characterCharts){
+			var tmpIcon = new CharacterIcon(songData.characters[i].name);
+			tmpIcon.x = (GRID_SIZE * i * PlayState.KEY_COUNT) + GRID_SIZE;
+			tmpIcon.y = gridGroup.y - 140;
+			tmpIcon.alpha = songData.activePlayer == i ? 1 : 0.5;
+
+			tmpIcon.scale.set(0.5, 0.5);
+			tmpIcon.updateHitbox();
+			gridGroup.add(tmpIcon);
+		}
 
 		grid = new ChartGrid(40, 40, PlayState.KEY_COUNT * songData.characterCharts, 16, 4);
 		timingLine = new StaticSprite(0, 0).makeGraphic(Math.round(grid.width), 4, 0xFFFFFFFF);
@@ -640,6 +652,7 @@ class ChartingState extends EventState {
 				songData.sections[curSection].cameraFacing = Math.floor(tmpStepper.value);
 			case 'activePlayer':
 				songData.activePlayer = Math.floor(tmpStepper.value) - 1;
+				reloadGrid();
 			case 'characterCharts':
 				songData.characterCharts = Math.floor(tmpStepper.value);
 				songData.activePlayer = CoolUtil.intBoundTo(songData.activePlayer, 0, songData.characterCharts - 1);
@@ -677,6 +690,7 @@ class ChartingState extends EventState {
 				var charIndex = Std.parseInt(tmpDropDown.name);
 				
 				songData.characters[Std.parseInt(tmpDropDown.name)].name = cast(data, String);
+				reloadGrid();
 			}
 		case FlxUICheckBox.CLICK_EVENT:
 			var tmpCheck:FlxUICheckBox = cast sender;
@@ -917,5 +931,76 @@ class ChartingState extends EventState {
 
 		for(i in 0...songData.characters.length)
 			playersUIGroup.add(dropDownList[dropDownList.length - 1 - i]);
+	}
+
+	public function helpUI(){
+		var pagesText:Array<String> = [
+			'Common controls:
+
+			Down/Up: Jump forward/back a section
+			Left/Right: Increase/decrease snapping
+			Accept: Toggle pausing and playing
+			Back: Test chart changes
+
+			Click: Add note to grid
+			Click (on top of note): Delete note
+			Right click: Delete selected notes',
+
+			'Controls while holding SHIFT:
+
+			Down/Up: Change selected notes length
+			Left/Right: Change selected notes type
+			Back: Jump back to the first section
+
+			Controls while holding CONTROL:
+			
+			Click (and Drag): Select multiple notes
+			Down/Up: Move selected notes up/down
+			Left/Right: Move select notes left/right
+			Accept: Select all notes in section
+			C: Copy all selected notes
+			V: Mirror selected notes',
+
+			'Players: 
+			
+			Unlike most other engines, players are -
+			stored as a variable sized list of -
+			characters. "CharacterCharts" determines -
+			the charts respective to the characters.
+
+			Active player controls which of the -
+			characters in the character list will -
+			have the player controlling them.
+
+			Each player has an X and Y value -
+			next to them to determine their location.'
+		];
+
+		var helpUIGroup = new FlxUI(null, mainUIBox);
+		var txtPoint:FlxSprite = new FlxSprite(5, 10);
+		var labelText:FormattedText = generateLabel(txtPoint, pagesText[0]);
+
+		var nextButton = new FlxButton(260, 450, 'Next', function(){
+			helpUIGroup.remove(labelText);
+			pagesText.push(pagesText.shift());
+
+			labelText = generateLabel(txtPoint, pagesText[0]);
+			helpUIGroup.add(labelText);
+		});
+
+		var backButton = new FlxButton(10, 450, 'Back', function(){
+			helpUIGroup.remove(labelText);
+			pagesText.insert(0, pagesText.pop());
+
+			labelText = generateLabel(txtPoint, pagesText[0]);
+			helpUIGroup.add(labelText);
+		});
+
+		helpUIGroup.add(labelText);
+		helpUIGroup.add(nextButton);
+		helpUIGroup.add(backButton);
+
+		helpUIGroup.name = '4help';	
+		mainUIBox.addGroup(helpUIGroup);
 	}
 }

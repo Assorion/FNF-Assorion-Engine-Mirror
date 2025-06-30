@@ -48,7 +48,7 @@ class ChartGrid extends StaticSprite {
 	}
 }
 
-// TODO: 2) Finish with help UI. 3) Fix web build. 4) Any last minute optimizations/bug fixes.
+// TODO: 4) Any last minute optimizations/bug fixes.
 #if !debug @:noDebug #end
 class ChartingState extends EventState {
 	private static inline final NOTE_SELECT_COLOUR:Int = 0xFF9999CC; // RGB: 153 153 204
@@ -96,6 +96,11 @@ class ChartingState extends EventState {
 	var snaps:Array<Float> = [1/2, 3/4, 1, 3/2, 2, 4]; // 0.5, 0.75, 1, 1.5, 2, 4
 	var curZoom:Int = 2;
 
+	private function autoSave(){
+		saveSong(true);
+		postEvent(60, autoSave);
+	}
+
 	override function create(){
 		super.create();
 
@@ -114,6 +119,7 @@ class ChartingState extends EventState {
 		FlxG.sound.list.add(vocals);
 		FlxG.sound.music.play(); // Playing and immidietly pausing is required to handle some timing weirdness.
 		FlxG.sound.music.pause();
+		FlxG.sound.music.volume = 0.75;
 		FlxG.sound.music.time = vocals.time = 0;
 
 		FlxG.stage.addEventListener(MouseEvent.MOUSE_WHEEL, mouseScroll);
@@ -168,6 +174,10 @@ class ChartingState extends EventState {
 
 		reloadGrid();
 		reloadNotes();
+
+		#if desktop
+		postEvent(60, autoSave);
+		#end
 	}
 
 	override function update(elapsed:Float){
@@ -520,6 +530,7 @@ class ChartingState extends EventState {
 			[Binds.ui_back, function(){
 				FlxG.mouse.visible = false;
 				FlxG.sound.muteKeys = oldMuteKeys;
+				FlxG.sound.music.volume = 1;
 				FlxG.stage.removeEventListener(MouseEvent.MOUSE_WHEEL, mouseScroll);
 				FlxG.stage.removeEventListener(MouseEvent.MOUSE_MOVE,  mouseMove);
 				FlxG.stage.removeEventListener(MouseEvent.MOUSE_DOWN,  mouseDown);
@@ -580,9 +591,10 @@ class ChartingState extends EventState {
 		textTween = FlxTween.tween(warningText, {alpha: 0}, 1.75, {startDelay: 1.25});
 	}
 
-	private inline function saveSong(){
+	private inline function saveSong(autosave:Bool = false){
 		var corrections:String = '';
-		var path = 'assets/data/songs/${PlayState.songData.name}';
+		var fileName:String = (autosave ? 'autosave.json' : 'edit.json');
+		var path = 'assets/data/songs/${PlayState.songData.name}/editor';
 
 		// Safety checks
 		if (!StageLogic.STAGE_NAMES.contains(songData.stage))
@@ -630,16 +642,17 @@ class ChartingState extends EventState {
 		var JsonString:String = Json.stringify(songData, '\t'); // '\t' enables pretty printing.
 
 		#if desktop
-		sys.io.File.saveContent('$path/edit.json', JsonString);
-		postWarning('File saved to "$path/edit.json"', 0xFFFFFFFF);
+		sys.FileSystem.createDirectory('$path');
+		sys.io.File.saveContent('$path/$fileName', JsonString);
+		postWarning('File saved to "$path/$fileName"', autosave ? 0xFF00AAFF : 0xFFFFFFFF);
 		
-		if (corrections != ''){
+		if (corrections != '' && !autosave){
 			sys.io.File.saveContent('$path/errors.txt', corrections);
 			postWarning('Check errors/warnings at "$path/errors.txt"', 0xFFFFFF00);
 		}
 		#else
 		var fileDialog = new lime.ui.FileDialog();
-		fileDialog.save(haxe.io.Bytes.ofString(JsonString), null, 'edit.json');
+		fileDialog.save(haxe.io.Bytes.ofString(JsonString), null, fileName);
 		postWarning('File saved', 0xFFFFFFFF);
 		#end
 	}
@@ -736,7 +749,9 @@ class ChartingState extends EventState {
 		voicesCheck.checked = songData.hasVoices;
 		voicesCheck.name = 'hasVoices';
 
-		var saveButton = new FlxButton(10, 450, 'Save', saveSong);
+		var saveButton = new FlxButton(10, 450, 'Save', function(){
+			saveSong(false);
+		});
 		var clearButton = new FlxButton(10, 420, 'Clear', function(){
 			songData.sections = [];
 			sectionNullCheck(0);
@@ -761,6 +776,7 @@ class ChartingState extends EventState {
 			FlxG.sound.playMusic(Paths.playableSong(songData.name, false));
 			FlxG.sound.music.pause();
 			FlxG.sound.music.time = 0;
+			FlxG.sound.music.volume = 0.75;
 
 			vocals.pause();
 			vocals = new FlxSound();

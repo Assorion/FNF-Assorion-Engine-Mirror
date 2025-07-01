@@ -102,7 +102,7 @@ class ChartingState extends EventState {
 
 	private function autoSave(){
 		saveSong(true);
-		postEvent(60, autoSave);
+		postEvent(120, autoSave);
 	}
 
 	override function create(){
@@ -180,7 +180,7 @@ class ChartingState extends EventState {
 		reloadNotes();
 
 		#if desktop
-		postEvent(60, autoSave);
+		postEvent(120, autoSave);
 		#end
 	}
 
@@ -852,6 +852,14 @@ class ChartingState extends EventState {
 			reloadNotes();
 		});
 
+		var swapButton = new FlxButton(10, 360, 'Swap', function(){
+			for(n in songData.sections[curSection].notes)
+				++n.player;
+
+			correctSection(curSection);
+			reloadNotes();
+		});
+
 		var sectionUIGroup = new FlxUI(null, mainUIBox);
 		sectionUIGroup.add(generateLabel(sectionCameraStepper, 'Camera facing'));
 		sectionUIGroup.add(generateLabel(copySectionStepper, 'Copy offset'));
@@ -860,6 +868,7 @@ class ChartingState extends EventState {
 		sectionUIGroup.add(copyButton);
 		sectionUIGroup.add(selectButton);
 		sectionUIGroup.add(clearButton);
+		sectionUIGroup.add(swapButton);
 
 		sectionUIGroup.name = '2section';
 		mainUIBox.addGroup(sectionUIGroup);

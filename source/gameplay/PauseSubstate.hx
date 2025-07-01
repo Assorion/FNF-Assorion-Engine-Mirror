@@ -30,6 +30,7 @@ class PauseSubstate extends EventSubstate {
 		super();
 
 		playState = ps;	
+		playState.keysPressed = [];
 		creationTimeStamp = CoolUtil.getCurrentTime();
 
 		pauseMusic = new FlxSound().loadEmbedded(Paths.lMusic('gameplay/breakfast'), true, true);

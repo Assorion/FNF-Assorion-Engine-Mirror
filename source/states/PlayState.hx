@@ -81,7 +81,7 @@ class PlayState extends EventState {
 	public var stage:StageLogic;
 
 	private var followPos:FlxObject;
-	private var stepTime:Float = 0;
+	private var stepTime:Float = -22;
 
 	override public function create() {
 		// Song setup
@@ -312,7 +312,7 @@ class PlayState extends EventState {
 		var nDiff:Float = stepTime - daNote.strumTime;
 		daNote.y = (Settings.downscroll ? 45 : -45) * nDiff * songData.speed;
 		daNote.y += strumRef.y  + daNote.offsetY;
-		daNote.visible = daNote.y >= -daNote.height && daNote.y <= FlxG.height;
+		daNote.visible = (Settings.downscroll && daNote.y >= -daNote.height) || (!Settings.downscroll && daNote.y <= FlxG.height);
 
 		if (!daNote.visible) 
 			return;
@@ -372,11 +372,12 @@ class PlayState extends EventState {
 			return;
 		}
 
-		ev.keyCode.bindFunctions([
-			[Binds.ui_accept, function(){ pauseAndOpenState(new PauseSubstate(camHUD, this)); }],
-			[Binds.ui_back,   function(){ pauseAndOpenState(new PauseSubstate(camHUD, this)); }],
-			[[FlxKey.SEVEN],  function(){ EventState.changeState(new ChartingState()); }]
-		]);
+		if (stepTime > -16)
+			ev.keyCode.bindFunctions([
+				[Binds.ui_accept, function(){ pauseAndOpenState(new PauseSubstate(camHUD, this)); }],
+				[Binds.ui_back,   function(){ pauseAndOpenState(new PauseSubstate(camHUD, this)); }],
+				[[FlxKey.SEVEN],  function(){ EventState.changeState(new ChartingState()); }]
+			]);
 	}
 
 	override public function keyRel(ev:KeyboardEvent) {

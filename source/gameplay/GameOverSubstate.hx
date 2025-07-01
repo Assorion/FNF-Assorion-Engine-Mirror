@@ -9,7 +9,6 @@ import flixel.tweens.FlxTween;
 import backend.Song;
 import states.PlayState;
 
-#if !debug @:noDebug #end
 class GameOverSubstate extends EventSubstate {
 	private var camFollow:FlxObject;
 	private var characterRef:Character;

@@ -6,7 +6,6 @@ import flixel.FlxState;
 import flixel.FlxSprite;
 import flixel.graphics.FlxGraphic;
 
-#if !debug @:noDebug #end
 class NewTransition extends FlxSubState {
 	public	static var activeTransition:NewTransition = null;
 	public	static var skippedLast:Bool = true;

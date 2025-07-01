@@ -10,7 +10,6 @@ typedef NoteType = {
 	var onMiss:Void->Void;
 }
 
-#if !debug @:noDebug #end
 class Note extends StaticSprite { // If animated notes are desired, this will have to be changed from a StaticSprite to FlxSprite.
 	public static final NOTE_COLOURS:Array<String> = ['purple', 'blue', 'green', 'red'];
 	public static final NOTE_TYPES:Array<NoteType> = [{
@@ -18,8 +17,7 @@ class Note extends StaticSprite { // If animated notes are desired, this will ha
 			mustHit: true,
 			onHit: null, 
 			onMiss: null
-		}
-	];
+		}];
 
 	public var offsetX:Float = 0;
 	public var offsetY:Float = 0;
@@ -39,17 +37,12 @@ class Note extends StaticSprite { // If animated notes are desired, this will ha
 		this.curType   = NOTE_TYPES[type];
 
 		var colour = NOTE_COLOURS[column];
-		frames = Paths.lSparrow('gameplay/${curType.assets}');
 
+		frames = Paths.lSparrow('gameplay/${curType.assets}');
 		animation.addByPrefix('scroll' , colour + '0');
-		if (isSustainNote){
-			animation.addByPrefix('holdend', '$colour hold end');
-			animation.addByPrefix('hold'   , '$colour hold piece');
-		} 
+		animation.play('scroll');
 
 		setGraphicSize(Std.int(width * 0.7));
-		
-		animation.play('scroll');
 		centerOffsets();
 		updateHitbox ();
 
@@ -60,6 +53,8 @@ class Note extends StaticSprite { // If animated notes are desired, this will ha
 		flipY = Settings.downscroll;
 		offsetX += width / 2;
 
+		animation.addByPrefix('holdend', '$colour hold end');
+		animation.addByPrefix('hold'   , '$colour hold piece');
 		animation.play('holdend');
 		animation.remove('scroll');
 

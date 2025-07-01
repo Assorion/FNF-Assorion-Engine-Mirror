@@ -14,6 +14,13 @@ import openfl.geom.Rectangle;
 import openfl.events.MouseEvent;
 import openfl.display.BitmapData;
 import haxe.Json;
+#if desktop
+import sys.io.File;
+import sys.FileSystem;
+#else
+import haxe.io.Bytes;
+import lime.ui.FileDialog;
+#end
 
 import backend.Song;
 import ui.CharacterIcon;
@@ -48,8 +55,6 @@ class ChartGrid extends StaticSprite {
 	}
 }
 
-// TODO: 4) Any last minute optimizations/bug fixes.
-#if !debug @:noDebug #end
 class ChartingState extends EventState {
 	private static inline final NOTE_SELECT_COLOUR:Int = 0xFF9999CC; // RGB: 153 153 204
 	private static inline final GRID_SIZE:Int = 40;
@@ -65,12 +70,11 @@ class ChartingState extends EventState {
 		}, {
 			name: '4help',
 			label: 'Help'
-		}
-	];
+		}];
 
 	public var vocals:FlxSound;
-	public var songData:SongData;
 	public var curNoteType:Int;
+	public var songData:SongData;
 	public var selectedNotes:Map<Int, Array<NoteData>> = new Map<Int, Array<NoteData>>();
 	
 	private var grid:StaticSprite;
@@ -88,8 +92,8 @@ class ChartingState extends EventState {
 	private var typing:Bool;
 
 	var stepTime:Float = 0;
-	var curSection:Int = 0;
 	var timingLine:StaticSprite;
+	var curSection:Int = 0;
 	var gridSelectX:Int;
 	var gridSelectY:Float;
 
@@ -642,17 +646,17 @@ class ChartingState extends EventState {
 		var JsonString:String = Json.stringify(songData, '\t'); // '\t' enables pretty printing.
 
 		#if desktop
-		sys.FileSystem.createDirectory('$path');
-		sys.io.File.saveContent('$path/$fileName', JsonString);
+		FileSystem.createDirectory('$path');
+		File.saveContent('$path/$fileName', JsonString);
 		postWarning('File saved to "$path/$fileName"', autosave ? 0xFF00AAFF : 0xFFFFFFFF);
 		
 		if (corrections != '' && !autosave){
-			sys.io.File.saveContent('$path/errors.txt', corrections);
+			File.saveContent('$path/errors.txt', corrections);
 			postWarning('Check errors/warnings at "$path/errors.txt"', 0xFFFFFF00);
 		}
 		#else
-		var fileDialog = new lime.ui.FileDialog();
-		fileDialog.save(haxe.io.Bytes.ofString(JsonString), null, fileName);
+		var fileDialog = new FileDialog();
+		fileDialog.save(Bytes.ofString(JsonString), null, fileName);
 		postWarning('File saved', 0xFFFFFFFF);
 		#end
 	}

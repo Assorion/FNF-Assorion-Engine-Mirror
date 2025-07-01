@@ -18,7 +18,6 @@ typedef StoryData = {
 	var topText:String;
 }
 
-#if !debug @:noDebug #end
 class StoryMenuState extends MenuTemplate {
 	public static inline final SELECT_COLOUR:Int = 0xFF00FFFF;
 	public static inline final WHITE_COLOUR :Int = 0xFFFFFFFF;
@@ -27,7 +26,7 @@ class StoryMenuState extends MenuTemplate {
 
 	private var weekData:Array<StoryData> = [];
 
-	public var weekBG:FlxSprite;
+	public var weekBGs:Array<FlxSprite> = [new FlxSprite(640), new FlxSprite(640)];
 	public var topText:FormattedText;
 	public var trackList:FormattedText;
 
@@ -67,7 +66,6 @@ class StoryMenuState extends MenuTemplate {
 		trackList = new FormattedText(0, 110, 0, "Tracks", null, 32, 0xFFE55777, CENTER);
 		trackList.screenCenter(X);
 		trackList.x -= 167.5;
-
 		add(topBlack);
 		add(topText);
 		add(arrowSpr1);
@@ -78,7 +76,7 @@ class StoryMenuState extends MenuTemplate {
 		changeSelection(0);
 	}
 
-	var leaving:Bool = false;
+	private var leaving:Bool = false;
 	override function keyHit(ev:KeyboardEvent){
 		super.keyHit(ev);
 
@@ -150,13 +148,13 @@ class StoryMenuState extends MenuTemplate {
 		]);
 	}
 	
+	private var portraitTween:FlxTween;
 	override function changeSelection(to:Int = 0){
 		arrGroup[curSel].obj.color = WHITE_COLOUR;
-
 		super.changeSelection(to);
-		changeDiff(0, false);
-
 		arrGroup[curSel].obj.color = SELECT_COLOUR;
+
+		changeDiff(0, false);
 
 		trackList.text = 'Tracks:\n';
 		for(i in 0...weekData[curSel].songs.length)
@@ -166,23 +164,18 @@ class StoryMenuState extends MenuTemplate {
 		trackList.x -= 167.5;
 
 		// Portrait code
-		var oldRef:FlxSprite = weekBG;
-		weekBG = new FlxSprite(640, 0).loadGraphic(Paths.lImage('storyMenu/weeks/portrait-' + weekData[curSel].weekAsset));
-		add(weekBG);
+		weekBGs.push(weekBGs.shift());
+		weekBGs[0].loadGraphic(Paths.lImage('storyMenu/weeks/portrait-${weekData[curSel].weekAsset}'));
+		weekBGs[0].alpha = 0;
+		weekBGs[1].alpha = 1;
+		add(weekBGs[0]);
 
-		if (oldRef == null)
-			return;
+		if (portraitTween != null)
+			portraitTween.cancel();
 
-		weekBG.alpha = 0;
-		FlxTween.tween(weekBG, {alpha: 1}, 0.2);
-		postEvent(0.21, function(){
-			if (oldRef == null)
-				return;
-
-			remove(oldRef);
-			oldRef.destroy();
-			oldRef = null;
-		});
+		portraitTween = FlxTween.tween(weekBGs[0], {alpha: 1}, 0.12, {onComplete: function(t:FlxTween){
+			remove(weekBGs[1], true);
+		}});
 	}
 
 	override function altChange(to:Int = 0)

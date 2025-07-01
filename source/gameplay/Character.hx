@@ -26,7 +26,6 @@ typedef CharacterData = {
 	var animations:Array<AnimationData>;
 }
 
-#if !debug @:noDebug #end
 class Character extends FlxSprite {
 	public var animOffsets:Map<String, Array<Int>> = new Map<String, Array<Int>>();
 	public var camOffset:Array<Int> = [0,0];
@@ -39,13 +38,13 @@ class Character extends FlxSprite {
 	public var danced:Bool = false;
 
 	public function new(x:Float, y:Float, ?character:String = "bf", ?isPlayer:Bool = false) {
-		super(x, y);
 		Song.beatHooks.push(dance);
+		super(x, y);
 
-		curCharacter  = character;
 		this.isPlayer = isPlayer;
-
+		curCharacter  = character;
 		frames = Paths.lSparrow('gameplay/characters/$character');
+
 		var charData:CharacterData = cast Json.parse(Paths.lText('characters/${character}.json'));
 
 		idlingSpeed   = charData.idleSpeed;

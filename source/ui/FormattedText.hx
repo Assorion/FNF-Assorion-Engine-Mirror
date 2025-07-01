@@ -2,7 +2,6 @@ package ui;
 
 import flixel.text.FlxText;
 
-#if !debug @:noDebug #end
 class FormattedText extends FlxText {
 	public function new(X:Float = 0, Y:Float = 0, Width:Float = 0, ?startText:String = "", 
 						?fontFile:String = "assets/fonts/vcr.ttf", size:Int = 20, 

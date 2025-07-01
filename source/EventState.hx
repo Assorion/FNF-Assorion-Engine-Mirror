@@ -12,7 +12,6 @@ typedef DelayedEvent = {
 	var exeFunc:Void->Void;
 }
 
-#if !debug @:noDebug #end
 class EventState extends FlxUIState {
 	public var tabOutTimeStamp:Float = 0;
 	public var events:Array<DelayedEvent> = [];

@@ -4,7 +4,6 @@ import openfl.display.BitmapData;
 import flixel.FlxG;
 import flixel.util.FlxColor;
 
-#if !debug @:noDebug #end
 class CoolUtil {
 	// Clamps a value to be between to other values.
 	public static function boundTo(val:Float, min:Float, max:Float):Float

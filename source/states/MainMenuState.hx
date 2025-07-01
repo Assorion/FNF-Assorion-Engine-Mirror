@@ -12,7 +12,6 @@ import ui.NewTransition;
 
 using StringTools;
 
-#if !debug @:noDebug #end
 class MainMenuState extends EventState {
 	private final OPTIONS:Array<String> = ['mainMenuStoryMode', 'mainMenuFreeplay', 'mainMenuCodeberg', 'mainMenuOptions'];
 
@@ -46,8 +45,8 @@ class MainMenuState extends EventState {
 
 		for(i in 0...OPTIONS.length) {
 			var menuItem:FlxSprite = new FlxSprite(0, 0);
-			menuItem.frames = Paths.lSparrow('ui/${OPTIONS[i]}');
 
+			menuItem.frames = Paths.lSparrow('ui/${OPTIONS[i]}');
 			menuItem.animation.addByPrefix('idle',	   'idle', 8);
 			menuItem.animation.addByPrefix('selected', 'selected', 24);
 			menuItem.animation.play('idle');

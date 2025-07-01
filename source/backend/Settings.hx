@@ -22,7 +22,6 @@ class Settings {
     public static var framerate:Int         = 120;
 }
 
-#if !debug @:noDebug #end
 class SettingsManager {
     public static var gSave:FlxSave;
 

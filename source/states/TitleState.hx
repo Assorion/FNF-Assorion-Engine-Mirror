@@ -12,7 +12,6 @@ import ui.Alphabet;
 
 using StringTools;
 
-#if !debug @:noDebug #end
 class TitleState extends EventState {
 	private var TEXT_SEQUENCE:Array<Array<String>> = [ // % = Random Text
 		['welcome', 'traveller'],

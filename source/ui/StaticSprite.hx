@@ -3,7 +3,6 @@ package ui;
 import flixel.FlxSprite;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 
-#if !debug @:noDebug #end
 class StaticSprite extends FlxSprite {
     public function new(?x:Float = 0, ?y:Float = 0 ){
         super(x,y,null);

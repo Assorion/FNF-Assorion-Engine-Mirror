@@ -22,7 +22,6 @@ typedef Slide = {
 	var speed:Float;
 } 
 
-#if !debug @:noDebug #end
 class DialogueSubstate extends EventSubstate {
 	public var playState:PlayState;
 
@@ -64,14 +63,13 @@ class DialogueSubstate extends EventSubstate {
 		});				
 	}
 
-	public function beginDialogue(dialogueJson:String){
+	public function beginDialogue(dialogueJson:String)
 		FlxTween.tween( dialogueBGSprite, {alpha: 1}, 0.3, {onComplete: function(t:FlxTween){
 			totalSlides = cast Json.parse(dialogueJson).slides;
 			changeSlide(0, false);	
 		}});
-	}
 
-	public function changeSlide(slideNumber:Int, playSound:Bool){
+	public function changeSlide(slideNumber:Int, playSound:Bool) {
 		currentSlide = slideNumber;
 		if (playSound)
 			FlxG.sound.play(Paths.lSound('ui/clickText'));
@@ -86,7 +84,7 @@ class DialogueSubstate extends EventSubstate {
 
 		while(characterSprites.length > charAmount){
 			var char = characterSprites.pop();
-			
+
 			char.destroy();
 			characterSpriteGroup.remove(char);
 		}
@@ -115,7 +113,7 @@ class DialogueSubstate extends EventSubstate {
 		
 	}
 
-	var leaving:Bool = false;
+	private var leaving:Bool = false;
 	override public function keyHit(ev:KeyboardEvent){
 		super.keyHit(ev);
 
@@ -132,9 +130,9 @@ class DialogueSubstate extends EventSubstate {
 		for(i in 0...characterSprites.length)
 			FlxTween.tween(characterSprites[i], {alpha: 0}, 0.45);
 
-		FlxTween.tween( dialogueBGSprite, {alpha: 0}, 0.45);
-		FlxTween.tween( dialogueText, {alpha: 0}, 0.45);
-		FlxTween.tween( graySprite, {alpha: 0}, 0.46, {onComplete: function(t:FlxTween){
+		FlxTween.tween(dialogueBGSprite, {alpha: 0}, 0.45);
+		FlxTween.tween(dialogueText, {alpha: 0}, 0.45);
+		FlxTween.tween(graySprite, {alpha: 0}, 0.46, {onComplete: function(t:FlxTween){
 			close();
 
 			playState.persistentUpdate = true;

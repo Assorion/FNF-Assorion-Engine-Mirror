@@ -9,9 +9,7 @@ import ui.CharacterIcon;
 import ui.MenuTemplate;
 import ui.Alphabet;
 
-#if !debug @:noDebug #end
-class OptionsState extends MenuTemplate
-{
+class OptionsState extends MenuTemplate {
 	private var OPTS_AND_DESCRIPTIONS:Array<Array<Array<String>>> = [
 		[
 			['basic',	 'Settings that apply when the game launches'],
@@ -55,7 +53,6 @@ class OptionsState extends MenuTemplate
 		bottomBlack.alpha = 0.6;
 
 		descText = new FormattedText(5, FlxG.height - 25, 0, "", null, 20);
-		
 		add(bottomBlack);
 		add(descText);
 
@@ -67,9 +64,9 @@ class OptionsState extends MenuTemplate
 			remove(object.obj);
 		
 		var showOptionValues:Bool = currentCategory > 0;
+		columns = showOptionValues ? 2 : 1;
 		arrGroup = [];
 		arrIcons.clear();
-		columns = showOptionValues ? 2 : 1;
 
 		for(i in 0...OPTS_AND_DESCRIPTIONS[currentCategory].length) {
 			pushObject(new Alphabet(0, (60 * i), OPTS_AND_DESCRIPTIONS[currentCategory][i][0], true));
@@ -81,10 +78,9 @@ class OptionsState extends MenuTemplate
 				continue;
 			}
 
-			var optionStr:String = '';
 			var val:Dynamic = Reflect.field(Settings, OPTS_AND_DESCRIPTIONS[currentCategory][i][0]);
+			var optionStr:String = Std.string(val);
 
-			optionStr = Std.string(val);
 			if (Std.is(val, Bool))
 				optionStr = val ? 'yes' : 'no';
 
@@ -95,15 +91,15 @@ class OptionsState extends MenuTemplate
 	}
 
 	override public function exitFunction(){
-		if (currentCategory > 0){
-			currentCategory = 0;
-			curSel = 0;
-			createNewList();
+		if (currentCategory <= 0) {
+			SettingsManager.flush();
+			super.exitFunction();
 			return;
 		}
 
-		SettingsManager.flush();
-		super.exitFunction();
+		currentCategory = 0;
+		curSel = 0;
+		createNewList();
 	}
 
 	override function changeSelection(change:Int = 0){

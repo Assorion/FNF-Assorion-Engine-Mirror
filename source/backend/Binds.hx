@@ -2,7 +2,6 @@ package backend;
 
 import flixel.input.keyboard.FlxKey;
 
-#if !debug @:noDebug #end
 class Binds {
 	public static var note_left :Array<Int> = [FlxKey.A, FlxKey.LEFT];
 	public static var note_down :Array<Int> = [FlxKey.S, FlxKey.DOWN];

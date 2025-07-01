@@ -24,7 +24,6 @@ typedef RatingData = {
 	var asset:String;
 }
 
-#if !debug @:noDebug #end
 class PlayState extends EventState {
 	public static inline final KEY_COUNT:Int = 4;
 	public static inline final INPUT_RANGE:Float = 1.25; // Input range is measured in steps (16th notes)
@@ -46,8 +45,7 @@ class PlayState extends EventState {
 			score: 25,
 			threshold: 0.9,
 			asset: 'superbad'
-		}
-	];
+		}];
 
 	public static var songData:SongData;
 	public static var storyWeek:Int = -1; // If story week is less than 0, we're in free play.

@@ -12,9 +12,6 @@ import ui.NewTransition;
 import states.TitleState;
 import states.LoadingState;
 
-#if !debug
-@:noDebug
-#end
 class Main extends Sprite {
 	private static var fpsDisplay:FPSCounter;
 	private static var memDisplay:MemCounter;

@@ -12,7 +12,6 @@ import ui.MenuTemplate;
 import ui.NewTransition;
 import states.PlayState;
 
-#if !debug @:noDebug #end
 class PauseSubstate extends EventSubstate {
 	private final OPTION_LIST:Array<String> = ['Resume Game', 'Restart Song', 'Toggle Botplay', 'Exit To Menu'];
 	
@@ -98,24 +97,22 @@ class PauseSubstate extends EventSubstate {
 		FlxTween.tween(pauseText,  { alpha:  0 }, 0.4);
 		FlxTween.tween(bottomBlack,{ alpha:  0 }, 0.4);
 		FlxTween.tween(pauseMusic, { volume: 0 }, 0.4);
-		FlxTween.tween(blackSpr,   { alpha:  0 }, 0.4, {onComplete: 
-			function(t:FlxTween){ // Closing
-				pauseMusic.stop();
-				pauseMusic.destroy();
-				playState.persistentUpdate = true;
-				close();
+		FlxTween.tween(blackSpr,   { alpha:  0 }, 0.4, {onComplete: function(t:FlxTween){ // Closing
+			pauseMusic.stop();
+			pauseMusic.destroy();
+			playState.persistentUpdate = true;
+			close();
 
-				for(ev in playState.events)
-					ev.endTime += CoolUtil.getCurrentTime() - creationTimeStamp;
-				
-				if (FlxG.sound.music.time <= 0)
-					return;
+			for(ev in playState.events)
+				ev.endTime += CoolUtil.getCurrentTime() - creationTimeStamp;
+			
+			if (FlxG.sound.music.time <= 0)
+				return;
 
-				playState.vocals.play();
-				FlxG.sound.music.play();
-				FlxG.sound.music.time = playState.vocals.time = Song.millisecond + Settings.audio_offset;
-			}
-		});
+			playState.vocals.play();
+			FlxG.sound.music.play();
+			FlxG.sound.music.time = playState.vocals.time = Song.millisecond + Settings.audio_offset;
+		}});
 	}
 
 	private function changeSelection(change:Int = 0) {

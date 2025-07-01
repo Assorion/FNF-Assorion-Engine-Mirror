@@ -10,7 +10,6 @@ import openfl.display.BitmapData;
 
 using StringTools;
 
-#if !debug @:noDebug #end
 class LoadingState extends FlxUIState {
 	public static inline final BAR_WIDTH :Int = 1150;
 	public static inline final BAR_HEIGHT:Int = 150; 
@@ -41,7 +40,6 @@ class LoadingState extends FlxUIState {
 
 		loadingBarBG = new FlxSprite(0,0).loadGraphic(lbBG);
 		loadingBarBG.screenCenter();
-
 		loadingBarPC = new FlxSprite(0,0).loadGraphic(keepGraphic);
 		loadingBarPC.screenCenter();
 
@@ -52,7 +50,6 @@ class LoadingState extends FlxUIState {
 		assetText = new FormattedText(0, 0, 0, "", null, 40, 0xFFFFFFFF, CENTER);
 		assetText.screenCenter();
 		assetText.y -= assetText.height * 3.3;
-
 		add(loadingBarBG);
 		add(loadingBarPC);
 		add(ldText);

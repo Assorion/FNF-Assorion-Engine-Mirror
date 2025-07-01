@@ -43,7 +43,6 @@ class OffsetWizard extends EventState {
 		
 		offsetText = new FormattedText(0, 0, 0, "Press any key to begin!", null, 60, 0xFFFFFFFF, CENTER, OUTLINE);
 		offsetText.screenCenter();
-
 		add(bgImage);
 		add(offsetText);
 		add(infoText);
@@ -123,12 +122,12 @@ class OffsetWizard extends EventState {
 
 	private var leaving:Bool = false;	
 	override function keyHit(ev:KeyboardEvent){
-		if (ev.keyCode.check(Binds.ui_back) || leaving){
-			if (leaving){
-				NewTransition.skip();
-				return;
-			}
+		if (leaving){
+			NewTransition.skip();
+			return;
+		}
 
+		if (ev.keyCode.check(Binds.ui_back)){
 			Settings.audio_offset = oldOffset;
 			EventState.changeState(new OptionsState());
 			leaving = true;
@@ -140,15 +139,14 @@ class OffsetWizard extends EventState {
 		}
 
 		if (!FlxG.sound.music.playing && !countdownHappening){
-			if (hitOffsets.length > 0){
-				Settings.audio_offset = newOffset;
-				EventState.changeState(new OptionsState());
-
-				leaving = true;
+			if (hitOffsets.length <= 0){
+				startCountdown();
 				return;
-			} 
+			}
 
-			startCountdown();
+			leaving = true;
+			Settings.audio_offset = newOffset;
+			EventState.changeState(new OptionsState());
 		}
 
 		if (!activelyListening)

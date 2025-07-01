@@ -122,12 +122,11 @@ class MenuTemplate extends EventState {
 		};
 
 		cr.obj.alpha = DESELECTED_ALPHA;
-
 		arrGroup.push(cr);
 		add(cr.obj);
 	}
 
-	public function pushIcon(icn:CharacterIcon){
+	private inline function pushIcon(icn:CharacterIcon){
 		arrIcons.add(icn);
 		icn.scale.set(0.85, 0.85);
 	}
@@ -175,10 +174,8 @@ class MenuTemplate extends EventState {
 		backgroundY -= 72;
 	}
 
-	public function exitFunction(){
-		if (NewTransition.skip()) 
-			return;
-
+	public function exitFunction()
+	if (!NewTransition.skip()) {
 		EventState.changeState(new MainMenuState());
 		FlxG.sound.play(Paths.lSound('ui/cancelMenu'));
 	}

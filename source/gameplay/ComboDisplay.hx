@@ -8,7 +8,6 @@ import flixel.group.FlxSpriteGroup;
 import backend.Song;
 import states.PlayState;
 
-#if !debug @:noDebug #end
 class ComboDisplay extends FlxSpriteGroup {
 	private var comboNumbers:Array<StaticSprite> = [];
 	private var ratingSprite:StaticSprite;
@@ -34,6 +33,7 @@ class ComboDisplay extends FlxSpriteGroup {
 				sRef.animation.addByPrefix('$i', '${i}num', 1, false);
 				sRef.animation.play('$i');
 			}
+
 			sRef.screenCenter(X);
 			sRef.centerOrigin();
 			sRef.x += ((i - 1) * 60) + offsetX;

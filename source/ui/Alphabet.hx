@@ -5,7 +5,6 @@ import flixel.group.FlxSpriteGroup;
 
 using StringTools;
 
-#if !debug @:noDebug #end
 class Alphabet extends FlxSpriteGroup {
 	public var text(default, set):String = "";
 	public var isBold:Bool = false;
@@ -27,9 +26,9 @@ class Alphabet extends FlxSpriteGroup {
 			}
 
 			var letter:AlphaCharacter = new AlphaCharacter(letterOffset, 0, character, isBold);
-			add(letter);
-
 			letterOffset += letter.width;
+
+			add(letter);
 		}
 
 	private function set_text(value:String){

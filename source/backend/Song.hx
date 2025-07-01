@@ -40,7 +40,6 @@ typedef SongData = {
 	var sections:Array<SectionData>;
 }
 
-#if !debug @:noDebug #end
 class Song {
 	public static final DIFFICULTIES:Array<String> = ['easy', 'normal', 'hard'];
 
@@ -98,7 +97,6 @@ class Song {
 		songStr = songStr.toLowerCase();
 		
 		var tmpCast:SongData = cast Json.parse(Paths.lText('songs/$songStr/${DIFFICULTIES[diff]}.json'));
-
 		if (cast(tmpCast.characterCharts, Int) <= 0) 
 			tmpCast.characterCharts = 2;
 

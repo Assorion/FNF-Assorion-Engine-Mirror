@@ -2,7 +2,6 @@ package backend;
 
 using StringTools;
 
-#if !debug @:noDebug #end
 class HighScore {
 	private static var songScores:Map<String, Int>;
 
@@ -11,6 +10,7 @@ class HighScore {
 
 	public static inline function scoreExists(s:String):Int {
 		s = s.toLowerCase().trim();
+
 		return songScores.exists(s) ? songScores.get(s) : 0;
 	}
 

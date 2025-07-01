@@ -18,7 +18,6 @@ typedef FreeplaySongData = {
 	var icon:String;
 }
 
-#if !debug @:noDebug #end
 class FreeplayState extends MenuTemplate {
 	private static var curDifficulty:Int = 1;
 	public var songList:Array<FreeplaySongData> = [];
@@ -40,13 +39,12 @@ class FreeplayState extends MenuTemplate {
 		}
 
 		var bottomBlack:StaticSprite = new StaticSprite(0, FlxG.height - 30).makeGraphic(1280, 30, FlxColor.BLACK);
-		var descText = new FormattedText(5, FlxG.height - 25, 0, "Press Space to preview song / stop song. Left or Right to change the difficulty.", null, 20);
+		var descText = new FormattedText(5, FlxG.height - 25, 0, "Press Space to preview song / stop song. Left or Right to change the difficulty", null, 20);
 		scoreBG   = new StaticSprite(0, 0).makeGraphic(128, 66, 0xFF000000);
 		scoreText = new FormattedText(scoreBG.x + 6, 5, 0, null, null, 32, FlxColor.WHITE, LEFT);
 		diffText  = new FormattedText(scoreText.x, scoreText.y + 36, 0, "< NORMAL >", null, 24);
 		scoreBG.alpha = 0.6;
 		bottomBlack.alpha = 0.6;
-
 		add(scoreBG);
 		add(diffText);
 		add(scoreText);
@@ -72,8 +70,8 @@ class FreeplayState extends MenuTemplate {
 		scoreText.x = diffText.x = scoreBG.x + 5;
 	}
 
-	override function changeSelection(chng:Int = 0){
-		super.changeSelection(chng);
+	override function changeSelection(change:Int = 0){
+		super.changeSelection(change);
 		altChange();
 	}
 

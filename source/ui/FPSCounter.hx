@@ -3,7 +3,6 @@ package ui;
 import openfl.text.TextField;
 import openfl.text.TextFormat;
 
-#if !debug @:noDebug #end
 class FPSCounter extends TextField {
 	private var currentTime:Float = 0;
 	private var framerate:Int = 0;

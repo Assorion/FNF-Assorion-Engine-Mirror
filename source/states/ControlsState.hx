@@ -4,7 +4,6 @@ import ui.Alphabet;
 import ui.MenuTemplate;
 import ui.NewTransition;
 
-#if !debug @:noDebug #end
 class ControlsState extends MenuTemplate {
 	private var CONTROL_LIST:Array<Dynamic> = [
 		['note left',  Binds.note_left],
@@ -54,12 +53,10 @@ class ControlsState extends MenuTemplate {
 		changeSelection();
 	}
 
-	override public function exitFunction(){
-		if (NewTransition.skip())
-			return;
-
+	override public function exitFunction()
+	if (!NewTransition.skip())
 		EventState.changeState(new OptionsState());
-	}
+	
 
 	override public function changeSelection(to:Int = 0) {
 		// Skip blank space
@@ -78,14 +75,14 @@ class ControlsState extends MenuTemplate {
 			return;
 		}
 
-		if (ev.keyCode.check(Binds.ui_accept)) {
-			for(i in 0...arrGroup.length)
-				if (Math.floor(i / columns) != curSel)
-					arrGroup[i].targetA = 0;
-
-			rebinding = true;
-		}
-
 		super.keyHit(ev);
+
+		if (!ev.keyCode.check(Binds.ui_accept)) 
+			return;
+
+		rebinding = true;
+		for(i in 0...arrGroup.length)
+			if (Math.floor(i / columns) != curSel)
+				arrGroup[i].targetA = 0;
 	}
 }

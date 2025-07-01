@@ -5,7 +5,6 @@ import flixel.FlxSubState;
 
 import EventState;
 
-#if !debug @:noDebug #end
 class EventSubstate extends FlxSubState {
 	private var events:Array<DelayedEvent> = [];
 

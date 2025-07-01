@@ -4,7 +4,6 @@ import openfl.text.TextField;
 import openfl.text.TextFormat;
 import openfl.system.System;
 
-#if !debug @:noDebug #end
 class MemCounter extends TextField {
 	public function new(x:Float = 10, y:Float = 10, color:Int = 0xFFFFFF){
 		super();

@@ -6,7 +6,6 @@ import flixel.FlxSprite;
 import backend.Song;
 import states.PlayState;
 
-#if !debug @:noDebug #end
 class StrumNote extends FlxSprite {
 	public static inline final NOTE_SPACING:Float = 160 * 0.7;
 
@@ -20,7 +19,6 @@ class StrumNote extends FlxSprite {
 		
 		frames = Paths.lSparrow('gameplay/noteAssets');
 
-		// Load animations into cache
 		animation.addByPrefix('static', 'arrow' + directions[data]);
 		animation.addByPrefix('press', Note.NOTE_COLOURS[data] + ' press'  , 24, false);
 		animation.addByPrefix('glow',  Note.NOTE_COLOURS[data] + ' confirm', 24, false);
@@ -35,7 +33,6 @@ class StrumNote extends FlxSprite {
 		x += 98;
 		x += (FlxG.width / 2) * player;
 		alpha = 0;
-
 		this.isPlayer = isPlayer;
 	}
 
@@ -46,6 +43,7 @@ class StrumNote extends FlxSprite {
 			return;
 
 		pressTime -= elapsed * Song.division * 1000;
+
 		if (pressTime <= 0 && (!isPlayer || Settings.botplay))
 			playAnim();
 	}

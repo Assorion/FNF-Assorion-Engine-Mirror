@@ -80,8 +80,8 @@ class PlayState extends EventState {
 	public var allCharacters:Array<Character> = [];
 	public var stage:StageLogic;
 
-	public var followPos:FlxObject;
-	public var stepTime:Float = -22;
+	private var followPos:FlxObject;
+	private var stepTime:Float = -22;
 
 	override public function create() {
 		// Song setup

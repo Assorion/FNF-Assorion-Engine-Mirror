@@ -80,8 +80,8 @@ class PlayState extends EventState {
 	public var allCharacters:Array<Character> = [];
 	public var stage:StageLogic;
 
-	private var followPos:FlxObject;
-	private var stepTime:Float = -22;
+	public var followPos:FlxObject;
+	public var stepTime:Float = -22;
 
 	override public function create() {
 		// Song setup
@@ -372,12 +372,11 @@ class PlayState extends EventState {
 			return;
 		}
 
-		if (stepTime > -16)
-			ev.keyCode.bindFunctions([
-				[Binds.ui_accept, function(){ pauseAndOpenState(new PauseSubstate(camHUD, this)); }],
-				[Binds.ui_back,   function(){ pauseAndOpenState(new PauseSubstate(camHUD, this)); }],
-				[[FlxKey.SEVEN],  function(){ EventState.changeState(new ChartingState()); }]
-			]);
+		ev.keyCode.bindFunctions([
+			[Binds.ui_accept, function(){ pauseAndOpenState(new PauseSubstate(camHUD, this)); }],
+			[Binds.ui_back,   function(){ pauseAndOpenState(new PauseSubstate(camHUD, this)); }],
+			[[FlxKey.SEVEN],  function(){ EventState.changeState(new ChartingState()); }]
+		]);
 	}
 
 	override public function keyRel(ev:KeyboardEvent) {
@@ -503,7 +502,7 @@ class PlayState extends EventState {
 		vocals.pause();
 
 		_requestedSubState = state;
-		resetSubState();
+		stepTime >= -16 ? resetSubState() : _requestSubStateReset = true;
 	}
 
 	override function onFocusLost() {

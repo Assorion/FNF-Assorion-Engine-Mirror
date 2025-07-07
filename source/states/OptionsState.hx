@@ -26,7 +26,7 @@ class OptionsState extends MenuTemplate {
 			['cache_assets',	  'Loads all assets into memory and keeps them there. DISABLE WHEN MODDING!']
 		],
 		[
-			['audio_offset',  'Audio offset in milliseconds. Press \'${CoolUtil.keyCodeToString(Binds.ui_accept[0], false)}\' to enter hte offset wizard'],
+			['audio_offset',  'Audio offset in milliseconds. Press \'${CoolUtil.keyCodeToString(Binds.ui_accept[0], false)}\' to enter the offset wizard'],
 			['downscroll',	  'Makes the notes scroll downwards instead of upwards'],
 			['ghost_tapping', 'Disables penalty for pressing a key when no note is hit'], 
 			['botplay',		  'Makes the game play itself']

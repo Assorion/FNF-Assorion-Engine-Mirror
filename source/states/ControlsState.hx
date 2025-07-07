@@ -17,7 +17,8 @@ class ControlsState extends MenuTemplate {
 		['ui right',   Binds.ui_right],
 		['', null],
 		['select',     Binds.ui_accept],
-		['back',       Binds.ui_back]
+		['back',       Binds.ui_back],
+		['', null]
 	];
 
 	private var rebinding:Bool = false;
@@ -36,7 +37,7 @@ class ControlsState extends MenuTemplate {
 		
 		arrGroup = [];
 
-		for(i in 0...CONTROL_LIST.length){
+		for(i in 0...CONTROL_LIST.length - 1){
 			var firstBind:String  = '';
 			var secondBind:String = '';
 

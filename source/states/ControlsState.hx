@@ -60,7 +60,7 @@ class ControlsState extends MenuTemplate {
 
 	override public function changeSelection(to:Int = 0) {
 		// Skip blank space
-		if (curSel + to >= 0 && CONTROL_LIST[curSel + to] == '')
+		if (curSel + to >= 0 && CONTROL_LIST[curSel + to][0] == '')
 			to *= 2;
 
 		super.changeSelection(to);

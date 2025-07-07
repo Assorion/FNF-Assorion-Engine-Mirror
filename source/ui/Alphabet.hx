@@ -75,7 +75,7 @@ class AlphaCharacter extends FlxSprite {
 
 		if (symbols.contains(letter)) {
 			replaceWithSymbol();
-			return;
+			suffix = '';
 		}
 
 		animation.addByPrefix(letter, '$letter$suffix', 24);
@@ -85,15 +85,11 @@ class AlphaCharacter extends FlxSprite {
 		y = (110 - height);
 	}
 
-	public function replaceWithSymbol() {
+	public function replaceWithSymbol() 
 		for(i in 0...replacementArray[0].length)
 			if (letter == replacementArray[0][i]){
 				letter = replacementArray[1][i];
 				y     += replacementArray[2][i];
 				break;
 			}
-
-		animation.play(letter);
-		updateHitbox();
-	}
 }

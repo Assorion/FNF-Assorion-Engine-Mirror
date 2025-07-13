@@ -20,8 +20,6 @@
 	<set name="BUILD_DIR" value="export/debug" if="debug" />
 	<set name="BUILD_DIR" value="export/release" unless="debug" />
 
-	<!-- Flixelsrc has the faster camera frontend. If it's causing issues then comment it out. -->
-	<classpath name="flixelsrc"/>
 	<classpath name="source"/>
 
 	<assets path="assets" exclude="*.mp3|*.mdp" unless="web"/>

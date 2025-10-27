@@ -17,8 +17,7 @@ class ControlsState extends MenuTemplate {
 		['ui right',   Binds.ui_right],
 		['', null],
 		['select',     Binds.ui_accept],
-		['back',       Binds.ui_back],
-		['', null]
+		['back',       Binds.ui_back]
 	];
 
 	private var rebinding:Bool = false;
@@ -37,7 +36,7 @@ class ControlsState extends MenuTemplate {
 		
 		arrGroup = [];
 
-		for(i in 0...CONTROL_LIST.length - 1){
+		for(i in 0...CONTROL_LIST.length){
 			var firstBind:String  = '';
 			var secondBind:String = '';
 
@@ -61,7 +60,7 @@ class ControlsState extends MenuTemplate {
 
 	override public function changeSelection(to:Int = 0) {
 		// Skip blank space
-		if (curSel + to >= 0 && CONTROL_LIST[curSel + to][0] == '')
+		if (curSel + to >= 0 && curSel + to < CONTROL_LIST.length - 1 && CONTROL_LIST[curSel + to][0] == '')
 			to *= 2;
 
 		super.changeSelection(to);

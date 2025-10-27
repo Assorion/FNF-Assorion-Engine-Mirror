@@ -21,7 +21,7 @@ jobs:
     steps:
     - name: description
       run: |
-        SUMMARY=$'# HTML5 (Website) Builds\n The HTML5 (Website) Builds are currently broken as of now. They will be fixed, and tuned when Assorion 1.5.0 releases\n'
+        SUMMARY=$'\n'
         echo "$SUMMARY" >> $GITHUB_STEP_SUMMARY
 
   HTML5-Build:
@@ -31,7 +31,7 @@ jobs:
       - uses: actions/checkout@main
       - uses: krdlab/setup-haxe@master
         with:
-          haxe-version: 4.3.2
+          haxe-version: 4.2.4
       
     # Obtaining Haxe Libraries for compilation.      
       - name: Install Haxelib

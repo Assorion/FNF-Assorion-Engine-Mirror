@@ -15,7 +15,7 @@ class Alphabet extends FlxSpriteGroup {
 		super(x, y);
 
 		isBold = bold;
-		text = str.toLowerCase();
+		text = str;
 	}
 
 	public function addText()
@@ -34,7 +34,7 @@ class Alphabet extends FlxSpriteGroup {
 	private function set_text(value:String){
 		clear();
 
-		text = value.toLowerCase();
+		text = value;
 		letterOffset = 0;
 		addText();
 
@@ -45,7 +45,7 @@ class Alphabet extends FlxSpriteGroup {
 class AlphaCharacter extends FlxSprite {
 	public static inline var numbers:String		 = "1234567890";
 	public static inline var symbols:String		 = "|~#$%()*+-<=>@[]^_.,'!?";
-	public static inline var completeList:String = "abcdefghijklmnopqrstuvwxyz1234567890|~#$%()*+-<=>@[]^.,'!?";
+	public static inline var completeList:String = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890|~#$%()*+-<=>@[]^.,'!?";
 
 	private var letter:String;
 	private var replacementArray:Array<Array<Dynamic>> = [
@@ -71,14 +71,18 @@ class AlphaCharacter extends FlxSprite {
 	}
 
 	public function createLetter() {
-		var suffix = numbers.contains(letter) ? '' : ' capital';
+		var lower = letter.toLowerCase();
+		var suffix = '';
+
+		if (!numbers.contains(letter))
+			suffix = lower == letter ? ' lowercase' : ' capital';
 
 		if (symbols.contains(letter)) {
 			replaceWithSymbol();
 			suffix = '';
 		}
 
-		animation.addByPrefix(letter, '$letter$suffix', 24);
+		animation.addByPrefix(letter, '$lower$suffix', 24);
 		animation.play(letter);
 		updateHitbox();
 

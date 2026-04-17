@@ -46,6 +46,8 @@ typedef SongData = {
 class Song {
 	public static final DIFFICULTIES:Array<String> = ['easy', 'normal', 'hard'];
 
+	private static var scores:Map<String, Int>;
+
 	public static var beatHooks:Array<Void->Void> = [];
 	public static var stepHooks:Array<Void->Void> = [];
 
@@ -104,5 +106,24 @@ class Song {
 			tmpCast.characterCharts = 2;
 
 		return tmpCast;
+	}
+
+	/************************************/
+
+	public static function loadScores()
+		scores = SettingsManager.gSave.data.scores != null ? SettingsManager.gSave.data.scores : new Map<String, Int>();
+
+	public static function getScore(name:String, diff:Int):Int {
+		name = (name + DIFFICULTIES[diff]).toLowerCase().trim();
+		return scores.exists(name) ? scores.get(name) : 0;
+	}
+
+	public static function saveScore(song:String, score:Int, diff:Int){
+		if (getScore(song, diff) >= score) 
+			return;
+
+		scores.set((song + DIFFICULTIES[diff]).toLowerCase().trim(), score);
+		SettingsManager.gSave.data.scores = scores;
+		SettingsManager.flush();
 	}
 }

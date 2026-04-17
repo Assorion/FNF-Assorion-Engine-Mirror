@@ -123,7 +123,7 @@ class TitleState extends EventState {
 		]);
 
 	override function update(elapsed:Float){
-		FlxG.camera.zoom = CoolUtil.boundTo(FlxG.camera.zoom - (elapsed * 0.5), 1, 2);
+		FlxG.camera.zoom = CoolUtil.clamp(FlxG.camera.zoom - (elapsed * 0.5), 1, 2);
 
 		Song.update(FlxG.sound.music.time);
 		super.update(elapsed);

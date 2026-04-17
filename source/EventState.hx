@@ -2,81 +2,64 @@ package;
 
 import flixel.FlxG;
 import flixel.FlxState;
-import flixel.addons.ui.FlxUIState;
 
 import backend.Song;
 import ui.NewTransition;
 
 typedef DelayedEvent = {
-	var endTime:Float;
-	var exeFunc:Void->Void;
+	var execTime:Float;
+	var execFunc:Void->Void;
 }
 
-class EventState extends FlxUIState {
-	public var tabOutTimeStamp:Float = 0;
+class EventState extends FlxState {
 	public var events:Array<DelayedEvent> = [];
 
-	public function keyHit(ev:KeyboardEvent){}
-	public function keyRel(ev:KeyboardEvent){}
+	private function keyHit(ev:KeyboardEvent){}
+	private function keyRel(ev:KeyboardEvent){}
 
 	override function create() {
-		openSubState(new NewTransition(null, false));
-		Song.clearHooks();
-
-		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, keyHit);
-		FlxG.stage.addEventListener(KeyboardEvent.KEY_UP  , keyRel);
-
 		persistentUpdate = true;
 
+		Song.clearHooks();
+		openSubState(new NewTransition(null, false));
+		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, keyHit);
+		FlxG.stage.addEventListener(KeyboardEvent.KEY_UP  , keyRel);
 		super.create();
 	}
 
 	override function destroy(){
 		FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyHit);
 		FlxG.stage.removeEventListener(KeyboardEvent.KEY_UP  , keyRel);
-
 		super.destroy();
 	}
 
 	public static function changeState(target:FlxState) {
 		NewTransition.activeTransition = new NewTransition(target, true);
-
-		FlxG.state.openSubState(NewTransition.activeTransition);
 		FlxG.state.persistentUpdate = false;
+		FlxG.state.openSubState(NewTransition.activeTransition);
 	}
 
 	override function update(elapsed:Float) {
-		var cTime = CoolUtil.getCurrentTime();
-
 		var i = -1;
-		while(++i < events.length)
-			if (cTime >= events[i].endTime){
-				events[i].exeFunc();
+		while(++i < events.length) {
+			events[i].execTime -= elapsed;
+
+			if (events[i].execTime <= 0){
+				events[i].execFunc();
 				events.splice(i--, 1);
 			}
+		}
 
 		super.update(elapsed);
 	}
 
-	public function postEvent(forward:Float, func:Void->Void)
+	public inline function postEvent(forward:Float, func:Void->Void)
 		events.push({
-			endTime: CoolUtil.getCurrentTime() + forward,
-			exeFunc: func
+			execTime: forward,
+			execFunc: func
 		});
 
-	public function executeAllEvents()
+	public inline function executeAllEvents()
 		for(i in 0...events.length)
-			events[i].exeFunc();
-
-	override function onFocusLost(){
-		tabOutTimeStamp = CoolUtil.getCurrentTime();	
-		super.onFocusLost();
-	}
-
-	override function onFocus(){
-		for(ev in events)
-			ev.endTime += CoolUtil.getCurrentTime() - tabOutTimeStamp;
-
-		super.onFocus();
-	}
+			events[i].execFunc();
 }

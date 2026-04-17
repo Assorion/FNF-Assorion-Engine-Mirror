@@ -120,7 +120,7 @@ class ListMenu extends EventState {
 	public function altChange(change:Int = 0) {}
 
 	public function changeSelection(to:Int = 0) {
-		curSel = CoolUtil.intCircularModulo(curSel + to, listItems.length);
+		curSel = CoolUtil.intCircularMod(curSel + to, listItems.length);
 		backgroundY = (curSel / listItems.length) * 72;
 		backgroundY -= 72;
 

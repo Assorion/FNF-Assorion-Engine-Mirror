@@ -26,11 +26,11 @@ class SettingsManager {
     public static var gSave:FlxSave;
 
     public static inline function framerateClamp(ch:Int):Int
-        return CoolUtil.intBoundTo(ch, 10, 340);
+        return CoolUtil.intClamp(ch, 10, 340);
 
     public static function openSettings() {
         gSave = new FlxSave();
-        gSave.bind('funkin', 'candicejoe');
+		gSave.bind('Assorion');
 
         var settingsMap:Map<String, Dynamic> = gSave.data.settingsMap == null ? new Map<String, Dynamic>() : gSave.data.settingsMap;
         var settingsItems:Array<String> = Type.getClassFields(Settings);
@@ -40,13 +40,14 @@ class SettingsManager {
                 Reflect.setField(Settings, key, settingsMap.get(key));
 
         Binds.loadControls(settingsMap);
-        HighScore.loadScores();
+        Song.loadScores();
     }
     
     public static function apply(){
         FlxGraphic.defaultPersist = Settings.cache_assets;
 		FlxSprite.defaultAntialiasing = Settings.antialiasing;
         FlxG.updateFramerate = FlxG.drawFramerate = framerateClamp(Settings.framerate);
+
         Main.changeUsefulInfo(Settings.useful_info);
     }
 

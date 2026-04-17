@@ -1,16 +1,16 @@
 package states;
 
 import flixel.FlxG;
+import flixel.FlxState;
 import flixel.FlxSprite;
 import flixel.util.FlxColor;
-import flixel.addons.ui.FlxUIState;
 import openfl.utils.Assets;
 import openfl.geom.Rectangle;
 import openfl.display.BitmapData;
 
 using StringTools;
 
-class LoadingState extends FlxUIState {
+class LoadingState extends FlxState {
 	public static inline final BAR_WIDTH :Int = 1150;
 	public static inline final BAR_HEIGHT:Int = 150; 
 	public static inline final INNER_BAR_WIDTH :Int = 1120;

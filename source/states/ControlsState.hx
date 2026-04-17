@@ -84,7 +84,7 @@ class ControlsState extends ListMenu {
 	}
 
 	override public function altChange(to:Int = 0) {
-		curColumn = CoolUtil.intCircularModulo(curColumn + to, 2);
+		curColumn = CoolUtil.intCircularMod(curColumn + to, 2);
 		changeSelection(0);
 	}
 

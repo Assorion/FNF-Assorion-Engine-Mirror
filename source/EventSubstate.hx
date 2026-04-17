@@ -14,32 +14,32 @@ class EventSubstate extends FlxSubState {
 	override function create() {
 		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, keyHit);
 		FlxG.stage.addEventListener(KeyboardEvent.KEY_UP  , keyRel);
-
 		super.create();
 	}
 
 	override function destroy() {
 		FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyHit);
 		FlxG.stage.removeEventListener(KeyboardEvent.KEY_UP  , keyRel);
-
 		super.destroy();
 	}
 
 	override function update(elapsed:Float) {
 		var i = -1;
-		var cTime = CoolUtil.getCurrentTime();
-		while(++i < events.length)
-			if (cTime >= events[i].endTime){
-				events[i].exeFunc();
+		while(++i < events.length) {
+			events[i].execTime -= elapsed;
+
+			if (events[i].execTime <= 0){
+				events[i].execFunc();
 				events.splice(i--, 1);
 			}
+		}
 
 		super.update(elapsed);
 	}
 
 	private function postEvent(forward:Float, func:Void->Void)
 		events.push({
-			endTime: CoolUtil.getCurrentTime() + forward,
-			exeFunc: func
+			execTime: forward,
+			execFunc: func
 		});
 }

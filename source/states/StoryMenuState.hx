@@ -6,7 +6,6 @@ import flixel.util.FlxColor;
 import flixel.tweens.FlxTween;
 
 import backend.Song;
-import backend.HighScore;
 import ui.ListMenu;
 import ui.NewTransition;
 
@@ -115,12 +114,12 @@ class StoryMenuState extends ListMenu {
 
 	public function changeDiff(to:Int, showArr:Bool){
 		if (showArr){
-			var arrow = [arrowSpr2, arrowSpr1][CoolUtil.intBoundTo(to, 0, 1)];
+			var arrow = [arrowSpr2, arrowSpr1][CoolUtil.intClamp(to, 0, 1)];
 			arrow.color = SELECT_COLOUR;
 			arrow.scale.set(0.9, 0.9);
 		}
 
-		curDif = CoolUtil.intCircularModulo(curDif + to, Song.DIFFICULTIES.length);
+		curDif = CoolUtil.intCircularMod(curDif + to, Song.DIFFICULTIES.length);
 
 		diffImage.loadGraphic(Paths.lImage('storyMenu/' + Song.DIFFICULTIES[curDif]));
 		diffImage.centerOrigin();
@@ -128,7 +127,7 @@ class StoryMenuState extends ListMenu {
 		diffImage.screenCenter(X);
 		diffImage.x -= 167.5;
 
-		topText.text = weekData[curSel].topText + ' - ${HighScore.getScore('week-$curSel', curDif)}';
+		topText.text = weekData[curSel].topText + ' - ${Song.getScore('week-$curSel', curDif)}';
 		topText.screenCenter(X);
 		topText.x -= 320;
 	}

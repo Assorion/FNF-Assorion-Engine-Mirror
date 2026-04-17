@@ -32,7 +32,6 @@ class PauseSubstate extends EventSubstate {
 
 		playState = ps;	
 		playState.keysPressed = [];
-		creationTimeStamp = CoolUtil.getCurrentTime();
 
 		pauseMusic = new FlxSound().loadEmbedded(Paths.lMusic('gameplay/breakfast'), true, true);
 		pauseMusic.volume = 0;
@@ -106,9 +105,6 @@ class PauseSubstate extends EventSubstate {
 			playState.persistentUpdate = true;
 			close();
 
-			for(ev in playState.events)
-				ev.endTime += CoolUtil.getCurrentTime() - creationTimeStamp;
-			
 			if (FlxG.sound.music.time <= 0)
 				return;
 
@@ -120,7 +116,7 @@ class PauseSubstate extends EventSubstate {
 
 	private function changeSelection(change:Int = 0) {
 		FlxG.sound.play(Paths.lSound('ui/scrollMenu'), 0.4);
-		curSelected = CoolUtil.intCircularModulo(curSelected + change, OPTION_LIST.length);
+		curSelected = CoolUtil.intCircularMod(curSelected + change, OPTION_LIST.length);
 
 		for(i in 0...alphaTexts.length){
 			var item = alphaTexts[i];

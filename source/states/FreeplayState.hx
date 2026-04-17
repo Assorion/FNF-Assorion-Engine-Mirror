@@ -5,7 +5,6 @@ import flixel.util.FlxColor;
 import flixel.input.keyboard.FlxKey;
 
 import backend.Song;
-import backend.HighScore;
 import ui.Alphabet;
 import ui.ListMenu;
 import ui.NewTransition;
@@ -60,10 +59,10 @@ class FreeplayState extends ListMenu {
 	}
 
 	override function altChange(change:Int = 0){
-		curDifficulty = CoolUtil.intCircularModulo(curDifficulty + change, Song.DIFFICULTIES.length);
+		curDifficulty = CoolUtil.intCircularMod(curDifficulty + change, Song.DIFFICULTIES.length);
 
 		diffText.text = '<- ${Song.DIFFICULTIES[curDifficulty].toUpperCase()} ->';
-		scoreText.text = 'PERSONAL BEST: ${HighScore.getScore(songList[curSel].name, curDifficulty)}';
+		scoreText.text = 'PERSONAL BEST: ${Song.getScore(songList[curSel].name, curDifficulty)}';
 
 		scoreBG.scale.x = (scoreText.width + 10) / scoreBG.frameWidth;
 		scoreBG.updateHitbox();

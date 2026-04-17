@@ -80,7 +80,7 @@ class GameOverSubstate extends EventSubstate {
 	override function keyHit(ev:KeyboardEvent){
 		if (leaving) {
 			for(i in 0...events.length)
-				events[i].exeFunc();
+				events[i].execFunc();
 			
 			return;
 		}

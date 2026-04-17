@@ -126,11 +126,11 @@ class OptionsState extends ListMenu {
 		switch(currentOption){
 		// Basic
 		case 'start_volume':
-			Settings.start_volume = CoolUtil.intBoundTo(Settings.start_volume + (ch * 10), 0, 100);
+			Settings.start_volume = CoolUtil.intClamp(Settings.start_volume + (ch * 10), 0, 100);
 
 		// Gameplay.
 		case 'audio_offset':
-			Settings.audio_offset = CoolUtil.intBoundTo(Settings.audio_offset + ch, 0, 300);
+			Settings.audio_offset = CoolUtil.intClamp(Settings.audio_offset + ch, 0, 300);
 
 		// Visuals
 		case 'framerate':

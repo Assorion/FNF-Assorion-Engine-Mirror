@@ -33,7 +33,7 @@ class Binds {
 	}
 
 	// Checks an array of an array of binds and returns the index of it. 
-	public static function deepCheck(key:Int, array:Array<Array<Int>>):Int {
+	public static function arrayCheck(key:Int, array:Array<Array<Int>>):Int {
 		for(i in 0...array.length)
 			if (key == array[i][0] || key == array[i][1])
 				return i;

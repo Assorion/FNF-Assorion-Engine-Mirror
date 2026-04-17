@@ -12,7 +12,6 @@ import flixel.input.keyboard.FlxKey;
 import openfl.utils.Assets;
 
 import backend.Song;
-import backend.HighScore;
 import ui.CharacterIcon;
 import gameplay.*;
 
@@ -282,7 +281,7 @@ class PlayState extends EventState {
 		var sec:SectionData = songData.sections[Song.currentBeat >> 2]; // Same result as 'Math.floor(Song.currentBeat / 4)'
 		if (Song.currentBeat & 3 == 0 && FlxG.sound.music.playing){   // Same result as 'Song.currentBeat % 4 == 0'
 			var currentlyFacing:Int = (sec != null ? cast(sec.cameraFacing, Int) : 0);
-			var char = allCharacters[CoolUtil.intBoundTo(currentlyFacing, 0, songData.characters.length - 1)];
+			var char = allCharacters[CoolUtil.intClamp(currentlyFacing, 0, songData.characters.length - 1)];
 
 			followPos.x = char.getMidpoint().x + char.camOffset[0];
 			followPos.y = char.getMidpoint().y + char.camOffset[1];
@@ -355,7 +354,7 @@ class PlayState extends EventState {
 	override function keyHit(ev:KeyboardEvent) 
 	if (persistentUpdate) {
 		// Assorions input system
-		var strumIndex = ev.keyCode.deepCheck(BIND_ARRAY);
+		var strumIndex = ev.keyCode.arrayCheck(BIND_ARRAY);
 		if (strumIndex != -1 && !keysPressed[strumIndex] && !Settings.botplay){
 			keysPressed[strumIndex] = true;
 			
@@ -373,13 +372,13 @@ class PlayState extends EventState {
 
 		ev.keyCode.bindFunctions([
 			[Binds.ui_accept, function(){ pauseAndOpenState(new PauseSubstate(camHUD, this)); }],
-			[Binds.ui_back,   function(){ pauseAndOpenState(new PauseSubstate(camHUD, this)); }],
-			[[FlxKey.SEVEN],  function(){ EventState.changeState(new ChartingState()); }]
+			[Binds.ui_back,   function(){ pauseAndOpenState(new PauseSubstate(camHUD, this)); }]
+			//[[FlxKey.SEVEN],  function(){ EventState.changeState(new ChartingState()); }]
 		]);
 	}
 
 	override public function keyRel(ev:KeyboardEvent) {
-		var strumIndex = ev.keyCode.deepCheck(BIND_ARRAY);
+		var strumIndex = ev.keyCode.arrayCheck(BIND_ARRAY);
 
 		if (strumIndex != -1){
 			keysPressed[strumIndex] = false;
@@ -390,11 +389,11 @@ class PlayState extends EventState {
 	private var iconSpacing:Int = 52;
 	public function updateHealth(change:Int) {
 		var fcText:String = ['?', 'SFC', 'GFC', 'FC', '(Bad) FC', 'SDCB', 'Clear'][fcValue];
-		var accuracy:Float = CoolUtil.boundTo(Math.floor((songScore * 100) / ((hitCount + missCount) * 3.5)) * 0.01, 0, 100);
+		var accuracy:Float = CoolUtil.clamp(Math.floor((songScore * 100) / ((hitCount + missCount) * 3.5)) * 0.01, 0, 100);
 		scoreTxt.text = !Settings.botplay ? 'Notes Hit: $hitCount | Notes Missed: $missCount | Accuracy: $accuracy% - $fcText | Score: $songScore' : 'BOTPLAY';
 		scoreTxt.screenCenter(X);
 		
-		health = CoolUtil.intBoundTo(health + change, 0, 100);
+		health = CoolUtil.intClamp(health + change, 0, 100);
 		healthBar.percent = health;
 		
 		var iconsMiddle = ((0 - ((health - 50) * 0.01)) * healthBar.width) + 565;
@@ -471,7 +470,7 @@ class PlayState extends EventState {
 		FlxG.sound.music.stop();
 		vocals.stop();
 
-		HighScore.saveScore(songData.name, songScore, curDifficulty);
+		Song.saveScore(songData.name, songScore, curDifficulty);
 
 		if (storyWeek == -1){ 
 			exitPlayState();
@@ -482,7 +481,7 @@ class PlayState extends EventState {
 		storyPlaylist.shift();
 
 		if (storyPlaylist.length <= 0){ // If the story week is out of songs
-			HighScore.saveScore('week-$storyWeek', totalScore, curDifficulty);
+			Song.saveScore('week-$storyWeek', totalScore, curDifficulty);
 			exitPlayState();
 			return;
 		}

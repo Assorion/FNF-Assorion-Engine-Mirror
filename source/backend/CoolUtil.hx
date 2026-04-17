@@ -5,22 +5,23 @@ import flixel.FlxG;
 import flixel.util.FlxColor;
 
 class CoolUtil {
-	// Clamps a value to be between to other values.
-	public static function boundTo(val:Float, min:Float, max:Float):Float
+	// Clamps a value to be between two other values.
+	public static function clamp(val:Float, min:Float, max:Float):Float
 		return Math.min(Math.max(val, min), max);
 
-	public static function intBoundTo(val:Float, min:Float, max:Float):Int
-		return Math.round(boundTo(val, min, max));
+	public static function intClamp(val:Float, min:Float, max:Float):Int
+		return Math.round(clamp(val, min, max));
 	
+	// Generates a random value between min and max.
 	public static function randomRange(min:Int, max:Int):Int
 		return min + Math.round(Math.random() * (max - min));
 
-	// If value exceeds modby, it wraps to 0. If value is less than 0, it wraps to modby.
-	public static function circularModulo(value:Float, modBy:Float):Float
-		return (value + modBy) % modBy;
+	// Modulo function, but wraps around with negative numbers too
+	public static function circularMod(value:Float, mod:Float):Float
+		return (value + mod) % mod;
 
-	public static function intCircularModulo(value:Int, modBy:Int):Int
-		return (value + modBy) % modBy;
+	public static function intCircularMod(value:Int, mod:Int):Int
+		return (value + mod) % mod;
 
 	
 	// Cross Platform method for returning the exact time in ticks

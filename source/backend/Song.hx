@@ -38,6 +38,9 @@ typedef SongData = {
 	var startDelay:Float;
 
 	var sections:Array<SectionData>;
+
+	var healthColours:Array<Int>;
+	var iconNames:Array<String>;
 }
 
 class Song {

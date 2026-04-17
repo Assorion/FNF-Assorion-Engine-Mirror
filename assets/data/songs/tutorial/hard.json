@@ -1,547 +1,555 @@
 {
 	"startDelay": 0,
-	"renderBackwards": true,
 	"characters": [
 		{
 			"x": 400,
-			"name": "gf",
-			"y": 130
+			"y": 130,
+			"name": "gf"
 		},
 		{
 			"x": 770,
-			"name": "bf",
-			"y": 450
+			"y": 450,
+			"name": "bf"
 		}
 	],
-	"name": "tutorial",
+	"renderBackwards": true,
 	"hasVoices": false,
+	"name": "tutorial",
+	"healthColours": [
+		-5963699,
+		-13520687
+	],
+	"characterCharts": 2,
+	"stage": "demo-stage",
 	"sections": [
 		{
-			"notes": [],
-			"cameraFacing": 0
+			"cameraFacing": 0,
+			"notes": []
 		},
 		{
-			"notes": [],
-			"cameraFacing": 1
+			"cameraFacing": 1,
+			"notes": []
 		},
 		{
-			"notes": [],
-			"cameraFacing": 0
+			"cameraFacing": 0,
+			"notes": []
 		},
 		{
-			"notes": [],
-			"cameraFacing": 1
+			"cameraFacing": 1,
+			"notes": []
 		},
 		{
+			"cameraFacing": 0,
 			"notes": [
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 0,
-					"player": 0,
-					"type": 0
+					"strumTime": 0
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 8,
-					"player": 0,
-					"type": 0
+					"strumTime": 8
 				}
-			],
-			"cameraFacing": 0
+			]
 		},
 		{
+			"cameraFacing": 0,
 			"notes": [
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 0,
-					"player": 0,
-					"type": 0
+					"strumTime": 0
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 8,
-					"player": 0,
-					"type": 0
+					"strumTime": 8
 				}
-			],
-			"cameraFacing": 0
+			]
 		},
 		{
+			"cameraFacing": 1,
 			"notes": [
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 0,
-					"player": 1,
-					"type": 0
+					"strumTime": 0
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 8,
-					"player": 1,
-					"type": 0
+					"strumTime": 8
 				}
-			],
-			"cameraFacing": 1
+			]
 		},
 		{
+			"cameraFacing": 1,
 			"notes": [
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 0,
-					"player": 1,
-					"type": 0
+					"strumTime": 0
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 8,
-					"player": 1,
-					"type": 0
+					"strumTime": 8
 				}
-			],
-			"cameraFacing": 1
+			]
 		},
 		{
+			"cameraFacing": 0,
 			"notes": [
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 0,
-					"player": 0,
-					"type": 0
+					"strumTime": 0
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 8,
-					"player": 0,
-					"type": 0
+					"strumTime": 8
 				}
-			],
-			"cameraFacing": 0
+			]
 		},
 		{
+			"cameraFacing": 0,
 			"notes": [
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 0,
-					"player": 0,
-					"type": 0
+					"strumTime": 0
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 8,
-					"player": 0,
-					"type": 0
+					"strumTime": 8
 				}
-			],
-			"cameraFacing": 0
+			]
 		},
 		{
+			"cameraFacing": 1,
 			"notes": [
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 0,
-					"player": 1,
-					"type": 0
+					"strumTime": 0
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 8,
-					"player": 1,
-					"type": 0
+					"strumTime": 8
 				}
-			],
-			"cameraFacing": 1
+			]
 		},
 		{
+			"cameraFacing": 1,
 			"notes": [
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 0,
-					"player": 1,
-					"type": 0
+					"strumTime": 0
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 8,
-					"player": 1,
-					"type": 0
+					"strumTime": 8
 				}
-			],
-			"cameraFacing": 1
+			]
 		},
 		{
+			"cameraFacing": 0,
 			"notes": [
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 0,
-					"player": 0,
-					"type": 0
+					"strumTime": 0
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 8,
-					"player": 0,
-					"type": 0
+					"strumTime": 8
 				}
-			],
-			"cameraFacing": 0
+			]
 		},
 		{
+			"cameraFacing": 0,
 			"notes": [
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 0,
-					"player": 0,
-					"type": 0
+					"strumTime": 0
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 8,
-					"player": 0,
-					"type": 0
+					"strumTime": 8
 				}
-			],
-			"cameraFacing": 0
+			]
 		},
 		{
+			"cameraFacing": 1,
 			"notes": [
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 0,
-					"player": 1,
-					"type": 0
+					"strumTime": 0
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 8,
-					"player": 1,
-					"type": 0
+					"strumTime": 8
 				}
-			],
-			"cameraFacing": 1
+			]
 		},
 		{
+			"cameraFacing": 1,
 			"notes": [
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 0,
-					"player": 1,
-					"type": 0
+					"strumTime": 0
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 8,
-					"player": 1,
-					"type": 0
+					"strumTime": 8
 				}
-			],
-			"cameraFacing": 1
+			]
 		},
 		{
+			"cameraFacing": 0,
 			"notes": [
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 0,
-					"player": 0,
-					"type": 0
+					"strumTime": 0
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 4,
-					"player": 0,
-					"type": 0
+					"strumTime": 4
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 8,
-					"player": 0,
-					"type": 0
+					"strumTime": 8
 				}
-			],
-			"cameraFacing": 0
+			]
 		},
 		{
+			"cameraFacing": 0,
 			"notes": [
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 0,
-					"player": 0,
-					"type": 0
+					"strumTime": 0
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 4,
-					"player": 0,
-					"type": 0
+					"strumTime": 4
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 8,
-					"player": 0,
-					"type": 0
+					"strumTime": 8
 				}
-			],
-			"cameraFacing": 0
+			]
 		},
 		{
+			"cameraFacing": 1,
 			"notes": [
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 0,
-					"player": 1,
-					"type": 0
+					"strumTime": 0
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 4,
-					"player": 1,
-					"type": 0
+					"strumTime": 4
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 8,
-					"player": 1,
-					"type": 0
+					"strumTime": 8
 				}
-			],
-			"cameraFacing": 1
+			]
 		},
 		{
+			"cameraFacing": 1,
 			"notes": [
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 0,
-					"player": 1,
-					"type": 0
+					"strumTime": 0
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 4,
-					"player": 1,
-					"type": 0
+					"strumTime": 4
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 8,
-					"player": 1,
-					"type": 0
+					"strumTime": 8
 				}
-			],
-			"cameraFacing": 1
+			]
 		},
 		{
+			"cameraFacing": 0,
 			"notes": [
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 0,
-					"player": 0,
-					"type": 0
+					"strumTime": 0
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 2,
-					"player": 0,
-					"type": 0
+					"strumTime": 2
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 4,
-					"player": 0,
-					"type": 0
+					"strumTime": 4
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 6,
-					"player": 0,
-					"type": 0
+					"strumTime": 6
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 12,
-					"player": 0,
-					"type": 0
+					"strumTime": 12
 				}
-			],
-			"cameraFacing": 0
+			]
 		},
 		{
+			"cameraFacing": 1,
 			"notes": [
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 0,
-					"player": 1,
-					"type": 0
+					"strumTime": 0
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 2,
-					"player": 1,
-					"type": 0
+					"strumTime": 2
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 4,
-					"player": 1,
-					"type": 0
+					"strumTime": 4
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 6,
-					"player": 1,
-					"type": 0
+					"strumTime": 6
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 12,
-					"player": 1,
-					"type": 0
+					"strumTime": 12
 				}
-			],
-			"cameraFacing": 1
+			]
 		},
 		{
+			"cameraFacing": 1,
 			"notes": [
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 0,
-					"player": 1,
-					"type": 0
+					"strumTime": 0
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 4,
-					"player": 1,
-					"type": 0
+					"strumTime": 4
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 8,
-					"player": 1,
-					"type": 0
+					"strumTime": 8
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 12,
-					"player": 1,
-					"type": 0
+					"strumTime": 12
 				}
-			],
-			"cameraFacing": 1
+			]
 		},
 		{
+			"cameraFacing": 1,
 			"notes": [
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 0,
-					"player": 1,
-					"type": 0
+					"strumTime": 0
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 4,
-					"player": 1,
-					"type": 0
+					"strumTime": 4
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 8,
-					"player": 1,
-					"type": 0
+					"strumTime": 8
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 12,
-					"player": 1,
-					"type": 0
+					"strumTime": 12
 				}
-			],
-			"cameraFacing": 1
+			]
 		},
 		{
+			"cameraFacing": 1,
 			"notes": [
 				{
+					"player": 1,
+					"type": 0,
 					"length": 7,
 					"column": 1,
-					"strumTime": 0,
-					"player": 1,
-					"type": 0
+					"strumTime": 0
 				}
-			],
-			"cameraFacing": 1
+			]
 		},
 		{
-			"notes": [],
-			"cameraFacing": 0
+			"cameraFacing": 0,
+			"notes": []
 		},
 		{
-			"notes": [],
-			"cameraFacing": 1
+			"cameraFacing": 1,
+			"notes": []
 		},
 		{
-			"notes": [],
-			"cameraFacing": 0
+			"cameraFacing": 0,
+			"notes": []
 		},
 		{
-			"notes": [],
-			"cameraFacing": 1
+			"cameraFacing": 1,
+			"notes": []
 		}
 	],
-	"stage": "demo-stage",
-	"characterCharts": 2,
-	"activePlayer": 1,
+	"speed": 1.7,
 	"BPM": 100,
-	"speed": 1.7
+	"activePlayer": 1,
+	"iconNames": [
+		"gf",
+		"bf"
+	]
 }

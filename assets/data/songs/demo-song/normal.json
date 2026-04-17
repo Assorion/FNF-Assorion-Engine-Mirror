@@ -1,677 +1,1198 @@
 {
 	"startDelay": 0,
-	"renderBackwards": false,
 	"characters": [
 		{
 			"x": 100,
-			"y": 100,
-			"name": "demo"
+			"name": "demo",
+			"y": 100
 		},
 		{
 			"x": 770,
-			"y": 450,
-			"name": "bf"
+			"name": "bf",
+			"y": 450
 		},
 		{
 			"x": 400,
-			"y": 130,
-			"name": "gf"
+			"name": "gf",
+			"y": 130
 		}
 	],
-	"hasVoices": true,
+	"renderBackwards": false,
 	"name": "demo-song",
+	"hasVoices": true,
+	"healthColours": [
+		-5282098,
+		-13520687
+	],
+	"characterCharts": 2,
+	"stage": "demo-stage",
 	"sections": [
 		{
-			"notes": [],
-			"cameraFacing": 0
+			"cameraFacing": 0,
+			"notes": []
 		},
 		{
-			"notes": [],
-			"cameraFacing": 1
+			"cameraFacing": 1,
+			"notes": []
 		},
 		{
+			"cameraFacing": 0,
 			"notes": [
 				{
 					"player": 0,
+					"column": 1,
 					"strumTime": 0,
 					"type": 0,
-					"length": 0,
-					"column": 1
+					"length": 0
 				},
 				{
 					"player": 0,
+					"column": 3,
 					"strumTime": 6,
 					"type": 0,
-					"length": 3,
-					"column": 3
+					"length": 3
 				},
 				{
 					"player": 0,
+					"column": 2,
 					"strumTime": 10,
 					"type": 0,
-					"length": 0,
-					"column": 2
+					"length": 0
 				},
 				{
 					"player": 0,
+					"column": 0,
 					"strumTime": 14,
 					"type": 0,
-					"length": 0,
-					"column": 0
+					"length": 0
 				}
-			],
-			"cameraFacing": 0
+			]
 		},
 		{
+			"cameraFacing": 0,
 			"notes": [
 				{
 					"player": 0,
+					"column": 2,
 					"strumTime": 0,
 					"type": 0,
-					"length": 0,
-					"column": 2
+					"length": 0
 				},
 				{
 					"player": 0,
+					"column": 0,
 					"strumTime": 4,
 					"type": 0,
-					"length": 6,
-					"column": 0
+					"length": 6
 				},
 				{
 					"player": 0,
+					"column": 2,
 					"strumTime": 14,
 					"type": 0,
-					"length": 0,
-					"column": 2
+					"length": 0
 				},
 				{
 					"player": 0,
+					"column": 3,
 					"strumTime": 12,
 					"type": 0,
-					"length": 0,
-					"column": 3
+					"length": 0
 				}
-			],
-			"cameraFacing": 0
+			]
 		},
 		{
+			"cameraFacing": 0,
 			"notes": [
 				{
 					"player": 0,
+					"column": 1,
 					"strumTime": 0,
 					"type": 0,
-					"length": 3,
-					"column": 1
+					"length": 3
 				},
 				{
 					"player": 0,
+					"column": 2,
 					"strumTime": 6,
 					"type": 0,
-					"length": 3,
-					"column": 2
+					"length": 3
 				},
 				{
 					"player": 0,
+					"column": 0,
 					"strumTime": 10,
 					"type": 0,
-					"length": 0,
-					"column": 0
+					"length": 0
 				},
 				{
 					"player": 0,
+					"column": 0,
 					"strumTime": 14,
 					"type": 0,
-					"length": 0,
-					"column": 0
+					"length": 0
 				}
-			],
-			"cameraFacing": 0
+			]
 		},
 		{
+			"cameraFacing": 0,
 			"notes": [
 				{
 					"player": 0,
+					"column": 3,
 					"strumTime": 0,
 					"type": 0,
-					"length": 4,
-					"column": 3
+					"length": 4
 				},
 				{
 					"player": 0,
+					"column": 2,
 					"strumTime": 6,
 					"type": 0,
-					"length": 0,
-					"column": 2
+					"length": 0
 				},
 				{
 					"player": 0,
+					"column": 2,
 					"strumTime": 7,
 					"type": 0,
-					"length": 0,
-					"column": 2
+					"length": 0
 				},
 				{
 					"player": 0,
+					"column": 0,
 					"strumTime": 8,
 					"type": 0,
-					"length": 0,
-					"column": 0
+					"length": 0
 				},
 				{
 					"player": 0,
+					"column": 3,
 					"strumTime": 10,
 					"type": 0,
-					"length": 0,
-					"column": 3
+					"length": 0
 				},
 				{
 					"player": 0,
+					"column": 1,
 					"strumTime": 12,
 					"type": 0,
-					"length": 0,
-					"column": 1
+					"length": 0
 				},
 				{
 					"player": 0,
+					"column": 1,
 					"strumTime": 14,
 					"type": 0,
-					"length": 0,
-					"column": 1
+					"length": 0
 				}
-			],
-			"cameraFacing": 0
+			]
 		},
 		{
+			"cameraFacing": 1,
 			"notes": [
 				{
 					"player": 1,
+					"column": 1,
 					"strumTime": 0,
 					"type": 0,
-					"length": 0,
-					"column": 1
+					"length": 0
 				},
 				{
 					"player": 1,
+					"column": 3,
 					"strumTime": 6,
 					"type": 0,
-					"length": 3,
-					"column": 3
+					"length": 3
 				},
 				{
 					"player": 1,
+					"column": 2,
 					"strumTime": 10,
 					"type": 0,
-					"length": 0,
-					"column": 2
+					"length": 0
 				},
 				{
 					"player": 1,
+					"column": 0,
 					"strumTime": 14,
 					"type": 0,
-					"length": 0,
-					"column": 0
+					"length": 0
 				}
-			],
-			"cameraFacing": 1
+			]
 		},
 		{
+			"cameraFacing": 1,
 			"notes": [
 				{
 					"player": 1,
+					"column": 2,
 					"strumTime": 0,
 					"type": 0,
-					"length": 0,
-					"column": 2
+					"length": 0
 				},
 				{
 					"player": 1,
+					"column": 0,
 					"strumTime": 4,
 					"type": 0,
-					"length": 6,
-					"column": 0
+					"length": 6
 				},
 				{
 					"player": 1,
+					"column": 2,
 					"strumTime": 14,
 					"type": 0,
-					"length": 0,
-					"column": 2
+					"length": 0
 				},
 				{
 					"player": 1,
+					"column": 3,
 					"strumTime": 12,
 					"type": 0,
-					"length": 0,
-					"column": 3
+					"length": 0
 				}
-			],
-			"cameraFacing": 1
+			]
 		},
 		{
+			"cameraFacing": 1,
 			"notes": [
 				{
 					"player": 1,
+					"column": 1,
 					"strumTime": 0,
 					"type": 0,
-					"length": 3,
-					"column": 1
+					"length": 3
 				},
 				{
 					"player": 1,
+					"column": 2,
 					"strumTime": 6,
 					"type": 0,
-					"length": 3,
-					"column": 2
+					"length": 3
 				},
 				{
 					"player": 1,
+					"column": 0,
 					"strumTime": 10,
 					"type": 0,
-					"length": 0,
-					"column": 0
+					"length": 0
 				},
 				{
 					"player": 1,
+					"column": 0,
 					"strumTime": 14,
 					"type": 0,
-					"length": 0,
-					"column": 0
+					"length": 0
 				}
-			],
-			"cameraFacing": 1
+			]
 		},
 		{
+			"cameraFacing": 1,
 			"notes": [
 				{
 					"player": 1,
+					"column": 3,
 					"strumTime": 0,
 					"type": 0,
-					"length": 4,
-					"column": 3
+					"length": 4
 				},
 				{
 					"player": 1,
+					"column": 2,
 					"strumTime": 6,
 					"type": 0,
-					"length": 0,
-					"column": 2
+					"length": 0
 				},
 				{
 					"player": 1,
+					"column": 2,
 					"strumTime": 7,
 					"type": 0,
-					"length": 0,
-					"column": 2
+					"length": 0
 				},
 				{
 					"player": 1,
+					"column": 0,
 					"strumTime": 8,
 					"type": 0,
-					"length": 0,
-					"column": 0
+					"length": 0
 				},
 				{
 					"player": 1,
+					"column": 3,
 					"strumTime": 10,
 					"type": 0,
-					"length": 0,
-					"column": 3
+					"length": 0
 				},
 				{
 					"player": 1,
+					"column": 1,
 					"strumTime": 12,
 					"type": 0,
-					"length": 0,
-					"column": 1
+					"length": 0
 				},
 				{
 					"player": 1,
+					"column": 1,
 					"strumTime": 14,
 					"type": 0,
-					"length": 0,
-					"column": 1
+					"length": 0
 				}
-			],
-			"cameraFacing": 1
+			]
 		},
 		{
+			"cameraFacing": 0,
 			"notes": [
 				{
 					"player": 0,
+					"column": 1,
 					"strumTime": 0,
 					"type": 0,
-					"length": 0,
-					"column": 1
+					"length": 0
 				},
 				{
 					"player": 0,
+					"column": 3,
 					"strumTime": 6,
 					"type": 0,
-					"length": 3,
-					"column": 3
+					"length": 3
 				},
 				{
 					"player": 0,
+					"column": 2,
 					"strumTime": 10,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 0,
+					"column": 1,
+					"strumTime": 3,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 0,
+					"column": 0,
+					"strumTime": 13,
+					"type": 0,
+					"length": 0
+				}
+			]
+		},
+		{
+			"cameraFacing": 0,
+			"notes": [
+				{
+					"player": 0,
+					"column": 2,
+					"strumTime": 0,
+					"type": 0,
+					"length": 2
+				},
+				{
+					"player": 0,
+					"column": 0,
+					"strumTime": 4,
+					"type": 0,
+					"length": 3
+				},
+				{
+					"player": 0,
+					"column": 3,
+					"strumTime": 10,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 0,
+					"column": 2,
+					"strumTime": 13,
+					"type": 0,
+					"length": 0
+				}
+			]
+		},
+		{
+			"cameraFacing": 0,
+			"notes": [
+				{
+					"player": 0,
+					"column": 2,
+					"strumTime": 6,
+					"type": 0,
+					"length": 3
+				},
+				{
+					"player": 0,
+					"column": 0,
+					"strumTime": 10,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 0,
+					"column": 1,
+					"strumTime": 0,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 0,
+					"column": 1,
+					"strumTime": 3,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 0,
+					"column": 3,
+					"strumTime": 12,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 0,
+					"column": 0,
+					"strumTime": 14,
+					"type": 0,
+					"length": 0
+				}
+			]
+		},
+		{
+			"cameraFacing": 0,
+			"notes": [
+				{
+					"player": 0,
+					"column": 3,
+					"strumTime": 0,
+					"type": 0,
+					"length": 4
+				},
+				{
+					"player": 0,
+					"column": 2,
+					"strumTime": 6,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 0,
+					"column": 2,
+					"strumTime": 7,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 0,
+					"column": 0,
+					"strumTime": 8,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 0,
+					"column": 3,
+					"strumTime": 10,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 0,
+					"column": 1,
+					"strumTime": 12,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 0,
+					"column": 1,
+					"strumTime": 14,
+					"type": 0,
+					"length": 0
+				}
+			]
+		},
+		{
+			"cameraFacing": 1,
+			"notes": [
+				{
+					"player": 1,
+					"column": 1,
+					"strumTime": 0,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 1,
+					"column": 3,
+					"strumTime": 6,
+					"type": 0,
+					"length": 3
+				},
+				{
+					"player": 1,
+					"column": 2,
+					"strumTime": 10,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 1,
+					"column": 1,
+					"strumTime": 3,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 1,
+					"column": 0,
+					"strumTime": 13,
+					"type": 0,
+					"length": 0
+				}
+			]
+		},
+		{
+			"cameraFacing": 1,
+			"notes": [
+				{
+					"player": 1,
+					"column": 2,
+					"strumTime": 0,
+					"type": 0,
+					"length": 2
+				},
+				{
+					"player": 1,
+					"column": 0,
+					"strumTime": 4,
+					"type": 0,
+					"length": 3
+				},
+				{
+					"player": 1,
+					"column": 3,
+					"strumTime": 10,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 1,
+					"column": 2,
+					"strumTime": 13,
+					"type": 0,
+					"length": 0
+				}
+			]
+		},
+		{
+			"cameraFacing": 1,
+			"notes": [
+				{
+					"player": 1,
+					"column": 2,
+					"strumTime": 6,
+					"type": 0,
+					"length": 3
+				},
+				{
+					"player": 1,
+					"column": 0,
+					"strumTime": 10,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 1,
+					"column": 1,
+					"strumTime": 0,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 1,
+					"column": 1,
+					"strumTime": 3,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 1,
+					"column": 3,
+					"strumTime": 12,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 1,
+					"column": 0,
+					"strumTime": 14,
+					"type": 0,
+					"length": 0
+				}
+			]
+		},
+		{
+			"cameraFacing": 1,
+			"notes": [
+				{
+					"player": 1,
+					"column": 3,
+					"strumTime": 0,
+					"type": 0,
+					"length": 4
+				},
+				{
+					"player": 1,
+					"column": 2,
+					"strumTime": 6,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 1,
+					"column": 2,
+					"strumTime": 7,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 1,
+					"column": 0,
+					"strumTime": 8,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 1,
+					"column": 3,
+					"strumTime": 10,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 1,
+					"column": 1,
+					"strumTime": 12,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 1,
+					"column": 1,
+					"strumTime": 14,
+					"type": 0,
+					"length": 0
+				}
+			]
+		},
+		{
+			"cameraFacing": 0,
+			"notes": [
+				{
+					"player": 0,
+					"column": 0,
+					"strumTime": 0,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 0,
+					"column": 0,
+					"strumTime": 3,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 0,
+					"column": 3,
+					"strumTime": 6,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 0,
+					"column": 3,
+					"strumTime": 9,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 0,
+					"column": 1,
+					"strumTime": 12,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 0,
+					"column": 2,
+					"strumTime": 14,
+					"type": 0,
+					"length": 0
+				}
+			]
+		},
+		{
+			"cameraFacing": 0,
+			"notes": [
+				{
+					"player": 0,
+					"column": 1,
+					"strumTime": 0,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 0,
+					"column": 0,
+					"strumTime": 2,
+					"type": 0,
+					"length": 2
+				},
+				{
+					"player": 0,
+					"column": 3,
+					"strumTime": 6,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 0,
+					"column": 2,
+					"strumTime": 7,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 0,
+					"column": 3,
+					"strumTime": 8,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 0,
+					"column": 0,
+					"strumTime": 10,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 0,
+					"column": 1,
+					"strumTime": 12,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 0,
+					"column": 3,
+					"strumTime": 14,
+					"type": 0,
+					"length": 0
+				}
+			]
+		},
+		{
+			"cameraFacing": 0,
+			"notes": [
+				{
+					"player": 0,
+					"column": 0,
+					"strumTime": 3,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 0,
+					"column": 3,
+					"strumTime": 9,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 0,
+					"column": 2,
+					"strumTime": 0,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 0,
+					"column": 1,
+					"strumTime": 6,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 0,
+					"column": 2,
+					"strumTime": 12,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 0,
+					"column": 1,
+					"strumTime": 13,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 0,
+					"column": 2,
+					"strumTime": 14,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 0,
+					"column": 1,
+					"strumTime": 15,
+					"type": 0,
+					"length": 0
+				}
+			]
+		},
+		{
+			"cameraFacing": 0,
+			"notes": [
+				{
+					"player": 0,
+					"column": 0,
+					"strumTime": 0,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 0,
+					"column": 3,
+					"strumTime": 2,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 0,
+					"column": 1,
+					"strumTime": 4,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 0,
+					"column": 2,
+					"strumTime": 6,
+					"type": 0,
+					"length": 3
+				},
+				{
+					"player": 0,
+					"column": 1,
+					"strumTime": 10,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 0,
+					"column": 0,
+					"strumTime": 11,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 0,
+					"column": 1,
+					"strumTime": 12,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 0,
+					"column": 3,
+					"strumTime": 14,
+					"type": 0,
+					"length": 0
+				}
+			]
+		},
+		{
+			"cameraFacing": 1,
+			"notes": [
+				{
+					"player": 1,
+					"column": 0,
+					"strumTime": 0,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 1,
+					"column": 0,
+					"strumTime": 3,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 1,
+					"column": 3,
+					"strumTime": 6,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 1,
+					"column": 3,
+					"strumTime": 9,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 1,
+					"column": 1,
+					"strumTime": 12,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 1,
+					"column": 2,
+					"strumTime": 14,
+					"type": 0,
+					"length": 0
+				}
+			]
+		},
+		{
+			"cameraFacing": 1,
+			"notes": [
+				{
+					"player": 1,
+					"column": 1,
+					"strumTime": 0,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 1,
+					"column": 0,
+					"strumTime": 2,
+					"type": 0,
+					"length": 2
+				},
+				{
+					"player": 1,
+					"column": 3,
+					"strumTime": 6,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 1,
+					"column": 2,
+					"strumTime": 7,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 1,
+					"column": 3,
+					"strumTime": 8,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 1,
+					"column": 0,
+					"strumTime": 10,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 1,
+					"column": 1,
+					"strumTime": 12,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 1,
+					"column": 3,
+					"strumTime": 14,
+					"type": 0,
+					"length": 0
+				}
+			]
+		},
+		{
+			"cameraFacing": 1,
+			"notes": [
+				{
+					"player": 1,
+					"column": 0,
+					"strumTime": 3,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 1,
+					"column": 3,
+					"strumTime": 9,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 1,
+					"column": 2,
+					"strumTime": 0,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 1,
+					"column": 1,
+					"strumTime": 6,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 1,
+					"column": 2,
+					"strumTime": 12,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 1,
+					"column": 1,
+					"strumTime": 13,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 1,
+					"column": 2,
+					"strumTime": 14,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 1,
+					"column": 1,
+					"strumTime": 15,
+					"type": 0,
+					"length": 0
+				}
+			]
+		},
+		{
+			"cameraFacing": 1,
+			"notes": [
+				{
+					"player": 1,
+					"column": 0,
+					"strumTime": 0,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 1,
+					"column": 3,
+					"strumTime": 2,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 1,
+					"column": 1,
+					"strumTime": 4,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 1,
+					"column": 2,
+					"strumTime": 6,
+					"type": 0,
+					"length": 3
+				},
+				{
+					"player": 1,
+					"column": 0,
+					"strumTime": 13,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 1,
+					"column": 1,
+					"strumTime": 14,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 1,
+					"column": 1,
+					"strumTime": 12,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 1,
+					"column": 3,
+					"strumTime": 10,
+					"type": 0,
+					"length": 0
+				},
+				{
+					"player": 1,
+					"strumTime": 15,
 					"type": 0,
 					"length": 0,
 					"column": 2
+				}
+			]
+		},
+		{
+			"cameraFacing": 0,
+			"notes": [
+				{
+					"player": 1,
+					"strumTime": 0,
+					"type": 0,
+					"length": 0,
+					"column": 3
 				},
 				{
-					"player": 0,
+					"player": 1,
 					"strumTime": 3,
 					"type": 0,
 					"length": 0,
-					"column": 1
-				},
-				{
-					"player": 0,
-					"strumTime": 13,
-					"type": 0,
-					"length": 0,
-					"column": 0
-				}
-			],
-			"cameraFacing": 0
-		},
-		{
-			"notes": [
-				{
-					"player": 0,
-					"strumTime": 0,
-					"type": 0,
-					"length": 2,
-					"column": 2
-				},
-				{
-					"player": 0,
-					"strumTime": 4,
-					"type": 0,
-					"length": 3,
-					"column": 0
-				},
-				{
-					"player": 0,
-					"strumTime": 10,
-					"type": 0,
-					"length": 0,
 					"column": 3
-				},
-				{
-					"player": 0,
-					"strumTime": 13,
-					"type": 0,
-					"length": 0,
-					"column": 2
-				}
-			],
-			"cameraFacing": 0
-		},
-		{
-			"notes": [
-				{
-					"player": 0,
-					"strumTime": 6,
-					"type": 0,
-					"length": 3,
-					"column": 2
-				},
-				{
-					"player": 0,
-					"strumTime": 10,
-					"type": 0,
-					"length": 0,
-					"column": 0
-				},
-				{
-					"player": 0,
-					"strumTime": 0,
-					"type": 0,
-					"length": 0,
-					"column": 1
-				},
-				{
-					"player": 0,
-					"strumTime": 3,
-					"type": 0,
-					"length": 0,
-					"column": 1
-				},
-				{
-					"player": 0,
-					"strumTime": 12,
-					"type": 0,
-					"length": 0,
-					"column": 3
-				},
-				{
-					"player": 0,
-					"strumTime": 14,
-					"type": 0,
-					"length": 0,
-					"column": 0
-				}
-			],
-			"cameraFacing": 0
-		},
-		{
-			"notes": [
-				{
-					"player": 0,
-					"strumTime": 0,
-					"type": 0,
-					"length": 4,
-					"column": 3
-				},
-				{
-					"player": 0,
-					"strumTime": 6,
-					"type": 0,
-					"length": 0,
-					"column": 2
-				},
-				{
-					"player": 0,
-					"strumTime": 7,
-					"type": 0,
-					"length": 0,
-					"column": 2
-				},
-				{
-					"player": 0,
-					"strumTime": 8,
-					"type": 0,
-					"length": 0,
-					"column": 0
-				},
-				{
-					"player": 0,
-					"strumTime": 10,
-					"type": 0,
-					"length": 0,
-					"column": 3
-				},
-				{
-					"player": 0,
-					"strumTime": 12,
-					"type": 0,
-					"length": 0,
-					"column": 1
-				},
-				{
-					"player": 0,
-					"strumTime": 14,
-					"type": 0,
-					"length": 0,
-					"column": 1
-				}
-			],
-			"cameraFacing": 0
-		},
-		{
-			"notes": [
-				{
-					"player": 1,
-					"strumTime": 0,
-					"type": 0,
-					"length": 0,
-					"column": 1
 				},
 				{
 					"player": 1,
 					"strumTime": 6,
 					"type": 0,
-					"length": 3,
-					"column": 3
-				},
-				{
-					"player": 1,
-					"strumTime": 10,
-					"type": 0,
-					"length": 0,
-					"column": 2
-				},
-				{
-					"player": 1,
-					"strumTime": 3,
-					"type": 0,
-					"length": 0,
-					"column": 1
-				},
-				{
-					"player": 1,
-					"strumTime": 13,
-					"type": 0,
-					"length": 0,
-					"column": 0
-				}
-			],
-			"cameraFacing": 1
-		},
-		{
-			"notes": [
-				{
-					"player": 1,
-					"strumTime": 0,
-					"type": 0,
-					"length": 2,
-					"column": 2
-				},
-				{
-					"player": 1,
-					"strumTime": 4,
-					"type": 0,
-					"length": 3,
-					"column": 0
-				},
-				{
-					"player": 1,
-					"strumTime": 10,
-					"type": 0,
-					"length": 0,
-					"column": 3
-				},
-				{
-					"player": 1,
-					"strumTime": 13,
-					"type": 0,
-					"length": 0,
-					"column": 2
-				}
-			],
-			"cameraFacing": 1
-		},
-		{
-			"notes": [
-				{
-					"player": 1,
-					"strumTime": 6,
-					"type": 0,
-					"length": 3,
-					"column": 2
-				},
-				{
-					"player": 1,
-					"strumTime": 10,
-					"type": 0,
 					"length": 0,
 					"column": 0
 				},
 				{
 					"player": 1,
-					"strumTime": 0,
+					"strumTime": 9,
 					"type": 0,
 					"length": 0,
-					"column": 1
-				},
-				{
-					"player": 1,
-					"strumTime": 3,
-					"type": 0,
-					"length": 0,
-					"column": 1
+					"column": 0
 				},
 				{
 					"player": 1,
 					"strumTime": 12,
 					"type": 0,
 					"length": 0,
-					"column": 3
-				},
-				{
-					"player": 1,
-					"strumTime": 14,
-					"type": 0,
-					"length": 0,
-					"column": 0
-				}
-			],
-			"cameraFacing": 1
-		},
-		{
-			"notes": [
-				{
-					"player": 1,
-					"strumTime": 0,
-					"type": 0,
-					"length": 4,
-					"column": 3
-				},
-				{
-					"player": 1,
-					"strumTime": 6,
-					"type": 0,
-					"length": 0,
 					"column": 2
-				},
-				{
-					"player": 1,
-					"strumTime": 7,
-					"type": 0,
-					"length": 0,
-					"column": 2
-				},
-				{
-					"player": 1,
-					"strumTime": 8,
-					"type": 0,
-					"length": 0,
-					"column": 0
-				},
-				{
-					"player": 1,
-					"strumTime": 10,
-					"type": 0,
-					"length": 0,
-					"column": 3
-				},
-				{
-					"player": 1,
-					"strumTime": 12,
-					"type": 0,
-					"length": 0,
-					"column": 1
 				},
 				{
 					"player": 1,
@@ -679,12 +1200,7 @@
 					"type": 0,
 					"length": 0,
 					"column": 1
-				}
-			],
-			"cameraFacing": 1
-		},
-		{
-			"notes": [
+				},
 				{
 					"player": 0,
 					"strumTime": 0,
@@ -727,11 +1243,66 @@
 					"length": 0,
 					"column": 2
 				}
-			],
-			"cameraFacing": 0
+			]
 		},
 		{
 			"notes": [
+				{
+					"player": 1,
+					"strumTime": 0,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
+				{
+					"player": 1,
+					"strumTime": 2,
+					"type": 0,
+					"length": 2,
+					"column": 3
+				},
+				{
+					"player": 1,
+					"strumTime": 6,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 1,
+					"strumTime": 7,
+					"type": 0,
+					"length": 0,
+					"column": 1
+				},
+				{
+					"player": 1,
+					"strumTime": 8,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 1,
+					"strumTime": 10,
+					"type": 0,
+					"length": 0,
+					"column": 3
+				},
+				{
+					"player": 1,
+					"strumTime": 12,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
+				{
+					"player": 1,
+					"strumTime": 14,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
 				{
 					"player": 0,
 					"strumTime": 0,
@@ -793,6 +1364,62 @@
 		},
 		{
 			"notes": [
+				{
+					"player": 1,
+					"strumTime": 3,
+					"type": 0,
+					"length": 0,
+					"column": 3
+				},
+				{
+					"player": 1,
+					"strumTime": 9,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 1,
+					"strumTime": 0,
+					"type": 0,
+					"length": 0,
+					"column": 1
+				},
+				{
+					"player": 1,
+					"strumTime": 6,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
+				{
+					"player": 1,
+					"strumTime": 12,
+					"type": 0,
+					"length": 0,
+					"column": 1
+				},
+				{
+					"player": 1,
+					"strumTime": 13,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
+				{
+					"player": 1,
+					"strumTime": 14,
+					"type": 0,
+					"length": 0,
+					"column": 1
+				},
+				{
+					"player": 1,
+					"strumTime": 15,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
 				{
 					"player": 0,
 					"strumTime": 3,
@@ -850,10 +1477,59 @@
 					"column": 1
 				}
 			],
-			"cameraFacing": 0
+			"cameraFacing": 1
 		},
 		{
 			"notes": [
+				{
+					"player": 1,
+					"strumTime": 0,
+					"type": 0,
+					"length": 0,
+					"column": 3
+				},
+				{
+					"player": 1,
+					"strumTime": 2,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 1,
+					"strumTime": 4,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
+				{
+					"player": 1,
+					"strumTime": 6,
+					"type": 0,
+					"length": 3,
+					"column": 1
+				},
+				{
+					"player": 1,
+					"strumTime": 10,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
+				{
+					"player": 1,
+					"strumTime": 11,
+					"type": 0,
+					"length": 0,
+					"column": 3
+				},
+				{
+					"player": 1,
+					"strumTime": 12,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
 				{
 					"player": 0,
 					"strumTime": 0,
@@ -904,17 +1580,66 @@
 					"column": 1
 				},
 				{
+					"player": 1,
+					"strumTime": 14,
+					"type": 0,
+					"length": 0,
+					"column": 1
+				},
+				{
 					"player": 0,
 					"strumTime": 14,
 					"type": 0,
 					"length": 0,
-					"column": 3
+					"column": 2
 				}
 			],
-			"cameraFacing": 0
+			"cameraFacing": 1
 		},
 		{
 			"notes": [
+				{
+					"player": 0,
+					"strumTime": 0,
+					"type": 0,
+					"length": 0,
+					"column": 3
+				},
+				{
+					"player": 0,
+					"strumTime": 3,
+					"type": 0,
+					"length": 0,
+					"column": 3
+				},
+				{
+					"player": 0,
+					"strumTime": 6,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 0,
+					"strumTime": 9,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 0,
+					"strumTime": 12,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
+				{
+					"player": 0,
+					"strumTime": 14,
+					"type": 0,
+					"length": 0,
+					"column": 1
+				},
 				{
 					"player": 1,
 					"strumTime": 0,
@@ -958,10 +1683,66 @@
 					"column": 2
 				}
 			],
-			"cameraFacing": 1
+			"cameraFacing": 0
 		},
 		{
 			"notes": [
+				{
+					"player": 0,
+					"strumTime": 0,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
+				{
+					"player": 0,
+					"strumTime": 2,
+					"type": 0,
+					"length": 2,
+					"column": 3
+				},
+				{
+					"player": 0,
+					"strumTime": 6,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 0,
+					"strumTime": 7,
+					"type": 0,
+					"length": 0,
+					"column": 1
+				},
+				{
+					"player": 0,
+					"strumTime": 8,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 0,
+					"strumTime": 10,
+					"type": 0,
+					"length": 0,
+					"column": 3
+				},
+				{
+					"player": 0,
+					"strumTime": 12,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
+				{
+					"player": 0,
+					"strumTime": 14,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
 				{
 					"player": 1,
 					"strumTime": 0,
@@ -1019,10 +1800,66 @@
 					"column": 3
 				}
 			],
-			"cameraFacing": 1
+			"cameraFacing": 0
 		},
 		{
 			"notes": [
+				{
+					"player": 0,
+					"strumTime": 3,
+					"type": 0,
+					"length": 0,
+					"column": 3
+				},
+				{
+					"player": 0,
+					"strumTime": 9,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 0,
+					"strumTime": 0,
+					"type": 0,
+					"length": 0,
+					"column": 1
+				},
+				{
+					"player": 0,
+					"strumTime": 6,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
+				{
+					"player": 0,
+					"strumTime": 12,
+					"type": 0,
+					"length": 0,
+					"column": 1
+				},
+				{
+					"player": 0,
+					"strumTime": 13,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
+				{
+					"player": 0,
+					"strumTime": 14,
+					"type": 0,
+					"length": 0,
+					"column": 1
+				},
+				{
+					"player": 0,
+					"strumTime": 15,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
 				{
 					"player": 1,
 					"strumTime": 3,
@@ -1085,6 +1922,69 @@
 		{
 			"notes": [
 				{
+					"player": 0,
+					"strumTime": 0,
+					"type": 0,
+					"length": 0,
+					"column": 3
+				},
+				{
+					"player": 0,
+					"strumTime": 2,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 0,
+					"strumTime": 4,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
+				{
+					"player": 0,
+					"strumTime": 6,
+					"type": 0,
+					"length": 3,
+					"column": 1
+				},
+				{
+					"player": 0,
+					"strumTime": 13,
+					"type": 0,
+					"length": 0,
+					"column": 3
+				},
+				{
+					"player": 0,
+					"strumTime": 14,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
+				{
+					"player": 0,
+					"strumTime": 15,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 0,
+					"strumTime": 12,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
+				{
+					"player": 0,
+					"strumTime": 10,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
 					"player": 1,
 					"strumTime": 0,
 					"type": 0,
@@ -1128,6 +2028,13 @@
 				},
 				{
 					"player": 1,
+					"strumTime": 15,
+					"type": 0,
+					"length": 0,
+					"column": 3
+				},
+				{
+					"player": 1,
 					"strumTime": 12,
 					"type": 0,
 					"length": 0,
@@ -1139,13 +2046,6 @@
 					"type": 0,
 					"length": 0,
 					"column": 3
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 15
 				}
 			],
 			"cameraFacing": 1
@@ -1153,2257 +2053,60 @@
 		{
 			"notes": [
 				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 0
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 3
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 6
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 9
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 12
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 14
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 0
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 3
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 6
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 9
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 12
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 14
-				}
-			],
-			"cameraFacing": 0
-		},
-		{
-			"cameraFacing": 0,
-			"notes": [
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 0
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 2,
-					"column": 3,
-					"strumTime": 2
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 6
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 7
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 8
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 10
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 12
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 14
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 0
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 2,
-					"column": 0,
-					"strumTime": 2
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 6
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 7
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 8
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 10
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 12
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 14
-				}
-			]
-		},
-		{
-			"cameraFacing": 1,
-			"notes": [
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 3
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 9
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 0
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 6
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 12
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 13
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 14
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 15
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 3
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 9
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 0
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 6
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 12
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 13
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 14
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 15
-				}
-			]
-		},
-		{
-			"cameraFacing": 1,
-			"notes": [
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 0
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 2
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 4
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 3,
-					"column": 1,
-					"strumTime": 6
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 10
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 11
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 12
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 0
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 2
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 4
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 3,
-					"column": 2,
-					"strumTime": 6
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 10
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 11
-				},
-				{
 					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 12
-				},
-				{
-					"player": 1,
+					"strumTime": 0,
 					"type": 0,
 					"length": 0,
-					"column": 1,
-					"strumTime": 14
+					"column": 1
 				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 14
-				}
-			]
-		},
-		{
-			"cameraFacing": 0,
-			"notes": [
 				{
 					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 0
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 3
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 6
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 9
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 12
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 14
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 0
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 3
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 6
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 9
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 12
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 14
-				}
-			]
-		},
-		{
-			"cameraFacing": 0,
-			"notes": [
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 0
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 2,
-					"column": 3,
-					"strumTime": 2
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 6
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 7
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 8
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 10
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 12
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 14
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 0
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 2,
-					"column": 0,
-					"strumTime": 2
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 6
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 7
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 8
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 10
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 12
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 14
-				}
-			]
-		},
-		{
-			"cameraFacing": 1,
-			"notes": [
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 3
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 9
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 0
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 6
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 12
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 13
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 14
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 15
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 3
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 9
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 0
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 6
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 12
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 13
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 14
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 15
-				}
-			]
-		},
-		{
-			"cameraFacing": 1,
-			"notes": [
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 0
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 2
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 4
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 3,
-					"column": 1,
-					"strumTime": 6
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 13
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 14
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 15
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 12
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 10
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 0
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 2
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 4
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 3,
-					"column": 2,
-					"strumTime": 6
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 13
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 14
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 15
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 12
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 10
-				}
-			]
-		},
-		{
-			"cameraFacing": 0,
-			"notes": [
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 0
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 10
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 2
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 4
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 3,
-					"column": 3,
-					"strumTime": 6
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 11
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 13
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 15
-				}
-			]
-		},
-		{
-			"cameraFacing": 0,
-			"notes": [
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 0
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 1
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 3
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 6
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 9
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 10
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 11
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 12
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 14
-				}
-			]
-		},
-		{
-			"cameraFacing": 0,
-			"notes": [
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 0
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 2
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 4
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 5
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 7
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 10
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 12
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 14
-				}
-			]
-		},
-		{
-			"cameraFacing": 0,
-			"notes": [
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 0
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 2
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 4
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 5
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 7
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 10
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 12
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 14
-				}
-			]
-		},
-		{
-			"cameraFacing": 0,
-			"notes": [
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 4
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 3,
-					"column": 1,
-					"strumTime": 6
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 0
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 2
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 10
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 13
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 14
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 15
-				}
-			]
-		},
-		{
-			"cameraFacing": 0,
-			"notes": [
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 3
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 6
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 0
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 7
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 8
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 2,
-					"column": 2,
-					"strumTime": 9
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 12
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 14
-				}
-			]
-		},
-		{
-			"cameraFacing": 0,
-			"notes": [
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 4
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 5
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 7
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 0
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 2
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 10
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 12
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 14
-				}
-			]
-		},
-		{
-			"cameraFacing": 0,
-			"notes": [
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 0
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 2
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 4
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 6
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 2,
-					"column": 3,
-					"strumTime": 8
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 14
-				},
-				{
-					"player": 0,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 15
-				}
-			]
-		},
-		{
-			"cameraFacing": 1,
-			"notes": [
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 0
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 10
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 13
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 15
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 3
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 5
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 6
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 9
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 11
-				}
-			]
-		},
-		{
-			"cameraFacing": 1,
-			"notes": [
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 0
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 1
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 3
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 6
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 9
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 10
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 11
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 12
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 14
-				}
-			]
-		},
-		{
-			"cameraFacing": 1,
-			"notes": [
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 0
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 2
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 4
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 5
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 7
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 10
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 12
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 14
-				}
-			]
-		},
-		{
-			"cameraFacing": 1,
-			"notes": [
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 0
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 2
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 4
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 5
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 7
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 10
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 12
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 14
-				}
-			]
-		},
-		{
-			"cameraFacing": 1,
-			"notes": [
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 0
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 10
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 13
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 14
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 15
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 3
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 4
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 6
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 7
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 9
-				}
-			]
-		},
-		{
-			"cameraFacing": 1,
-			"notes": [
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 3
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 6
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 0
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 7
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 8
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 2,
-					"column": 2,
-					"strumTime": 9
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 12
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 14
-				}
-			]
-		},
-		{
-			"cameraFacing": 1,
-			"notes": [
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 4
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 5
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 7
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 0
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 2
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 10
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 12
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 1,
-					"strumTime": 14
-				}
-			]
-		},
-		{
-			"cameraFacing": 1,
-			"notes": [
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 0
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 2
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 4
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 0,
-					"strumTime": 6
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 2,
-					"column": 3,
-					"strumTime": 8
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 3,
-					"strumTime": 14
-				},
-				{
-					"player": 1,
-					"type": 0,
-					"length": 0,
-					"column": 2,
-					"strumTime": 15
-				}
-			]
-		},
-		{
-			"cameraFacing": 1,
-			"notes": [
-				{
-					"player": 1,
-					"type": 0,
-					"length": 19,
-					"column": 1,
-					"strumTime": 0
-				}
-			]
-		},
-		{
-			"cameraFacing": 1,
-			"notes": [
-				{
-					"length": 0,
-					"column": 2,
-					"strumTime": 12,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 0,
-					"strumTime": 14,
-					"player": 1,
-					"type": 0
-				}
-			]
-		},
-		{
-			"notes": [
-				{
-					"length": 0,
-					"column": 0,
-					"strumTime": 14,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 2,
 					"strumTime": 10,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 3,
-					"column": 3,
-					"strumTime": 6,
-					"player": 1,
-					"type": 0
-				},
-				{
+					"type": 0,
 					"length": 0,
-					"column": 1,
-					"strumTime": 0,
-					"player": 1,
-					"type": 0
-				}
-			],
-			"cameraFacing": 1
-		},
-		{
-			"notes": [
-				{
-					"length": 0,
-					"column": 2,
-					"strumTime": 0,
-					"player": 1,
-					"type": 0
+					"column": 2
 				},
 				{
-					"length": 6,
-					"column": 0,
-					"strumTime": 4,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 2,
-					"strumTime": 14,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 3,
-					"strumTime": 12,
-					"player": 1,
-					"type": 0
-				}
-			],
-			"cameraFacing": 1
-		},
-		{
-			"notes": [
-				{
-					"length": 3,
-					"column": 1,
-					"strumTime": 0,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 3,
-					"column": 2,
-					"strumTime": 6,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 0,
-					"strumTime": 10,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 0,
-					"strumTime": 14,
-					"player": 1,
-					"type": 0
-				}
-			],
-			"cameraFacing": 1
-		},
-		{
-			"notes": [
-				{
-					"length": 4,
-					"column": 3,
-					"strumTime": 0,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 2,
-					"strumTime": 6,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 2,
-					"strumTime": 7,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 0,
-					"strumTime": 8,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 3,
-					"strumTime": 10,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 1,
-					"strumTime": 12,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 1,
-					"strumTime": 14,
-					"player": 1,
-					"type": 0
-				}
-			],
-			"cameraFacing": 1
-		},
-		{
-			"notes": [
-				{
-					"length": 0,
-					"column": 1,
-					"strumTime": 0,
 					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 2,
-					"strumTime": 10,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 0,
-					"strumTime": 14,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 1,
 					"strumTime": 2,
-					"player": 0,
-					"type": 0
+					"type": 0,
+					"length": 0,
+					"column": 1
 				},
 				{
-					"length": 0,
-					"column": 3,
+					"player": 0,
 					"strumTime": 4,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 3,
-					"column": 3,
-					"strumTime": 6,
-					"player": 0,
-					"type": 0
-				},
-				{
+					"type": 0,
 					"length": 0,
-					"column": 3,
+					"column": 3
+				},
+				{
+					"player": 0,
+					"strumTime": 6,
+					"type": 0,
+					"length": 3,
+					"column": 3
+				},
+				{
+					"player": 0,
 					"strumTime": 11,
-					"player": 0,
-					"type": 0
+					"type": 0,
+					"length": 0,
+					"column": 2
 				},
 				{
-					"length": 0,
-					"column": 2,
-					"strumTime": 12,
 					"player": 0,
-					"type": 0
-				}
-			],
-			"cameraFacing": 0
-		},
-		{
-			"notes": [
-				{
-					"length": 3,
-					"column": 0,
-					"strumTime": 4,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 2,
-					"strumTime": 14,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 3,
-					"strumTime": 12,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 1,
-					"strumTime": 0,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 2,
-					"strumTime": 2,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 1,
-					"strumTime": 3,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 0,
-					"strumTime": 10,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 0,
-					"strumTime": 9,
-					"player": 0,
-					"type": 0
-				}
-			],
-			"cameraFacing": 0
-		},
-		{
-			"notes": [
-				{
-					"length": 0,
-					"column": 0,
-					"strumTime": 10,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 0,
-					"strumTime": 14,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 1,
-					"strumTime": 2,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 1,
-					"strumTime": 0,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 2,
-					"strumTime": 4,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 2,
-					"strumTime": 7,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 3,
-					"strumTime": 11,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 3,
 					"strumTime": 13,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
 					"player": 0,
-					"type": 0
+					"strumTime": 15,
+					"type": 0,
+					"length": 0,
+					"column": 0
 				}
 			],
 			"cameraFacing": 0
@@ -3411,602 +2114,494 @@
 		{
 			"notes": [
 				{
-					"length": 4,
-					"column": 1,
+					"player": 0,
 					"strumTime": 0,
+					"type": 0,
+					"length": 0,
+					"column": 1
+				},
+				{
 					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 1,
-					"strumTime": 12,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 1,
-					"strumTime": 14,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 0,
-					"strumTime": 10,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 3,
-					"strumTime": 6,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 3,
-					"strumTime": 7,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 2,
-					"strumTime": 8,
-					"player": 0,
-					"type": 0
-				}
-			],
-			"cameraFacing": 0
-		},
-		{
-			"notes": [
-				{
-					"length": 0,
-					"column": 1,
-					"strumTime": 0,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 2,
-					"strumTime": 10,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 0,
-					"strumTime": 14,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 1,
-					"strumTime": 2,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 3,
-					"strumTime": 4,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 3,
-					"column": 3,
-					"strumTime": 6,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 3,
-					"strumTime": 11,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 2,
-					"strumTime": 12,
-					"player": 1,
-					"type": 0
-				}
-			],
-			"cameraFacing": 1
-		},
-		{
-			"notes": [
-				{
-					"length": 3,
-					"column": 0,
-					"strumTime": 4,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 2,
-					"strumTime": 14,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 3,
-					"strumTime": 12,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 1,
-					"strumTime": 0,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 2,
-					"strumTime": 2,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 1,
-					"strumTime": 3,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 0,
-					"strumTime": 10,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 0,
-					"strumTime": 9,
-					"player": 1,
-					"type": 0
-				}
-			],
-			"cameraFacing": 1
-		},
-		{
-			"notes": [
-				{
-					"length": 0,
-					"column": 0,
-					"strumTime": 10,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 0,
-					"strumTime": 14,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 1,
-					"strumTime": 2,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 1,
-					"strumTime": 0,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 2,
-					"strumTime": 4,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 2,
-					"strumTime": 7,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 3,
-					"strumTime": 11,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 3,
-					"strumTime": 13,
-					"player": 1,
-					"type": 0
-				}
-			],
-			"cameraFacing": 1
-		},
-		{
-			"notes": [
-				{
-					"length": 4,
-					"column": 1,
-					"strumTime": 0,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 1,
-					"strumTime": 12,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 1,
-					"strumTime": 14,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 0,
-					"strumTime": 10,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 3,
-					"strumTime": 6,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 3,
-					"strumTime": 7,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 2,
-					"strumTime": 8,
-					"player": 1,
-					"type": 0
-				}
-			],
-			"cameraFacing": 1
-		},
-		{
-			"notes": [
-				{
-					"length": 0,
-					"column": 1,
-					"strumTime": 0,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 0,
-					"strumTime": 14,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 3,
-					"strumTime": 4,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 2,
-					"column": 3,
-					"strumTime": 6,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 1,
-					"strumTime": 3,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 2,
-					"strumTime": 9,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 3,
-					"strumTime": 10,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 2,
-					"strumTime": 11,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 0,
-					"strumTime": 12,
-					"player": 0,
-					"type": 0
-				}
-			],
-			"cameraFacing": 0
-		},
-		{
-			"notes": [
-				{
-					"length": 3,
-					"column": 1,
-					"strumTime": 0,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 0,
-					"strumTime": 7,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 2,
-					"column": 2,
-					"strumTime": 4,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 0,
-					"strumTime": 9,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 2,
-					"strumTime": 10,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 3,
-					"strumTime": 13,
-					"player": 0,
-					"type": 0
-				}
-			],
-			"cameraFacing": 0
-		},
-		{
-			"notes": [
-				{
-					"length": 0,
-					"column": 0,
-					"strumTime": 10,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 0,
-					"strumTime": 14,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 1,
-					"strumTime": 0,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 1,
-					"strumTime": 3,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 2,
-					"strumTime": 5,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 3,
-					"strumTime": 6,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 3,
-					"strumTime": 9,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 2,
-					"strumTime": 12,
-					"player": 0,
-					"type": 0
-				}
-			],
-			"cameraFacing": 0
-		},
-		{
-			"notes": [
-				{
-					"length": 0,
-					"column": 1,
-					"strumTime": 12,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 1,
-					"strumTime": 14,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 2,
-					"strumTime": 8,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 1,
-					"strumTime": 0,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 3,
-					"column": 3,
-					"strumTime": 2,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 0,
-					"strumTime": 6,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 0,
-					"strumTime": 7,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 3,
-					"strumTime": 10,
-					"player": 0,
-					"type": 0
-				}
-			],
-			"cameraFacing": 0
-		},
-		{
-			"notes": [
-				{
-					"length": 0,
-					"column": 1,
-					"strumTime": 0,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 0,
-					"strumTime": 14,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 3,
-					"strumTime": 4,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 2,
-					"column": 3,
-					"strumTime": 6,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 2,
-					"strumTime": 9,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 3,
-					"strumTime": 10,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 2,
-					"strumTime": 11,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 0,
-					"strumTime": 12,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 0,
 					"strumTime": 1,
-					"player": 1,
-					"type": 0
+					"type": 0,
+					"length": 0,
+					"column": 2
 				},
 				{
+					"player": 0,
+					"strumTime": 3,
+					"type": 0,
 					"length": 0,
-					"column": 1,
+					"column": 0
+				},
+				{
+					"player": 0,
+					"strumTime": 6,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 0,
+					"strumTime": 9,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 0,
+					"strumTime": 10,
+					"type": 0,
+					"length": 0,
+					"column": 3
+				},
+				{
+					"player": 0,
+					"strumTime": 11,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
+				{
+					"player": 0,
+					"strumTime": 12,
+					"type": 0,
+					"length": 0,
+					"column": 1
+				},
+				{
+					"player": 0,
+					"strumTime": 14,
+					"type": 0,
+					"length": 0,
+					"column": 1
+				}
+			],
+			"cameraFacing": 0
+		},
+		{
+			"notes": [
+				{
+					"player": 0,
+					"strumTime": 0,
+					"type": 0,
+					"length": 0,
+					"column": 3
+				},
+				{
+					"player": 0,
 					"strumTime": 2,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 0,
+					"strumTime": 4,
+					"type": 0,
+					"length": 0,
+					"column": 3
+				},
+				{
+					"player": 0,
+					"strumTime": 5,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
+				{
+					"player": 0,
+					"strumTime": 7,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 0,
+					"strumTime": 10,
+					"type": 0,
+					"length": 0,
+					"column": 1
+				},
+				{
+					"player": 0,
+					"strumTime": 12,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
+				{
+					"player": 0,
+					"strumTime": 14,
+					"type": 0,
+					"length": 0,
+					"column": 3
+				}
+			],
+			"cameraFacing": 0
+		},
+		{
+			"notes": [
+				{
+					"player": 0,
+					"strumTime": 0,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 0,
+					"strumTime": 2,
+					"type": 0,
+					"length": 0,
+					"column": 3
+				},
+				{
+					"player": 0,
+					"strumTime": 4,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 0,
+					"strumTime": 5,
+					"type": 0,
+					"length": 0,
+					"column": 1
+				},
+				{
+					"player": 0,
+					"strumTime": 7,
+					"type": 0,
+					"length": 0,
+					"column": 3
+				},
+				{
+					"player": 0,
+					"strumTime": 10,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
+				{
+					"player": 0,
+					"strumTime": 12,
+					"type": 0,
+					"length": 0,
+					"column": 1
+				},
+				{
+					"player": 0,
+					"strumTime": 14,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				}
+			],
+			"cameraFacing": 0
+		},
+		{
+			"notes": [
+				{
+					"player": 0,
+					"strumTime": 4,
+					"type": 0,
+					"length": 0,
+					"column": 1
+				},
+				{
+					"player": 0,
+					"strumTime": 6,
+					"type": 0,
+					"length": 3,
+					"column": 1
+				},
+				{
+					"player": 0,
+					"strumTime": 0,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
+				{
+					"player": 0,
+					"strumTime": 2,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
+				{
+					"player": 0,
+					"strumTime": 10,
+					"type": 0,
+					"length": 0,
+					"column": 3
+				},
+				{
+					"player": 0,
+					"strumTime": 13,
+					"type": 0,
+					"length": 0,
+					"column": 3
+				},
+				{
+					"player": 0,
+					"strumTime": 14,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
+				{
+					"player": 0,
+					"strumTime": 15,
+					"type": 0,
+					"length": 0,
+					"column": 1
+				}
+			],
+			"cameraFacing": 0
+		},
+		{
+			"notes": [
+				{
+					"player": 0,
+					"strumTime": 3,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 0,
+					"strumTime": 6,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 0,
+					"strumTime": 0,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 0,
+					"strumTime": 7,
+					"type": 0,
+					"length": 0,
+					"column": 1
+				},
+				{
+					"player": 0,
+					"strumTime": 8,
+					"type": 0,
+					"length": 0,
+					"column": 3
+				},
+				{
+					"player": 0,
+					"strumTime": 9,
+					"type": 0,
+					"length": 2,
+					"column": 2
+				},
+				{
+					"player": 0,
+					"strumTime": 12,
+					"type": 0,
+					"length": 0,
+					"column": 3
+				},
+				{
+					"player": 0,
+					"strumTime": 14,
+					"type": 0,
+					"length": 0,
+					"column": 3
+				}
+			],
+			"cameraFacing": 0
+		},
+		{
+			"notes": [
+				{
+					"player": 0,
+					"strumTime": 4,
+					"type": 0,
+					"length": 0,
+					"column": 3
+				},
+				{
+					"player": 0,
+					"strumTime": 5,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
+				{
+					"player": 0,
+					"strumTime": 7,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 0,
+					"strumTime": 0,
+					"type": 0,
+					"length": 0,
+					"column": 1
+				},
+				{
+					"player": 0,
+					"strumTime": 2,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
+				{
+					"player": 0,
+					"strumTime": 10,
+					"type": 0,
+					"length": 0,
+					"column": 1
+				},
+				{
+					"player": 0,
+					"strumTime": 12,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 0,
+					"strumTime": 14,
+					"type": 0,
+					"length": 0,
+					"column": 1
+				}
+			],
+			"cameraFacing": 0
+		},
+		{
+			"notes": [
+				{
+					"player": 0,
+					"strumTime": 0,
+					"type": 0,
+					"length": 0,
+					"column": 3
+				},
+				{
+					"player": 0,
+					"strumTime": 2,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 0,
+					"strumTime": 4,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
+				{
+					"player": 0,
+					"strumTime": 6,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 0,
+					"strumTime": 8,
+					"type": 0,
+					"length": 2,
+					"column": 3
+				},
+				{
+					"player": 0,
+					"strumTime": 14,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
+				{
+					"player": 0,
+					"strumTime": 15,
+					"type": 0,
+					"length": 0,
+					"column": 1
+				}
+			],
+			"cameraFacing": 0
+		},
+		{
+			"notes": [
+				{
 					"player": 1,
-					"type": 0
+					"strumTime": 0,
+					"type": 0,
+					"length": 0,
+					"column": 1
+				},
+				{
+					"player": 1,
+					"strumTime": 10,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
+				{
+					"player": 1,
+					"strumTime": 13,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 1,
+					"strumTime": 15,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 1,
+					"strumTime": 3,
+					"type": 0,
+					"length": 0,
+					"column": 1
+				},
+				{
+					"player": 1,
+					"strumTime": 5,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
+				{
+					"player": 1,
+					"strumTime": 6,
+					"type": 0,
+					"length": 0,
+					"column": 3
+				},
+				{
+					"player": 1,
+					"strumTime": 9,
+					"type": 0,
+					"length": 0,
+					"column": 3
+				},
+				{
+					"player": 1,
+					"strumTime": 11,
+					"type": 0,
+					"length": 0,
+					"column": 2
 				}
 			],
 			"cameraFacing": 1
@@ -4014,1736 +2609,3149 @@
 		{
 			"notes": [
 				{
-					"length": 3,
-					"column": 1,
-					"strumTime": 0,
 					"player": 1,
-					"type": 0
+					"strumTime": 0,
+					"type": 0,
+					"length": 0,
+					"column": 1
 				},
 				{
+					"player": 1,
+					"strumTime": 1,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
+				{
+					"player": 1,
+					"strumTime": 3,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 1,
+					"strumTime": 6,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 1,
+					"strumTime": 9,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 1,
+					"strumTime": 10,
+					"type": 0,
+					"length": 0,
+					"column": 3
+				},
+				{
+					"player": 1,
+					"strumTime": 11,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
+				{
+					"player": 1,
+					"strumTime": 12,
+					"type": 0,
+					"length": 0,
+					"column": 1
+				},
+				{
+					"player": 1,
+					"strumTime": 14,
+					"type": 0,
+					"length": 0,
+					"column": 1
+				}
+			],
+			"cameraFacing": 1
+		},
+		{
+			"notes": [
+				{
+					"player": 1,
+					"strumTime": 0,
+					"type": 0,
+					"length": 0,
+					"column": 3
+				},
+				{
+					"player": 1,
+					"strumTime": 2,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 1,
+					"strumTime": 4,
+					"type": 0,
+					"length": 0,
+					"column": 3
+				},
+				{
+					"player": 1,
+					"strumTime": 5,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
+				{
+					"player": 1,
+					"strumTime": 7,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 1,
+					"strumTime": 10,
+					"type": 0,
+					"length": 0,
+					"column": 1
+				},
+				{
+					"player": 1,
+					"strumTime": 12,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
+				{
+					"player": 1,
+					"strumTime": 14,
+					"type": 0,
+					"length": 0,
+					"column": 3
+				}
+			],
+			"cameraFacing": 1
+		},
+		{
+			"notes": [
+				{
+					"player": 1,
+					"strumTime": 0,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 1,
+					"strumTime": 2,
+					"type": 0,
+					"length": 0,
+					"column": 3
+				},
+				{
+					"player": 1,
+					"strumTime": 4,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 1,
+					"strumTime": 5,
+					"type": 0,
+					"length": 0,
+					"column": 1
+				},
+				{
+					"player": 1,
+					"strumTime": 7,
+					"type": 0,
+					"length": 0,
+					"column": 3
+				},
+				{
+					"player": 1,
+					"strumTime": 10,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
+				{
+					"player": 1,
+					"strumTime": 12,
+					"type": 0,
+					"length": 0,
+					"column": 1
+				},
+				{
+					"player": 1,
+					"strumTime": 14,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				}
+			],
+			"cameraFacing": 1
+		},
+		{
+			"notes": [
+				{
+					"player": 1,
+					"strumTime": 0,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
+				{
+					"player": 1,
+					"strumTime": 10,
+					"type": 0,
+					"length": 0,
+					"column": 3
+				},
+				{
+					"player": 1,
+					"strumTime": 13,
+					"type": 0,
+					"length": 0,
+					"column": 3
+				},
+				{
+					"player": 1,
+					"strumTime": 14,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
+				{
+					"player": 1,
+					"strumTime": 15,
+					"type": 0,
+					"length": 0,
+					"column": 1
+				},
+				{
+					"player": 1,
+					"strumTime": 3,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
+				{
+					"player": 1,
+					"strumTime": 4,
+					"type": 0,
+					"length": 0,
+					"column": 1
+				},
+				{
+					"player": 1,
+					"strumTime": 6,
+					"type": 0,
+					"length": 0,
+					"column": 1
+				},
+				{
+					"player": 1,
+					"strumTime": 7,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 1,
+					"strumTime": 9,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				}
+			],
+			"cameraFacing": 1
+		},
+		{
+			"notes": [
+				{
+					"player": 1,
+					"strumTime": 3,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 1,
+					"strumTime": 6,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 1,
+					"strumTime": 0,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 1,
+					"strumTime": 7,
+					"type": 0,
+					"length": 0,
+					"column": 1
+				},
+				{
+					"player": 1,
+					"strumTime": 8,
+					"type": 0,
+					"length": 0,
+					"column": 3
+				},
+				{
+					"player": 1,
+					"strumTime": 9,
+					"type": 0,
+					"length": 2,
+					"column": 2
+				},
+				{
+					"player": 1,
+					"strumTime": 12,
+					"type": 0,
+					"length": 0,
+					"column": 3
+				},
+				{
+					"player": 1,
+					"strumTime": 14,
+					"type": 0,
+					"length": 0,
+					"column": 3
+				}
+			],
+			"cameraFacing": 1
+		},
+		{
+			"notes": [
+				{
+					"player": 1,
+					"strumTime": 4,
+					"type": 0,
+					"length": 0,
+					"column": 3
+				},
+				{
+					"player": 1,
+					"strumTime": 5,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
+				{
+					"player": 1,
+					"strumTime": 7,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 1,
+					"strumTime": 0,
+					"type": 0,
+					"length": 0,
+					"column": 1
+				},
+				{
+					"player": 1,
+					"strumTime": 2,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
+				{
+					"player": 1,
+					"strumTime": 10,
+					"type": 0,
+					"length": 0,
+					"column": 1
+				},
+				{
+					"player": 1,
+					"strumTime": 12,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 1,
+					"strumTime": 14,
+					"type": 0,
+					"length": 0,
+					"column": 1
+				}
+			],
+			"cameraFacing": 1
+		},
+		{
+			"notes": [
+				{
+					"player": 1,
+					"strumTime": 0,
+					"type": 0,
+					"length": 0,
+					"column": 3
+				},
+				{
+					"player": 1,
+					"strumTime": 2,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 1,
+					"strumTime": 4,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				},
+				{
+					"player": 1,
+					"strumTime": 6,
+					"type": 0,
+					"length": 0,
+					"column": 0
+				},
+				{
+					"player": 1,
+					"strumTime": 8,
+					"type": 0,
+					"length": 2,
+					"column": 3
+				},
+				{
+					"player": 1,
+					"strumTime": 14,
+					"type": 0,
+					"length": 0,
+					"column": 3
+				},
+				{
+					"player": 1,
+					"strumTime": 15,
+					"type": 0,
+					"length": 0,
+					"column": 2
+				}
+			],
+			"cameraFacing": 1
+		},
+		{
+			"notes": [
+				{
+					"player": 1,
+					"strumTime": 0,
+					"type": 0,
+					"length": 19,
+					"column": 1
+				}
+			],
+			"cameraFacing": 1
+		},
+		{
+			"notes": [
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 2,
+					"strumTime": 12
+				},
+				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 7,
+					"strumTime": 14
+				}
+			],
+			"cameraFacing": 1
+		},
+		{
+			"cameraFacing": 1,
+			"notes": [
+				{
 					"player": 1,
-					"type": 0
+					"type": 0,
+					"length": 0,
+					"column": 0,
+					"strumTime": 14
 				},
 				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 2,
+					"strumTime": 10
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 3,
+					"column": 3,
+					"strumTime": 6
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 1,
+					"strumTime": 0
+				}
+			]
+		},
+		{
+			"cameraFacing": 1,
+			"notes": [
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 2,
+					"strumTime": 0
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 6,
+					"column": 0,
+					"strumTime": 4
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 2,
+					"strumTime": 14
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 3,
+					"strumTime": 12
+				}
+			]
+		},
+		{
+			"cameraFacing": 1,
+			"notes": [
+				{
+					"player": 1,
+					"type": 0,
+					"length": 3,
+					"column": 1,
+					"strumTime": 0
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 3,
+					"column": 2,
+					"strumTime": 6
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 0,
+					"strumTime": 10
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 0,
+					"strumTime": 14
+				}
+			]
+		},
+		{
+			"cameraFacing": 1,
+			"notes": [
+				{
+					"player": 1,
+					"type": 0,
+					"length": 4,
+					"column": 3,
+					"strumTime": 0
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 2,
+					"strumTime": 6
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 2,
+					"strumTime": 7
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 0,
+					"strumTime": 8
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 3,
+					"strumTime": 10
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 1,
+					"strumTime": 12
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 1,
+					"strumTime": 14
+				}
+			]
+		},
+		{
+			"cameraFacing": 0,
+			"notes": [
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 1,
+					"strumTime": 0
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 2,
+					"strumTime": 10
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 0,
+					"strumTime": 14
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 1,
+					"strumTime": 2
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 3,
+					"strumTime": 4
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 3,
+					"column": 3,
+					"strumTime": 6
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 3,
+					"strumTime": 11
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 2,
+					"strumTime": 12
+				}
+			]
+		},
+		{
+			"cameraFacing": 0,
+			"notes": [
+				{
+					"player": 0,
+					"type": 0,
+					"length": 3,
+					"column": 0,
+					"strumTime": 4
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 2,
+					"strumTime": 14
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 3,
+					"strumTime": 12
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 1,
+					"strumTime": 0
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 2,
+					"strumTime": 2
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 1,
+					"strumTime": 3
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 0,
+					"strumTime": 10
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 0,
+					"strumTime": 9
+				}
+			]
+		},
+		{
+			"cameraFacing": 0,
+			"notes": [
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 0,
+					"strumTime": 10
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 0,
+					"strumTime": 14
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 1,
+					"strumTime": 2
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 1,
+					"strumTime": 0
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 2,
+					"strumTime": 4
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 2,
+					"strumTime": 7
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 3,
+					"strumTime": 11
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 3,
+					"strumTime": 13
+				}
+			]
+		},
+		{
+			"cameraFacing": 0,
+			"notes": [
+				{
+					"player": 0,
+					"type": 0,
+					"length": 4,
+					"column": 1,
+					"strumTime": 0
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 1,
+					"strumTime": 12
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 1,
+					"strumTime": 14
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 0,
+					"strumTime": 10
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 3,
+					"strumTime": 6
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 3,
+					"strumTime": 7
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 2,
+					"strumTime": 8
+				}
+			]
+		},
+		{
+			"cameraFacing": 1,
+			"notes": [
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 1,
+					"strumTime": 0
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 2,
+					"strumTime": 10
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 0,
+					"strumTime": 14
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 1,
+					"strumTime": 2
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 3,
+					"strumTime": 4
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 3,
+					"column": 3,
+					"strumTime": 6
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 3,
+					"strumTime": 11
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 2,
+					"strumTime": 12
+				}
+			]
+		},
+		{
+			"cameraFacing": 1,
+			"notes": [
+				{
+					"player": 1,
+					"type": 0,
+					"length": 3,
+					"column": 0,
+					"strumTime": 4
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 2,
+					"strumTime": 14
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 3,
+					"strumTime": 12
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 1,
+					"strumTime": 0
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 2,
+					"strumTime": 2
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 1,
+					"strumTime": 3
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 0,
+					"strumTime": 10
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 0,
+					"strumTime": 9
+				}
+			]
+		},
+		{
+			"cameraFacing": 1,
+			"notes": [
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 0,
+					"strumTime": 10
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 0,
+					"strumTime": 14
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 1,
+					"strumTime": 2
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 1,
+					"strumTime": 0
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 2,
+					"strumTime": 4
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 2,
+					"strumTime": 7
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 3,
+					"strumTime": 11
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 3,
+					"strumTime": 13
+				}
+			]
+		},
+		{
+			"cameraFacing": 1,
+			"notes": [
+				{
+					"player": 1,
+					"type": 0,
+					"length": 4,
+					"column": 1,
+					"strumTime": 0
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 1,
+					"strumTime": 12
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 1,
+					"strumTime": 14
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 0,
+					"strumTime": 10
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 3,
+					"strumTime": 6
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 3,
+					"strumTime": 7
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 2,
+					"strumTime": 8
+				}
+			]
+		},
+		{
+			"cameraFacing": 0,
+			"notes": [
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 1,
+					"strumTime": 0
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 0,
+					"strumTime": 14
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 3,
+					"strumTime": 4
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 2,
+					"column": 3,
+					"strumTime": 6
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 1,
+					"strumTime": 3
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 2,
+					"strumTime": 9
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 3,
+					"strumTime": 10
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 2,
+					"strumTime": 11
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 0,
+					"strumTime": 12
+				}
+			]
+		},
+		{
+			"cameraFacing": 0,
+			"notes": [
+				{
+					"player": 0,
+					"type": 0,
+					"length": 3,
+					"column": 1,
+					"strumTime": 0
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 0,
+					"strumTime": 7
+				},
+				{
+					"player": 0,
+					"type": 0,
 					"length": 2,
 					"column": 2,
-					"strumTime": 4,
-					"player": 1,
-					"type": 0
+					"strumTime": 4
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 9,
-					"player": 1,
-					"type": 0
+					"strumTime": 9
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 10,
-					"player": 1,
-					"type": 0
+					"strumTime": 10
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 13,
-					"player": 1,
-					"type": 0
+					"strumTime": 13
 				}
-			],
-			"cameraFacing": 1
+			]
 		},
 		{
+			"cameraFacing": 0,
 			"notes": [
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 10,
-					"player": 1,
-					"type": 0
+					"strumTime": 10
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 14,
-					"player": 1,
-					"type": 0
+					"strumTime": 14
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 0,
-					"player": 1,
-					"type": 0
+					"strumTime": 0
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 3,
-					"player": 1,
-					"type": 0
+					"strumTime": 3
 				},
 				{
-					"length": 0,
-					"column": 3,
-					"strumTime": 6,
-					"player": 1,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 3,
-					"strumTime": 9,
-					"player": 1,
-					"type": 0
-				},
-				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 12,
-					"player": 1,
-					"type": 0
+					"strumTime": 5
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 3,
+					"strumTime": 6
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 3,
+					"strumTime": 9
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 2,
+					"strumTime": 12
 				}
-			],
-			"cameraFacing": 1
+			]
 		},
 		{
+			"cameraFacing": 0,
 			"notes": [
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 12,
-					"player": 1,
-					"type": 0
+					"strumTime": 12
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 14,
-					"player": 1,
-					"type": 0
+					"strumTime": 14
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 8,
-					"player": 1,
-					"type": 0
+					"strumTime": 8
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 0,
-					"player": 1,
-					"type": 0
+					"strumTime": 0
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 3,
 					"column": 3,
-					"strumTime": 2,
-					"player": 1,
-					"type": 0
+					"strumTime": 2
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 6,
-					"player": 1,
-					"type": 0
+					"strumTime": 6
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 7,
-					"player": 1,
-					"type": 0
+					"strumTime": 7
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 10,
-					"player": 1,
-					"type": 0
+					"strumTime": 10
 				}
-			],
-			"cameraFacing": 1
+			]
 		},
 		{
+			"cameraFacing": 1,
 			"notes": [
 				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 1,
+					"strumTime": 0
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 0,
+					"strumTime": 14
+				},
+				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 2,
-					"player": 0,
-					"type": 0
+					"strumTime": 4
 				},
 				{
-					"length": 0,
-					"column": 0,
-					"strumTime": 4,
-					"player": 0,
-					"type": 0
+					"player": 1,
+					"type": 0,
+					"length": 2,
+					"column": 3,
+					"strumTime": 6
 				},
 				{
-					"length": 0,
-					"column": 2,
-					"strumTime": 7,
-					"player": 0,
-					"type": 0
-				},
-				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 10,
-					"player": 0,
-					"type": 0
+					"strumTime": 9
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
-					"column": 1,
-					"strumTime": 12,
-					"player": 0,
-					"type": 0
+					"column": 3,
+					"strumTime": 10
 				},
 				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 2,
+					"strumTime": 11
+				},
+				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 14,
-					"player": 0,
-					"type": 0
+					"strumTime": 12
 				},
 				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 0,
+					"strumTime": 1
+				},
+				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 15,
-					"player": 0,
-					"type": 0
+					"strumTime": 2
 				}
-			],
-			"cameraFacing": 0
+			]
 		},
 		{
+			"cameraFacing": 1,
 			"notes": [
 				{
-					"length": 0,
-					"column": 2,
-					"strumTime": 0,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 3,
-					"strumTime": 2,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 2,
-					"strumTime": 3,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 3,
-					"strumTime": 4,
-					"player": 0,
-					"type": 0
-				},
-				{
+					"player": 1,
+					"type": 0,
 					"length": 3,
 					"column": 1,
-					"strumTime": 6,
-					"player": 0,
-					"type": 0
+					"strumTime": 0
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 10,
-					"player": 0,
-					"type": 0
+					"strumTime": 7
 				},
 				{
+					"player": 1,
+					"type": 0,
+					"length": 2,
+					"column": 2,
+					"strumTime": 4
+				},
+				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
-					"column": 3,
-					"strumTime": 12,
-					"player": 0,
-					"type": 0
+					"column": 0,
+					"strumTime": 9
 				},
 				{
-					"length": 0,
-					"column": 3,
-					"strumTime": 14,
-					"player": 0,
-					"type": 0
-				},
-				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 11,
-					"player": 0,
-					"type": 0
+					"strumTime": 10
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
-					"column": 1,
-					"strumTime": 13,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 1,
-					"strumTime": 15,
-					"player": 0,
-					"type": 0
+					"column": 3,
+					"strumTime": 13
 				}
-			],
-			"cameraFacing": 0
+			]
 		},
 		{
+			"cameraFacing": 1,
 			"notes": [
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 0,
-					"player": 0,
-					"type": 0
+					"strumTime": 10
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 2,
-					"player": 0,
-					"type": 0
+					"strumTime": 14
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 4,
-					"player": 0,
-					"type": 0
+					"strumTime": 0
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 6,
-					"player": 0,
-					"type": 0
+					"strumTime": 3
 				},
 				{
-					"length": 0,
-					"column": 2,
-					"strumTime": 8,
-					"player": 0,
-					"type": 0
-				},
-				{
-					"length": 0,
-					"column": 2,
-					"strumTime": 10,
-					"player": 0,
-					"type": 0
-				},
-				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 12,
-					"player": 0,
-					"type": 0
+					"strumTime": 6
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 14,
-					"player": 0,
-					"type": 0
+					"strumTime": 9
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
-					"column": 1,
-					"strumTime": 15,
-					"player": 0,
-					"type": 0
+					"column": 2,
+					"strumTime": 12
 				}
-			],
-			"cameraFacing": 0
+			]
 		},
 		{
+			"cameraFacing": 1,
 			"notes": [
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
-					"column": 3,
-					"strumTime": 0,
-					"player": 0,
-					"type": 0
+					"column": 1,
+					"strumTime": 12
 				},
 				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 1,
+					"strumTime": 14
+				},
+				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 2,
-					"player": 0,
-					"type": 0
+					"strumTime": 8
 				},
 				{
+					"player": 1,
+					"type": 0,
+					"length": 0,
+					"column": 1,
+					"strumTime": 0
+				},
+				{
+					"player": 1,
+					"type": 0,
+					"length": 3,
+					"column": 3,
+					"strumTime": 2
+				},
+				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 4,
-					"player": 0,
-					"type": 0
+					"strumTime": 6
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 5,
-					"player": 0,
-					"type": 0
+					"strumTime": 7
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 6,
+					"strumTime": 10
+				}
+			]
+		},
+		{
+			"cameraFacing": 0,
+			"notes": [
+				{
 					"player": 0,
-					"type": 0
+					"type": 0,
+					"length": 0,
+					"column": 3,
+					"strumTime": 2
 				},
 				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 0,
+					"strumTime": 4
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 2,
+					"strumTime": 7
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 2,
+					"strumTime": 10
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 1,
+					"strumTime": 12
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 0,
+					"strumTime": 14
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 1,
+					"strumTime": 15
+				}
+			]
+		},
+		{
+			"cameraFacing": 0,
+			"notes": [
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 2,
+					"strumTime": 0
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 3,
+					"strumTime": 2
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 2,
+					"strumTime": 3
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 3,
+					"strumTime": 4
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 3,
+					"column": 1,
+					"strumTime": 6
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 0,
+					"strumTime": 10
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 3,
+					"strumTime": 12
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 3,
+					"strumTime": 14
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 2,
+					"strumTime": 11
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 1,
+					"strumTime": 13
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 1,
+					"strumTime": 15
+				}
+			]
+		},
+		{
+			"cameraFacing": 0,
+			"notes": [
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 0,
+					"strumTime": 0
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 0,
+					"strumTime": 2
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 1,
+					"strumTime": 4
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 1,
+					"strumTime": 6
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 2,
+					"strumTime": 8
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 2,
+					"strumTime": 10
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 3,
+					"strumTime": 12
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 3,
+					"strumTime": 14
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 1,
+					"strumTime": 15
+				}
+			]
+		},
+		{
+			"cameraFacing": 0,
+			"notes": [
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 3,
+					"strumTime": 0
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 2,
+					"strumTime": 2
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 0,
+					"strumTime": 4
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 0,
+					"strumTime": 5
+				},
+				{
+					"player": 0,
+					"type": 0,
+					"length": 0,
+					"column": 3,
+					"strumTime": 6
+				},
+				{
+					"player": 0,
+					"type": 0,
 					"length": 6,
 					"column": 1,
-					"strumTime": 8,
-					"player": 0,
-					"type": 0
+					"strumTime": 8
 				}
-			],
-			"cameraFacing": 0
+			]
 		},
 		{
+			"cameraFacing": 1,
 			"notes": [
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 2,
-					"player": 1,
-					"type": 0
+					"strumTime": 2
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 4,
-					"player": 1,
-					"type": 0
+					"strumTime": 4
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 7,
-					"player": 1,
-					"type": 0
+					"strumTime": 7
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 10,
-					"player": 1,
-					"type": 0
+					"strumTime": 10
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 12,
-					"player": 1,
-					"type": 0
+					"strumTime": 12
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 14,
-					"player": 1,
-					"type": 0
+					"strumTime": 14
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 15,
-					"player": 1,
-					"type": 0
+					"strumTime": 15
 				}
-			],
-			"cameraFacing": 1
+			]
 		},
 		{
+			"cameraFacing": 1,
 			"notes": [
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 0,
-					"player": 1,
-					"type": 0
+					"strumTime": 0
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 2,
-					"player": 1,
-					"type": 0
+					"strumTime": 2
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 3,
-					"player": 1,
-					"type": 0
+					"strumTime": 3
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 4,
-					"player": 1,
-					"type": 0
+					"strumTime": 4
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 3,
 					"column": 2,
-					"strumTime": 6,
-					"player": 1,
-					"type": 0
+					"strumTime": 6
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 10,
-					"player": 1,
-					"type": 0
+					"strumTime": 10
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 12,
-					"player": 1,
-					"type": 0
+					"strumTime": 12
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 14,
-					"player": 1,
-					"type": 0
+					"strumTime": 14
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 11,
-					"player": 1,
-					"type": 0
+					"strumTime": 11
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 13,
-					"player": 1,
-					"type": 0
+					"strumTime": 13
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 15,
-					"player": 1,
-					"type": 0
+					"strumTime": 15
 				}
-			],
-			"cameraFacing": 1
+			]
 		},
 		{
+			"cameraFacing": 1,
 			"notes": [
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 0,
-					"player": 1,
-					"type": 0
+					"strumTime": 0
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 2,
-					"player": 1,
-					"type": 0
+					"strumTime": 2
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 4,
-					"player": 1,
-					"type": 0
+					"strumTime": 4
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 6,
-					"player": 1,
-					"type": 0
+					"strumTime": 6
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 8,
-					"player": 1,
-					"type": 0
+					"strumTime": 8
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 10,
-					"player": 1,
-					"type": 0
+					"strumTime": 10
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 12,
-					"player": 1,
-					"type": 0
+					"strumTime": 12
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 14,
-					"player": 1,
-					"type": 0
+					"strumTime": 14
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 15,
-					"player": 1,
-					"type": 0
+					"strumTime": 15
 				}
-			],
-			"cameraFacing": 1
+			]
 		},
 		{
+			"cameraFacing": 1,
 			"notes": [
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 0,
-					"player": 1,
-					"type": 0
+					"strumTime": 0
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 2,
-					"player": 1,
-					"type": 0
+					"strumTime": 2
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 4,
-					"player": 1,
-					"type": 0
+					"strumTime": 4
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 5,
-					"player": 1,
-					"type": 0
+					"strumTime": 5
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 6,
-					"player": 1,
-					"type": 0
+					"strumTime": 6
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 6,
 					"column": 2,
-					"strumTime": 8,
-					"player": 1,
-					"type": 0
+					"strumTime": 8
 				}
-			],
-			"cameraFacing": 1
+			]
 		},
 		{
+			"cameraFacing": 0,
 			"notes": [
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 2,
-					"player": 1,
-					"type": 0
+					"strumTime": 2
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 4,
-					"player": 1,
-					"type": 0
+					"strumTime": 4
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 7,
-					"player": 1,
-					"type": 0
+					"strumTime": 7
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 10,
-					"player": 1,
-					"type": 0
+					"strumTime": 10
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 12,
-					"player": 1,
-					"type": 0
+					"strumTime": 12
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 14,
-					"player": 1,
-					"type": 0
+					"strumTime": 14
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 15,
-					"player": 1,
-					"type": 0
+					"strumTime": 15
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 2,
-					"player": 0,
-					"type": 0
+					"strumTime": 2
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 4,
-					"player": 0,
-					"type": 0
+					"strumTime": 4
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 7,
-					"player": 0,
-					"type": 0
+					"strumTime": 7
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 10,
-					"player": 0,
-					"type": 0
+					"strumTime": 10
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 12,
-					"player": 0,
-					"type": 0
+					"strumTime": 12
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 14,
-					"player": 0,
-					"type": 0
+					"strumTime": 14
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 15,
-					"player": 0,
-					"type": 0
+					"strumTime": 15
 				}
-			],
-			"cameraFacing": 0
+			]
 		},
 		{
+			"cameraFacing": 1,
 			"notes": [
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 0,
-					"player": 1,
-					"type": 0
+					"strumTime": 0
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 2,
-					"player": 1,
-					"type": 0
+					"strumTime": 2
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 3,
-					"player": 1,
-					"type": 0
+					"strumTime": 3
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 4,
-					"player": 1,
-					"type": 0
+					"strumTime": 4
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 3,
 					"column": 1,
-					"strumTime": 6,
-					"player": 1,
-					"type": 0
+					"strumTime": 6
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 10,
-					"player": 1,
-					"type": 0
+					"strumTime": 10
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 12,
-					"player": 1,
-					"type": 0
+					"strumTime": 12
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 14,
-					"player": 1,
-					"type": 0
+					"strumTime": 14
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 11,
-					"player": 1,
-					"type": 0
+					"strumTime": 11
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 13,
-					"player": 1,
-					"type": 0
+					"strumTime": 13
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 15,
-					"player": 1,
-					"type": 0
+					"strumTime": 15
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 0,
-					"player": 0,
-					"type": 0
+					"strumTime": 0
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 2,
-					"player": 0,
-					"type": 0
+					"strumTime": 2
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 3,
-					"player": 0,
-					"type": 0
+					"strumTime": 3
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 4,
-					"player": 0,
-					"type": 0
+					"strumTime": 4
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 3,
 					"column": 1,
-					"strumTime": 6,
-					"player": 0,
-					"type": 0
+					"strumTime": 6
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 10,
-					"player": 0,
-					"type": 0
+					"strumTime": 10
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 12,
-					"player": 0,
-					"type": 0
+					"strumTime": 12
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 14,
-					"player": 0,
-					"type": 0
+					"strumTime": 14
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 11,
-					"player": 0,
-					"type": 0
+					"strumTime": 11
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 13,
-					"player": 0,
-					"type": 0
+					"strumTime": 13
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 15,
-					"player": 0,
-					"type": 0
+					"strumTime": 15
 				}
-			],
-			"cameraFacing": 1
+			]
 		},
 		{
+			"cameraFacing": 0,
 			"notes": [
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 0,
-					"player": 1,
-					"type": 0
+					"strumTime": 0
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 2,
-					"player": 1,
-					"type": 0
+					"strumTime": 2
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 4,
-					"player": 1,
-					"type": 0
+					"strumTime": 4
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 6,
-					"player": 1,
-					"type": 0
+					"strumTime": 6
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 8,
-					"player": 1,
-					"type": 0
+					"strumTime": 8
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 10,
-					"player": 1,
-					"type": 0
+					"strumTime": 10
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 12,
-					"player": 1,
-					"type": 0
+					"strumTime": 12
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 14,
-					"player": 1,
-					"type": 0
+					"strumTime": 14
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 15,
-					"player": 1,
-					"type": 0
+					"strumTime": 15
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 0,
-					"player": 0,
-					"type": 0
+					"strumTime": 0
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 2,
-					"player": 0,
-					"type": 0
+					"strumTime": 2
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 4,
-					"player": 0,
-					"type": 0
+					"strumTime": 4
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 6,
-					"player": 0,
-					"type": 0
+					"strumTime": 6
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 8,
-					"player": 0,
-					"type": 0
+					"strumTime": 8
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 10,
-					"player": 0,
-					"type": 0
+					"strumTime": 10
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 12,
-					"player": 0,
-					"type": 0
+					"strumTime": 12
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 14,
-					"player": 0,
-					"type": 0
+					"strumTime": 14
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 15,
-					"player": 0,
-					"type": 0
+					"strumTime": 15
 				}
-			],
-			"cameraFacing": 0
+			]
 		},
 		{
+			"cameraFacing": 1,
 			"notes": [
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 0,
-					"player": 1,
-					"type": 0
+					"strumTime": 0
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 2,
-					"player": 1,
-					"type": 0
+					"strumTime": 2
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 4,
-					"player": 1,
-					"type": 0
+					"strumTime": 4
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 5,
-					"player": 1,
-					"type": 0
+					"strumTime": 5
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 6,
-					"player": 1,
-					"type": 0
+					"strumTime": 6
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 6,
 					"column": 1,
-					"strumTime": 8,
-					"player": 1,
-					"type": 0
+					"strumTime": 8
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 0,
-					"player": 0,
-					"type": 0
+					"strumTime": 0
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 2,
-					"player": 0,
-					"type": 0
+					"strumTime": 2
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 4,
-					"player": 0,
-					"type": 0
+					"strumTime": 4
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 5,
-					"player": 0,
-					"type": 0
+					"strumTime": 5
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 6,
-					"player": 0,
-					"type": 0
+					"strumTime": 6
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 6,
 					"column": 1,
-					"strumTime": 8,
-					"player": 0,
-					"type": 0
+					"strumTime": 8
 				}
-			],
-			"cameraFacing": 1
+			]
 		},
 		{
+			"cameraFacing": 0,
 			"notes": [
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 2,
-					"player": 0,
-					"type": 0
+					"strumTime": 2
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 4,
-					"player": 0,
-					"type": 0
+					"strumTime": 4
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 7,
-					"player": 0,
-					"type": 0
+					"strumTime": 7
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 10,
-					"player": 0,
-					"type": 0
+					"strumTime": 10
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 12,
-					"player": 0,
-					"type": 0
+					"strumTime": 12
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 14,
-					"player": 0,
-					"type": 0
+					"strumTime": 14
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 15,
-					"player": 0,
-					"type": 0
+					"strumTime": 15
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 2,
-					"player": 1,
-					"type": 0
+					"strumTime": 2
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 4,
-					"player": 1,
-					"type": 0
+					"strumTime": 4
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 7,
-					"player": 1,
-					"type": 0
+					"strumTime": 7
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 10,
-					"player": 1,
-					"type": 0
+					"strumTime": 10
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 12,
-					"player": 1,
-					"type": 0
+					"strumTime": 12
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 14,
-					"player": 1,
-					"type": 0
+					"strumTime": 14
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 15,
-					"player": 1,
-					"type": 0
+					"strumTime": 15
 				}
-			],
-			"cameraFacing": 0
+			]
 		},
 		{
+			"cameraFacing": 1,
 			"notes": [
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 0,
-					"player": 0,
-					"type": 0
+					"strumTime": 0
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 2,
-					"player": 0,
-					"type": 0
+					"strumTime": 2
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 3,
-					"player": 0,
-					"type": 0
+					"strumTime": 3
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 4,
-					"player": 0,
-					"type": 0
+					"strumTime": 4
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 3,
 					"column": 2,
-					"strumTime": 6,
-					"player": 0,
-					"type": 0
+					"strumTime": 6
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 10,
-					"player": 0,
-					"type": 0
+					"strumTime": 10
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 12,
-					"player": 0,
-					"type": 0
+					"strumTime": 12
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 14,
-					"player": 0,
-					"type": 0
+					"strumTime": 14
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 11,
-					"player": 0,
-					"type": 0
+					"strumTime": 11
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 13,
-					"player": 0,
-					"type": 0
+					"strumTime": 13
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 15,
-					"player": 0,
-					"type": 0
+					"strumTime": 15
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 0,
-					"player": 1,
-					"type": 0
+					"strumTime": 0
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 2,
-					"player": 1,
-					"type": 0
+					"strumTime": 2
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 3,
-					"player": 1,
-					"type": 0
+					"strumTime": 3
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 4,
-					"player": 1,
-					"type": 0
+					"strumTime": 4
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 3,
 					"column": 2,
-					"strumTime": 6,
-					"player": 1,
-					"type": 0
+					"strumTime": 6
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 10,
-					"player": 1,
-					"type": 0
+					"strumTime": 10
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 12,
-					"player": 1,
-					"type": 0
+					"strumTime": 12
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 14,
-					"player": 1,
-					"type": 0
+					"strumTime": 14
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 11,
-					"player": 1,
-					"type": 0
+					"strumTime": 11
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 13,
-					"player": 1,
-					"type": 0
+					"strumTime": 13
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 15,
-					"player": 1,
-					"type": 0
+					"strumTime": 15
 				}
-			],
-			"cameraFacing": 1
+			]
 		},
 		{
+			"cameraFacing": 0,
 			"notes": [
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 0,
-					"player": 0,
-					"type": 0
+					"strumTime": 0
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 2,
-					"player": 0,
-					"type": 0
+					"strumTime": 2
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 4,
-					"player": 0,
-					"type": 0
+					"strumTime": 4
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 6,
-					"player": 0,
-					"type": 0
+					"strumTime": 6
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 8,
-					"player": 0,
-					"type": 0
+					"strumTime": 8
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 10,
-					"player": 0,
-					"type": 0
+					"strumTime": 10
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 12,
-					"player": 0,
-					"type": 0
+					"strumTime": 12
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 14,
-					"player": 0,
-					"type": 0
+					"strumTime": 14
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 15,
-					"player": 0,
-					"type": 0
+					"strumTime": 15
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 0,
-					"player": 1,
-					"type": 0
+					"strumTime": 0
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 2,
-					"player": 1,
-					"type": 0
+					"strumTime": 2
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 4,
-					"player": 1,
-					"type": 0
+					"strumTime": 4
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 6,
-					"player": 1,
-					"type": 0
+					"strumTime": 6
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 8,
-					"player": 1,
-					"type": 0
+					"strumTime": 8
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 10,
-					"player": 1,
-					"type": 0
+					"strumTime": 10
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 12,
-					"player": 1,
-					"type": 0
+					"strumTime": 12
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 14,
-					"player": 1,
-					"type": 0
+					"strumTime": 14
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 15,
-					"player": 1,
-					"type": 0
+					"strumTime": 15
 				}
-			],
-			"cameraFacing": 0
+			]
 		},
 		{
+			"cameraFacing": 1,
 			"notes": [
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 0,
-					"player": 1,
-					"type": 0
+					"strumTime": 0
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 2,
-					"player": 1,
-					"type": 0
+					"strumTime": 2
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 4,
-					"player": 1,
-					"type": 0
+					"strumTime": 4
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 5,
-					"player": 1,
-					"type": 0
+					"strumTime": 5
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 6,
-					"player": 1,
-					"type": 0
+					"strumTime": 6
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 8,
-					"player": 1,
-					"type": 0
+					"strumTime": 8
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 9,
-					"player": 1,
-					"type": 0
+					"strumTime": 9
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 10,
-					"player": 1,
-					"type": 0
+					"strumTime": 10
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 12,
-					"player": 1,
-					"type": 0
+					"strumTime": 12
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 13,
-					"player": 1,
-					"type": 0
+					"strumTime": 13
 				},
 				{
+					"player": 1,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 14,
-					"player": 1,
-					"type": 0
+					"strumTime": 14
 				},
 				{
-					"length": 0,
-					"column": 0,
-					"strumTime": 0,
 					"player": 0,
-					"type": 0
+					"type": 0,
+					"length": 0,
+					"column": 0,
+					"strumTime": 0
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 1,
-					"strumTime": 2,
-					"player": 0,
-					"type": 0
+					"strumTime": 2
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 4,
-					"player": 0,
-					"type": 0
+					"strumTime": 4
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 5,
-					"player": 0,
-					"type": 0
+					"strumTime": 5
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 6,
-					"player": 0,
-					"type": 0
+					"strumTime": 6
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 8,
-					"player": 0,
-					"type": 0
+					"strumTime": 8
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 2,
-					"strumTime": 9,
-					"player": 0,
-					"type": 0
+					"strumTime": 9
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 10,
-					"player": 0,
-					"type": 0
+					"strumTime": 10
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 12,
-					"player": 0,
-					"type": 0
+					"strumTime": 12
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 3,
-					"strumTime": 13,
-					"player": 0,
-					"type": 0
+					"strumTime": 13
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 0,
 					"column": 0,
-					"strumTime": 14,
-					"player": 0,
-					"type": 0
+					"strumTime": 14
 				}
-			],
-			"cameraFacing": 1
+			]
 		},
 		{
+			"cameraFacing": 0,
 			"notes": [
 				{
+					"player": 1,
+					"type": 0,
 					"length": 19,
 					"column": 1,
-					"strumTime": 0,
-					"player": 1,
-					"type": 0
+					"strumTime": 0
 				},
 				{
+					"player": 0,
+					"type": 0,
 					"length": 19,
 					"column": 1,
-					"strumTime": 0,
-					"player": 0,
-					"type": 0
+					"strumTime": 0
 				}
-			],
-			"cameraFacing": 0
+			]
 		},
 		{
-			"notes": [],
-			"cameraFacing": 1
+			"cameraFacing": 1,
+			"notes": []
 		},
 		{
-			"notes": [],
-			"cameraFacing": 0
+			"cameraFacing": 0,
+			"notes": []
 		},
 		{
-			"notes": [],
-			"cameraFacing": 1
+			"cameraFacing": 1,
+			"notes": []
 		}
 	],
-	"stage": "demo-stage",
-	"characterCharts": 2,
-	"speed": 2.1,
+	"activePlayer": 1,
 	"BPM": 140,
-	"activePlayer": 1
+	"speed": 2.1,
+	"iconNames": [
+		"demo",
+		"bf"
+	]
 }

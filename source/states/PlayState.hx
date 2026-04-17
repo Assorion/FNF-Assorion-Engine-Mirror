@@ -131,18 +131,17 @@ class PlayState extends EventState {
 		healthBarBG.screenCenter(X);
 		healthBarBG.scrollFactor.set();
 
-		var healthColours:Array<Int> = [0xFFFF0000, 0xFF66FF33];
 		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), null);
 		healthBar.active = false;
 		healthBar.scrollFactor.set();
-		healthBar.createFilledBar(healthColours[0], healthColours[1]);
+		healthBar.createFilledBar(songData.healthColours[0], songData.healthColours[1]);
 
 		scoreTxt = new FormattedText(0, baseY + 40, 0, '', null, 16, 0xFFFFFFFF, CENTER, OUTLINE);
 		scoreTxt.scrollFactor.set();
 		scoreTxt.screenCenter(X);
 
-		iconP1 = new CharacterIcon(songData.characters[1].name, true, true);
-		iconP2 = new CharacterIcon(songData.characters[0].name, false, true);
+		iconP1 = new CharacterIcon(songData.iconNames[1], true, true);
+		iconP2 = new CharacterIcon(songData.iconNames[0], false, true);
 		iconP1.y = baseY - (iconP1.height / 2);
 		iconP2.y = baseY - (iconP2.height / 2);
 

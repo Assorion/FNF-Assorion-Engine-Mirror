@@ -695,6 +695,25 @@ class ChartingState extends EventState {
 
 				songData.BPM = Math.isNaN(Std.parseFloat(tmpBox.text)) ? 120 : Std.parseFloat(tmpBox.text);
 				Song.musicSet(songData.BPM);
+			case 'oppbox':
+				songData.iconNames[0] = tmpBox.text;
+			case 'secbox':
+				songData.iconNames[1] = tmpBox.text;
+			case 'oppR', 'secR':
+				var charNum:Int = tmpBox.name.split('sec').length - 1;
+				var curCol = songData.healthColours[charNum] ^ (songData.healthColours[charNum] & 0xFF0000);
+				curCol |= CoolUtil.intBoundTo(Std.parseInt(tmpBox.text), 0, 0xFF) << 16;
+				songData.healthColours[charNum] = curCol | 0xFF000000;
+			case 'oppG', 'secG':
+				var charNum:Int = tmpBox.name.split('sec').length - 1;
+				var curCol = songData.healthColours[charNum] ^ (songData.healthColours[charNum] & 0x00FF00);
+				curCol |= CoolUtil.intBoundTo(Std.parseInt(tmpBox.text), 0, 0xFF) << 8;
+				songData.healthColours[charNum] = curCol | 0xFF000000;
+			case 'oppB', 'secB':
+				var charNum:Int = tmpBox.name.split('sec').length - 1;
+				var curCol = songData.healthColours[charNum] ^ (songData.healthColours[charNum] & 0x0000FF);
+				curCol |= CoolUtil.intBoundTo(Std.parseInt(tmpBox.text), 0, 0xFF);
+				songData.healthColours[charNum] = curCol | 0xFF000000;
 			default:
 				var safeValue = Math.isNaN(Std.parseFloat(tmpBox.text)) ? 0 : Std.parseFloat(tmpBox.text);
 				var character = Std.parseInt(tmpBox.name.split('.')[0]);
@@ -703,6 +722,9 @@ class ChartingState extends EventState {
 				songData.characters[character].x = safeValue :
 				songData.characters[character].y = safeValue;
 			}
+
+			oppColourPreview.color = songData.healthColours[0];
+			secColourPreview.color = songData.healthColours[1];
 		case FlxUIDropDownMenu.CLICK_EVENT:
 			var tmpDropDown:FlxUIDropDownMenu = cast sender;
 
@@ -752,6 +774,33 @@ class ChartingState extends EventState {
 		var voicesCheck = new FlxUICheckBox(10, widgetOffset(10, delayStepper), null, null, '', 0);
 		voicesCheck.checked = songData.hasVoices;
 		voicesCheck.name = 'hasVoices';
+		
+		/* Health & Icon stuff */
+		var oppBox = new FlxUIInputText(10, widgetOffset(10, voicesCheck), 120, songData.iconNames[0], 8); 
+		oppBox.name = 'oppbox';
+
+		var secBox = new FlxUIInputText(10, widgetOffset(10, oppBox), 120, songData.iconNames[1], 8); 
+		secBox.name = 'secbox';
+
+	 	oppColourPreview = new FlxSprite(10, widgetOffset(10, secBox)).makeGraphic(20, 20, 0xFFFFFFFF);
+		secColourPreview = new FlxSprite(10, widgetOffset(10, oppColourPreview)).makeGraphic(20, 20, 0xFFFFFFFF);
+		oppColourPreview.color = songData.healthColours[0];
+		secColourPreview.color = songData.healthColours[1];
+
+		var oppR = new FlxUIInputText(40,  widgetOffset(12, secBox), 40, Std.string((songData.healthColours[0] >> 16) & 0xFF));
+		var oppG = new FlxUIInputText(90,  widgetOffset(12, secBox), 40, Std.string((songData.healthColours[0] >> 8) & 0xFF));
+		var oppB = new FlxUIInputText(140, widgetOffset(12, secBox), 40, Std.string(songData.healthColours[0] & 0xFF));
+		oppR.name = 'oppR';
+		oppG.name = 'oppG';
+		oppB.name = 'oppB';
+
+		var secR = new FlxUIInputText(40,  widgetOffset(12, oppColourPreview), 40, Std.string((songData.healthColours[1] >> 16) & 0xFF));
+		var secG = new FlxUIInputText(90,  widgetOffset(12, oppColourPreview), 40, Std.string((songData.healthColours[1] >> 8) & 0xFF));
+		var secB = new FlxUIInputText(140, widgetOffset(12, oppColourPreview), 40, Std.string(songData.healthColours[1] & 0xFF));
+		secR.name = 'secR';
+		secG.name = 'secG';
+		secB.name = 'secB';
+		/***********************/
 
 		var saveButton = new FlxButton(10, 450, 'Save', function(){
 			saveSong(false);
@@ -806,6 +855,20 @@ class ChartingState extends EventState {
 		propertiesUIGroup.add(clearButton);
 		propertiesUIGroup.add(selectButton);
 		propertiesUIGroup.add(updateButton);
+		propertiesUIGroup.add(oppBox);
+		propertiesUIGroup.add(secBox);
+		propertiesUIGroup.add(generateLabel(oppBox, 'Left side icon'));
+		propertiesUIGroup.add(generateLabel(secBox, 'Right side icon'));
+		propertiesUIGroup.add(oppColourPreview);
+		propertiesUIGroup.add(secColourPreview);
+		propertiesUIGroup.add(secR);
+		propertiesUIGroup.add(secG);
+		propertiesUIGroup.add(secB);
+		propertiesUIGroup.add(oppR);
+		propertiesUIGroup.add(oppG);
+		propertiesUIGroup.add(oppB);
+		propertiesUIGroup.add(generateLabel(oppB, 'Left side R,G,B'));
+		propertiesUIGroup.add(generateLabel(secB, 'Right side R,G,B'));
 
 		propertiesUIGroup.name = '1properties';
 		mainUIBox.addGroup(propertiesUIGroup);
@@ -967,6 +1030,9 @@ class ChartingState extends EventState {
 		for(i in 0...songData.characters.length)
 			playersUIGroup.add(dropDownList[dropDownList.length - 1 - i]);
 	}
+
+	private var oppColourPreview:FlxSprite;
+	private var secColourPreview:FlxSprite;
 
 	public function helpUI(){
 		var pagesText:Array<String> = [

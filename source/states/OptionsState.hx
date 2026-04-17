@@ -6,16 +6,16 @@ import flixel.util.FlxColor;
 import backend.Settings;
 import ui.NewTransition;
 import ui.CharacterIcon;
-import ui.MenuTemplate;
+import ui.ListMenu;
 import ui.Alphabet;
 
-class OptionsState extends MenuTemplate {
-	private var OPTS_AND_DESCRIPTIONS:Array<Array<Array<String>>> = [
+class OptionsState extends ListMenu {
+	private var OPTS_DESCRIPTIONS:Array<Array<Array<String>>> = [
 		[
-			['basic',	 'Settings that apply when the game launches'],
-			['gameplay', 'Options that only apply in game'],
-			['visuals',  'Options that change the presentation of the game'],
-			['controls', 'Change the default key bindings']
+			['basic',	          'Settings that apply when the game launches'],
+			['gameplay',          'Options that only apply in game'],
+			['visuals',           'Options that change the presentation of the game'],
+			['controls',          'Change the default key bindings']
 		],
 		[
 			#if desktop
@@ -26,137 +26,148 @@ class OptionsState extends MenuTemplate {
 			['cache_assets',	  'Loads all assets into memory and keeps them there. DISABLE WHEN MODDING!']
 		],
 		[
-			['audio_offset',  'Audio offset in milliseconds. Press \'${CoolUtil.keyCodeToString(Binds.ui_accept[0], false)}\' to enter the offset wizard'],
-			['downscroll',	  'Makes the notes scroll downwards instead of upwards'],
-			['ghost_tapping', 'Disables penalty for pressing a key when no note is hit'], 
-			['botplay',		  'Makes the game play itself']
+			['audio_offset',      'Audio offset in milliseconds. Press \'${CoolUtil.keyCodeToString(Binds.ui_accept[0], false)}\' to enter the offset wizard'],
+			['downscroll',	      'Makes the notes scroll downwards instead of upwards'],
+			['ghost_tapping',     'Disables penalty for pressing a key when no note is hit'], 
+			['botplay',		      'Makes the game play itself']
 		],
 		[
-			['antialiasing', 'Makes the game look smoother and less "jagged"'],
-			['show_hud',	 'Allow seeing health, score, misses, etc in gameplay'],
-			['useful_info',  'Show the FPS and memory counter at the top left of the screen'],
+			['antialiasing',      'Makes the game look smoother and less "jagged"'],
+			['show_hud',	      'Allow seeing health, score, misses, etc in gameplay'],
+			['useful_info',       'Show the FPS and memory counter at the top left of the screen'],
 			#if desktop
-			['framerate',	 'Changes how fast the game can run']
+			['framerate',	      'Changes how fast the game can run']
 			#end
 		]
 	];
 
-	public var currentCategory:Int = 0;
-	public var descText:FormattedText;
+	private var secondaryColumn:Array<Alphabet> = [];
+	private var currentOption:String = '';
+	private var currentCategory:Int = 0;
+	private var bottomBlack:StaticSprite;
+	private var descText:FormattedText;
 
 	override function create() {
-		columns = 1;
-		addBG(234, 113, 253);
-		super.create();
-
-		var bottomBlack:StaticSprite = new StaticSprite(0, FlxG.height - 30).makeGraphic(1280, 30, FlxColor.BLACK);
+		bottomBlack = new StaticSprite(0, FlxG.height - 30).makeGraphic(1280, 30, FlxColor.BLACK);
+		descText = new FormattedText(5, FlxG.height - 25, 0, "", null, 20);
 		bottomBlack.alpha = 0.6;
 
-		descText = new FormattedText(5, FlxG.height - 25, 0, "", null, 20);
+		addBG(234, 113, 253);
+		super.create();
 		add(bottomBlack);
 		add(descText);
 
-		createNewList();
+		openCategory(0);
 	}
-	
-	public function createNewList() {
-		for(object in arrGroup)
-			remove(object.obj);
-		
-		var showOptionValues:Bool = currentCategory > 0;
-		columns = showOptionValues ? 2 : 1;
-		arrGroup = [];
-		arrIcons.clear();
 
-		for(i in 0...OPTS_AND_DESCRIPTIONS[currentCategory].length) {
-			pushObject(new Alphabet(0, (60 * i), OPTS_AND_DESCRIPTIONS[currentCategory][i][0], true));
+	public function openCategory(category:Int = 0) {
+		currentCategory = category;
+		curSel = 0;
 
-			if (!showOptionValues) {
+		clearItems();
+		secondaryColumn = [];
+		//while(secondaryColumn.length > 0)
+		//	remove(secondaryColumn.pop());
+
+		for(i in 0...OPTS_DESCRIPTIONS[category].length) {
+			var item = pushMenuItem(new Alphabet(0, (60 * i), OPTS_DESCRIPTIONS[category][i][0], true), null);
+
+			if (category <= 0) {
 				var categoryIcon:CharacterIcon = new CharacterIcon('settings' + (Math.floor(i / 2) + 1), false);
+				item.icon = categoryIcon;
 				categoryIcon.animation.play(['neutral', 'losing'][i & 1]);
-				pushIcon(categoryIcon);
+				listGroup.add(categoryIcon);
 				continue;
 			}
 
-			var val:Dynamic = Reflect.field(Settings, OPTS_AND_DESCRIPTIONS[currentCategory][i][0]);
-			var optionStr:String = Std.string(val);
+			var value:Dynamic = Reflect.field(Settings, OPTS_DESCRIPTIONS[category][i][0]);
+			var optionStr:String = Std.string(value);
 
-			if (Std.is(val, Bool))
-				optionStr = val ? 'yes' : 'no';
+			if (Std.is(value, Bool))
+				optionStr = value ? 'on' : 'off';
 
-			pushObject(new Alphabet(0, (60 * i), optionStr, true));
-		}
-
-		changeSelection();
-	}
-
-	override public function exitFunction(){
-		if (currentCategory <= 0) {
-			SettingsManager.flush();
-			super.exitFunction();
-			return;
-		}
-
-		currentCategory = 0;
-		curSel = 0;
-		createNewList();
-	}
-
-	override function changeSelection(change:Int = 0){
-		super.changeSelection(change);
-		descText.text = OPTS_AND_DESCRIPTIONS[currentCategory][curSel][1];
-	}
-
-	// Add integer options here.
-	override function altChange(ch:Int = 0)
-	if (currentCategory > 0){
-		var curOptionText:Alphabet = cast arrGroup[(curSel * 2) + 1].obj;
-
-		switch(OPTS_AND_DESCRIPTIONS[currentCategory][curSel][0]){
-		case 'start_volume':
-			Settings.start_volume = CoolUtil.intBoundTo(Settings.start_volume + (ch * 10), 0, 100);
-			curOptionText.text = Std.string(Settings.start_volume);
-
-		// gameplay.
-		case 'audio_offset':
-			Settings.audio_offset = CoolUtil.intBoundTo(Settings.audio_offset + ch, 0, 300);
-			curOptionText.text = Std.string(Settings.audio_offset);
-
-		// visuals
-		case 'framerate':
-			Settings.framerate = SettingsManager.framerateClamp(Settings.framerate + (ch * 10));
-			curOptionText.text = Std.string(Settings.framerate);
-			SettingsManager.apply();
+			secondaryColumn[i] = new Alphabet(0, (60 * i), optionStr, true);
+			listGroup.add(secondaryColumn[i]);
 		}
 
 		changeSelection(0);
 	}
 
-	// Add togglable options here.
+	override public function update(elapsed:Float){
+		super.update(elapsed);
+
+		for(i in 0...secondaryColumn.length) {
+			var item = secondaryColumn[i];
+			item.x = 960 - (item.width * 0.5);
+			item.y = listItems[i].spr.y;
+			item.alpha = listItems[i].spr.alpha;
+		}
+	}
+
+	override public function exitFunction(){
+		if (currentCategory > 0) {
+			openCategory(0);
+			return;
+		}
+
+		SettingsManager.flush();
+		super.exitFunction();
+	}
+
+	override function changeSelection(change:Int = 0){
+		super.changeSelection(change);
+
+		currentOption = OPTS_DESCRIPTIONS[currentCategory][curSel][0];
+		descText.text = OPTS_DESCRIPTIONS[currentCategory][curSel][1];
+	}
+
+	/* Add integer options here. */
+	override function altChange(ch:Int = 0) {
+		switch(currentOption){
+		// Basic
+		case 'start_volume':
+			Settings.start_volume = CoolUtil.intBoundTo(Settings.start_volume + (ch * 10), 0, 100);
+
+		// Gameplay.
+		case 'audio_offset':
+			Settings.audio_offset = CoolUtil.intBoundTo(Settings.audio_offset + ch, 0, 300);
+
+		// Visuals
+		case 'framerate':
+			Settings.framerate = SettingsManager.framerateClamp(Settings.framerate + (ch * 10));
+			SettingsManager.apply();
+		default:
+			return;
+		}
+
+		secondaryColumn[curSel].text = Std.string(Reflect.field(Settings, currentOption));
+		changeSelection(0);
+	}
+
+	/* Add togglable options here. */
 	override public function keyHit(ev:KeyboardEvent){
 		super.keyHit(ev);
 
 		if (!ev.keyCode.check(Binds.ui_accept)) 
 			return;
 
-		switch(OPTS_AND_DESCRIPTIONS[currentCategory][curSel][0]){
+		switch(currentOption){
 		case 'basic':
-			curSel = 0;
-			currentCategory = 1;
+			openCategory(1);
+			return;
 		case 'gameplay':
-			curSel = 0;
-			currentCategory = 2;
+			openCategory(2);
+			return;
 		case 'visuals':
-			curSel = 0;
-			currentCategory = 3;
+			openCategory(3);
+			return;
 		case 'controls':
-			if (NewTransition.skip()) 
-				return;
+			if (!NewTransition.skip()) 
+				EventState.changeState(new ControlsState());
 
-			EventState.changeState(new ControlsState());
 			return;
 
-		// basic
+		// Basic
 		case 'start_fullscreen':
 			Settings.start_fullscreen = !Settings.start_fullscreen;
 		case 'skip_intro':
@@ -165,12 +176,11 @@ class OptionsState extends MenuTemplate {
 			Settings.cache_assets = !Settings.cache_assets;
 			SettingsManager.apply();
 
-		// gameplay
+		// Gameplay
 		case 'audio_offset':
-			if (NewTransition.skip()) 
-				return;
+			if (!NewTransition.skip()) 
+				EventState.changeState(new OffsetWizard());
 
-			EventState.changeState(new OffsetWizard());
 			return;
 		case 'downscroll':
 			Settings.downscroll = !Settings.downscroll;
@@ -179,7 +189,7 @@ class OptionsState extends MenuTemplate {
 		case 'ghost_tapping':
 			Settings.ghost_tapping = !Settings.ghost_tapping;
 
-		// visuals
+		// Visuals
 		case 'useful_info':
 			Settings.useful_info = !Settings.useful_info;
 			SettingsManager.apply();
@@ -188,8 +198,13 @@ class OptionsState extends MenuTemplate {
 			SettingsManager.apply();
 		case 'show_hud':
 			Settings.show_hud = !Settings.show_hud;
+
+		default:
+			return;
 		}
 
-		createNewList();
+		var value:Bool = cast(Reflect.field(Settings, currentOption), Bool);
+		secondaryColumn[curSel].text = value ? 'on' : 'off';
+		changeSelection(0);
 	}
 }

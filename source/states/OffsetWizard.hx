@@ -18,6 +18,7 @@ class OffsetWizard extends EventState {
 	private var offsetGraph:BitmapData;
 	private var infoText:FormattedText;
 	private var offsetText:FormattedText;
+	private var prevHitMarker:FormattedText;
 
 	var lastBeatTime:Float = 0;
 	var hitOffsets:Array<Float> = [];
@@ -43,8 +44,12 @@ class OffsetWizard extends EventState {
 		
 		offsetText = new FormattedText(0, 0, 0, "Press any key to begin!", null, 60, 0xFFFFFFFF, CENTER, OUTLINE);
 		offsetText.screenCenter();
+
+		prevHitMarker = new FormattedText(-100, 550, 0, "v", null, 40, 0xFFFFFFFF, CENTER, OUTLINE);
+
 		add(bgImage);
 		add(offsetText);
+		add(prevHitMarker);
 		add(infoText);
 
 		offsetGraph = new BitmapData(1100, 45, true, 0x66000000);
@@ -91,7 +96,7 @@ class OffsetWizard extends EventState {
 		add(graphSprite);
 
 		FlxTween.tween(graphSprite,		  {alpha: 1  },	1,	 {ease: FlxEase.sineOut});
-		FlxTween.tween(graphSprite.scale, {x: 1, y: 1}, 1.2, {ease: FlxEase.sineOut});
+		FlxTween.tween(graphSprite.scale, {x: 1.1, y: 1.1}, 1.2, {ease: FlxEase.sineOut});
 		countdownHappening = true;
 
 		for(i in 0...4){	
@@ -159,5 +164,6 @@ class OffsetWizard extends EventState {
 		offsetText.screenCenter();
 
 		offsetGraph.fillRect(new Rectangle((tappedOffset / Song.crochet * 1100) + 550, 0, 1, 45), 0xFFFFFF00);
+		prevHitMarker.x = (35 + (tappedOffset / Song.crochet * 1100) + 550 - (prevHitMarker.width * 0.5)) * 1.1;
 	}
 }

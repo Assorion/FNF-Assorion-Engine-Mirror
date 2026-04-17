@@ -194,7 +194,7 @@ class CoolUtil {
 		case 35:
 			return 'END';
 		case 34:
-			return 'PAGEDOWN';
+			return 'PAGEDN';
 		case 37:
 			return 'LEFT';
 		case 40:
@@ -205,35 +205,35 @@ class CoolUtil {
 			return 'RIGHT';
 
 		case 96:
-			return literal ? '0' : 'NUM ZERO';
+			return literal ? '0' : 'NUMZERO';
 		case 97:
-			return literal ? '1' : 'NUM ONE';
+			return literal ? '1' : 'NUMONE';
 		case 98:
-			return literal ? '2' : 'NUM TWO';
+			return literal ? '2' : 'NUMTWO';
 		case 99:
-			return literal ? '3' : 'NUM THREE';
+			return literal ? '3' : 'NUMTHREE';
 		case 100:
-			return literal ? '4' : 'NUM FOUR';
+			return literal ? '4' : 'NUMFOUR';
 		case 101:
-			return literal ? '5' : 'NUM FIVE';
+			return literal ? '5' : 'NUMFIVE';
 		case 102:
-			return literal ? '6' : 'NUM SIX';
+			return literal ? '6' : 'NUMSIX';
 		case 103:
-			return literal ? '7' : 'NUM SEVEN';
+			return literal ? '7' : 'NUMSEVEN';
 		case 104:
-			return literal ? '8' : 'NUM EIGHT';
+			return literal ? '8' : 'NUMEIGHT';
 		case 105:
-			return literal ? '9' : 'NUM NINE';
+			return literal ? '9' : 'NUMNINE';
 		case 110:
-			return literal ? '.' : 'NUM PERIOD';
+			return literal ? '.' : 'NUMPERIOD';
 		case 109:
-			return literal ? '-' : 'NUM MINUS';
+			return literal ? '-' : 'NUMMINUS';
 		case 107:
-			return literal ? '+' : 'NUM PLUS';
+			return literal ? '+' : 'NUMPLUS';
 		case 144:
 			return 'NUMLOCK';
 		case 111:
-			return literal ? '/' : 'NUM SLASH';
+			return literal ? '/' : 'NUMSLASH';
 		case 106:
 			return literal ? '*' : 'ASTERISK';
 		case 301:

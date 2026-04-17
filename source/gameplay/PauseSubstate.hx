@@ -2,13 +2,14 @@ package gameplay;
 
 import flixel.FlxG;
 import flixel.FlxCamera;
+import flixel.FlxSprite;
 import flixel.math.FlxMath;
 import flixel.util.FlxColor;
 import flixel.tweens.FlxTween;
 
 import backend.Song;
 import ui.Alphabet;
-import ui.MenuTemplate;
+import ui.ListMenu;
 import ui.NewTransition;
 import states.PlayState;
 
@@ -43,12 +44,13 @@ class PauseSubstate extends EventSubstate {
 		add(blackSpr);
 
 		for(i in 0...OPTION_LIST.length) {
-			var option:Alphabet = new Alphabet(0, MenuTemplate.Y_SPACING * i, OPTION_LIST[i], true);
+			var option:Alphabet = new Alphabet(0, ListMenu.Y_SPACING * i, OPTION_LIST[i], true);
 			option.alpha = 0;
 			add(option);
 
 			alphaTexts.push({
-				obj: cast option,
+				spr: cast(option, FlxSprite),
+				icon: null,
 				targetX: 0,
 				targetY: 0,
 				targetA: 1
@@ -124,10 +126,10 @@ class PauseSubstate extends EventSubstate {
 			var item = alphaTexts[i];
 			item.targetA = i != curSelected ? 0.4 : 1;
 
-			item.targetY = (i - curSelected) * MenuTemplate.Y_SPACING;
-			item.targetX = (i - curSelected) * MenuTemplate.X_SPACING;
-			item.targetY += MenuTemplate.Y_OFFSET;
-			item.targetX += MenuTemplate.X_OFFSET;
+			item.targetY = (i - curSelected) * ListMenu.Y_SPACING;
+			item.targetX = (i - curSelected) * ListMenu.X_SPACING;
+			item.targetY += ListMenu.Y_OFFSET;
+			item.targetX += ListMenu.X_OFFSET;
 		}
 	}
 
@@ -150,7 +152,7 @@ class PauseSubstate extends EventSubstate {
 
 					updatePauseText();
 					pauseText.alpha = 0;
-					alphaTexts[curSelected].obj.alpha = 0;
+					alphaTexts[curSelected].spr.alpha = 0;
 					activeTweens.push(FlxTween.tween(pauseText, {alpha: 1}, 0.3));
 				case 3:
 					playState.exitPlayState();
@@ -164,9 +166,9 @@ class PauseSubstate extends EventSubstate {
 		var lerpVal = Math.pow(0.5, elapsed * 15);
 		for(i in 0...alphaTexts.length){
 			var alT = alphaTexts[i];
-			alT.obj.alpha = FlxMath.lerp(alT.targetA, alT.obj.alpha, lerpVal);
-			alT.obj.y	  = FlxMath.lerp(alT.targetY, alT.obj.y    , lerpVal);
-			alT.obj.x	  = FlxMath.lerp(alT.targetX, alT.obj.x    , lerpVal);
+			alT.spr.alpha = FlxMath.lerp(alT.targetA, alT.spr.alpha, lerpVal);
+			alT.spr.y	  = FlxMath.lerp(alT.targetY, alT.spr.y    , lerpVal);
+			alT.spr.x	  = FlxMath.lerp(alT.targetX, alT.spr.x    , lerpVal);
 		}
 
 		pauseText.x += elapsed * 70;

@@ -7,7 +7,7 @@ import flixel.input.keyboard.FlxKey;
 import backend.Song;
 import backend.HighScore;
 import ui.Alphabet;
-import ui.MenuTemplate;
+import ui.ListMenu;
 import ui.NewTransition;
 import ui.CharacterIcon;
 
@@ -16,52 +16,53 @@ using StringTools;
 typedef FreeplaySongData = {
 	var name:String;
 	var icon:String;
+	var desc:String;
 }
 
-class FreeplayState extends MenuTemplate {
+class FreeplayState extends ListMenu {
 	private static var curDifficulty:Int = 1;
-	public var songList:Array<FreeplaySongData> = [];
-	public var intendedScore:Int = 0;
 
+	private var songList:Array<FreeplaySongData> = [];
+	private var intendedScore:Int = 0;
+
+	private var descBG:StaticSprite;
+	private var descText:FormattedText;
 	private var scoreBG:StaticSprite;
 	private var scoreText:FormattedText;
 	private var diffText:FormattedText;
 	private var vocals:FlxSound;
 
 	override function create() {
-		addBG(145, 113, 255);
-		super.create();
-
-		songList = cast haxe.Json.parse(Paths.lText('freeplaySongList.json'));
-		for(i in 0...songList.length){
-			pushObject(new Alphabet(0, (60 * i) + 30, songList[i].name, true));
-			pushIcon(new CharacterIcon(songList[i].icon, false));
-		}
-
-		var bottomBlack:StaticSprite = new StaticSprite(0, FlxG.height - 30).makeGraphic(1280, 30, FlxColor.BLACK);
-		var descText = new FormattedText(5, FlxG.height - 25, 0, "Press Space to preview song / stop song. Left or Right to change the difficulty", null, 20);
+		songList  = cast haxe.Json.parse(Paths.lText('freeplaySongList.json'));
+		descBG    = new StaticSprite(0, FlxG.height - 30).makeGraphic(1280, 30, FlxColor.BLACK);
+		descText  = new FormattedText(5, FlxG.height - 25, 0, "", null, 20);
 		scoreBG   = new StaticSprite(0, 0).makeGraphic(128, 66, 0xFF000000);
 		scoreText = new FormattedText(scoreBG.x + 6, 5, 0, null, null, 32, FlxColor.WHITE, LEFT);
-		diffText  = new FormattedText(scoreText.x, scoreText.y + 36, 0, "< NORMAL >", null, 24);
+		diffText  = new FormattedText(scoreText.x, scoreText.y + 36, 0, "", null, 24);
+		vocals    = new FlxSound();
+		descBG.alpha  = 0.6;
 		scoreBG.alpha = 0.6;
-		bottomBlack.alpha = 0.6;
+
+		FlxG.sound.list.add(vocals);	
+		addBG(145, 113, 255);
+		super.create();
+		add(descBG);
+		add(descText);
 		add(scoreBG);
 		add(diffText);
 		add(scoreText);
-		add(bottomBlack);
-		add(descText);
+
+		for(i in 0...songList.length)
+			pushMenuItem(new Alphabet(0, (60 * i) + 30, songList[i].name, true), new CharacterIcon(songList[i].icon, false));
 
 		changeSelection();
 		altChange();
-
-		vocals = new FlxSound();
-		FlxG.sound.list.add(vocals);	
 	}
 
 	override function altChange(change:Int = 0){
 		curDifficulty = CoolUtil.intCircularModulo(curDifficulty + change, Song.DIFFICULTIES.length);
 
-		diffText.text = '< ${Song.DIFFICULTIES[curDifficulty].toUpperCase()} >';
+		diffText.text = '<- ${Song.DIFFICULTIES[curDifficulty].toUpperCase()} ->';
 		scoreText.text = 'PERSONAL BEST: ${HighScore.getScore(songList[curSel].name, curDifficulty)}';
 
 		scoreBG.scale.x = (scoreText.width + 10) / scoreBG.frameWidth;
@@ -72,7 +73,9 @@ class FreeplayState extends MenuTemplate {
 
 	override function changeSelection(change:Int = 0){
 		super.changeSelection(change);
-		altChange();
+		altChange(0);
+
+		descText.text = songList[curSel].desc;
 	}
 
 	private var prevTime:Float = 0;

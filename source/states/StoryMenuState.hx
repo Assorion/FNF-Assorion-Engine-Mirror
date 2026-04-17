@@ -7,7 +7,7 @@ import flixel.tweens.FlxTween;
 
 import backend.Song;
 import backend.HighScore;
-import ui.MenuTemplate;
+import ui.ListMenu;
 import ui.NewTransition;
 
 using StringTools;
@@ -18,7 +18,7 @@ typedef StoryData = {
 	var topText:String;
 }
 
-class StoryMenuState extends MenuTemplate {
+class StoryMenuState extends ListMenu {
 	public static inline final SELECT_COLOUR:Int = 0xFF00FFFF;
 	public static inline final WHITE_COLOUR :Int = 0xFFFFFFFF;
 
@@ -46,7 +46,7 @@ class StoryMenuState extends MenuTemplate {
 			weekGraphic.scale.set(0.7, 0.7);
 			weekGraphic.offset.x += 100;
 
-			pushObject(weekGraphic);
+			pushMenuItem(weekGraphic, null);
 		}
 
 		var topBlack:StaticSprite = new StaticSprite(0,0).makeGraphic(640, 20, FlxColor.fromRGB(25,25,25));
@@ -101,7 +101,7 @@ class StoryMenuState extends MenuTemplate {
 
 		for(i in 0...8)
 			postEvent(i / 8, function(){
-				arrGroup[curSel].obj.color = (i & 1 == 0 ? WHITE_COLOUR : SELECT_COLOUR);
+				listItems[curSel].spr.color = (i & 1 == 0 ? WHITE_COLOUR : SELECT_COLOUR);
 			});
 
 		// SWITCH!
@@ -150,9 +150,9 @@ class StoryMenuState extends MenuTemplate {
 	
 	private var portraitTween:FlxTween;
 	override function changeSelection(to:Int = 0){
-		arrGroup[curSel].obj.color = WHITE_COLOUR;
+		listItems[curSel].spr.color = WHITE_COLOUR;
 		super.changeSelection(to);
-		arrGroup[curSel].obj.color = SELECT_COLOUR;
+		listItems[curSel].spr.color = SELECT_COLOUR;
 
 		changeDiff(0, false);
 

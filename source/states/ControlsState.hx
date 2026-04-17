@@ -1,40 +1,40 @@
 package states;
 
 import ui.Alphabet;
-import ui.MenuTemplate;
+import ui.ListMenu;
 import ui.NewTransition;
 
-class ControlsState extends MenuTemplate {
+class ControlsState extends ListMenu {
 	private var CONTROL_LIST:Array<Dynamic> = [
 		['note left',  Binds.note_left],
 		['note down',  Binds.note_down],
 		['note up',    Binds.note_up],
 		['note right', Binds.note_right],
-		['', null],
+		[''            , null],
 		['ui left',    Binds.ui_left],
 		['ui down',    Binds.ui_down],
 		['ui up',      Binds.ui_up],
 		['ui right',   Binds.ui_right],
-		['', null],
+		[''            , null],
 		['select',     Binds.ui_accept],
 		['back',       Binds.ui_back]
 	];
 
 	private var rebinding:Bool = false;
+	private var curColumn:Int  = 0;
+	private var secondColumn:Array<Alphabet> = [];
+	private var thirdColumn:Array<Alphabet>  = [];
 
 	override function create() {
 		addBG(0,255,110);
-		columns = 3;
-
 		super.create();
-		createNewList();
+		refreshControlsList();
 	}
 
-	public function createNewList(){
-		for(object in arrGroup)
-			remove(object.obj);
-		
-		arrGroup = [];
+	public function refreshControlsList(){
+		clearItems();
+		secondColumn = [];
+		thirdColumn  = [];
 
 		for(i in 0...CONTROL_LIST.length){
 			var firstBind:String  = '';
@@ -45,33 +45,55 @@ class ControlsState extends MenuTemplate {
 				secondBind = CoolUtil.keyCodeToString(CONTROL_LIST[i][1][1], false);
 			}
 
-			pushObject(new Alphabet(0, MenuTemplate.Y_OFFSET + 20, CONTROL_LIST[i][0], true));
-			pushObject(new Alphabet(0, MenuTemplate.Y_OFFSET + 20, firstBind, true));
-			pushObject(new Alphabet(0, MenuTemplate.Y_OFFSET + 20, secondBind, true));
+			pushMenuItem(new Alphabet(0, ListMenu.Y_OFFSET + 20, CONTROL_LIST[i][0], true), null);
+
+			secondColumn[i] = new Alphabet(0, ListMenu.Y_OFFSET + 20, firstBind, true);
+			thirdColumn[i]  = new Alphabet(0, ListMenu.Y_OFFSET + 20, secondBind, true);
+			listGroup.add(secondColumn[i]);
+			listGroup.add(thirdColumn[i]);
 		}
 
-		changeSelection();
+		changeSelection(0);
 	}
 
-	override public function exitFunction()
-	if (!NewTransition.skip())
-		EventState.changeState(new OptionsState());
-	
+	override public function update(elapsed:Float) {
+		super.update(elapsed);
+
+		for(i in 0...secondColumn.length) {
+			var sItem = secondColumn[i];
+			var tItem = thirdColumn[i];
+			sItem.x = 800  - (sItem.width * 0.5);
+			tItem.x = 1100 - (tItem.width * 0.5);
+			sItem.y = tItem.y = listItems[i].spr.y;
+			sItem.alpha = tItem.alpha = Math.min(listItems[i].spr.alpha, ListMenu.DESELECTED_ALPHA);
+
+			if (i == curSel)
+				(curColumn == 0 ? sItem : tItem).alpha = 1;
+		}
+	}
+
+	override public function exitFunction() 
+		if (!NewTransition.skip())
+			EventState.changeState(new OptionsState());
 
 	override public function changeSelection(to:Int = 0) {
-		// Skip blank space
 		if (curSel + to >= 0 && curSel + to < CONTROL_LIST.length - 1 && CONTROL_LIST[curSel + to][0] == '')
 			to *= 2;
 
 		super.changeSelection(to);
 	}
 
+	override public function altChange(to:Int = 0) {
+		curColumn = CoolUtil.intCircularModulo(curColumn + to, 2);
+		changeSelection(0);
+	}
+
 	override public function keyHit(ev:KeyboardEvent){
 		if (rebinding){ 
-			CONTROL_LIST[curSel][1][curAlt] = ev.keyCode;
+			CONTROL_LIST[curSel][1][curColumn] = ev.keyCode;
 			rebinding = false;
 
-			createNewList();
+			refreshControlsList();
 			return;
 		}
 
@@ -81,8 +103,8 @@ class ControlsState extends MenuTemplate {
 			return;
 
 		rebinding = true;
-		for(i in 0...arrGroup.length)
-			if (Math.floor(i / columns) != curSel)
-				arrGroup[i].targetA = 0;
+
+		for(i in 0...listItems.length)
+			listItems[i].targetA = i != curSel ? 0 : 1;
 	}
 }

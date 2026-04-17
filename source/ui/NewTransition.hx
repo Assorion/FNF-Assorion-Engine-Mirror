@@ -16,7 +16,7 @@ class NewTransition extends FlxSubState {
 	public var pendingState:FlxState;
 
 	public static function initialise(){
-		var tempSprite:FlxSprite = new StaticSprite(0,0).makeGraphic(1280, 720, 0xFFFFFFFF);
+		var tempSprite:FlxSprite = new StaticSprite(0,0).makeGraphic(1280, 720, 0xFF000000);
 		tempSprite.graphic.persist = true;
 		tempSprite.graphic.destroyOnNoUse = false;
 

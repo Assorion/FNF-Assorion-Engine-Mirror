@@ -46,7 +46,6 @@ class Character extends FlxSprite {
 		frames = Paths.lSparrow('gameplay/characters/$character');
 
 		var charData:CharacterData = cast Json.parse(Paths.lText('characters/${character}.json'));
-
 		idlingSpeed   = charData.idleSpeed;
 		leftRightIdle = charData.leftRightIdle;
 		flipX		  = charData.flipX;
@@ -66,8 +65,11 @@ class Character extends FlxSprite {
 		}
 	}
 
-	public function dance() // 1 << idlingSpeed exponentially increases the beats per idle.
-	if (FlxMath.absInt(Song.currentBeat) & (1 << idlingSpeed) - 1 == 0){
+	public function dance() { 
+		// 1 << idlingSpeed exponentially increases the beats per idle.
+		if (FlxMath.absInt(Song.currentBeat) % (1 << idlingSpeed) != 0)
+			return;
+
 		if (!idleNextBeat){
 			idleNextBeat = true;
 			return;

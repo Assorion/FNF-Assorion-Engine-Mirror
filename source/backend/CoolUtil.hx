@@ -155,7 +155,7 @@ class CoolUtil {
 		case 18:
 			return 'ALT';
 		case 32:
-			return 'SPACE';
+			return literal ? ' ' : 'SPACE';
 		
 		case 27:
 			return 'ESCAPE';

@@ -1,0 +1,100 @@
+package states;
+
+import flixel.FlxG;
+import flixel.FlxSprite;
+import openfl.events.MouseEvent;
+
+import sail.*;
+import sail.presets.*;
+import sail.style.SIStyleGeneric;
+
+class ChartingState extends EventState {
+	var mainUIBox:SIMasterContainer;
+	var silly:SIContainer;
+
+	override function create() {
+		super.create();
+		FlxG.stage.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveEvent);
+		FlxG.stage.addEventListener(MouseEvent.MOUSE_DOWN, mouseDownEvent);
+		FlxG.stage.addEventListener(MouseEvent.MOUSE_UP,   mouseUpEvent);
+
+		mainUIBox = new SIMasterContainer(350, 500, 100, 50, SIStyleDefault);
+		trace(mainUIBox.style);
+		mainUIBox.spacing = 5;
+		add(mainUIBox.sprite);
+
+		var tabCont = new SIHoverableContainer(340, SIGeneric.DEFAULT_COMPONENT_HEIGHT, BOTTOM, null);
+		mainUIBox.addChild(tabCont);
+
+		var nButton = new SIButton('Properties', 80, BOTTOM, null);
+		var mButton = new SIButton('Second', 80, RIGHT, nButton);
+		nButton.callback = function() {
+			mainUIBox.setChildren([tabCont]);
+		}
+		mButton.callback = function() {
+			mainUIBox.setChildren([tabCont, silly]);
+		}
+		tabCont.addChild(nButton);
+		tabCont.addChild(mButton);
+
+		silly = new SIContainer(340, 350, BOTTOM, tabCont);
+		silly.corner = TOPLEFT;
+		silly.spacing = 5;
+		mainUIBox.addChild(silly);
+
+		var newDrop    = new SIDropdown(['opt 1', 'opt 2', 'opt3'], 1, 150, BOTTOM, null, mainUIBox.style);
+		var twoDrop    = new SIDropdown(['opt 5', 'opt 6', 'opt7'], 1, 150, BOTTOM, newDrop, mainUIBox.style);
+		var niceButton = new SIButton('Button 1', 80, BOTTOM, twoDrop);
+		var anotherbut = new SIButton('Button 2', 80, BOTTOM, niceButton);
+		var checkBox   = new SICheckbox(false, RIGHT, anotherbut);
+		var helpfulText = new SILabel('This checkbox sucks', RIGHT, checkBox);
+		var inputBux   = new SIInput('Change this!', 150, BOTTOM, anotherbut);
+		var inputBox   = new SIInput('Change this!', 150, BOTTOM, inputBux);
+		var suicide    = new SIButton('Kill other', 80, BOTTOM, inputBox);
+		var funnyStep  = new SIStepper(20, 150, BOTTOM, suicide, mainUIBox.style);
+		funnyStep.step = 0.5;
+		funnyStep.min = 0;
+		funnyStep.max = 20;
+		silly.addChild(newDrop);
+		silly.addChild(twoDrop);
+		silly.addChild(niceButton);
+		silly.addChild(anotherbut);
+		silly.addChild(checkBox);
+		silly.addChild(helpfulText);
+		silly.addChild(inputBux);
+		silly.addChild(inputBox);
+		silly.addChild(suicide);
+		silly.addChild(funnyStep);
+
+		newDrop.callback = function(opt:String, index:Int) {
+			trace(opt);
+			trace(index);
+		}
+
+		suicide.callback = function() {
+			silly.removeChild(niceButton);
+			niceButton = null;
+			mainUIBox.hover(FlxG.mouse.x, FlxG.mouse.y);
+		};
+
+		inputBux.callback = function(newStr:String, finish:Bool) {
+			trace(newStr);
+		};
+
+		mainUIBox.redraw();
+	}
+
+	public function mouseMoveEvent(ev:MouseEvent) {
+		mainUIBox.hover(FlxG.mouse.x, FlxG.mouse.y);
+	}
+
+	public function mouseDownEvent(ev:MouseEvent) {
+		mainUIBox.onClick(FlxG.mouse.x, FlxG.mouse.y);
+		mainUIBox.offClick();
+	}
+
+	public function mouseUpEvent(ev:MouseEvent) {
+		mainUIBox.onClickRelease();
+		mainUIBox.hover(FlxG.mouse.x, FlxG.mouse.y);
+	}
+}

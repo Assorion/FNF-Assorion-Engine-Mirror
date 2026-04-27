@@ -372,8 +372,8 @@ class PlayState extends EventState {
 
 		ev.keyCode.bindFunctions([
 			[Binds.ui_accept, function(){ pauseAndOpenState(new PauseSubstate(camHUD, this)); }],
-			[Binds.ui_back,   function(){ pauseAndOpenState(new PauseSubstate(camHUD, this)); }]
-			//[[FlxKey.SEVEN],  function(){ EventState.changeState(new ChartingState()); }]
+			[Binds.ui_back,   function(){ pauseAndOpenState(new PauseSubstate(camHUD, this)); }],
+			[[FlxKey.SEVEN],  function(){ EventState.changeState(new ChartingState()); }]
 		]);
 	}
 

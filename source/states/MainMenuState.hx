@@ -75,7 +75,7 @@ class MainMenuState extends EventState {
 
 	private var fadingTweens:Array<FlxTween> = [];
 	private var leaving:Bool = false;
-	override public function keyHit(ev:KeyboardEvent)
+	override function keyHit(ev:KeyboardEvent)
 		ev.keyCode.bindFunctions([
 			[Binds.ui_up,	  function(){ changeItem(-1); }],
 			[Binds.ui_down,   function(){ changeItem(1);  }],
@@ -147,8 +147,10 @@ class MainMenuState extends EventState {
 		});
 	}
 
-	private function changeItem(to:Int = 0)
-	if (!itemWasSelected) {
+	private function changeItem(to:Int = 0) {
+		if (itemWasSelected)
+			return;
+
 		FlxG.sound.play(Paths.lSound('ui/scrollMenu'));
 
 		var oldSel = curSelected;

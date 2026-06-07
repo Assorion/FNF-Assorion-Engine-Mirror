@@ -114,7 +114,7 @@ class DialogueSubstate extends EventSubstate {
 	}
 
 	private var leaving:Bool = false;
-	override public function keyHit(ev:KeyboardEvent){
+	override function keyHit(ev:KeyboardEvent){
 		super.keyHit(ev);
 
 		if (!ev.keyCode.check(Binds.ui_accept) || leaving || currentSlide < 0)

@@ -63,7 +63,7 @@ class OffsetWizard extends EventState {
 			Song.update(FlxG.sound.music.time);
 	}
 
-	public function stepHit() {
+	function stepHit() {
 		if ((Song.currentStep - 2) & 3 == 0)
 			lastBeatTime = CoolUtil.getCurrentTime() + (Song.crochet * 0.0005);
 

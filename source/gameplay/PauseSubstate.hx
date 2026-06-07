@@ -129,8 +129,10 @@ class PauseSubstate extends EventSubstate {
 		}
 	}
 
-	override public function keyHit(ev:KeyboardEvent)
-	if (!leaving)
+	override function keyHit(ev:KeyboardEvent) {
+		if (leaving)
+			return;
+
 		ev.keyCode.bindFunctions([
 			[Binds.ui_back, leave],
 			[Binds.ui_up,   function(){ changeSelection(-1); }],
@@ -155,6 +157,7 @@ class PauseSubstate extends EventSubstate {
 				}
 			}]
 		]);
+	}
 
 	override function update(elapsed:Float){
 		super.update(elapsed);

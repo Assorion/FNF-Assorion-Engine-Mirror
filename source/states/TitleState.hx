@@ -95,7 +95,7 @@ class TitleState extends EventState {
 	}
 
 	private var leaving:Bool = false;
-	override public function keyHit(ev:KeyboardEvent)
+	override function keyHit(ev:KeyboardEvent)
 		ev.keyCode.bindFunctions([
 			[Binds.ui_accept, function(){
 				if (leaving) {
@@ -139,7 +139,7 @@ class TitleState extends EventState {
 		textGroup.add(txt);
 	}
 
-	public function beatHit() {
+	function beatHit() {
 		if (Song.currentBeat <= 0 || skippedIntro) {
 			dancedLeft = !dancedLeft;
 
@@ -172,7 +172,7 @@ class TitleState extends EventState {
 	}
 
 	private var skippedIntro:Bool = false;
-	private function skipIntro()
+	function skipIntro()
 	if (!skippedIntro) {
 		FlxG.camera.flash(FlxColor.WHITE, 4);
 

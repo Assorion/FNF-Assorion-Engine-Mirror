@@ -79,7 +79,7 @@ class FreeplayState extends ListMenu {
 
 	private var prevTime:Float = 0;
 	private var playing:Bool = true;
-	override public function keyHit(ev:KeyboardEvent){
+	override function keyHit(ev:KeyboardEvent){
 		super.keyHit(ev);
 
 		ev.keyCode.bindFunctions([

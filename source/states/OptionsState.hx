@@ -60,14 +60,12 @@ class OptionsState extends ListMenu {
 		openCategory(0);
 	}
 
-	public function openCategory(category:Int = 0) {
+	function openCategory(category:Int = 0) {
 		currentCategory = category;
 		curSel = 0;
 
 		clearItems();
 		secondaryColumn = [];
-		//while(secondaryColumn.length > 0)
-		//	remove(secondaryColumn.pop());
 
 		for(i in 0...OPTS_DESCRIPTIONS[category].length) {
 			var item = pushMenuItem(new Alphabet(0, (60 * i), OPTS_DESCRIPTIONS[category][i][0], true), null);
@@ -93,7 +91,7 @@ class OptionsState extends ListMenu {
 		changeSelection(0);
 	}
 
-	override public function update(elapsed:Float){
+	override function update(elapsed:Float){
 		super.update(elapsed);
 
 		for(i in 0...secondaryColumn.length) {
@@ -104,7 +102,7 @@ class OptionsState extends ListMenu {
 		}
 	}
 
-	override public function exitFunction(){
+	override function exitFunction(){
 		if (currentCategory > 0) {
 			openCategory(0);
 			return;
@@ -145,7 +143,7 @@ class OptionsState extends ListMenu {
 	}
 
 	/* Add togglable options here. */
-	override public function keyHit(ev:KeyboardEvent){
+	override function keyHit(ev:KeyboardEvent){
 		super.keyHit(ev);
 
 		if (!ev.keyCode.check(Binds.ui_accept)) 

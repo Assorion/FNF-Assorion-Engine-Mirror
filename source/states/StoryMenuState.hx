@@ -112,7 +112,7 @@ class StoryMenuState extends ListMenu {
 		});
 	}
 
-	public function changeDiff(to:Int, showArr:Bool){
+	function changeDiff(to:Int, showArr:Bool){
 		if (showArr){
 			var arrow = [arrowSpr2, arrowSpr1][CoolUtil.intClamp(to, 0, 1)];
 			arrow.color = SELECT_COLOUR;

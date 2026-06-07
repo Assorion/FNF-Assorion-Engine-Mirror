@@ -3,75 +3,71 @@ package sail.style;
 import openfl.geom.Rectangle;
 import openfl.display.BitmapData;
 
-import sail.SIGeneric;
+interface SIStyle {
+	public final THICKNESS:Int;
+	public final COLOUR_FG:Int;
+	public final COLOUR_LIGHT:Int;
+	public final COLOUR_DARK:Int;
 
-class SIStyleGeneric extends BitmapData {
-	public function new(width:Int, height:Int, transparent:Bool = true) {
-		super(width, height, transparent, 0x00000000);
-	}
-
-	public function createSquare(edges:Array<SIDiagonal>, squareX:Int, squareY:Int, squareW:Int, squareH:Int, component:SIGeneric
-		, filled:Bool, ?protruding:Bool = true) {}
-
-	public function clear() {
-		var localRect = new Rectangle(0, 0, width, height);	
-		fillRect(localRect, 0x00000000);
-	}
+	public function getData():BitmapData;
+	public function drawSquare(sX:Int, sY:Int, sW:Int, sH:Int, ?fillColour:Null<Int>, ?indent:Bool = false):Void;
+	public function clear():Void;
 }
 
-class SIStyleDefault extends SIStyleGeneric {
-	private final DEFAULT_THICKNESS:Int    = 4;
-	private final DEFAULT_BG_COLOUR:Int    = 0xFFDC7A37;
-	private final DEFAULT_LIGHT_COLOUR:Int = 0xFFF08E4B;
-	private final DEFAULT_DARK_COLOUR:Int  = 0xFFC86623;
+class SIStyleGeneric implements SIStyle extends BitmapData {
+	public final THICKNESS:Int     = 4;
+	public final COLOUR_FG:Int     = 0xFFDC7A37;
+	public final COLOUR_LIGHT:Int  = 0xFFF08E4B;
+	public final COLOUR_DARK:Int   = 0xFFC86623;
 
 	public function new(width:Int, height:Int, transparent:Bool = true) {
 		super(width, height, transparent);
 	}
 
-	/*
-		Here, there's a lot of arguments that essential go unused. 
-		However they're here to provide slightly more comprehensive styling if you want more detailed styles.
-		For the default however, it doesn't need to do a whole lot.
-	*/
-	// TODO add edges
-	override public function createSquare(edges:Array<SIDiagonal>, squareX:Int, squareY:Int, squareW:Int, squareH:Int, component:SIGeneric
-		, filled:Bool, ?protruding:Bool = true) {
-		var localRect = new Rectangle(squareX, squareY, squareW, squareH);
-		var leftColour  = protruding ? DEFAULT_LIGHT_COLOUR : DEFAULT_DARK_COLOUR;
-		var rightColour = protruding ? DEFAULT_DARK_COLOUR  : DEFAULT_LIGHT_COLOUR;
+	public function getData() {
+		return this;
+	}
 
-		if (filled)
-			fillRect(localRect, DEFAULT_BG_COLOUR);
+	public function drawSquare(sX:Int, sY:Int, sW:Int, sH:Int, ?fillColour:Null<Int>, ?indent:Bool = false) {
+		var localRect = new Rectangle(sX, sY, sW, sH);
+		var rightColour = indent ? COLOUR_LIGHT : COLOUR_DARK;
+		var leftColour  = indent ? COLOUR_DARK  : COLOUR_LIGHT;
 
-		for(i in 0...DEFAULT_THICKNESS) {
+		fillRect(localRect, fillColour ?? COLOUR_FG);
+
+		for(i in 0...THICKNESS) {
 			// Left
 			localRect.width = 1;
-			localRect.y = squareY;
-			localRect.x = squareX + i;
-			localRect.height = (squareH - i) - 1;
+			localRect.y = sY;
+			localRect.x = sX + i;
+			localRect.height = (sH - i) - 1;
 			fillRect(localRect, leftColour);
 
 			// Top
 			localRect.height = 1;
-			localRect.x = squareX;
-			localRect.y = squareY + i;
-			localRect.width = (squareW - i) - 1;
+			localRect.x = sX;
+			localRect.y = sY + i;
+			localRect.width = (sW - i) - 1;
 			fillRect(localRect, leftColour);
 
 			// Right
 			localRect.width = 1;
-			localRect.y = squareY + 1 + i;
-			localRect.x = (squareX + squareW - 1) - i;
-			localRect.height = (squareH - i) - 1;
+			localRect.y = sY + 1 + i;
+			localRect.x = (sX + sW - 1) - i;
+			localRect.height = (sH - i) - 1;
 			fillRect(localRect, rightColour);
 
 			// Bottom
 			localRect.height = 1;
-			localRect.x = squareX + 1 + i;
-			localRect.y = (squareY + squareH - 1) - i;
-			localRect.width = (squareW - i) - 1;
+			localRect.x = sX + 1 + i;
+			localRect.y = (sY + sH - 1) - i;
+			localRect.width = (sW - i) - 1;
 			fillRect(localRect, rightColour);
 		}
+	}
+
+	public function clear() {
+		var localRect = new Rectangle(0, 0, width, height);
+		fillRect(localRect, 0x00000000);
 	}
 }

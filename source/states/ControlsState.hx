@@ -31,7 +31,7 @@ class ControlsState extends ListMenu {
 		refreshControlsList();
 	}
 
-	public function refreshControlsList(){
+	function refreshControlsList(){
 		clearItems();
 		secondColumn = [];
 		thirdColumn  = [];
@@ -56,7 +56,7 @@ class ControlsState extends ListMenu {
 		changeSelection(0);
 	}
 
-	override public function update(elapsed:Float) {
+	override function update(elapsed:Float) {
 		super.update(elapsed);
 
 		for(i in 0...secondColumn.length) {
@@ -72,23 +72,23 @@ class ControlsState extends ListMenu {
 		}
 	}
 
-	override public function exitFunction() 
+	override function exitFunction() 
 		if (!NewTransition.skip())
 			EventState.changeState(new OptionsState());
 
-	override public function changeSelection(to:Int = 0) {
+	override function changeSelection(to:Int = 0) {
 		if (curSel + to >= 0 && curSel + to < CONTROL_LIST.length - 1 && CONTROL_LIST[curSel + to][0] == '')
 			to *= 2;
 
 		super.changeSelection(to);
 	}
 
-	override public function altChange(to:Int = 0) {
+	override function altChange(to:Int = 0) {
 		curColumn = CoolUtil.intCircularMod(curColumn + to, 2);
 		changeSelection(0);
 	}
 
-	override public function keyHit(ev:KeyboardEvent){
+	override function keyHit(ev:KeyboardEvent){
 		if (rebinding){ 
 			CONTROL_LIST[curSel][1][curColumn] = ev.keyCode;
 			rebinding = false;

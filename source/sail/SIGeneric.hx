@@ -4,7 +4,6 @@ import flixel.group.FlxSpriteGroup;
 
 import sail.style.SIStyleGeneric;
 
-// TODO: check haxe 3.4.7 compatibility
 enum SIDiagonal {
 	TOPLEFT;
 	TOPRIGHT;
@@ -12,107 +11,77 @@ enum SIDiagonal {
 	BOTTOMRIGHT;
 }
 
-enum SICardinal {
-	TOP;
+enum SISide {
 	LEFT;
-	BOTTOM;
+	UNDER;
 	RIGHT;
+	ONTOP;
 }
 
 class SIGeneric {
-	public static inline final DEFAULT_COMPONENT_HEIGHT:Int = 25;
-	public static inline final DEFAULT_TEXT_COLOUR:Int = 0xFFFFFFFF;
-	public static inline final DEFAULT_HOVER_COLOUR:Int = 0xFFBBBBCC;
+	public static inline final COMPONENT_HEIGHT:Int = 30;
+	public static inline final TEXT_COLOUR:Int = 0xFFFFFFFF; // Thanks to Flixel weirdness, you probably won't be able to change this
+	public static inline final HOVER_COLOUR:Int = 0xFFBBBBCC;
 
+	private var master:SIContainer;
 	private var parent:SIContainer;
-	private var x:Float; // Refrain from changing these manually
-	private var y:Float;
 
-	public var style:Class<SIStyleGeneric>;
+	private var x:Float = 0;
+	private var y:Float = 0;
+	public var w:Int;
+	public var h:Int;
+
 	public var reference:SIGeneric;
-	public var anchor:SICardinal;
-	public var sprite:FlxSpriteGroup;
-	public var width:Int;
-	public var height:Int;
+	public var relativeSide:SISide;
+	public var defaultCorner:SIDiagonal;
+	public var sprGroup:FlxSpriteGroup;
+	public var style:Class<SIStyle>;
 
-	public function new(width:Int, height:Int, anchor:SICardinal, reference:SIGeneric) {
-		this.width     = width;
-		this.height    = height;
-		this.anchor    = anchor;
-		this.reference = reference;
+	public function new(?relativeSide:SISide = UNDER, ?defaultCorner:SIDiagonal = TOPLEFT, ?reference:SIGeneric
+	, width:Int, ?height:Null<Int>, ?container:SIContainer = null) {
+		this.relativeSide  = relativeSide;
+		this.defaultCorner = defaultCorner;
+		this.reference     = reference;
+		w = width;
+		h = height ?? COMPONENT_HEIGHT;
+
+		sprGroup = new FlxSpriteGroup();
+
+		if (container != null)
+			container.addChild(this);
 	}
 
-	private inline function isMouseOver(mouseX:Float, mouseY:Float):Bool
-		return mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
+	public function mouseOver(x:Float, y:Float, ?radius:Float = 0):Bool
+		return x >= this.x - radius     && y >= this.y - radius
+			&& x <  this.x + w + radius && y <  this.y + h + radius;
 
-	public function redraw():Void {
-		x = findReferenceX();
-		y = findReferenceY();
-		sprite.x = x;
-		sprite.y = y;
-
-		sprite.clear();
-		sprite.color = 0xFFFFFFFF;
-		parent.sprite.add(sprite);
+	public function redraw() {
+		sprGroup.clear();
+		sprGroup.color = 0xFFFFFFFF;
 	}
 
-	public function offClick() {}
-
-	public function onClickRelease() {}
-
-	public function onClick(mouseX:Float, mouseY:Float):Bool {
-		SIMasterContainer.lastComponent = this;
-		return isMouseOver(mouseX, mouseY);
-	}
+	/**********************************/
 
 	public function hover(mouseX:Float, mouseY:Float):Bool {
-		var mouseOver = isMouseOver(mouseX, mouseY);
-		sprite.color = mouseOver ? DEFAULT_HOVER_COLOUR : 0xFFFFFFFF; 
-		return mouseOver;
+		var over = mouseOver(mouseX, mouseY);
+		sprGroup.color = over ? HOVER_COLOUR : 0xFFFFFFFF; 
+		return over;
 	}
 
-	/***************************************/
-
-	public function findReferenceX():Float {
-		// TODO: Add spacing
-		if (reference == null)
-			switch(parent.corner) {
-			case TOPLEFT, BOTTOMLEFT:
-				return parent.spacing;
-			case TOPRIGHT, BOTTOMRIGHT:
-				return (parent.width - parent.spacing) - width;
-			}
-
-		switch(anchor) {
-		case TOP:
-			return reference.x;
-		case LEFT:
-			return (reference.x - width) - parent.spacing;
-		case BOTTOM:
-			return reference.x;
-		case RIGHT:
-			return reference.x + reference.width + parent.spacing;
+	public function onClick(mouseX:Float, mouseY:Float):Bool {
+		if (mouseOver(mouseX, mouseY) && master != null) {
+			master.activeComponent = this;
+			return true;
 		}
-	}
 
-	public function findReferenceY():Float {
-		if (reference == null)
-			switch(parent.corner) {
-			case TOPLEFT, TOPRIGHT:
-				return parent.spacing;
-			case BOTTOMLEFT, BOTTOMRIGHT:
-				return (parent.height - parent.spacing) - height;
-			}
+		return false;
+	} 
 
-		switch(anchor) {
-		case TOP:
-			return (reference.y - height) - parent.spacing;
-		case LEFT:
-			return reference.y;
-		case BOTTOM:
-			return reference.y + reference.height + parent.spacing;
-		case RIGHT:
-			return reference.y;
+	public function onClickRelease() 
+		if (master != null) {
+			master.activeComponent = null;
+			master.changeLastComponent(this);
 		}
-	}
+
+	public function offClick() {} 
 }

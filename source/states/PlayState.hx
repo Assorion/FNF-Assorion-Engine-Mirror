@@ -273,7 +273,7 @@ class PlayState extends EventState {
 			});
 	}
 
-	public function beatHit() {
+	function beatHit() {
 		#if (flixel < "5.4.0")
 		FlxG.camera.followLerp = (1 - Math.pow(0.5, FlxG.elapsed * 6)) * (60 / Settings.framerate);
 		#end
@@ -289,8 +289,8 @@ class PlayState extends EventState {
 	}
 
 	public function stepHit() 
-	if (Song.currentStep & 1 == 0 && FlxG.sound.music.playing)
-		stepTime = (Song.millisecond * Song.division * 0.25) + (stepTime * 0.75);
+		if (Song.currentStep & 1 == 0 && FlxG.sound.music.playing)
+			stepTime = (Song.millisecond * Song.division * 0.25) + (stepTime * 0.75);
 
 
 	override public function update(elapsed:Float) {
@@ -305,7 +305,7 @@ class PlayState extends EventState {
 		super.update(elapsed);
 	}
 
-	private function scrollNotes(daNote:Note) {
+	function scrollNotes(daNote:Note) {
 		var strumRef = strumLineNotes.members[daNote.column + (KEY_COUNT * daNote.player)];
 		var nDiff:Float = stepTime - daNote.strumTime;
 		daNote.y = (Settings.downscroll ? 45 : -45) * nDiff * songData.speed;
@@ -377,7 +377,7 @@ class PlayState extends EventState {
 		]);
 	}
 
-	override public function keyRel(ev:KeyboardEvent) {
+	override function keyRel(ev:KeyboardEvent) {
 		var strumIndex = ev.keyCode.arrayCheck(BIND_ARRAY);
 
 		if (strumIndex != -1){
@@ -406,7 +406,7 @@ class PlayState extends EventState {
 			pauseAndOpenState(new GameOverSubstate(allCharacters[playerIndex], camHUD, this));
 	}
 
-	public function hitNote(note:Note) {
+	function hitNote(note:Note) {
 		destroyNote(note, 0);
 
 		if (!note.curType.mustHit) {
@@ -444,7 +444,7 @@ class PlayState extends EventState {
 		updateHealth(5);
 	}
 
-	public function missNote(direction:Int = 1) {
+	function missNote(direction:Int = 1) {
 		vocals.volume = 0.5;
 		combo = 0;
 		songScore -= 50;
@@ -457,7 +457,7 @@ class PlayState extends EventState {
 		updateHealth(-10);
 	}
 
-	private function destroyNote(note:Note, act:Int) {
+	function destroyNote(note:Note, act:Int) {
 		note.typeAction(act);
 		currentNotes.remove(note, true);
 		note.destroy();
@@ -466,7 +466,7 @@ class PlayState extends EventState {
 			hittableNotes[note.column] = null;
 	}
 
-	public function endSong():Void {
+	function endSong():Void {
 		FlxG.sound.music.stop();
 		vocals.stop();
 
@@ -493,14 +493,13 @@ class PlayState extends EventState {
 	public function exitPlayState()
 		EventState.changeState(PlayState.storyWeek >= 0 ? new StoryMenuState() : new FreeplayState());
 
-	private function pauseAndOpenState(state:EventSubstate) {
+	function pauseAndOpenState(state:EventSubstate) {
 		persistentUpdate = false;
 		keysPressed = [];
 		FlxG.sound.music.pause();
 		vocals.pause();
 
-		_requestedSubState = state;
-		stepTime >= -16 ? resetSubState() : _requestSubStateReset = true;
+		openSubState(state);
 	}
 
 	override function onFocusLost() {

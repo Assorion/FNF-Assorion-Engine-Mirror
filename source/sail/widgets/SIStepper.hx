@@ -30,9 +30,9 @@ class SIStepper extends SIContainer {
 		super(relativeSide, defaultCorner, reference, width, null, container);
 		
 		value      = startValue;
-		numBox     = new SIInput(null, TOPLEFT, w - (h * 2), Std.string(startValue), this);
-		downButton = new SIButton(RIGHT, numBox,     h, '\\/', this);
-		upButton   = new SIButton(RIGHT, downButton, h, '/\\', this);
+		downButton = new SIButton(null, TOPLEFT, h, '\\/', this);
+		numBox     = new SIInput(RIGHT, downButton, w - (h * 2), Std.string(startValue), this);
+		upButton   = new SIButton(RIGHT, numBox, h, '/\\', this);
 
 		downButton.callback = function() { setValue(value - step); };
 		upButton.callback   = function() { setValue(value + step); };

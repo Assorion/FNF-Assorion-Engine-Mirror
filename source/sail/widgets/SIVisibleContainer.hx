@@ -6,7 +6,7 @@ class SIVisibleContainer extends SIContainer {
 	public var indented:Bool = false;
 
 	function renderPanel() {
-		var bgSpr = Type.createInstance(style, [w, h, true]);
+		var bgSpr = Type.createInstance(style, [w, h]);
 		bgSpr.drawSquare(0, 0, w, h, indented);
 		sprGroup.add(new StaticSprite().loadGraphic(bgSpr.getData()));
 	}

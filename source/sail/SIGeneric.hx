@@ -36,6 +36,7 @@ class SIGeneric {
 	public var defaultCorner:SIDiagonal;
 	public var sprGroup:FlxSpriteGroup;
 	public var style:Class<SIStyle>;
+	public var ignoreSpacing:Bool;
 
 	public function new(?relativeSide:SISide = UNDER, ?defaultCorner:SIDiagonal = TOPLEFT, ?reference:SIGeneric
 	, width:Int, ?height:Null<Int>, ?container:SIContainer = null) {

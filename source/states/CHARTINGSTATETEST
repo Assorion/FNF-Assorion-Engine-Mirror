@@ -1,0 +1,107 @@
+package states;
+
+import flixel.FlxG;
+import flixel.FlxState;
+import flixel.FlxSprite;
+import openfl.events.MouseEvent;
+
+/* UI STUFF */
+import sail.*;
+import sail.widgets.*;
+/************/
+
+class ChartingState extends EventState {
+	var masterContainer:SITabbedContainer;
+
+	override function create() {
+
+		var tabOne = new SIContainer(null, TOPLEFT, 300, 300, null);
+		tabOne.spacing = 5;
+
+		var demoButton = new SIButton(null, TOPLEFT, 120, 'Hi 1', tabOne);
+		demoButton.callback = function() {
+			trace('butt 1');
+		};
+
+		var demo2 = new SIButton(RIGHT, demoButton, 120, 'Hi 2', tabOne);
+		demo2.callback = function() {
+			trace('butt 2');
+		};
+
+		var check = new SICheckbox(UNDER, demoButton, true, tabOne);
+		check.callback = function(on:Bool) {
+			trace(on);
+		};
+
+		var check2 = new SICheckbox(RIGHT, check, false, tabOne);
+		check2.callback = function(on:Bool) {
+			trace(on);
+		};
+
+		tabOne.addChild(new SILabel(RIGHT, check2, 15, 'Cool check box', tabOne));
+
+		////////////////////////////////
+
+		var tabTwo = new SIContainer(null, TOPLEFT, 490, 630, null);
+		tabTwo.spacing = 5;
+		var coolButton = new SIButton(null, BOTTOMRIGHT, 150, 'BYE', tabTwo);
+
+		var coolinput = new SIInput(ONTOP, coolButton, 150, 'edit this', tabTwo);
+		coolinput.callback = function(txt:String, something:Bool) {
+			trace(txt);
+		};
+
+		var input2 = new SIInput(ONTOP, coolinput, 150, 'edit this again', tabTwo);
+
+		var niceStepper = new SIStepper(ONTOP, input2, 150, 0.5, tabTwo);
+		niceStepper.step = 0.25;
+		niceStepper.min  = 0.0;
+		niceStepper.max  = 3;
+		niceStepper.callback = function(value:Float) {
+			trace(value);
+		};
+
+		var cooldrop = new SIDropdown(null, TOPLEFT, 150, 'Start', ['Thing 1', 'Thing 2', 'Thing 3'], tabTwo);
+		cooldrop.callback = function(str:String) {
+			trace(str);
+		};
+
+		var drop2 = new SIDropdown(UNDER, cooldrop, 150, 'Huh', ['Bruh 1', 'Bruh 2'], tabTwo);
+
+		masterContainer = new SITabbedContainer(500, 700, 20, 20, ['Tab one', 'Tab two'], [tabOne, tabTwo]);
+		masterContainer.style = sail.style.SIStyleGeneric;
+		add(masterContainer.declareMaster());
+
+		FlxG.stage.addEventListener('input_grab', inputBoxGrab);
+		FlxG.stage.addEventListener('input_release', inputBoxRelease);
+		FlxG.stage.addEventListener(MouseEvent.MOUSE_MOVE, mouseMove);
+		FlxG.stage.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
+		FlxG.stage.addEventListener(MouseEvent.MOUSE_UP,   mouseUp);
+		masterContainer.changeTab(0);
+	}
+
+	override function keyHit(ev:KeyboardEvent) {
+		if (ev.keyCode.check(Binds.ui_back))
+			EventState.changeState(new PlayState());
+	}
+
+	public function inputBoxGrab(ev:openfl.events.Event) {
+		trace('Whaaaaa!????');
+	}
+
+	public function inputBoxRelease(ev:openfl.events.Event) {
+		trace('Off');
+	}
+
+	public function mouseMove(ev:MouseEvent) {
+		masterContainer.hover(FlxG.mouse.x, FlxG.mouse.y);
+	}
+
+	public function mouseDown(ev:MouseEvent) {
+		masterContainer.onClick(FlxG.mouse.x, FlxG.mouse.y);
+	}
+
+	public function mouseUp(ev:MouseEvent) {
+		masterContainer.onClickRelease();
+	}
+}

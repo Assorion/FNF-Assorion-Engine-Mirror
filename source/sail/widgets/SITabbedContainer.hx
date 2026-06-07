@@ -1,6 +1,5 @@
 package sail.widgets;
 
-import flixel.FlxG;
 import flixel.group.FlxSpriteGroup;
 
 class SITabbedContainer extends SIContainer {
@@ -18,7 +17,6 @@ class SITabbedContainer extends SIContainer {
 		curTab = newIndex;
 		lastComponent = null;
 		activeComponent = null;
-		hover(FlxG.mouse.x, FlxG.mouse.y);
 	}
 
 	public function new(width:Int, height:Int, x:Float, y:Float, tabNames:Array<String>, tabs:Array<SIContainer>) {

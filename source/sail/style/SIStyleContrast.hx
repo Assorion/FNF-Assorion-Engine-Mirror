@@ -11,13 +11,11 @@ class SIStyleContrast extends BitmapData implements SIStyle {
 	public final COLOUR_LIGHT:Int  = 0xFFFFFFFF;
 	public final COLOUR_DARK:Int   = 0xFFFFFF00;
 
-	public function new(width:Int, height:Int, transparent:Bool = true) {
-		super(width, height, transparent);
-	}
+	public function new(width:Int, height:Int)
+		super(width, height, true);
 
-	public function getData():BitmapData {
+	public function getData():BitmapData
 		return this;
-	}
 
 	public function drawSquare(sX:Int, sY:Int, sW:Int, sH:Int, ?fillColour:Null<Int>, ?indent:Bool = false) {
 		var localRect = new Rectangle(sX, sY, sW, sH);

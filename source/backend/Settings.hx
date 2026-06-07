@@ -20,6 +20,7 @@ class Settings {
     public static var antialiasing:Bool     = true;
     public static var show_hud:Bool         = true;
     public static var framerate:Int         = 120;
+	public static var high_contrast:Bool    = false;
 }
 
 class SettingsManager {

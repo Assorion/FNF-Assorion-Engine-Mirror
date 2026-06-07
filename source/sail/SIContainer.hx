@@ -1,5 +1,6 @@
 package sail;
 
+import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
 
@@ -56,14 +57,13 @@ class SIContainer extends SIGeneric {
 			child.y = child.sprGroup.y = findChildY(child);
 			child.redraw();
 		}
+
+		hover(FlxG.mouse.x, FlxG.mouse.y);
 	}
 
 	/*******************************************/
 
 	override public function hover(mouseX:Float, mouseY:Float):Bool {
-		if (!mouseOver(mouseX, mouseY, 13))
-			return false;
-
 		var ret:Bool = false;
 		for(i in 0...children.length)
 			ret = children[i].hover(mouseX, mouseY) || ret;
@@ -73,7 +73,7 @@ class SIContainer extends SIGeneric {
 
 	override public function onClick(mouseX:Float, mouseY:Float):Bool {
 		for (i in 0...children.length)
-			if (children[i].onClick(mouseX, mouseY))
+			if (children[children.length - 1 - i].onClick(mouseX, mouseY))
 				return true;
 
 		changeLastComponent(null);
@@ -89,38 +89,42 @@ class SIContainer extends SIGeneric {
 	/*******************************************/
 
 	public function findChildX(child:SIGeneric):Float {
+		var ts:Float = child.ignoreSpacing ? 0 : spacing; 
+
 		if (child.reference == null)
 			switch(child.defaultCorner) {
 			case TOPLEFT, BOTTOMLEFT:	
-				return x + spacing;
+				return x + ts;
 			case TOPRIGHT, BOTTOMRIGHT:
-				return (x + w) - child.w - spacing;
+				return (x + w) - child.w - ts;
 			}
 
 		switch(child.relativeSide) {
 		case LEFT:
-			return child.reference.x - child.w - spacing;
+			return child.reference.x - child.w - ts;
 		case RIGHT:
-			return child.reference.x + child.reference.w + spacing;
+			return child.reference.x + child.reference.w + ts;
 		case ONTOP, UNDER:
 			return child.reference.x;
 		}
 	}
 
 	public function findChildY(child:SIGeneric):Float {
+		var ts:Float = child.ignoreSpacing ? 0 : spacing;
+
 		if (child.reference == null)
 			switch(child.defaultCorner) {
 			case TOPLEFT, TOPRIGHT:
-				return y + spacing;
+				return y + ts;
 			case BOTTOMLEFT, BOTTOMRIGHT:
-				return (y + h) - child.h - spacing;
+				return (y + h) - child.h - ts;
 			}
 
 		switch(child.relativeSide) {
 		case ONTOP:
-			return child.reference.y - child.h - spacing;
+			return child.reference.y - child.h - ts;
 		case UNDER:
-			return child.reference.y + child.reference.h + spacing;
+			return child.reference.y + child.reference.h + ts;
 		case LEFT, RIGHT:
 			return child.reference.y;
 		}

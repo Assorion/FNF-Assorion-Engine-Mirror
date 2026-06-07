@@ -63,7 +63,7 @@ class SIInput extends SIGeneric {
 	override public function redraw() {
 		super.redraw();
 
-		bgSpr = Type.createInstance(style, [w, h, false]);
+		bgSpr = Type.createInstance(style, [w, h]);
 		bgSpr.drawSquare(0, 0, w, h, true);
 		sprGroup.add(new StaticSprite().loadGraphic(bgSpr.getData()));
 		sprGroup.add(textSpr);

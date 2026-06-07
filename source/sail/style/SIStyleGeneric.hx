@@ -15,18 +15,16 @@ interface SIStyle {
 }
 
 class SIStyleGeneric implements SIStyle extends BitmapData {
-	public final THICKNESS:Int     = 4;
-	public final COLOUR_FG:Int     = 0xFFDC7A37;
-	public final COLOUR_LIGHT:Int  = 0xFFF08E4B;
-	public final COLOUR_DARK:Int   = 0xFFC86623;
+	public final THICKNESS:Int     = 5;
+	public final COLOUR_FG:Int     = 0xFF808080;
+	public final COLOUR_LIGHT:Int  = 0xFFAFAFB0;
+	public final COLOUR_DARK:Int   = 0xFF50505A;
 
-	public function new(width:Int, height:Int, transparent:Bool = true) {
-		super(width, height, transparent);
-	}
+	public function new(width:Int, height:Int)
+		super(width, height, true);
 
-	public function getData() {
+	public function getData() 
 		return this;
-	}
 
 	public function drawSquare(sX:Int, sY:Int, sW:Int, sH:Int, ?fillColour:Null<Int>, ?indent:Bool = false) {
 		var localRect = new Rectangle(sX, sY, sW, sH);

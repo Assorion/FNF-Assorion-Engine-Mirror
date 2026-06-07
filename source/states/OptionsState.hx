@@ -12,32 +12,33 @@ import ui.Alphabet;
 class OptionsState extends ListMenu {
 	private var OPTS_DESCRIPTIONS:Array<Array<Array<String>>> = [
 		[
-			['basic',	          'Settings that apply when the game launches'],
-			['gameplay',          'Options that only apply in game'],
-			['visuals',           'Options that change the presentation of the game'],
-			['controls',          'Change the default key bindings']
+			['basic',	         'Settings that apply when the game launches'],
+			['gameplay',         'Options that only apply in game'],
+			['visuals',          'Options that change the presentation of the game'],
+			['controls',         'Change the default key bindings']
 		],
 		[
 			#if desktop
-			['start_fullscreen',  'Start the game in fullscreen mode'],
+			['start_fullscreen', 'Start the game in fullscreen mode'],
 			#end
-			['start_volume',	  'Change the volume of the game on launch'],
-			['skip_intro',        'Allows skipping the HaxeFlixel logo on launch'],
-			['cache_assets',	  'Loads all assets into memory and keeps them there. DISABLE WHEN MODDING!']
+			['start_volume',	 'Change the volume of the game on launch'],
+			['skip_intro',       'Allows skipping the HaxeFlixel logo on launch'],
+			['cache_assets',	 'Loads all assets into memory and keeps them there. DISABLE WHEN MODDING!']
 		],
 		[
-			['audio_offset',      'Audio offset in milliseconds. Press \'${CoolUtil.keyCodeToString(Binds.ui_accept[0], false)}\' to enter the offset wizard'],
-			['downscroll',	      'Makes the notes scroll downwards instead of upwards'],
-			['ghost_tapping',     'Disables penalty for pressing a key when no note is hit'], 
-			['botplay',		      'Makes the game play itself']
+			['audio_offset',     'Audio offset in milliseconds. Press \'${CoolUtil.keyCodeToString(Binds.ui_accept[0], false)}\' to enter the offset wizard'],
+			['downscroll',	     'Makes the notes scroll downwards instead of upwards'],
+			['ghost_tapping',    'Disables penalty for pressing a key when no note is hit'], 
+			['botplay',		     'Makes the game play itself']
 		],
 		[
-			['antialiasing',      'Makes the game look smoother and less "jagged"'],
-			['show_hud',	      'Allow seeing health, score, misses, etc in gameplay'],
-			['useful_info',       'Show the FPS and memory counter at the top left of the screen'],
+			['antialiasing',     'Makes the game look smoother and less "jagged"'],
+			['show_hud',	     'Allow seeing health, score, misses, etc in gameplay'],
+			['useful_info',      'Show the FPS and memory counter at the top left of the screen'],
 			#if desktop
-			['framerate',	      'Changes how fast the game can run']
+			['framerate',	     'Changes how fast the game can run'],
 			#end
+			['high_contrast',    'Enables high contrast UI for the in-built chart editor']
 		]
 	];
 
@@ -196,6 +197,8 @@ class OptionsState extends ListMenu {
 			SettingsManager.apply();
 		case 'show_hud':
 			Settings.show_hud = !Settings.show_hud;
+		case 'high_contrast':
+			Settings.high_contrast = !Settings.high_contrast;
 
 		default:
 			return;

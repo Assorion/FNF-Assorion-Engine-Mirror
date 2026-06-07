@@ -23,7 +23,7 @@ class SICheckbox extends SIGeneric {
 	
 	override function redraw() {
 		super.redraw();
-		bgSpr = Type.createInstance(style, [w, h, true]);
+		bgSpr = Type.createInstance(style, [w, h]);
 		renderSquares();
 
 		sprGroup.add(new StaticSprite().loadGraphic(bgSpr.getData()));

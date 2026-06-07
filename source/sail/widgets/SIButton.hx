@@ -13,7 +13,7 @@ class SIButton extends SIGeneric {
 	public function new(?relativeSide:SISide = UNDER, ?defaultCorner:SIDiagonal = TOPLEFT, ?reference:SIGeneric
 	, width:Int, label:String = '', ?container:SIContainer = null) {
 		super(relativeSide, defaultCorner, reference, width, null, container);
-		textSpr = new FormattedText(0, 0, 0, label, 13, SIGeneric.TEXT_COLOUR);
+		textSpr = new FormattedText(0, 0, 0, label, 14, SIGeneric.TEXT_COLOUR);
 	}
 
 	public function changeLabel(str:String) {
@@ -26,11 +26,11 @@ class SIButton extends SIGeneric {
 		super.redraw();
 		changeLabel(textSpr.text);
 
-		bgSpr = Type.createInstance(style, [w, h, true]);
+		textSpr.color = 0xFFFFFFFF;
+		bgSpr = Type.createInstance(style, [w, h]);
 		bgSpr.drawSquare(0, 0, w, h);
 
-		var tmpSpr = new StaticSprite().loadGraphic(bgSpr.getData());
-		sprGroup.add(tmpSpr);
+		sprGroup.add(new StaticSprite().loadGraphic(bgSpr.getData()));
 		sprGroup.add(textSpr);
 	}
 

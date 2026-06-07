@@ -8,79 +8,82 @@ Initially it was called "MKG" (a meaningless acronym), which was quickly re-bran
 
 This was Assorion's first real release. It has a lot of major changes/improvements over it's first version so there's a lot to document here.
 
-1. Tuned up repository (credits to Barzil)
+1. **Tuned up repository (credits to Barzil)**
 - Improved the README.md
 - Added GitHub issue template for bug reports
-2. Enabled stack tracing on debug builds
+2. **Enabled stack tracing on debug builds**
 - This greatly helps in finding the cause of crashes
 - Not enabled in release builds however, due to performance concerns
-3. Added 'embedded' assets folder
+3. **Added 'embedded' assets folder**
 - Before, only the fonts folder was embedded
 - You may optionally add anything you want to the embedded folder
-4. Trimmed the whitespace of many assets
+4. **Trimmed the whitespace of many assets**
 - Many animated assets have tons of transparent pixels that are never visible
 - Trimming this greatly helps in reducing memory footprint + improving performance
-5. Replaced Donate button with GitHub button
+5. **Replaced Donate button with GitHub button**
 - If you feel like supporting the original Funkin' team, you're still encouraged to donate
-6. Renamed the 'songs&data' folder to just 'songs-data'
+6. **Renamed the 'songs&data' folder to just 'songs-data'**
 - It was originally merged since I had believed that song assets should live next to their charts
 - It was renamed because the '&' could potentially be problematic
-7. Added caching options
+7. **Added caching options**
 - Default Persist allows sprites that were loaded off disk to permanently stay in memory, thus never having to be loaded again
 - Launch Sprites not only enables Default Persist, but will load all sprites in the assets folder on launch, leading to seamless game-play
-8. Added dialogue and preset dialogue text files
+8. **Added dialogue and preset dialogue text files**
 - Dialogue is very common in most mods, and was added to Assorion for the sake of ease
 - The preset files are used to help demonstrate how to optionally write your own dialogue
-9. Added default icons, as well as settings icons
-10. Added delayed event system to MusicBeatState
+9. **Added default icons, as well as settings icons**
+10. **Added delayed event system to MusicBeatState**
 - These events allow you to postpone a function call by a set amount of seconds
 - Turns out Flixel has this functionality built in, but isn't used by the engine
-11. Refactored/Revised lots of base code
+11. **Refactored/Revised lots of base code**
 - This includes re-writing large sections of code (a common thing for Assorion)
 - This helps fix lots of bugs
 - And helps make the code simpler and easier to read
 - Filtered out a lot of the immature cursing of the original code
 - Fixed up the GameOverSubstate
-12. Better support for different note types
+12. **Better support for different note types**
 - Adding mine notes is simply a property (instead of having to be implemented by the modder)
 - This also allows assigning callbacks to missing or hitting notes
-13. Improvements to Freeplay
+13. **Improvements to Freeplay**
 - Now each song has an icon preview as specified in a custom text file
 - Allow previewing each song by pressing the space bar, and listening to the instrumental by backing out (yes that was never a bug)
-14. Improvements to OptionsState
+14. **Improvements to OptionsState**
 - Each option is now given a description
 - There are now icons for the different categories
-15. Other minor enhancements
+15. **Other minor enhancements**
 - This list does not detail everything, but only the things that are worth listing
 
-## V - 1.1.1
+## Version 1.1.1
 
 This is a minor update that fixes a handful of problems
 
-1. Exclude FireAlpaca's project files from the compiled build
+1. **Exclude FireAlpaca's project files from the compiled build**
 - Most art assets were made/edited with FireAlpaca, and the project files were put in the assets folder in source
 - Now these assets are no longer copied into the assets of the release build
-2. Minor fix-ups to the README
-3. Trimmed note assets so that black lines no longer show up on the strums
+2. **Minor fix-ups to the README**
+3. **Trimmed note assets so that black lines no longer show up on the strums**
 - This was caused by Adobe animate being a very cool and awesome and great program (**/s**) and packing the assets too close
-4. Updated repository link in the Main Menu
-5. Fixed Chart Editor permanently ignoring any inputs
+4. **Updated repository link in the Main Menu**
+5. **Fixed Chart Editor permanently ignoring any inputs**
 - This happened if the section UI was recreated while interacting with a type-in box
 
-## V - 1.1.2
+## Version 1.1.2
 
 Even more minor bug fixing update
 
-1. Fixed being unable to delete notes in 1/3 snap level
+1. **Fixed being unable to delete notes in 1/3 snap level**
 - This was caused because the Y level of the cursor wouldn't match the Y level of the note due to floating point weirdness
 - The fix was to simply round the Y coordinate
-2. Added Assorion.txt 
+2. **Added Assorion.txt**
 - This takes the place of the 'do NOT readme.txt' file
-3. Improved navigation
+3. **Improved navigation**
 - Some transitions may now be skipped
 - Unfortunately not all transitions may be skipped in this version
 
 ## V - 1.2.0
+
+> [!NOTE]
+> The stuff from this point onwards needs to be re-written. Otherwise it's still the older, out-of-date changelog
 
 1. **Hopefully** Once and for all, fixed input problems.
 2. Added input offset option.

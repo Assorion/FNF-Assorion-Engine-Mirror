@@ -64,14 +64,11 @@ class ChartingState extends EventState {
 	private final tabNames:Array<String> = ['Properties', 'Section', 'Players', 'Help'];
 
 	private var mainUIBox:SITabbedContainer;
+	private var sectionCameraStepper:SIStepper;
+	private var sectionCopyStepper:SIStepper;
 	private var showCopyPreview:Bool = false;
 	private var inputGrabbed:Bool = false;
 
-	public var vocals:FlxSound;
-	public var curNoteType:Int;
-	public var songData:SongData;
-	public var selectedNotes:Map<Int, Array<NoteData>> = new Map<Int, Array<NoteData>>();
-	
 	private var grid:StaticSprite;
 	private var gridGroup:FlxSpriteGroup;
 	private var noteGroup:FlxSpriteGroup;
@@ -82,6 +79,12 @@ class ChartingState extends EventState {
 	private var sectionText:FormattedText;
 	private var noteTypeText:FormattedText;
 	private var snapText:FormattedText;
+	private var textTween:FlxTween;
+
+	public var vocals:FlxSound;
+	public var curNoteType:Int;
+	public var songData:SongData;
+	public var selectedNotes:Map<Int, Array<NoteData>> = new Map<Int, Array<NoteData>>();
 
 	var stepTime:Float = 0;
 	var timingLine:StaticSprite;
@@ -132,8 +135,8 @@ class ChartingState extends EventState {
 		bg.color = FlxColor.fromRGB(20, 45, 55);
 		add(bg);
 
-		gridGroup = new FlxSpriteGroup(420, 70);
-		noteGroup = new FlxSpriteGroup(420, 70);
+		gridGroup = new FlxSpriteGroup(390, 70);
+		noteGroup = new FlxSpriteGroup(390, 70);
 		add(gridGroup);
 		add(noteGroup);
 
@@ -145,8 +148,7 @@ class ChartingState extends EventState {
 		add(selectionBox);
 		
 		// UI Stuff
-		// TODO: Use tab names
-		mainUIBox = new SITabbedContainer(400, 630, 10, 35, ['Properties'], [propertiesUI()]);
+		mainUIBox = new SITabbedContainer(380, 630, 5, 35, tabNames, [propertiesUI(), sectionUI(), playersUI(), helpUI()]);
 		mainUIBox.style = Settings.high_contrast ? SIStyleContrast : SIStyleGeneric;
 		mainUIBox.declareMaster();
 		mainUIBox.changeTab(0);
@@ -245,7 +247,7 @@ class ChartingState extends EventState {
 	function reloadNotes() {
 		sectionNullCheck(curSection);
 		sectionText.text = 'Section: $curSection';
-		//sectionCameraStepper.setValue(songData.sections[curSection].cameraFacing + 1);
+		sectionCameraStepper.setValue(songData.sections[curSection].cameraFacing + 1);
 		noteGroup.clear();
 
 		for(i in 0...songData.sections[curSection].notes.length){
@@ -262,7 +264,7 @@ class ChartingState extends EventState {
 			}
 		}
 
-		var offSec = songData.sections[curSection - Math.floor(/* TODO: sectionCopyStepper.value */ 0)]; 
+		var offSec = songData.sections[curSection + Math.floor(sectionCopyStepper.value)]; 
 
 		if (!showCopyPreview || offSec == null)
 			return;
@@ -585,17 +587,7 @@ class ChartingState extends EventState {
 		selectionBox.scale.set(0, 0);
 	}
 
-	/*  !!! READ HERE !!!
-		Pretty much all the UI code is pure garbage. Which is mostly Flixel-UIs fault.
-		Huge apologies to anyone who wants/needs to tinker with the UI.
-	*/
-	/*private inline function generateLabel(widget:flixel.FlxSprite, labelText:String):FormattedText
-		return new FormattedText(widget.x + widget.width + 2, widget.y - 2, 0, labelText, null, 14, 0xFFFFFFFF, LEFT);
-
-	private inline function widgetOffset(y:Float, from:flixel.FlxSprite)
-		return from.y + from.height + y;*/
-
-	private var textTween:FlxTween;
+	/* UI Stuff **********************************/
 	private inline function postWarning(text:String, colour:Int){
 		if (textTween != null)
 			textTween.cancel();
@@ -606,7 +598,7 @@ class ChartingState extends EventState {
 		textTween = FlxTween.tween(warningText, {alpha: 0}, 1.75, {startDelay: 1.25});
 	}
 
-	private inline function saveSong(autosave:Bool = false){
+	private function saveSong(autosave:Bool = false){
 		var corrections:String = '';
 		var fileName:String = (autosave ? 'autosave.json' : 'edit.json');
 		var path = 'assets/data/songs/${PlayState.songData.name}/editor';
@@ -664,6 +656,7 @@ class ChartingState extends EventState {
 		if (corrections != '' && !autosave){
 			File.saveContent('$path/errors.txt', corrections);
 			postWarning('Check errors/warnings at "$path/errors.txt"', 0xFFFFFF00);
+			trace('\n' + corrections);
 		}
 		#else
 		var fileDialog = new FileDialog();
@@ -684,7 +677,7 @@ class ChartingState extends EventState {
 	}
 
 	function propertiesUI():SIContainer {
-		var tab = new SIContainer(null, TOPLEFT, 380, 580, mainUIBox);
+		var tab = new SIContainer(null, TOPLEFT, 360, 580, mainUIBox);
 		tab.spacing = 5;
 		
 		var nameBox = new SIInput(null, TOPLEFT, 170, songData.name, tab);
@@ -716,6 +709,7 @@ class ChartingState extends EventState {
 		};
 
 		/* Just for health bar colours :facepalm: */
+		// TODO: Probably move this into SIColourPicker
 		var oppCol = songData.healthColours[0];
 		var oppColourbox = new SIColourbox(UNDER, stageDrop, oppCol, tab);
 		var oppRS = new SIStepper(RIGHT, oppColourbox, 100, (oppCol >> 16) & 0xFF, tab);
@@ -751,12 +745,12 @@ class ChartingState extends EventState {
 		new SILabel(RIGHT, stageDrop, 'Stage Name', tab);
 		new SILabel(RIGHT, voicesCheck, 'Use Vocal Track', tab);
 
-		var saveButton = new SIButton(null, BOTTOMRIGHT, 100, 'Save', tab);
+		var saveButton = new SIButton(null, BOTTOMRIGHT, 120, 'Save', tab);
 		saveButton.callback = function() {
 			saveSong(false);
 		};
 
-		var clearButton = new SIButton(ONTOP, saveButton, 100, 'Clear', tab);
+		var clearButton = new SIButton(ONTOP, saveButton, 120, 'Clear', tab);
 		clearButton.callback = function() {
 			songData.sections = [];
 			sectionNullCheck(0);
@@ -764,7 +758,7 @@ class ChartingState extends EventState {
 			reloadNotes();
 		};
 
-		var selectButton = new SIButton(ONTOP, clearButton, 100, 'Select All', tab);
+		var selectButton = new SIButton(ONTOP, clearButton, 120, 'Select All', tab);
 		selectButton.callback = function() {
 			selectedNotes.clear();
 			for(i in 0...songData.sections.length){
@@ -776,7 +770,7 @@ class ChartingState extends EventState {
 			reloadNotes();
 		};
 
-		var reloadButton = new SIButton(ONTOP, selectButton, 100, 'Reload Song', tab);
+		var reloadButton = new SIButton(ONTOP, selectButton, 120, 'Reload Song', tab);
 		reloadButton.callback = function() {
 			postWarning('Using "${Paths.playableSong(songData.name, false)}"', 0xFF00FFAA);
 			FlxG.sound.list.remove(vocals);
@@ -796,17 +790,11 @@ class ChartingState extends EventState {
 		return tab;
 	}
 
-	/*
-	var sectionCameraStepper:SIStepper;
-	var sectionCopyStepper:SIStepper;
 	function sectionUI() {
-		var secUI = new SIContainer(340, 490, TOP, null);
-		secUI.spacing = 5;
-		secUI.style = mainUIBox.style;
-		allTabs[1] = secUI;
-		secUI.addChild(tabBar);
-		
-		sectionCameraStepper = new SIStepper(songData.sections[curSection].cameraFacing + 1, 100, BOTTOM, tabBar, secUI.style);
+		var tab = new SIContainer(null, TOPLEFT, 360, 580, mainUIBox);
+		tab.spacing = 5;
+
+		sectionCameraStepper = new SIStepper(null, TOPLEFT, 120, songData.sections[curSection].cameraFacing + 1, tab);
 		sectionCameraStepper.min = 1;
 		sectionCameraStepper.max = songData.characterCharts;
 		sectionCameraStepper.callback = function(num:Float) {
@@ -815,18 +803,14 @@ class ChartingState extends EventState {
 			songData.sections[curSection].cameraFacing = rnum - 1;
 		};
 
-		secUI.addChild(sectionCameraStepper);
-		secUI.addChild(new SILabel('Camera facing', RIGHT, sectionCameraStepper));
-
-		var clearButton = new SIButton('Clear', 100, TOP, null);
-		clearButton.corner = BOTTOMLEFT;
+		var clearButton = new SIButton(null, BOTTOMLEFT, 120, 'Clear', tab);
 		clearButton.callback = function() {
 			songData.sections[curSection] = null;
 			sectionNullCheck(curSection);
 			reloadNotes();
 		};
 
-		var swapButton = new SIButton('Swap/Shift', 100, TOP, clearButton);
+		var swapButton = new SIButton(ONTOP, clearButton, 120, 'Swap/Shift', tab);
 		swapButton.callback = function() {
 			for(n in songData.sections[curSection].notes)
 				++n.player;
@@ -835,7 +819,7 @@ class ChartingState extends EventState {
 			reloadNotes();
 		};
 
-		var selectButton = new SIButton('Select notes', 100, TOP, swapButton);
+		var selectButton = new SIButton(ONTOP, swapButton, 120, 'Select', tab);
 		selectButton.callback = function() {
 			selectedNotes.clear();
 			selectedNotes.set(curSection, []);
@@ -846,176 +830,9 @@ class ChartingState extends EventState {
 			reloadNotes();
 		};
 
-		var copyPreview = new SICheckbox(false, RIGHT, selectButton);
-		return tab;
-	}
-
-	/*function propertiesUI() {
-		var voicesCheck = new SICheckbox(songData.hasVoices, BOTTOM, stageDropDown);
-		voicesCheck.callback = function(chk:Bool) {
-			FlxG.sound.music.pause();
-			vocals.pause();
-			songData.hasVoices = chk;
-			songData.hasVoices ? vocals.loadEmbedded(Paths.playableSong(songData.name, true)) : vocals = new FlxSound();
-		};
-
-		/* Just for health bar colours :facepalm: 
-		var oppCol = songData.healthColours[0];
-		var oppColourbox = new SIColourBox(oppCol, BOTTOM, voicesCheck);
-		var oppRS = new SIStepper((oppCol >> 16) & 0xFF, 90, RIGHT, oppColourbox, propUI.style);
-		var oppGS = new SIStepper((oppCol >> 8)  & 0xFF, 90, RIGHT, oppRS, propUI.style);
-		var oppBS = new SIStepper(oppCol         & 0xFF, 90, RIGHT, oppGS, propUI.style);
-		oppRS.callback = function(num:Float) { setHealthBarColour(0, 0, Math.floor(num), oppColourbox); };
-		oppGS.callback = function(num:Float) { setHealthBarColour(0, 1, Math.floor(num), oppColourbox); };
-		oppBS.callback = function(num:Float) { setHealthBarColour(0, 2, Math.floor(num), oppColourbox); };
-
-		var proCol = songData.healthColours[1];
-		var proColourbox = new SIColourBox(proCol, BOTTOM, oppColourbox);
-		var proRS = new SIStepper((proCol >> 16) & 0xFF, 90, RIGHT, proColourbox, propUI.style);
-		var proGS = new SIStepper((proCol >> 8)  & 0xFF, 90, RIGHT, proRS, propUI.style);
-		var proBS = new SIStepper(proCol         & 0xFF, 90, RIGHT, proGS, propUI.style);
-		proRS.callback = function(num:Float) { setHealthBarColour(1, 0, Math.floor(num), proColourbox); };
-		proGS.callback = function(num:Float) { setHealthBarColour(1, 1, Math.floor(num), proColourbox); };
-		proBS.callback = function(num:Float) { setHealthBarColour(1, 2, Math.floor(num), proColourbox); };
-		oppRS.min = oppGS.min = oppBS.min = proRS.min = proGS.min = proBS.min = 0;
-		oppRS.max = oppGS.max = oppBS.max = proRS.max = proGS.max = proBS.max = 255;
-
-		propUI.addChild(nameBox);
-		propUI.addChild(new SILabel('Song file name', RIGHT, nameBox));
-		propUI.addChild(BPMStepper);
-		propUI.addChild(new SILabel('Beats Per Minute', RIGHT, BPMStepper));
-		propUI.addChild(speedStepper);
-		propUI.addChild(new SILabel('Chart scroll speed', RIGHT, speedStepper));
-		propUI.addChild(stageDropDown);
-		propUI.addChild(new SILabel('Stage name', RIGHT, stageDropDown));
-		propUI.addChild(voicesCheck);
-		propUI.addChild(new SILabel('Use vocal track', RIGHT, voicesCheck));
-		propUI.addChild(oppColourbox);
-		propUI.addChild(oppRS);
-		propUI.addChild(oppGS);
-		propUI.addChild(oppBS);
-		propUI.addChild(proColourbox);
-		propUI.addChild(proRS);
-		propUI.addChild(proGS);
-		propUI.addChild(proBS);
-
-		var saveButton = new SIButton('Save', 100, TOP, null);
-		saveButton.corner = BOTTOMLEFT;
-		saveButton.callback = function() {
-			saveSong(false);
-		};
-
-		var clearButton = new SIButton('Clear', 100, TOP, saveButton);
-		clearButton.callback = function() {
-			songData.sections = [];
-			sectionNullCheck(0);
-			jumpToSection(0);
-			reloadNotes();
-		};
-
-		var selectButton = new SIButton('Select All', 100, TOP, clearButton);
-		selectButton.callback = function() {
-			selectedNotes.clear();
-
-			for(i in 0...songData.sections.length){
-				selectedNotes.set(i, []);
-
-				for(n in songData.sections[i].notes)
-					selectedNotes.get(i).push(n);
-			}
-
-			reloadNotes();
-		};
-
-		var reloadButton = new SIButton('Reload Song', 100, TOP, selectButton);
-		reloadButton.callback = function() {
-			postWarning('Using "${Paths.playableSong(songData.name, false)}"', 0xFF00FFAA);
-			FlxG.sound.list.remove(vocals);
-			FlxG.sound.playMusic(Paths.playableSong(songData.name, false));
-			FlxG.sound.music.pause();
-			FlxG.sound.music.time = 0;
-			FlxG.sound.music.volume = 0.75;
-
-			vocals.pause();
-			vocals = new FlxSound();
-			FlxG.sound.list.add(vocals);
-
-			if (songData.hasVoices)
-				vocals.loadEmbedded(Paths.playableSong(songData.name, true));
-		}
-
-		propUI.addChild(saveButton);
-		propUI.addChild(clearButton);
-		propUI.addChild(selectButton);
-		propUI.addChild(reloadButton);
-	}
-
-	var sectionCameraStepper:SIStepper;
-	var sectionCopyStepper:SIStepper;
-	function sectionUI() {
-		var secUI = new SIContainer(340, 490, TOP, null);
-		secUI.spacing = 5;
-		secUI.style = mainUIBox.style;
-		allTabs[1] = secUI;
-		secUI.addChild(tabBar);
-		
-		sectionCameraStepper = new SIStepper(songData.sections[curSection].cameraFacing + 1, 100, BOTTOM, tabBar, secUI.style);
-		sectionCameraStepper.min = 1;
-		sectionCameraStepper.max = songData.characterCharts;
-		sectionCameraStepper.callback = function(num:Float) {
-			var rnum = Math.round(num);
-			sectionCameraStepper.setValue(rnum, true);
-			songData.sections[curSection].cameraFacing = rnum - 1;
-		};
-
-		secUI.addChild(sectionCameraStepper);
-		secUI.addChild(new SILabel('Camera facing', RIGHT, sectionCameraStepper));
-
-		var clearButton = new SIButton('Clear', 100, TOP, null);
-		clearButton.corner = BOTTOMLEFT;
-		clearButton.callback = function() {
-			songData.sections[curSection] = null;
-			sectionNullCheck(curSection);
-			reloadNotes();
-		};
-
-		var swapButton = new SIButton('Swap/Shift', 100, TOP, clearButton);
-		swapButton.callback = function() {
-			for(n in songData.sections[curSection].notes)
-				++n.player;
-
-			correctSection(curSection);
-			reloadNotes();
-		};
-
-		var selectButton = new SIButton('Select notes', 100, TOP, swapButton);
-		selectButton.callback = function() {
-			selectedNotes.clear();
-			selectedNotes.set(curSection, []);
-
-			for(n in songData.sections[curSection].notes)
-				selectedNotes.get(curSection).push(n);
-
-			reloadNotes();
-		};
-
-		var copyPreview = new SICheckbox(false, RIGHT, selectButton);
-		copyPreview.callback = function(chk:Bool) {
-			showCopyPreview = chk;
-			reloadNotes();
-		};
-
-		sectionCopyStepper = new SIStepper(1, 100, BOTTOM, copyPreview, secUI.style);
-		sectionCopyStepper.callback = function(num:Float) {
-			sectionCopyStepper.setValue(Math.round(num), true);
-			
-			if (showCopyPreview)
-				reloadNotes();
-		};
-
-		var copyButton = new SIButton('Copy Section', 100, BOTTOM, sectionCopyStepper);
+		var copyButton = new SIButton(ONTOP, selectButton, 120, 'Copy', tab);
 		copyButton.callback = function() {
-			var offSection = CoolUtil.intClamp(curSection - sectionCopyStepper.value, 0, songData.sections.length - 1);
+			var offSection = CoolUtil.intClamp(curSection + sectionCopyStepper.value, 0, songData.sections.length - 1);
 			sectionNullCheck(offSection);
 			
 			for(n in songData.sections[offSection].notes)
@@ -1030,382 +847,34 @@ class ChartingState extends EventState {
 			reloadNotes();
 		};
 
-		secUI.addChild(clearButton);
-		secUI.addChild(swapButton);
-		secUI.addChild(selectButton);
-		secUI.addChild(copyPreview);
-		secUI.addChild(new SILabel('Preview section copy', RIGHT, copyPreview));
-		secUI.addChild(sectionCopyStepper);
-		secUI.addChild(new SILabel('Copy offset', RIGHT, sectionCopyStepper));
-		secUI.addChild(copyButton);
-	}
+		sectionCopyStepper = new SIStepper(ONTOP, copyButton, 120, 0, tab);
+		sectionCopyStepper.callback = function(num:Float) {
+			sectionCopyStepper.setValue(Math.round(num), true);
+			if (showCopyPreview)
+				reloadNotes();
+		};
 
-	private var playerWidgets:Array<Array<SIGeneric>> = [];
-	private var characterNames:Array<String> = [];
-	// TODO: add index
-	private function addCharacter(X:Float, Y:Float, name:String, playerUI:SIContainer) {
-		var lastComponent = playerWidgets.length == 0 ? tabBar : playerWidgets[playerWidgets.length - 1][0];
-		var tmpDropdown = new SIDropdown(characterNames, name, 120, BOTTOM, lastComponent, playerUI);
-		var xStepper    = new SIStepper(X, 100, RIGHT, tmpDropdown, playerUI.style);
-		var yStepper    = new SIStepper(Y, 100, RIGHT, xStepper, playerUI.style);
+		var copyPreview = new SICheckbox(ONTOP, sectionCopyStepper, false, tab);
+		copyPreview.callback = function(val:Bool) {
+			showCopyPreview = val;
+			reloadNotes();
+		};
 
-		playerWidgets.push([tmpDropdown, xStepper, yStepper]);
-		playerUI.addChild(tmpDropdown);
-		playerUI.addChild(xStepper);
-		playerUI.addChild(yStepper);
+		new SILabel(RIGHT, sectionCameraStepper, 'Camera Facing', tab);
+		new SILabel(RIGHT, sectionCopyStepper, 'Copy Offset', tab);
+		new SILabel(RIGHT, copyPreview, 'Preview Copy Offset', tab);
+		return tab;
 	}
 
 	function playersUI() {
-		var playersUI     = new SIContainer(340, 490, TOP, null);
-		playersUI.spacing = 5;
-		playersUI.style   = mainUIBox.style;
-		allTabs[2]        = playersUI;
-		playersUI.addChild(tabBar);
-
-		/* This fetches a list of characters based on file names 
-		characterNames = Assets.list();
-
-		var i = -1;
-		while(++i < characterNames.length)
-			if (characterNames[i].substring(0, 22) != 'assets/data/characters')
-				characterNames.splice(i--, 1);
-
-		for(i in 0...characterNames.length){
-			var nameSplit:Array<String> = characterNames[i].split('/');
-			characterNames[i] = nameSplit[nameSplit.length - 1];
-			characterNames[i] = characterNames[i].split('.json')[0];
-		}
-
-		var addButton = new SIButton('Add player', 100, BOTTOM, null);
-		addButton.corner = BOTTOMLEFT;
-		addButton.callback = function() {
-			addCharacter(0, 0, characterNames[0], playersUI);
-			songData.characters.push({x: 0, y: 0, name: characterNames[0]});
-			playersUI.redraw();
-		};
-
-		var remButton = new SIButton('Remove player', 100, RIGHT, addButton);
-		remButton.callback = function() {
-			if (playerWidgets.length <= 0)
-				return;
-
-			songData.characters.pop();
-
-			for(w in playerWidgets.pop())
-				playersUI.removeChild(w);
-		};
-
-		playersUI.addChild(addButton);
-		playersUI.addChild(remButton);
-
-		for(char in songData.characters)
-			addCharacter(char.x, char.y, char.name, playersUI);
+		var tab = new SIContainer(null, TOPLEFT, 360, 580, mainUIBox);
+		tab.spacing = 5;
+		return tab;
 	}
 
 	function helpUI() {
-		var pagesText:Array<String> = [
-			'Common controls:
-
-			Down/Up: Jump forward/back a section
-			Left/Right: Increase/decrease snapping
-			Accept: Toggle pausing and playing
-			Back: Test chart changes
-
-			Click: Add note to grid
-			Click (on top of note): Delete note
-			Right click: Delete selected notes',
-
-			'Controls while holding SHIFT:
-
-			Down/Up: Change selected notes length
-			Left/Right: Change selected notes type
-			Back: Jump back to the first section
-
-			Controls while holding CONTROL:
-			
-			Click (and Drag): Select multiple notes
-			Down/Up: Move selected notes up/down
-			Left/Right: Move select notes left/right
-			Accept: Select all notes in section
-			C: Copy all selected notes
-			V: Mirror selected notes',
-
-			'Players: 
-			
-			Unlike most other engines, players are 
-			stored as a variable sized list of 
-			characters. "CharacterCharts" determines 
-			the charts respective to the characters.
-
-			Active player controls which of the 
-			characters in the character list will 
-			have the player controlling them.
-
-			Each player has an X and Y value 
-			next to them to determine their location.'
-		];
-
-		var helpUI     = new SIContainer(340, 490, TOP, null);
-		helpUI.spacing = 5;
-		helpUI.style   = mainUIBox.style;
-		allTabs[3]     = helpUI;
-		helpUI.addChild(tabBar);
-
-		var helpTxt = new SILabel(14, pagesText[0], BOTTOM, tabBar);
-		helpTxt.center = false;
-
-		var nextButton = new SIButton('Next', 100, BOTTOM, null);
-		nextButton.corner = BOTTOMRIGHT;
-		nextButton.callback = function() {
-			pagesText.push(pagesText.shift());
-			helpTxt.changeLabel(pagesText[0]);
-		};
-
-		var backButton = new SIButton('Back', 100, BOTTOM, null);
-		backButton.corner = BOTTOMLEFT;
-		backButton.callback = function() {
-			pagesText.insert(0, pagesText.pop());
-			helpTxt.changeLabel(pagesText[0]);
-		};
-
-		helpUI.addChild(helpTxt);
-		helpUI.addChild(nextButton);
-		helpUI.addChild(backButton);
+		var tab = new SIContainer(null, TOPLEFT, 360, 580, mainUIBox);
+		tab.spacing = 5;
+		return tab;
 	}
-
-	/*
-	override function getEvent(id:String, sender:Dynamic, data:Dynamic, ?params:Array<Dynamic>)
-		switch(id){ // Flixel UI is such a joke.
-		case FlxUINumericStepper.CHANGE_EVENT:
-			var tmpStepper:FlxUINumericStepper = cast sender;
-
-			switch(tmpStepper.name){
-			case 'speed':
-				songData.speed = tmpStepper.value;
-			case 'startDelay':
-				songData.startDelay = tmpStepper.value;
-			case 'cameraFacing':
-				songData.sections[curSection].cameraFacing = Math.floor(tmpStepper.value);
-			case 'activePlayer':
-				songData.activePlayer = Math.floor(tmpStepper.value) - 1;
-				reloadGrid();
-			case 'characterCharts':
-				songData.characterCharts = Math.floor(tmpStepper.value);
-				songData.activePlayer = CoolUtil.intBoundTo(songData.activePlayer, 0, songData.characterCharts - 1);
-				reloadGrid();
-				reloadNotes();
-				playersUI();
-			}
-		case FlxUIInputText.CHANGE_EVENT:
-			var tmpBox:FlxUIInputText = cast sender;
-
-			switch(tmpBox.name){
-			case 'name':
-				songData.name = tmpBox.text;
-			case 'BPM':
-				FlxG.sound.music.pause();
-				vocals.pause();
-
-				songData.BPM = Math.isNaN(Std.parseFloat(tmpBox.text)) ? 120 : Std.parseFloat(tmpBox.text);
-				Song.musicSet(songData.BPM);
-			case 'oppbox':
-				songData.iconNames[0] = tmpBox.text;
-			case 'secbox':
-				songData.iconNames[1] = tmpBox.text;
-			case 'oppR', 'secR':
-				var charNum:Int = tmpBox.name.split('sec').length - 1;
-				var curCol = songData.healthColours[charNum] ^ (songData.healthColours[charNum] & 0xFF0000);
-				curCol |= CoolUtil.intBoundTo(Std.parseInt(tmpBox.text), 0, 0xFF) << 16;
-				songData.healthColours[charNum] = curCol | 0xFF000000;
-			case 'oppG', 'secG':
-				var charNum:Int = tmpBox.name.split('sec').length - 1;
-				var curCol = songData.healthColours[charNum] ^ (songData.healthColours[charNum] & 0x00FF00);
-				curCol |= CoolUtil.intBoundTo(Std.parseInt(tmpBox.text), 0, 0xFF) << 8;
-				songData.healthColours[charNum] = curCol | 0xFF000000;
-			case 'oppB', 'secB':
-				var charNum:Int = tmpBox.name.split('sec').length - 1;
-				var curCol = songData.healthColours[charNum] ^ (songData.healthColours[charNum] & 0x0000FF);
-				curCol |= CoolUtil.intBoundTo(Std.parseInt(tmpBox.text), 0, 0xFF);
-				songData.healthColours[charNum] = curCol | 0xFF000000;
-			default:
-				var safeValue = Math.isNaN(Std.parseFloat(tmpBox.text)) ? 0 : Std.parseFloat(tmpBox.text);
-				var character = Std.parseInt(tmpBox.name.split('.')[0]);
-
-				tmpBox.name.split('.')[1] == 'x' ? 
-				songData.characters[character].x = safeValue :
-				songData.characters[character].y = safeValue;
-			}
-
-			oppColourPreview.color = songData.healthColours[0];
-			secColourPreview.color = songData.healthColours[1];
-		case FlxUIDropDownMenu.CLICK_EVENT:
-			var tmpDropDown:FlxUIDropDownMenu = cast sender;
-
-			switch(tmpDropDown.name){
-			case 'stage':
-				songData.stage = cast(data, String);
-			default:
-				var charIndex = Std.parseInt(tmpDropDown.name);
-				
-				songData.characters[Std.parseInt(tmpDropDown.name)].name = cast(data, String);
-				reloadGrid();
-			}
-		case FlxUICheckBox.CLICK_EVENT:
-			var tmpCheck:FlxUICheckBox = cast sender;
-			
-			switch(tmpCheck.name){
-			case 'hasVoices':
-			case 'renderBackwards':
-				songData.renderBackwards = tmpCheck.checked;
-			}
-		}
-
-	public function propertiesUI() { 
-
-		});
-
-		var propertiesUIGroup = new FlxUI(null, mainUIBox);
-		propertiesUIGroup.add(generateLabel(nameBox, 'Song Name'));
-		propertiesUIGroup.add(generateLabel(BPMBox, 'Beats Per Minute'));
-		propertiesUIGroup.add(generateLabel(speedStepper, 'Scroll speed'));
-		propertiesUIGroup.add(generateLabel(delayStepper, 'Starting delay (seconds)'));
-		propertiesUIGroup.add(generateLabel(voicesCheck, 'Use voices'));
-		propertiesUIGroup.add(nameBox);
-		propertiesUIGroup.add(BPMBox);
-		propertiesUIGroup.add(speedStepper);
-		propertiesUIGroup.add(delayStepper);
-		propertiesUIGroup.add(voicesCheck);
-		propertiesUIGroup.add(stageDropDown);
-		propertiesUIGroup.add(saveButton);
-		propertiesUIGroup.add(clearButton);
-		propertiesUIGroup.add(selectButton);
-		propertiesUIGroup.add(updateButton);
-		propertiesUIGroup.add(oppBox);
-		propertiesUIGroup.add(secBox);
-		propertiesUIGroup.add(generateLabel(oppBox, 'Left side icon'));
-		propertiesUIGroup.add(generateLabel(secBox, 'Right side icon'));
-		propertiesUIGroup.add(oppColourPreview);
-		propertiesUIGroup.add(secColourPreview);
-		propertiesUIGroup.add(secR);
-		propertiesUIGroup.add(secG);
-		propertiesUIGroup.add(secB);
-		propertiesUIGroup.add(oppR);
-		propertiesUIGroup.add(oppG);
-		propertiesUIGroup.add(oppB);
-		propertiesUIGroup.add(generateLabel(oppB, 'Left side R,G,B'));
-		propertiesUIGroup.add(generateLabel(secB, 'Right side R,G,B'));
-
-		propertiesUIGroup.name = '1properties';
-		mainUIBox.addGroup(propertiesUIGroup);
-	}
-
-		var sectionUIGroup = new FlxUI(null, mainUIBox);
-		sectionUIGroup.add(generateLabel(sectionCameraStepper, 'Camera facing'));
-		sectionUIGroup.add(generateLabel(copySectionStepper, 'Copy offset'));
-		sectionUIGroup.add(sectionCameraStepper);
-		sectionUIGroup.add(copySectionStepper);
-		sectionUIGroup.add(copyButton);
-		sectionUIGroup.add(selectButton);
-		sectionUIGroup.add(clearButton);
-		sectionUIGroup.add(swapButton);
-
-		sectionUIGroup.name = '2section';
-		mainUIBox.addGroup(sectionUIGroup);
-	}
-
-
-	public var playersUIGroup:FlxUI;
-	public function playersUI(){
-		if (playersUIGroup == null)
-			playersUIGroup = new FlxUI(null, mainUIBox);
-
-		sectionCameraStepper.max = songData.characters.length - 1;
-		playersUIGroup.name = '3players';
-		playersUIGroup.clear();
-		getCharacterNames();
-
-		var playerStepper = new FlxUINumericStepper(10, 450, 1, songData.activePlayer + 1, 1, songData.characterCharts);
-		playerStepper.name = 'activePlayer';
-
-		// The limit of 5 charts is only because more would push the UI off the screen. If you need more: lower GRID_SIZE.
-		var chartStepper = new FlxUINumericStepper(10, 420, 1, songData.characterCharts, 1, Math.floor(Math.min(songData.characters.length, 5)));
-		chartStepper.name = 'characterCharts';
-
-		var renderCheck = new FlxUICheckBox(10, 390, null, null, '', 0);
-		renderCheck.checked = songData.renderBackwards;
-		renderCheck.name = 'renderBackwards';
-
-		var addButton = new FlxButton(260, 10, 'Add', function(){
-			if (songData.characters.length >= 13)
-				return;
-
-			songData.characters.push({
-				name: characterNames[0],
-				x: 0,
-				y: 0
-			});
-			playersUI();
-		});
-
-		var removeButton = new FlxButton(260, widgetOffset(10, addButton), 'Remove', function(){
-			if (songData.characters.length <= 1)
-				return;
-
-			songData.characters.pop();
-			songData.characterCharts = CoolUtil.intBoundTo(songData.characterCharts, 1, songData.characters.length);
-			songData.activePlayer = CoolUtil.intBoundTo(songData.activePlayer, 0, songData.characterCharts - 1);
-			reloadGrid();
-			reloadNotes();
-			playersUI();
-		});
-
-		playersUIGroup.add(generateLabel(playerStepper, 'Active player'));
-		playersUIGroup.add(generateLabel(chartStepper, 'Charts'));
-		playersUIGroup.add(generateLabel(renderCheck, 'Render characters backwards'));
-		playersUIGroup.add(playerStepper);
-		playersUIGroup.add(chartStepper);
-		playersUIGroup.add(renderCheck);
-		playersUIGroup.add(addButton);
-		playersUIGroup.add(removeButton);
-
-		var dropDownList:Array<FlxUIDropDownMenu> = [];
-		for(i in 0...songData.characters.length){
-			var tmpPlayerDropDown = new FlxUIDropDownMenu(9, 10 + (i * 30), FlxUIDropDownMenu.makeStrIdLabelArray(characterNames, false));
-			tmpPlayerDropDown.selectedLabel = songData.characters[i].name;
-			tmpPlayerDropDown.name = '$i';
-			
-			var tmpPlayerX = new FlxUIInputText(142, 12 + (i * 30), 40, '${songData.characters[i].x}', 8);
-			var tmpPlayerY = new FlxUIInputText(192, 12 + (i * 30), 40, '${songData.characters[i].y}', 8);
-			tmpPlayerX.focusGained = tmpPlayerY.focusGained = function(){ typing = true; };
-			tmpPlayerX.focusLost   = tmpPlayerY.focusLost   = function(){ typing = false; };
-			tmpPlayerX.name = '$i.x';
-			tmpPlayerY.name = '$i.y';
-
-			dropDownList.push(tmpPlayerDropDown);
-			playersUIGroup.add(generateLabel(tmpPlayerY, '${i + 1}'));
-			playersUIGroup.add(tmpPlayerX);
-			playersUIGroup.add(tmpPlayerY);
-		}
-
-		for(i in 0...songData.characters.length)
-			playersUIGroup.add(dropDownList[dropDownList.length - 1 - i]);
-	}
-
-	private var oppColourPreview:FlxSprite;
-	private var secColourPreview:FlxSprite;
-
-	public function helpUI(){
-
-		var helpUIGroup = new FlxUI(null, mainUIBox);
-		var txtPoint:FlxSprite = new FlxSprite(5, 10);
-		var labelText:FormattedText = generateLabel(txtPoint, pagesText[0]);
-
-
-		helpUIGroup.add(labelText);
-		helpUIGroup.add(nextButton);
-		helpUIGroup.add(backButton);
-
-		helpUIGroup.name = '4help';	
-		mainUIBox.addGroup(helpUIGroup);
-	}*/
 }

@@ -18,7 +18,7 @@ class SIStepper extends SIContainer {
 		if (Math.isNaN(newValue))
 			newValue = 0;
 
-		value = max > min ? Math.max(Math.min(newValue, max), min) : newValue;
+		value = max > 0 ? Math.max(Math.min(newValue, max), min) : newValue;
 		numBox.changeText(Std.string(value), false);
 
 		if (!noCall && callback != null)

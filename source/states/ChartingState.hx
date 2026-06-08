@@ -6,7 +6,6 @@ import flixel.util.FlxColor;
 import flixel.tweens.FlxTween;
 import flixel.group.FlxSpriteGroup;
 import flixel.input.keyboard.FlxKey;
-// TODO: Use this by name: import openfl.utils.Assets;
 import openfl.events.MouseEvent;
 import openfl.events.Event;
 import openfl.geom.Rectangle;
@@ -247,7 +246,7 @@ class ChartingState extends EventState {
 	function reloadNotes() {
 		sectionNullCheck(curSection);
 		sectionText.text = 'Section: $curSection';
-		sectionCameraStepper.setValue(songData.sections[curSection].cameraFacing + 1);
+		sectionCameraStepper.setValue(CoolUtil.intClamp(songData.sections[curSection].cameraFacing + 1, 0, songData.characters.length));
 		noteGroup.clear();
 
 		for(i in 0...songData.sections[curSection].notes.length){
@@ -493,15 +492,7 @@ class ChartingState extends EventState {
 						newSelection.set(k, []);
 
 						for(i in 0...selectedNotes.get(k).length){
-							var tmpNote:NoteData = selectedNotes.get(k)[i];
-							var newNoteData:NoteData = {
-								strumTime: tmpNote.strumTime,
-								column:    tmpNote.column,
-								length:    tmpNote.length,
-								player:    tmpNote.player,
-								type:      tmpNote.type
-							}
-
+							var newNoteData:NoteData = Reflect.copy(selectedNotes.get(k)[i]);
 							songData.sections[k].notes.push(newNoteData);
 							newSelection.get(k).push(newNoteData);
 						}
@@ -677,7 +668,7 @@ class ChartingState extends EventState {
 	}
 
 	function propertiesUI():SIContainer {
-		var tab = new SIContainer(null, TOPLEFT, 360, 580, mainUIBox);
+		var tab = new SIContainer(null, TOPLEFT, 370, 590, mainUIBox);
 		tab.spacing = 5;
 		
 		var nameBox = new SIInput(null, TOPLEFT, 170, songData.name, tab);
@@ -791,15 +782,15 @@ class ChartingState extends EventState {
 	}
 
 	function sectionUI() {
-		var tab = new SIContainer(null, TOPLEFT, 360, 580, mainUIBox);
+		var cameraLabel:SILabel = null;
+		var tab = new SIContainer(null, TOPLEFT, 370, 590, mainUIBox);
 		tab.spacing = 5;
 
 		sectionCameraStepper = new SIStepper(null, TOPLEFT, 120, songData.sections[curSection].cameraFacing + 1, tab);
-		sectionCameraStepper.min = 1;
-		sectionCameraStepper.max = songData.characterCharts;
 		sectionCameraStepper.callback = function(num:Float) {
-			var rnum = Math.round(num);
+			var rnum = Math.round(Math.max(Math.min(num, songData.characters.length), 1));
 			sectionCameraStepper.setValue(rnum, true);
+			cameraLabel.changeLabel('Camera Facing: ' + songData.characters[rnum - 1].name);
 			songData.sections[curSection].cameraFacing = rnum - 1;
 		};
 
@@ -836,13 +827,7 @@ class ChartingState extends EventState {
 			sectionNullCheck(offSection);
 			
 			for(n in songData.sections[offSection].notes)
-				songData.sections[curSection].notes.push({ // We can't just push 'n', otherwise it will pass by reference.
-					strumTime: n.strumTime,
-					column: n.column,
-					length: n.length,
-					player: n.player,
-					type: n.type
-				});
+				songData.sections[curSection].notes.push(Reflect.copy(n)); // We can't just push 'n', otherwise it will pass by reference.
 
 			reloadNotes();
 		};
@@ -860,15 +845,132 @@ class ChartingState extends EventState {
 			reloadNotes();
 		};
 
-		new SILabel(RIGHT, sectionCameraStepper, 'Camera Facing', tab);
+		cameraLabel = new SILabel(RIGHT, sectionCameraStepper, '', tab);
 		new SILabel(RIGHT, sectionCopyStepper, 'Copy Offset', tab);
 		new SILabel(RIGHT, copyPreview, 'Preview Copy Offset', tab);
 		return tab;
 	}
 
+	private var characterNames:Array<String> = []; // Only used for the drop down
+	private var playerDropDowns:Array<SIDropdown> = [null];
+	private var positionBoxes:Array<Array<SIInput>> = [];
+	function addPlayerDrop(ind:Int, tab:SIContainer) {
+		playerDropDowns[ind] = new SIDropdown(UNDER, TOPLEFT, playerDropDowns[ind - 1], 150, songData.characters[ind].name, characterNames, tab);
+		playerDropDowns[ind].callback = function(str:String) {
+			songData.characters[ind].name = str;
+			reloadGrid();
+		};
+
+		var xbox = new SIInput(RIGHT, playerDropDowns[ind], 55, Std.string(songData.characters[ind].x), tab);
+		var ybox = new SIInput(RIGHT, xbox, 55, Std.string(songData.characters[ind].y), tab);
+		positionBoxes[ind] = [xbox, ybox];
+		xbox.callback = function(val:String, finished:Bool) {
+			if (!finished)
+				return;
+
+			var fvalue:Float = Std.parseFloat(val);
+			fvalue = Math.isNaN(fvalue) ? 0 : fvalue;
+			songData.characters[ind].x = fvalue;
+			xbox.changeText(Std.string(fvalue), false);
+		};
+		ybox.callback = function(val:String, finished:Bool) {
+			if (!finished)
+				return;
+
+			var fvalue:Float = Std.parseFloat(val);
+			fvalue = Math.isNaN(fvalue) ? 0 : fvalue;
+			songData.characters[ind].y = fvalue;
+			ybox.changeText(Std.string(fvalue), false);
+		};
+	}
+
+	function findCharacterNames() {
+		if (characterNames.length > 0) 
+			return;
+
+		characterNames = openfl.utils.Assets.list();
+
+		var i = -1;
+		while(++i < characterNames.length)
+			if (characterNames[i].substring(0, 22) != 'assets/data/characters')
+				characterNames.splice(i--, 1);
+
+		for(i in 0...characterNames.length){
+			var nameSplit:Array<String> = characterNames[i].split('/');
+			characterNames[i] = nameSplit[nameSplit.length - 1];
+			characterNames[i] = characterNames[i].split('.json')[0];
+		}
+	}
+
 	function playersUI() {
-		var tab = new SIContainer(null, TOPLEFT, 360, 580, mainUIBox);
+		var tab = new SIContainer(null, TOPLEFT, 370, 590, mainUIBox);
 		tab.spacing = 5;
+
+		findCharacterNames();
+
+		var activeStepper = new SIStepper(null, BOTTOMLEFT, 150, songData.activePlayer + 1, tab);
+		activeStepper.min = 1;
+		activeStepper.max = songData.characters.length;
+		activeStepper.callback = function(num:Float) {
+			var rnum = Math.round(Math.min(num, songData.characterCharts));
+			songData.activePlayer = rnum - 1;
+			activeStepper.setValue(rnum, true);
+			reloadGrid();
+		};
+
+		var chartStepper = new SIStepper(ONTOP, activeStepper, 150, songData.characterCharts, tab);
+		chartStepper.min = 1;
+		chartStepper.max = songData.characters.length;
+		chartStepper.callback = function(num:Float) {
+			var rnum = Math.round(Math.min(num, 5)); // <-- 5 is arbitrary as anymore will not fit on screen.
+			songData.characterCharts = rnum;
+			chartStepper.setValue(rnum, true);
+			activeStepper.setValue(songData.activePlayer + 1);
+			reloadNotes();
+		};
+
+		var backwardsCheck = new SICheckbox(ONTOP, chartStepper, songData.renderBackwards, tab);
+		backwardsCheck.callback = function(val:Bool) {
+			songData.renderBackwards = val;
+		};
+
+		for(i in 0...songData.characters.length)
+			addPlayerDrop(i, tab);
+
+		var addButton = new SIButton(null, TOPRIGHT, 30, '+', tab);
+		addButton.callback = function() {
+			if (songData.characters.length >= 13)
+				return;
+
+			songData.characters.push({
+				name: characterNames[0],
+				x: 100,
+				y: 100
+			});
+
+			activeStepper.max = chartStepper.max = songData.characters.length;
+			addPlayerDrop(playerDropDowns.length, tab);
+			reloadGrid();
+			tab.redraw();
+		};
+	
+		var popButton = new SIButton(LEFT, addButton, 30, '-', tab);
+		popButton.callback = function() {
+			if (songData.characters.length <= 1)
+				return;
+
+			tab.removeChild(playerDropDowns.pop());
+			tab.removeChild(positionBoxes[positionBoxes.length - 1][1]);
+			tab.removeChild(positionBoxes.pop()[0]);
+			tab.redraw();
+			songData.characters.pop();
+			activeStepper.max = chartStepper.max = songData.characters.length;
+			chartStepper.setValue(songData.characterCharts);
+		};
+
+		new SILabel(RIGHT, activeStepper, 'Active Player', tab);
+		new SILabel(RIGHT, chartStepper, 'Amount of Charts', tab);
+		new SILabel(RIGHT, backwardsCheck, 'Render Backwards', tab);
 		return tab;
 	}
 

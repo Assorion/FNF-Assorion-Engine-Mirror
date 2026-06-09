@@ -4,7 +4,7 @@ Established the first release of this engine.
 
 Initially it was called "MKG" (a meaningless acronym), which was quickly re-branded to Assorion in the next release.
 
-## Version 1.1.0 (Main)
+## Version 1.1.0 (Major)
 
 This was Assorion's first real release. It has a lot of major changes/improvements over it's first version so there's a lot to document here.
 
@@ -53,7 +53,7 @@ This was Assorion's first real release. It has a lot of major changes/improvemen
 15. **Other minor enhancements**
 - This list does not detail everything, but only the things that are worth listing
 
-## Version 1.1.1
+## Version 1.1.1 (Minor)
 
 This is a minor update that fixes a handful of problems
 
@@ -67,7 +67,7 @@ This is a minor update that fixes a handful of problems
 5. **Fixed Chart Editor permanently ignoring any inputs**
 - This happened if the section UI was recreated while interacting with a type-in box
 
-## Version 1.1.2
+## Version 1.1.2 (Minor)
 
 Even more minor bug fixing update
 
@@ -80,48 +80,91 @@ Even more minor bug fixing update
 - Some transitions may now be skipped
 - Unfortunately not all transitions may be skipped in this version
 
-## V - 1.2.0
+## Version 1.2.0 (Major)
 
-> [!NOTE]
-> The stuff from this point onwards needs to be re-written. Otherwise it's still the older, out-of-date changelog
+This is Assorion's next major release! And brings a brand new song with it!
 
-1. **Hopefully** Once and for all, fixed input problems.
-2. Added input offset option.
-3. All menus are standardized under MenuTemplate.hx.
-4. Bug fixes (obv).
-5. More navigation improvements.
-6. Added text file / chart caching.
-7. Added pause menu info.
-8. All menu current selection variables no longer static.
-9. Rebinding controls menu improvements (colour and skip over blank space).
-10. Background menu scrolling effect.
-11. Pausemenu lag hopefully gone.
-12. Gameplay icons properly centered.
-13. Chart editor fixes.
-14. You can take screenshots during gameplay.
-15. Code clean-up in many places.
+1. **Mild adjustments to assets**
+- Centered character icons
+- Trimmed note assets a little
+- Small wording changes to Assorion.txt, and README.md
+- More many inside jokes added to the introText
+- Added optional delay to dialogue text
+2. **New composition for demo song**
+- Composed by yours truly
+- Also includes a re-chart
+3. **Many bug fixes**
+- Fixed 'stepHit' not being called if the step was 0
+- Adjusted 'songPosition' to follow audio offset
+- Fixed Flixel's camera lerp being broken on different framerates
+- Fixed dialogue substate not enabling antialiasing on portraits
+4. **Allow backing out on death screen**
+- Before: Hitting your back bind would do absolutely nothing LOL
+5. **Mild note changes**
+- Trimming assets (as mentioned prior)
+- Remove unneeded animations if hold or hold-end note
+- Move 'NoteType' struct to the top of the file (have no idea why I put it at the bottom originally)
+- Add optional range multiplier option to note types
+6. **Updates to the pause menu**
+- The pause menu is now no longer rendered on top of the game, instead it uses a screenshot of PlayState. In practice this wasn't really worth it, and greatly increased the complexity of the code
+- Added information such as song, difficulty, bot-play status, etc to the bottom of the screen
+7. **Major changes to PlayState**
+- Refactored lots of code
+- Remove dependence on FlxTimer
+- Load countdown sounds before countdown countdown starts
+- Force 'noteData' in a 0-3 range
+- ""Fixed"" song being longer than sections in chart causing crashes. The fix was incredibly stupid at the time, but at least it works!
+- Properly fixed input system bugs relating to note destruction
+- Experimental integrated screenshot functionality was added
+- etc
+8. **Allow caching TXT and JSON files**
+- Although not too useful with default persist, it allows the game to cache them on launch, thus not needed to ever read them from disk
+9. **Added 'menuTemplate' class for common menus in the game**
+- This allows many menus like StoryMenu, Freeplay, Options and Controls to share the same underlying menu code
+- Before: A lot of boilerplate was required to build each one of these menus
+- This also allows modders to easily control the spacing/styling of all the menus at once
+10. **Mild enhancements to some menus**
+- Controls menu will no longer hover over blank space
+- More transitions may be skipped
 
-## V - 1.2.1
+## Version 1.2.1 (Minor)
 
-1. Rounded syncing time, rather than setting.
-2. Fixed save data. Now not stored in local file.
-3. Fixed StoryMenu bug.
-4. Little refactoring.
-5. Removed usless code in GameOverState.
-6. Added offset wizard.
+Minor update to address a few bugs and issues. The only major change is adding a brand new offset wizard to help with calibration.
 
-## V - 1.2.2
+1. **Mild refactoring**
+- Renamed a few variables in PlayState to be a bit more intuitive
+- Removed the 'storyMode' variable (as week -1 is considered FreePlay)
+- Removed useless code in the death screen
+- Prepare sections of code for web browser support
+2. **Reduced note jittering**
+- For the notes to scroll smoothly: The game drives a variable called 'songTime' every frame based on delta time, then gets re-synced every step
+- To reduce jittering, the note gets 1/2 synced between the current 'songTime' and actual time from the song
+3. **Added offset wizard**
+- This can be entered by hitting the accept key over the audio offset option
+- This helps in calibrating your offset, as you don't have to guess/brute force your offset
+4. **Fixed story menu crashing after playing a week**
+- The song list was stored in a static variable, which was then passed by reference to PlayState
+- PlayState shifts (removes the first element) the list for story mode to keep track of the songs in the campaign. But these shifts cause the static variable to lose all of the values it holds
+- The easier solution is to make the variable non-static, but the fix in this version was to create a temporary copy of the array to pass to PlayState
 
-1. Added StaticSprite, a sprite with no update. Mild performance increase I guess.
-2. Fixed chart editor bug where the section would get stuck at the end.
-3. Split stage curtains into 2 sprites, 
-        and lowered the res on the back sprite, big peformance increase.
-4. ChartingState UI highlighting effect.
-5. Input and framerate fixes for web build.
-6. Windows and Linux release now compiled with GCC, 
-        and compiler optimizations. (Read Release please!)
-7. Allow pausing on countdown without breaking.
-8. Fixed arrow fade in (whoopsie it's been wrong all this time).
+## Version 1.2.2 (Minor)
+
+1. **Fixed input and framerate options for web build**
+- Flixel normally ignores certain keys on the web build, however these blocked keys can be cleared so that they may be used again
+- For web builds, the framerate has to be set to 60 (though it's actually based on refresh rate)
+- The framerate option is now hidden on web builds
+2. **Stage asset improvements**
+- The sprites were correctly trimmed to remove transparent pixels
+- The curtains were split into two separate sprites
+- This had a giant performance increase (and reduces memory too!)
+3. **Add 'StaticSprite' class**
+- This special sprite class has it's updates turned off as most sprites don't need it
+4. **Chart editor improvements**
+- Added a highlight effect to the custom chart UI
+- Added select all button
+- Fixed section jumping getting stuck due to floating-point rounding error
+5. **Allow pausing during countdown in PlayState**
+6. **Corrected strum arrow positioning due to a mistake**
 
 ## V - 1.3.0
 

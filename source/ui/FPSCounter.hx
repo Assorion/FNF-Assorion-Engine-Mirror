@@ -20,8 +20,10 @@ class FPSCounter extends TextField {
 		defaultTextFormat = new TextFormat("_sans", 13, color, null, null, null, text);
 	}
 
-	private override function __enterFrame(deltaTime:Float):Void
-	if (visible){
+	private override function __enterFrame(deltaTime:Float):Void {
+		if (!visible)
+			return;
+
 		currentTime += deltaTime;
 		framerate++;
 

@@ -351,13 +351,13 @@ class PlayState extends EventState {
 
 	public var hittableNotes:Array<Note> = [null, null, null, null];
 	public var keysPressed:Array<Bool>   = [false, false, false, false];
-	override function keyHit(ev:KeyboardEvent) 
-	if (persistentUpdate) {
+	override function keyHit(ev:KeyboardEvent) {
+		if (!persistentUpdate) 
+			return;
+
 		// Assorions input system
 		var strumIndex = ev.keyCode.arrayCheck(BIND_ARRAY);
 		if (strumIndex != -1 && !keysPressed[strumIndex] && !Settings.botplay){
-			keysPressed[strumIndex] = true;
-			
 			if (hittableNotes[strumIndex] != null) {
 				hitNote(hittableNotes[strumIndex]);
 			} else if (playerStrums[strumIndex].pressTime <= 0) {
@@ -367,6 +367,7 @@ class PlayState extends EventState {
 				playerStrums[strumIndex].playAnim('press');
 			} 
 
+			keysPressed[strumIndex] = true;
 			return;
 		}
 

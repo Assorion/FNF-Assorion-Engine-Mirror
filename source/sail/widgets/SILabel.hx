@@ -6,7 +6,6 @@ import sail.SIGeneric;
 
 class SILabel extends SIGeneric {
 	private var textSpr:FormattedText;
-	public  var center:Bool = true;
 
 	public function new(?relativeSide:SISide = UNDER, ?defaultCorner:SIDiagonal = TOPLEFT, ?reference:SIGeneric
 	, ?size:Int = 15, label:String = '', ?container:SIContainer = null) {
@@ -16,7 +15,7 @@ class SILabel extends SIGeneric {
 
 	public function changeLabel(newLabel:String) {
 		textSpr.text = newLabel;
-		textSpr.y    = center ? (SIGeneric.COMPONENT_HEIGHT - textSpr.height) / 2 : 0;
+		textSpr.y    = reference != null ? (reference.h - textSpr.height) / 2 : 0;
 		textSpr.y   += y;
 		textSpr.x    = x;
 		w = Math.floor(textSpr.width);

@@ -172,8 +172,10 @@ class TitleState extends EventState {
 	}
 
 	private var skippedIntro:Bool = false;
-	function skipIntro()
-	if (!skippedIntro) {
+	function skipIntro() {
+		if (skippedIntro)
+			return;
+
 		FlxG.camera.flash(FlxColor.WHITE, 4);
 
 		textGroup.clear();

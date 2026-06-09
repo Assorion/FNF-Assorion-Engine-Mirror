@@ -134,8 +134,8 @@ class ChartingState extends EventState {
 		bg.color = FlxColor.fromRGB(20, 45, 55);
 		add(bg);
 
-		gridGroup = new FlxSpriteGroup(390, 70);
-		noteGroup = new FlxSpriteGroup(390, 70);
+		gridGroup = new FlxSpriteGroup(380, 70);
+		noteGroup = new FlxSpriteGroup(380, 70);
 		add(gridGroup);
 		add(noteGroup);
 
@@ -147,7 +147,7 @@ class ChartingState extends EventState {
 		add(selectionBox);
 		
 		// UI Stuff
-		mainUIBox = new SITabbedContainer(380, 630, 5, 35, tabNames, [propertiesUI(), sectionUI(), playersUI(), helpUI()]);
+		mainUIBox = new SITabbedContainer(368, 630, 5, 35, tabNames, [propertiesUI(), sectionUI(), playersUI(), helpUI()]);
 		mainUIBox.style = Settings.high_contrast ? SIStyleContrast : SIStyleGeneric;
 		mainUIBox.declareMaster();
 		mainUIBox.changeTab(0);
@@ -668,7 +668,7 @@ class ChartingState extends EventState {
 	}
 
 	function propertiesUI():SIContainer {
-		var tab = new SIContainer(null, TOPLEFT, 370, 590, mainUIBox);
+		var tab = new SIContainer(null, TOPLEFT, 358, 590, mainUIBox);
 		tab.spacing = 5;
 		
 		var nameBox = new SIInput(null, TOPLEFT, 170, songData.name, tab);
@@ -700,7 +700,6 @@ class ChartingState extends EventState {
 		};
 
 		/* Just for health bar colours :facepalm: */
-		// TODO: Probably move this into SIColourPicker
 		var oppCol = songData.healthColours[0];
 		var oppColourbox = new SIColourbox(UNDER, stageDrop, oppCol, tab);
 		var oppRS = new SIStepper(RIGHT, oppColourbox, 100, (oppCol >> 16) & 0xFF, tab);
@@ -783,7 +782,7 @@ class ChartingState extends EventState {
 
 	function sectionUI() {
 		var cameraLabel:SILabel = null;
-		var tab = new SIContainer(null, TOPLEFT, 370, 590, mainUIBox);
+		var tab = new SIContainer(null, TOPLEFT, 358, 590, mainUIBox);
 		tab.spacing = 5;
 
 		sectionCameraStepper = new SIStepper(null, TOPLEFT, 120, songData.sections[curSection].cameraFacing + 1, tab);
@@ -827,7 +826,7 @@ class ChartingState extends EventState {
 			sectionNullCheck(offSection);
 			
 			for(n in songData.sections[offSection].notes)
-				songData.sections[curSection].notes.push(Reflect.copy(n)); // We can't just push 'n', otherwise it will pass by reference.
+				songData.sections[curSection].notes.push(Reflect.copy(n)); 
 
 			reloadNotes();
 		};
@@ -903,7 +902,7 @@ class ChartingState extends EventState {
 	}
 
 	function playersUI() {
-		var tab = new SIContainer(null, TOPLEFT, 370, 590, mainUIBox);
+		var tab = new SIContainer(null, TOPLEFT, 358, 590, mainUIBox);
 		tab.spacing = 5;
 
 		findCharacterNames();
@@ -974,9 +973,63 @@ class ChartingState extends EventState {
 		return tab;
 	}
 
+	var pagesText:Array<String> = [
+		'Common controls:
+
+		Down/Up: Jump forward/back a section
+		Left/Right: Increase/decrease snapping
+		Accept: Toggle pausing and playing
+		Back: Test chart changes
+
+		Click: Add note to grid
+		Click (on top of note): Delete note
+		Right click: Delete selected notes',
+
+		'Controls while holding SHIFT:
+
+		Down/Up: Change selected notes length
+		Left/Right: Change selected notes type
+		Back: Jump back to the first section
+
+		Controls while holding CONTROL:
+		
+		Click (and Drag): Select multiple notes
+		Down/Up: Move selected notes up/down
+		Left/Right: Move select notes left/right
+		Accept: Select all notes in section
+		C: Copy all selected notes
+		V: Mirror selected notes',
+
+		'Players: 
+		
+		Unlike most other engines, players are
+		stored as a variable sized list of
+		characters. "CharacterCharts" determines
+		the charts respective to the characters.
+
+		Active player controls which of the
+		characters in the character list will
+		have the player controlling them.
+
+		Each player has an X and Y value
+		next to them to determine their location.'
+	];
+
 	function helpUI() {
-		var tab = new SIContainer(null, TOPLEFT, 360, 580, mainUIBox);
+		var tab = new SIContainer(null, TOPLEFT, 358, 590, mainUIBox);
 		tab.spacing = 5;
+
+		var helpLabel  = new SILabel(null,  TOPLEFT, pagesText[0], tab);
+		var backButton = new SIButton(null, BOTTOMLEFT,  120, '< Back', tab);
+		var nextButton = new SIButton(null, BOTTOMRIGHT, 120, 'Next >', tab);
+		backButton.callback = function() {
+			pagesText.unshift(pagesText.pop());
+			helpLabel.changeLabel(pagesText[0]);
+		};
+		nextButton.callback = function() {
+			pagesText.push(pagesText.shift());
+			helpLabel.changeLabel(pagesText[0]);
+		}
 		return tab;
 	}
 }

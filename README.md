@@ -41,21 +41,18 @@ As such, Assorion Engine doesn't have many features that are standard for other 
 Assorion Engine has more verbose variable and function names, making it easier to understand what the code is doing.
 The engine also uses "camel case" for every variable, function, and even the assets, making it more consistent.
 
-**2. Much smaller code:**  
+**2. Compact logic:**  
+Assorion really only has the code to acheive the bare minimum (+ the Assorion UI Layer). Thus it's code is easily moddable/replacable. On it's own it doesn't really do much at all. But the idea is to get out of the way, in order to make ambitious changes as easy as possible.
+
 There is not as much code to sift through with Assorion Engine, as there's only 4 folders within the source directory
 and each source file tends to be quite small. E.G: PlayState being under 600 lines of code.
 
 **3. Easier to compile:**  
-Assorion Engine is very lenient when it comes to compiling. There are only 5 dependiences (6 if HXCPP is counted) which
-the engine needs to compile. The game will also compile with Haxe 4.0.0 up to Haxe 4.3.6, and Flixel 5.0.0 up to latest.
+Assorion Engine is very lenient when it comes to compiling. There are only 3 dependiences (3 if HXCPP is counted) which
+the engine needs to compile. The game will also compile with practically any version of Haxe 4, and Flixel 5.0.0 up to latest.
 
-**4. Less hacky:**  
-There is an emphasis on avoiding weird compiler tricks or modifying the underlying Flixel, Lime, or OpenFL source files.
-Assorion Engine is simple and straight forward, without having to modify the source code for it's dependencies.
-
-**5. More portable:**  
-With less dependencies comes less problems when porting. Assorion has been compiled for Windows and Linux (32bit and 64bit),
-MacOS, <a href="https://codeberg.org/Assorion/FNF-Assorion-XP-Compatible">Windows 2000</a>, NetBSD, and even Haiku.
+**4. Less hacky:** 
+Assorion Engine tries to stay as far away from weird, unintuitive, and hacky language features. Haxe may be a powerful programming language with a lot to offer, but using said features is not mandatory. It often makes the code far harder to understand and debug (especially for people getting started in programming).
 
 # 🗒️ | Important Notes
 
@@ -68,25 +65,6 @@ MacOS, <a href="https://codeberg.org/Assorion/FNF-Assorion-XP-Compatible">Window
 - Porting other mods is very hard. Charts, characters, and weeks are handled much differently
 - The players in a song are handled dynamically, and are not hardcoded to Opponent, BF, GF.
   
-#### **Branches**
-
-> <details>
-> <summary>Branch ideas list</summary>
-> <table>
-> <tr>
-> <td>
->
->   | `Assorion Branch's`                                | `Windows` | `Linux` | `HTML5 (WEB)`     |
->   |--------------------------------------------------|---------|-------|-----------------|
->   | <a href="#">Assorion-Main</a>                                    | ✓       | ✓     | ⍻              |
->   | <a href="#">Assorion-Base</a>                                    | ☓       | ☓     | ☓              |
->   | <a href="#">Assorion-3D</a>                                      | ☓       | ☓     | ☓              |
-></td>
-></tr>
-></table>
-></details>
-Until the **primary Assorion Engine repository** is finalized, the following branches listed above will **not** be worked on.
-
 ## 🖼️ | Screenshots and Builds
 
 Take a look at <a href="https://codeberg.org/Assorion/FNF-Assorion-Engine/src/branch/main/.github/Screenshots.md">screenshots here</a>. 

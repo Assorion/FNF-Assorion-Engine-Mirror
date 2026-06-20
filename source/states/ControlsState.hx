@@ -41,8 +41,8 @@ class ControlsState extends ListMenu {
 			var secondBind:String = '';
 
 			if (CONTROL_LIST[i][0] != ''){
-				firstBind  = CoolUtil.keyCodeToString(CONTROL_LIST[i][1][0], false);
-				secondBind = CoolUtil.keyCodeToString(CONTROL_LIST[i][1][1], false);
+				firstBind  = Utility.keyCodeToString(CONTROL_LIST[i][1][0], false);
+				secondBind = Utility.keyCodeToString(CONTROL_LIST[i][1][1], false);
 			}
 
 			pushMenuItem(new Alphabet(0, ListMenu.Y_OFFSET + 20, CONTROL_LIST[i][0], true), null);
@@ -84,7 +84,7 @@ class ControlsState extends ListMenu {
 	}
 
 	override function altChange(to:Int = 0) {
-		curColumn = CoolUtil.intCircularMod(curColumn + to, 2);
+		curColumn = Utility.intCircularMod(curColumn + to, 2);
 		changeSelection(0);
 	}
 

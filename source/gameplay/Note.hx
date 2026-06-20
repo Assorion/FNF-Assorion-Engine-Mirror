@@ -38,7 +38,7 @@ class Note extends StaticSprite { // If animated notes are desired, this will ha
 
 		var colour = NOTE_COLOURS[column];
 
-		frames = Paths.lSparrow('gameplay/${curType.assets}');
+		frames = Paths.sparrow('gameplay/${curType.assets}');
 		animation.addByPrefix('scroll' , colour + '0');
 		animation.play('scroll');
 

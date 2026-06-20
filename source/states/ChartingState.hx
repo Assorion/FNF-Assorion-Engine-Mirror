@@ -11,15 +11,9 @@ import openfl.events.Event;
 import openfl.geom.Rectangle;
 import openfl.display.BitmapData;
 import haxe.Json;
-#if desktop
-import sys.io.File;
-import sys.FileSystem;
-#else
-import haxe.io.Bytes;
-import lime.ui.FileDialog;
-#end
 
 import backend.Song;
+import backend.Chart;
 import ui.CharacterIcon;
 import gameplay.Note;
 import gameplay.StageLogic;
@@ -82,7 +76,7 @@ class ChartingState extends EventState {
 
 	public var vocals:FlxSound;
 	public var curNoteType:Int;
-	public var songData:SongData;
+	public var songData:ChartData;
 	public var selectedNotes:Map<Int, Array<NoteData>> = new Map<Int, Array<NoteData>>();
 
 	var stepTime:Float = 0;
@@ -127,7 +121,7 @@ class ChartingState extends EventState {
 		FlxG.stage.addEventListener('input_grab',    uiInputGrab);
 		FlxG.stage.addEventListener('input_release', uiInputRelease);
 
-		var bg:StaticSprite = new StaticSprite().loadGraphic(Paths.lImage('ui/defaultMenuBackground'));
+		var bg:StaticSprite = new StaticSprite().loadGraphic(Paths.image('ui/defaultMenuBackground'));
 		bg.setGraphicSize(1280, 720);
 		bg.updateHitbox();
 		bg.screenCenter();
@@ -246,7 +240,7 @@ class ChartingState extends EventState {
 	function reloadNotes() {
 		sectionNullCheck(curSection);
 		sectionText.text = 'Section: $curSection';
-		sectionCameraStepper.setValue(CoolUtil.intClamp(songData.sections[curSection].cameraFacing + 1, 0, songData.characters.length));
+		sectionCameraStepper.setValue(Utility.intClamp(songData.sections[curSection].cameraFacing + 1, 0, songData.characters.length));
 		noteGroup.clear();
 
 		for(i in 0...songData.sections[curSection].notes.length){
@@ -284,9 +278,9 @@ class ChartingState extends EventState {
 			var tmpNote = songData.sections[sec].notes[i];
 			var secOffset = Math.floor(tmpNote.strumTime / 16);
 
-			tmpNote.player = CoolUtil.intCircularMod(tmpNote.player + Math.floor(tmpNote.column / PlayState.KEY_COUNT), songData.characterCharts);
-			tmpNote.column = CoolUtil.intCircularMod(tmpNote.column, PlayState.KEY_COUNT);
-			tmpNote.strumTime = CoolUtil.circularMod(tmpNote.strumTime, 16);
+			tmpNote.player = Utility.intCircularMod(tmpNote.player + Math.floor(tmpNote.column / PlayState.KEY_COUNT), songData.characterCharts);
+			tmpNote.column = Utility.intCircularMod(tmpNote.column, PlayState.KEY_COUNT);
+			tmpNote.strumTime = Utility.circularMod(tmpNote.strumTime, 16);
 
 			if (secOffset == 0 || (secOffset < 0 && sec == 0))
 				continue;
@@ -320,8 +314,8 @@ class ChartingState extends EventState {
 	function mouseMove(ev:MouseEvent) {
 		mainUIBox.hover(FlxG.mouse.x, FlxG.mouse.y);
 
-		gridSelectX = CoolUtil.intClamp(Math.floor((FlxG.mouse.x - gridGroup.x) / GRID_SIZE), 0, (songData.characterCharts * PlayState.KEY_COUNT) - 1);
-		gridSelectY = CoolUtil.clamp(Math.floor(((FlxG.mouse.y - gridGroup.y) * snaps[curZoom]) / GRID_SIZE) / snaps[curZoom], 0, 15);
+		gridSelectX = Utility.intClamp(Math.floor((FlxG.mouse.x - gridGroup.x) / GRID_SIZE), 0, (songData.characterCharts * PlayState.KEY_COUNT) - 1);
+		gridSelectY = Utility.clamp(Math.floor(((FlxG.mouse.y - gridGroup.y) * snaps[curZoom]) / GRID_SIZE) / snaps[curZoom], 0, 15);
 		highlightBox.x = (gridSelectX * GRID_SIZE) + gridGroup.x;
 		highlightBox.y = (gridSelectY * GRID_SIZE) + gridGroup.y;
 		highlightBox.alpha = FlxG.mouse.x < gridGroup.x ? 0 : 0.75;
@@ -457,7 +451,7 @@ class ChartingState extends EventState {
 					reloadNotes();
 				}],
 				[Binds.ui_left, function(){
-					curNoteType = CoolUtil.intCircularMod(--curNoteType, Note.NOTE_TYPES.length);
+					curNoteType = Utility.intCircularMod(--curNoteType, Note.NOTE_TYPES.length);
 					noteTypeText.text = 'Note type: $curNoteType (${Note.NOTE_TYPES[curNoteType].assets})';
 
 					for(k in selectedNotes.keys())
@@ -467,7 +461,7 @@ class ChartingState extends EventState {
 					reloadNotes();
 				}],
 				[Binds.ui_right, function(){
-					curNoteType = CoolUtil.intCircularMod(++curNoteType, Note.NOTE_TYPES.length);
+					curNoteType = Utility.intCircularMod(++curNoteType, Note.NOTE_TYPES.length);
 					noteTypeText.text = 'Note type: $curNoteType (${Note.NOTE_TYPES[curNoteType].assets})';
 
 					for(k in selectedNotes.keys())
@@ -560,11 +554,11 @@ class ChartingState extends EventState {
 				jumpToSection((curSection - 1) * 16);
 			}],
 			[Binds.ui_left, function(){
-				curZoom = CoolUtil.intClamp(curZoom - 1, 0, snaps.length - 1);
+				curZoom = Utility.intClamp(curZoom - 1, 0, snaps.length - 1);
 				snapText.text = 'Snap: ${1 / snaps[curZoom]}';
 			}],
 			[Binds.ui_right, function(){
-				curZoom = CoolUtil.intClamp(curZoom + 1, 0, snaps.length - 1);
+				curZoom = Utility.intClamp(curZoom + 1, 0, snaps.length - 1);
 				snapText.text = 'Snap: ${1 / snaps[curZoom]}';
 			}]
 		]);
@@ -640,18 +634,18 @@ class ChartingState extends EventState {
 		var JsonString:String = Json.stringify(songData, '\t'); // '\t' enables pretty printing.
 
 		#if desktop
-		FileSystem.createDirectory('$path');
-		File.saveContent('$path/$fileName', JsonString);
+		sys.FileSystem.createDirectory('$path');
+		sys.io.File.saveContent('$path/$fileName', JsonString);
 		postWarning('File saved to "$path/$fileName"', autosave ? 0xFF00AAFF : 0xFF00FFAA);
 		
 		if (corrections != '' && !autosave){
-			File.saveContent('$path/errors.txt', corrections);
+			sys.io.File.saveContent('$path/errors.txt', corrections);
 			postWarning('Check errors/warnings at "$path/errors.txt"', 0xFFFFFF00);
 			trace('\n' + corrections);
 		}
 		#else
-		var fileDialog = new FileDialog();
-		fileDialog.save(Bytes.ofString(JsonString), null, fileName);
+		var fileDialog = new lime.ui.FileDialog();
+		fileDialog.save(haxe.io.Bytes.ofString(JsonString), null, fileName);
 		postWarning('File saved', 0xFF00FFAA);
 		#end
 	}
@@ -683,7 +677,7 @@ class ChartingState extends EventState {
 			FlxG.sound.music.pause();
 			vocals.pause();
 			songData.BPM = num;
-			Song.musicSet(songData.BPM);
+			Song.configure(songData.BPM);
 		};
 
 		var speedStepper = new SIStepper(UNDER, BPMStepper, 170, songData.speed, tab);
@@ -822,7 +816,7 @@ class ChartingState extends EventState {
 
 		var copyButton = new SIButton(ONTOP, selectButton, 120, 'Copy', tab);
 		copyButton.callback = function() {
-			var offSection = CoolUtil.intClamp(curSection + sectionCopyStepper.value, 0, songData.sections.length - 1);
+			var offSection = Utility.intClamp(curSection + sectionCopyStepper.value, 0, songData.sections.length - 1);
 			sectionNullCheck(offSection);
 			
 			for(n in songData.sections[offSection].notes)

@@ -45,10 +45,10 @@ class GameOverSubstate extends EventSubstate {
 		camFollow = new FlxObject(deadChar.getGraphicMidpoint().x, deadChar.getGraphicMidpoint().y, 1, 1);
 
 		FlxG.sound.music.time = 0;
-		FlxG.sound.play(Paths.lSound('gameplay/death'));
+		FlxG.sound.play(Paths.sound('gameplay/death'));
 		FlxG.camera.follow(camFollow, LOCKON, 0.023);
 
-		Song.musicSet(100);
+		Song.configure(100);
 
 		FlxTween.tween(fadeCam,		{alpha: 0}, 3);
 		FlxTween.tween(blackFadeIn, {alpha: 1}, 3, {onComplete: function(t:FlxTween){
@@ -61,7 +61,7 @@ class GameOverSubstate extends EventSubstate {
 
 		postEvent(2.5, function() {
 			if (!leaving)
-				FlxG.sound.playMusic(Paths.lMusic('gameplay/gameOver'));
+				FlxG.sound.playMusic(Paths.music('gameplay/gameOver'));
 		});
 	}
 
@@ -99,7 +99,7 @@ class GameOverSubstate extends EventSubstate {
 		leaving = true;
 		characterRef.playAnim('deathConfirm');
 		FlxG.sound.music.stop();
-		FlxG.sound.play(Paths.lSound('gameplay/gameOverEnd'));
+		FlxG.sound.play(Paths.sound('gameplay/gameOverEnd'));
 		
 		postEvent(0.7, function(){ FlxG.camera.fade(FlxColor.BLACK, 2.2, false); });
 		postEvent(3, function(){

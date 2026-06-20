@@ -24,11 +24,11 @@ class ComboDisplay extends FlxSpriteGroup {
 		offsetY = oY;
 
 		for(i in 0...possibleScores.length)
-			FlxGraphic.fromAssetKey(Paths.lImage('gameplay/${possibleScores[i].asset}'), false, null, true).persist = true;
+			FlxGraphic.fromAssetKey(Paths.image('gameplay/${possibleScores[i].asset}'), false, null, true).persist = true;
 
 		for(i in 0...3){
 			var sRef = comboNumbers[i] = new StaticSprite(0,0);
-			sRef.frames = Paths.lSparrow('gameplay/comboNumbers');
+			sRef.frames = Paths.sparrow('gameplay/comboNumbers');
 			for(i in 0...10) {
 				sRef.animation.addByPrefix('$i', '${i}num', 1, false);
 				sRef.animation.play('$i');
@@ -58,7 +58,7 @@ class ComboDisplay extends FlxSpriteGroup {
 			for(i in 0...4) scoreTweens[i].cancel();
 
 		if (previousRating != rating){
-			ratingSprite.loadGraphic(Paths.lImage('gameplay/' + rating.asset));
+			ratingSprite.loadGraphic(Paths.image('gameplay/' + rating.asset));
 			ratingSprite.centerOrigin();
 			previousRating = rating;
 		}

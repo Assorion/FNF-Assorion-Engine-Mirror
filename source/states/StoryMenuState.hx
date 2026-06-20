@@ -6,6 +6,7 @@ import flixel.util.FlxColor;
 import flixel.tweens.FlxTween;
 
 import backend.Song;
+import backend.Chart;
 import ui.ListMenu;
 import ui.NewTransition;
 
@@ -36,10 +37,10 @@ class StoryMenuState extends ListMenu {
 	override function create(){
 		super.create();
 
-		weekData = cast haxe.Json.parse(Paths.lText('storyWeeks.json'));
+		weekData = cast haxe.Json.parse(Paths.text('storyWeeks.json'));
 		
 		for(i in 0...weekData.length) {
-			var weekGraphic:FlxSprite = new FlxSprite(0,0).loadGraphic(Paths.lImage('storyMenu/weeks/week-' + weekData[i].weekAsset));
+			var weekGraphic:FlxSprite = new FlxSprite(0,0).loadGraphic(Paths.image('storyMenu/weeks/week-' + weekData[i].weekAsset));
 			weekGraphic.updateHitbox();
 			weekGraphic.centerOrigin();
 			weekGraphic.scale.set(0.7, 0.7);
@@ -53,9 +54,9 @@ class StoryMenuState extends ListMenu {
 		topText.screenCenter(X);
 		topText.x -= 320;
 
-		arrowSpr1 = new StaticSprite(640 - 50, 42).loadGraphic(Paths.lImage('storyMenu/storyArrow'));
+		arrowSpr1 = new StaticSprite(640 - 50, 42).loadGraphic(Paths.image('storyMenu/storyArrow'));
 		arrowSpr1.centerOrigin();
-		arrowSpr2 = new StaticSprite(640 - 330, 42).loadGraphic(Paths.lImage('storyMenu/storyArrow'));
+		arrowSpr2 = new StaticSprite(640 - 330, 42).loadGraphic(Paths.image('storyMenu/storyArrow'));
 		arrowSpr2.flipX = true;
 		arrowSpr2.centerOrigin();
 
@@ -88,7 +89,7 @@ class StoryMenuState extends ListMenu {
 			return;
 		}
 
-		FlxG.sound.play(Paths.lSound('ui/confirmMenu'));
+		FlxG.sound.play(Paths.sound('ui/confirmMenu'));
 		leaving = true;
 
 		PlayState.lastSeenCutscene = 0;	
@@ -96,11 +97,11 @@ class StoryMenuState extends ListMenu {
 		PlayState.curDifficulty    = curDif;
 		PlayState.storyWeek        = curSel;
 		PlayState.totalScore       = 0;
-		PlayState.songData         = Song.loadFromJson(weekData[curSel].songs[0], curDif);
+		PlayState.songData         = Chart.loadFromJson(weekData[curSel].songs[0], curDif);
 
 		for(i in 0...8)
 			postEvent(i / 8, function(){
-				listItems[curSel].spr.color = (i & 1 == 0 ? WHITE_COLOUR : SELECT_COLOUR);
+				listItems[curSel].spr.color = [WHITE_COLOUR, SELECT_COLOUR][i % 2];
 			});
 
 		// SWITCH!
@@ -114,20 +115,20 @@ class StoryMenuState extends ListMenu {
 
 	function changeDiff(to:Int, showArr:Bool){
 		if (showArr){
-			var arrow = [arrowSpr2, arrowSpr1][CoolUtil.intClamp(to, 0, 1)];
+			var arrow = [arrowSpr2, arrowSpr1][Utility.intClamp(to, 0, 1)];
 			arrow.color = SELECT_COLOUR;
 			arrow.scale.set(0.9, 0.9);
 		}
 
-		curDif = CoolUtil.intCircularMod(curDif + to, Song.DIFFICULTIES.length);
+		curDif = Utility.intCircularMod(curDif + to, Chart.DIFFICULTIES.length);
 
-		diffImage.loadGraphic(Paths.lImage('storyMenu/' + Song.DIFFICULTIES[curDif]));
+		diffImage.loadGraphic(Paths.image('storyMenu/' + Chart.DIFFICULTIES[curDif]));
 		diffImage.centerOrigin();
 		diffImage.updateHitbox();
 		diffImage.screenCenter(X);
 		diffImage.x -= 167.5;
 
-		topText.text = weekData[curSel].topText + ' - ${Song.getScore('week-$curSel', curDif)}';
+		topText.text = weekData[curSel].topText + ' - ${Chart.getScore('week-$curSel', curDif)}';
 		topText.screenCenter(X);
 		topText.x -= 320;
 	}
@@ -164,7 +165,7 @@ class StoryMenuState extends ListMenu {
 
 		// Portrait code
 		weekBGs.push(weekBGs.shift());
-		weekBGs[0].loadGraphic(Paths.lImage('storyMenu/weeks/portrait-${weekData[curSel].weekAsset}'));
+		weekBGs[0].loadGraphic(Paths.image('storyMenu/weeks/portrait-${weekData[curSel].weekAsset}'));
 		weekBGs[0].alpha = 0;
 		weekBGs[1].alpha = 1;
 		add(weekBGs[0]);

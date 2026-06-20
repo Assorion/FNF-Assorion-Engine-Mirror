@@ -26,7 +26,7 @@ class OptionsState extends ListMenu {
 			['cache_assets',	 'Loads all assets into memory and keeps them there. DISABLE WHEN MODDING!']
 		],
 		[
-			['audio_offset',     'Audio offset in milliseconds. Press \'${CoolUtil.keyCodeToString(Binds.ui_accept[0], false)}\' to enter the offset wizard'],
+			['audio_offset',     'Audio offset in milliseconds. Press \'${Utility.keyCodeToString(Binds.ui_accept[0], false)}\' to enter the offset wizard'],
 			['downscroll',	     'Makes the notes scroll downwards instead of upwards'],
 			['ghost_tapping',    'Disables penalty for pressing a key when no note is hit'], 
 			['botplay',		     'Makes the game play itself']
@@ -74,7 +74,7 @@ class OptionsState extends ListMenu {
 			if (category <= 0) {
 				var categoryIcon:CharacterIcon = new CharacterIcon('settings' + (Math.floor(i / 2) + 1), false);
 				item.icon = categoryIcon;
-				categoryIcon.animation.play(['neutral', 'losing'][i & 1]);
+				categoryIcon.animation.play(['neutral', 'losing'][i % 2]);
 				listGroup.add(categoryIcon);
 				continue;
 			}
@@ -125,11 +125,11 @@ class OptionsState extends ListMenu {
 		switch(currentOption){
 		// Basic
 		case 'start_volume':
-			Settings.start_volume = CoolUtil.intClamp(Settings.start_volume + (ch * 10), 0, 100);
+			Settings.start_volume = Utility.intClamp(Settings.start_volume + (ch * 10), 0, 100);
 
 		// Gameplay.
 		case 'audio_offset':
-			Settings.audio_offset = CoolUtil.intClamp(Settings.audio_offset + ch, 0, 300);
+			Settings.audio_offset = Utility.intClamp(Settings.audio_offset + ch, 0, 300);
 
 		// Visuals
 		case 'framerate':

@@ -55,7 +55,7 @@ class AlphaCharacter extends FlxSprite {
 	public function new(x:Float, y:Float, char:String, bolded:Bool) {
 		super(x, y);
 
-		var tex = Paths.lSparrow('ui/alphabet');
+		var tex = Paths.sparrow('ui/alphabet');
 		frames = tex;
 		letter = char;
 

@@ -14,24 +14,19 @@ class Paths {
 	private static var cachedText:Map<String, String> = new Map<String, String>();
 	private static var cachedFrames:Map<String, FlxFramesCollection> = new Map<String, FlxFramesCollection>();
 
-	public static inline function lImage(path:String):String {
+	public static inline function image(path:String):String
 		return 'assets/images/$path.png';
-	}
 
-	public static inline function lMusic(path:String):String {
-		return 'assets/music/$path.$SOUND_FORMAT';
-	}
-
-	public static inline function lSound(path:String):String {
+	public static inline function sound(path:String):String
 		return 'assets/sounds/$path.$SOUND_FORMAT';
-	}
 
-	public static inline function playableSong(path:String, retVoices:Bool = false):String {
-		var endingStr:String = retVoices ? 'voices' : 'inst';
-		return 'assets/music/songs/${path.toLowerCase()}/$endingStr.$SOUND_FORMAT';
-	}
+	public static inline function music(path:String):String
+		return 'assets/music/$path.$SOUND_FORMAT';
 
-	public static function lSparrow(path:String, ?prePath:String = 'assets/images/'):FlxFramesCollection {
+	public static inline function playableSong(path:String, voices:Bool = false):String
+		return 'assets/music/songs/${path.toLowerCase()}/${voices ? "voices" : "inst"}.$SOUND_FORMAT';
+
+	public static function sparrow(path:String, ?prePath:String = 'assets/images/'):FlxFramesCollection {
 		var fStr = '$prePath$path';
 
 		if (!Settings.cache_assets)
@@ -47,7 +42,7 @@ class Paths {
 		return tmp;
 	}
 
-	public static function lText(path:String, ?prePath:String = 'assets/data/'):String {
+	public static function text(path:String, ?prePath:String = 'assets/data/'):String {
 		if (!Settings.cache_assets)
 			return Assets.getText(prePath + path).replace('\r', '');
 
@@ -59,17 +54,5 @@ class Paths {
 
 		cachedText.set(path, tmp);
 		return tmp;
-	}
-
-	//////////////////////////////////////
-
-	public static function clearCache(){
-		if (Settings.cache_assets) 
-				return;
-
-		Assets.cache.clear();
-		openfl.utils.Assets.cache.clear();
-		cachedFrames.clear();
-		cachedText.clear();
 	}
 }

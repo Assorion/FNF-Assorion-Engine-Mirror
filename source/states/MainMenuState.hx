@@ -22,9 +22,7 @@ class MainMenuState extends EventState {
 	private var itemWasSelected:Bool;
 
 	override function create() {
-		Paths.clearCache();
-
-		var bg:StaticSprite = new StaticSprite(-80).loadGraphic(Paths.lImage('ui/defaultMenuBackground'));
+		var bg:StaticSprite = new StaticSprite(-80).loadGraphic(Paths.image('ui/defaultMenuBackground'));
 		bg.scrollFactor.x = 0;
 		bg.scrollFactor.y = 0.18 * (3 / OPTIONS.length);
 		bg.setGraphicSize(Std.int(bg.width * 1.1));
@@ -46,14 +44,14 @@ class MainMenuState extends EventState {
 		for(i in 0...OPTIONS.length) {
 			var menuItem:FlxSprite = new FlxSprite(0, 0);
 
-			menuItem.frames = Paths.lSparrow('ui/${OPTIONS[i]}');
+			menuItem.frames = Paths.sparrow('ui/${OPTIONS[i]}');
 			menuItem.animation.addByPrefix('idle',	   'idle', 8);
 			menuItem.animation.addByPrefix('selected', 'selected', 24);
 			menuItem.animation.play('idle');
 
 			menuItem.screenCenter();
 			menuItem.scrollFactor.set();
-			menuItem.y += (i - Math.floor(OPTIONS.length / 2) + (OPTIONS.length & 1 == 0 ? 0.5 : 0)) * 160;
+			menuItem.y += (i - Math.floor(OPTIONS.length / 2) + [0.5, 0][OPTIONS.length % 2]) * 160;
 
 			menuItems.add(menuItem);
 		}
@@ -89,7 +87,7 @@ class MainMenuState extends EventState {
 				if (!itemWasSelected){
 					leaving = true;
 
-					FlxG.sound.play(Paths.lSound('ui/cancelMenu'));
+					FlxG.sound.play(Paths.sound('ui/cancelMenu'));
 					EventState.changeState(new TitleState(false));
 					return;
 				}
@@ -114,7 +112,7 @@ class MainMenuState extends EventState {
 			return;
 		}
 		
-		FlxG.sound.play(Paths.lSound('ui/confirmMenu'));
+		FlxG.sound.play(Paths.sound('ui/confirmMenu'));
 		itemWasSelected = true;
 
 		for(i in 0...OPTIONS.length)
@@ -123,7 +121,7 @@ class MainMenuState extends EventState {
 
 		for(i in 0...8)
 			postEvent(i / 8, function(){
-				menuItems.members[curSelected].alpha = (i & 1 == 0 ? 0 : 1);
+				menuItems.members[curSelected].alpha = i % 2;
 			});
 
 		postEvent(1, function() {
@@ -151,10 +149,10 @@ class MainMenuState extends EventState {
 		if (itemWasSelected)
 			return;
 
-		FlxG.sound.play(Paths.lSound('ui/scrollMenu'));
+		FlxG.sound.play(Paths.sound('ui/scrollMenu'));
 
 		var oldSel = curSelected;
-		curSelected = CoolUtil.intCircularMod(curSelected + to, menuItems.length);
+		curSelected = Utility.intCircularMod(curSelected + to, menuItems.length);
 
 		var newItem = menuItems.members[curSelected];
 		var oldItem = menuItems.members[oldSel];

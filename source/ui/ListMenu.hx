@@ -33,7 +33,7 @@ class ListMenu extends EventState {
 	private var backgroundY:Float = -72;
 
 	private function addBG(red:Int, green:Int, blue:Int, ?sprite:String = "ui/defaultMenuBackground") {
-		background = new StaticSprite(0,-72).loadGraphic(Paths.lImage(sprite));
+		background = new StaticSprite(0,-72).loadGraphic(Paths.image(sprite));
 		background.scale.set(1.1, 1.1);
 		background.origin.set(0, 0);
 		background.screenCenter(X);
@@ -47,8 +47,8 @@ class ListMenu extends EventState {
 		add(listGroup);
 
 		if (FlxG.sound.music == null || !FlxG.sound.music.playing) {
-			Song.musicSet(Paths.MENU_TEMPO);
-			FlxG.sound.playMusic(Paths.lMusic(Paths.MENU_MUSIC));
+			Song.configure(Paths.MENU_TEMPO);
+			FlxG.sound.playMusic(Paths.music(Paths.MENU_MUSIC));
 		}
 	}
 
@@ -117,11 +117,11 @@ class ListMenu extends EventState {
 	public function altChange(change:Int = 0) {}
 
 	public function changeSelection(to:Int = 0) {
-		curSel = CoolUtil.intCircularMod(curSel + to, listItems.length);
+		curSel = Utility.intCircularMod(curSel + to, listItems.length);
 		backgroundY = (curSel / listItems.length) * 72;
 		backgroundY -= 72;
 
-		FlxG.sound.play(Paths.lSound('ui/scrollMenu'));
+		FlxG.sound.play(Paths.sound('ui/scrollMenu'));
 
 		for(i in 0...listItems.length){
 			var item = listItems[i];
@@ -139,6 +139,6 @@ class ListMenu extends EventState {
 			return;
 
 		EventState.changeState(new MainMenuState());
-		FlxG.sound.play(Paths.lSound('ui/cancelMenu'));
+		FlxG.sound.play(Paths.sound('ui/cancelMenu'));
 	}
 }

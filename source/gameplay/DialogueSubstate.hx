@@ -48,7 +48,7 @@ class DialogueSubstate extends EventSubstate {
 		characterSpriteGroup = new FlxTypedGroup<StaticSprite>();
 		add(characterSpriteGroup);
 
-		dialogueBGSprite = new StaticSprite(0,0).loadGraphic(Paths.lImage('gameplay/dialogueBox'));
+		dialogueBGSprite = new StaticSprite(0,0).loadGraphic(Paths.image('gameplay/dialogueBox'));
 		dialogueBGSprite.screenCenter();
 		dialogueBGSprite.y += 200;
 		dialogueBGSprite.alpha = 0;
@@ -72,7 +72,7 @@ class DialogueSubstate extends EventSubstate {
 	public function changeSlide(slideNumber:Int, playSound:Bool) {
 		currentSlide = slideNumber;
 		if (playSound)
-			FlxG.sound.play(Paths.lSound('ui/clickText'));
+			FlxG.sound.play(Paths.sound('ui/clickText'));
 		
 		while(events.length > 0)
 			events.pop();
@@ -96,7 +96,7 @@ class DialogueSubstate extends EventSubstate {
 				characterSpriteGroup.add(characterSprites[i]);
 			}
 
-			characterSprites[i].loadGraphic(Paths.lImage('gameplay/characters/${totalSlides[currentSlide].characters[i].portrait}'));
+			characterSprites[i].loadGraphic(Paths.image('gameplay/characters/${totalSlides[currentSlide].characters[i].portrait}'));
 			characterSprites[i].screenCenter();
 			characterSprites[i].y -= 20;
 			characterSprites[i].x += totalSlides[currentSlide].characters[i].centerOffsetX;
@@ -107,7 +107,7 @@ class DialogueSubstate extends EventSubstate {
 		for(i in 0...splitCharacters.length)			
 			postEvent(totalSlides[currentSlide].speed * (i + 1), function(){
 				dialogueText.text += splitCharacters[i];
-				FlxG.sound.play(Paths.lSound('ui/pixelText'));
+				FlxG.sound.play(Paths.sound('ui/pixelText'));
 			}); 
 		
 	}

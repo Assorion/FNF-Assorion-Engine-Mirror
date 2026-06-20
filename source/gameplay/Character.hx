@@ -43,9 +43,9 @@ class Character extends FlxSprite {
 
 		this.isPlayer = isPlayer;
 		curCharacter  = character;
-		frames = Paths.lSparrow('gameplay/characters/$character');
+		frames = Paths.sparrow('gameplay/characters/$character');
 
-		var charData:CharacterData = cast Json.parse(Paths.lText('characters/${character}.json'));
+		var charData:CharacterData = cast Json.parse(Paths.text('characters/${character}.json'));
 		idlingSpeed   = charData.idleSpeed;
 		leftRightIdle = charData.leftRightIdle;
 		flipX		  = charData.flipX;

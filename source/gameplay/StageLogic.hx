@@ -59,25 +59,25 @@ class DemoStage {
 	public function new(stage:StageLogic){
 		FlxG.camera.zoom = 0.9;
 
-		var bg:StaticSprite = new StaticSprite(-600, -200).loadGraphic(Paths.lImage('gameplay/stages/demo/stageback'));
+		var bg:StaticSprite = new StaticSprite(-600, -200).loadGraphic(Paths.image('gameplay/stages/demo/stageback'));
 		bg.setGraphicSize(Std.int(bg.width * 2));
 		bg.updateHitbox();
 		bg.scrollFactor.set(0.9, 0.9);
 		stage.add(bg);
 
-		var stageFront:StaticSprite = new StaticSprite(-650, 600).loadGraphic(Paths.lImage('gameplay/stages/demo/stagefront'));
+		var stageFront:StaticSprite = new StaticSprite(-650, 600).loadGraphic(Paths.image('gameplay/stages/demo/stagefront'));
 		stageFront.setGraphicSize(Std.int(stageFront.width * 2.2));
 		stageFront.updateHitbox();
 		stageFront.scrollFactor.set(0.9, 0.9);
 		stage.add(stageFront);
 
-		var curtainLeft:StaticSprite = new StaticSprite(-500, -165).loadGraphic(Paths.lImage('gameplay/stages/demo/curtainLeft'));
+		var curtainLeft:StaticSprite = new StaticSprite(-500, -165).loadGraphic(Paths.image('gameplay/stages/demo/curtainLeft'));
 		curtainLeft.setGraphicSize(Std.int(curtainLeft.width * 1.8));
 		curtainLeft.updateHitbox();
 		curtainLeft.scrollFactor.set(1.3, 1.3);
 		stage.add(curtainLeft);
 
-		var curtainRight:StaticSprite = new StaticSprite(1406, -165).loadGraphic(Paths.lImage('gameplay/stages/demo/curtainRight'));
+		var curtainRight:StaticSprite = new StaticSprite(1406, -165).loadGraphic(Paths.image('gameplay/stages/demo/curtainRight'));
 		curtainRight.setGraphicSize(Std.int(curtainRight.width * 1.8));
 		curtainRight.updateHitbox();
 		curtainRight.scrollFactor.set(1.3, 1.3);

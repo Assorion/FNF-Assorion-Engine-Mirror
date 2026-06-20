@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.util.FlxColor;
 import flixel.input.keyboard.FlxKey;
 
+import backend.Chart;
 import backend.Song;
 import ui.Alphabet;
 import ui.ListMenu;
@@ -32,7 +33,7 @@ class FreeplayState extends ListMenu {
 	private var vocals:FlxSound;
 
 	override function create() {
-		songList  = cast haxe.Json.parse(Paths.lText('freeplaySongList.json'));
+		songList  = cast haxe.Json.parse(Paths.text('freeplaySongList.json'));
 		descBG    = new StaticSprite(0, FlxG.height - 30).makeGraphic(1280, 30, FlxColor.BLACK);
 		descText  = new FormattedText(5, FlxG.height - 25, 0, "", null, 20);
 		scoreBG   = new StaticSprite(0, 0).makeGraphic(128, 66, 0xFF000000);
@@ -59,10 +60,10 @@ class FreeplayState extends ListMenu {
 	}
 
 	override function altChange(change:Int = 0){
-		curDifficulty = CoolUtil.intCircularMod(curDifficulty + change, Song.DIFFICULTIES.length);
+		curDifficulty = Utility.intCircularMod(curDifficulty + change, Chart.DIFFICULTIES.length);
 
-		diffText.text = '<- ${Song.DIFFICULTIES[curDifficulty].toUpperCase()} ->';
-		scoreText.text = 'PERSONAL BEST: ${Song.getScore(songList[curSel].name, curDifficulty)}';
+		diffText.text = '<- ${Chart.DIFFICULTIES[curDifficulty].toUpperCase()} ->';
+		scoreText.text = 'PERSONAL BEST: ${Chart.getScore(songList[curSel].name, curDifficulty)}';
 
 		scoreBG.scale.x = (scoreText.width + 10) / scoreBG.frameWidth;
 		scoreBG.updateHitbox();
@@ -87,9 +88,9 @@ class FreeplayState extends ListMenu {
 				playing = !playing;
 
 				if (playing){
-					FlxG.sound.playMusic(Paths.lMusic(Paths.MENU_MUSIC));
+					FlxG.sound.playMusic(Paths.music(Paths.MENU_MUSIC));
 					FlxG.sound.music.time = prevTime;
-					Song.musicSet(Paths.MENU_TEMPO);
+					Song.configure(Paths.MENU_TEMPO);
 
 					if (vocals == null) 
 						return;
@@ -115,7 +116,7 @@ class FreeplayState extends ListMenu {
 				PlayState.curDifficulty = curDifficulty;
 				PlayState.storyWeek     = -1;
 				PlayState.totalScore    = 0;
-				PlayState.songData      = Song.loadFromJson(songList[curSel].name, curDifficulty);
+				PlayState.songData      = Chart.loadFromJson(songList[curSel].name, curDifficulty);
 				EventState.changeState(new PlayState());
 				FlxG.sound.music.stop();
 

@@ -4,7 +4,13 @@ import openfl.display.BitmapData;
 import flixel.FlxG;
 import flixel.util.FlxColor;
 
-class CoolUtil {
+#if (flixel < "5.3.0")
+typedef FlxSound = flixel.system.FlxSound;
+#else
+typedef FlxSound = flixel.sound.FlxSound;
+#end
+
+class Utility {
 	// Clamps a value to be between two other values.
 	public static function clamp(val:Float, min:Float, max:Float):Float
 		return Math.min(Math.max(val, min), max);
@@ -22,16 +28,7 @@ class CoolUtil {
 
 	public static function intCircularMod(value:Int, mod:Int):Int
 		return (value + mod) % mod;
-
 	
-	// Cross Platform method for returning the exact time in ticks
-	public static function getCurrentTime()
-		#if desktop 
-		return Sys.time();
-		#else
-		return Date.now().getTime() * 0.001;
-		#end
-
 	// Converts the OpenFL/Flixel key code into it's string variant.
 	public static function keyCodeToString(keyCode:Int, literal:Bool = false):String {
 		switch(keyCode){

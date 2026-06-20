@@ -53,8 +53,7 @@ class Main extends Sprite {
 		Settings.framerate = 60;
 		#end
 		
-		// Icon fix. Credits to Psych Engine.
-		#if linux
+		#if linux // Icon fix. Credits to Psych Engine.
 		Lib.current.stage.window.setIcon(lime.graphics.Image.fromFile("icon.png"));
 		#end
 		

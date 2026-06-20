@@ -17,7 +17,7 @@ class StrumNote extends FlxSprite {
 	public function new(X:Float, Y:Float, directions:Array<String>, data:Int = 0, player:Int = 0, isPlayer:Bool = false){
 		super(X,Y);
 		
-		frames = Paths.lSparrow('gameplay/noteAssets');
+		frames = Paths.sparrow('gameplay/noteAssets');
 
 		animation.addByPrefix('static', 'arrow' + directions[data]);
 		animation.addByPrefix('press', Note.NOTE_COLOURS[data] + ' press'  , 24, false);

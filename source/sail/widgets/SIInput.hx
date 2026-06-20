@@ -48,7 +48,7 @@ class SIInput extends SIGeneric {
 	}
 
 	public function keyHit(ev:KeyboardEvent) {
-		var keyStr = backend.CoolUtil.keyCodeToString(ev.keyCode, true).toLowerCase();
+		var keyStr = backend.Utility.keyCodeToString(ev.keyCode, true).toLowerCase();
 
 		if (ev.keyCode == FlxKey.ENTER)
 			master.changeLastComponent(null);

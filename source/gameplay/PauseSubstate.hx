@@ -8,6 +8,7 @@ import flixel.util.FlxColor;
 import flixel.tweens.FlxTween;
 
 import backend.Song;
+import backend.Chart;
 import ui.Alphabet;
 import ui.ListMenu;
 import ui.NewTransition;
@@ -32,7 +33,7 @@ class PauseSubstate extends EventSubstate {
 
 		playState = ps;	
 
-		pauseMusic = new FlxSound().loadEmbedded(Paths.lMusic('gameplay/breakfast'), true, true);
+		pauseMusic = new FlxSound().loadEmbedded(Paths.music('gameplay/breakfast'), true, true);
 		pauseMusic.volume = 0;
 		pauseMusic.play();
 		FlxG.sound.list.add(pauseMusic);
@@ -79,7 +80,7 @@ class PauseSubstate extends EventSubstate {
 		'SONG: ${PlayState.songData.name.toUpperCase()}' +
 		' | WEEK: ${PlayState.storyWeek >= 0 ? Std.string(PlayState.storyWeek + 1) : "FREEPLAY"}' +
 		' | BOTPLAY: ${Settings.botplay ? "YES" : "NO"}' +
-		' | DIFFICULTY: ${Song.DIFFICULTIES[PlayState.curDifficulty].toUpperCase()}' +
+		' | DIFFICULTY: ${Chart.DIFFICULTIES[PlayState.curDifficulty].toUpperCase()}' +
 		' | ';
 		pauseText.text = '$coolString$coolString$coolString';
 	}
@@ -114,8 +115,8 @@ class PauseSubstate extends EventSubstate {
 	}
 
 	private function changeSelection(change:Int = 0) {
-		FlxG.sound.play(Paths.lSound('ui/scrollMenu'), 0.4);
-		curSelected = CoolUtil.intCircularMod(curSelected + change, OPTION_LIST.length);
+		FlxG.sound.play(Paths.sound('ui/scrollMenu'), 0.4);
+		curSelected = Utility.intCircularMod(curSelected + change, OPTION_LIST.length);
 
 		for(i in 0...alphaTexts.length){
 			var item = alphaTexts[i];

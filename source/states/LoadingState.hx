@@ -69,7 +69,7 @@ class LoadingState extends FlxState {
 			remove(tmpImg);
 		case 'xml':
 			var tmpImg:FlxSprite = new FlxSprite(0,0);
-			tmpImg.frames = Paths.lSparrow(objectPath.substring(0, objectPath.length - 4), '');
+			tmpImg.frames = Paths.sparrow(objectPath.substring(0, objectPath.length - 4), '');
 			tmpImg.graphic.persist = true;
 			tmpImg.graphic.destroyOnNoUse = false;
 
@@ -83,7 +83,7 @@ class LoadingState extends FlxState {
 			sound.play();
 			sound.stop();
 		case 'txt', 'json':
-			Paths.lText(objectPath, '');
+			Paths.text(objectPath, '');
 		}
 
 	private var index:Int = 0;

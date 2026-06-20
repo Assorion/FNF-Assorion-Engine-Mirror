@@ -41,18 +41,18 @@ class TitleState extends EventState {
 	}
 
 	override public function create() {
-		allIntroTexts = cast haxe.Json.parse(Paths.lText('introText.json'));
+		allIntroTexts = cast haxe.Json.parse(Paths.text('introText.json'));
 
 		for(i in 0...TEXT_SEQUENCE.length) 
 			if (TEXT_SEQUENCE[i][0] == '%') 
-				TEXT_SEQUENCE[i] = allIntroTexts.splice(CoolUtil.randomRange(0, allIntroTexts.length - 1), 1)[0];
+				TEXT_SEQUENCE[i] = allIntroTexts.splice(Utility.randomRange(0, allIntroTexts.length - 1), 1)[0];
 
 		super.create();
 
 		if (!initialized) {
 			if (FlxG.sound.music == null || !FlxG.sound.music.playing) {
-				Song.musicSet(Paths.MENU_TEMPO);
-				FlxG.sound.playMusic(Paths.lMusic(Paths.MENU_MUSIC));
+				Song.configure(Paths.MENU_TEMPO);
+				FlxG.sound.playMusic(Paths.music(Paths.MENU_MUSIC));
 			}
 
 			FlxG.sound.volume = Settings.start_volume / 100;
@@ -61,17 +61,17 @@ class TitleState extends EventState {
 		}
 
 		funkinLogo = new FlxSprite(-150, -100);
-		funkinLogo.frames = Paths.lSparrow('titleScreen/logoBumpin');
+		funkinLogo.frames = Paths.sparrow('titleScreen/logoBumpin');
 		funkinLogo.animation.addByPrefix('bump', 'logo bumpin', 24);
 		funkinLogo.updateHitbox();
 
 		gfDance = new FlxSprite(FlxG.width * 0.4, FlxG.height * 0.07);
-		gfDance.frames = Paths.lSparrow('titleScreen/gfDanceTitle');
+		gfDance.frames = Paths.sparrow('titleScreen/gfDanceTitle');
 		gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
 		gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
 
 		enterText = new FlxSprite(100, FlxG.height * 0.8);
-		enterText.frames = Paths.lSparrow('titleScreen/titleEnter');
+		enterText.frames = Paths.sparrow('titleScreen/titleEnter');
 		enterText.animation.addByPrefix('idle', "Press Enter to Begin", 24);
 		enterText.animation.addByPrefix('press', "ENTER PRESSED", 24);
 		enterText.updateHitbox();
@@ -112,7 +112,7 @@ class TitleState extends EventState {
 				if (skippedIntro) {
 					enterText.animation.play('press');
 					leaving = true;
-					FlxG.sound.play(Paths.lSound('ui/confirmMenu'));
+					FlxG.sound.play(Paths.sound('ui/confirmMenu'));
 					postEvent(1, function() { 
 						EventState.changeState(new MainMenuState()); 
 					});
@@ -123,7 +123,7 @@ class TitleState extends EventState {
 		]);
 
 	override function update(elapsed:Float){
-		FlxG.camera.zoom = CoolUtil.clamp(FlxG.camera.zoom - (elapsed * 0.5), 1, 2);
+		FlxG.camera.zoom = Utility.clamp(FlxG.camera.zoom - (elapsed * 0.5), 1, 2);
 
 		Song.update(FlxG.sound.music.time);
 		super.update(elapsed);
@@ -134,7 +134,7 @@ class TitleState extends EventState {
 	private function createCoolText(pos:Int, amount:Int, text:String) {
 		var txt:Alphabet = new Alphabet(0,0, text, true);
 		txt.screenCenter();
-		txt.y += (pos - Math.floor(amount / 2) + (amount & 1 == 0 ? 0.5 : 0)) * 75;
+		txt.y += (pos - Math.floor(amount / 2) + [0.5, 0][amount % 2]) * 75;
 
 		textGroup.add(txt);
 	}
@@ -167,7 +167,7 @@ class TitleState extends EventState {
 			return;
 		}
 
-		if (Song.currentBeat & 1 == 0)
+		if (Song.currentBeat % 2 == 0)
 			createCoolText(tsubStep, TEXT_SEQUENCE[textStep].length, TEXT_SEQUENCE[textStep][tsubStep++]);
 	}
 

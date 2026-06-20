@@ -27,7 +27,7 @@ class SettingsManager {
     public static var gSave:FlxSave;
 
     public static inline function framerateClamp(ch:Int):Int
-        return CoolUtil.intClamp(ch, 10, 340);
+        return Utility.intClamp(ch, 10, 340);
 
     public static function openSettings() {
         gSave = new FlxSave();
@@ -41,7 +41,7 @@ class SettingsManager {
                 Reflect.setField(Settings, key, settingsMap.get(key));
 
         Binds.loadControls(settingsMap);
-        Song.loadScores();
+        Chart.loadScores();
     }
     
     public static function apply(){

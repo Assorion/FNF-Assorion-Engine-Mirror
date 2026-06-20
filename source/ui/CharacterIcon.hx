@@ -20,8 +20,8 @@ class CharacterIcon extends FlxSprite {
 	}
 	
 	public function changeIcon(char:String, isPlayer:Bool){
-		var path = Paths.lImage('icons/$char');
-		loadGraphic(Assets.exists(path) ? path : Paths.lImage('icons/face'), true, 150, 150);
+		var path = Paths.image('icons/$char');
+		loadGraphic(Assets.exists(path) ? path : Paths.image('icons/face'), true, 150, 150);
 
 		animation.add('neutral', [0], 0, false, isPlayer);
 		animation.add('losing',  [1], 0, false, isPlayer);

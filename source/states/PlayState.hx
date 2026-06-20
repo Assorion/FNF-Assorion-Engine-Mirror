@@ -12,6 +12,7 @@ import flixel.input.keyboard.FlxKey;
 import openfl.utils.Assets;
 
 import backend.Song;
+import backend.Chart;
 import ui.CharacterIcon;
 import gameplay.*;
 
@@ -46,7 +47,7 @@ class PlayState extends EventState {
 			asset: 'superbad'
 		}];
 
-	public static var songData:SongData;
+	public static var songData:ChartData;
 	public static var storyWeek:Int = -1; // If story week is less than 0, we're in free play.
 	public static var storyPlaylist:Array<String> = [];
 	public static var curDifficulty:Int = 1;
@@ -85,7 +86,7 @@ class PlayState extends EventState {
 	override public function create() {
 		// Song setup
 		songData.name = songData.name.toLowerCase();
-		Song.musicSet(songData.BPM);
+		Song.configure(songData.BPM);
 
 		vocals = new FlxSound();
 		if (songData.hasVoices)
@@ -126,7 +127,7 @@ class PlayState extends EventState {
 		// UI setup
 		var baseY:Int = Settings.downscroll ? 80 : 650;
 
-		healthBarBG = new StaticSprite(0, baseY).loadGraphic(Paths.lImage('gameplay/healthBar'));
+		healthBarBG = new StaticSprite(0, baseY).loadGraphic(Paths.image('gameplay/healthBar'));
 		healthBarBG.screenCenter(X);
 		healthBarBG.scrollFactor.set();
 
@@ -225,11 +226,11 @@ class PlayState extends EventState {
 		];
  
 		for(i in 0...4){
-			var snd:FlxSound = new FlxSound().loadEmbedded(Paths.lSound('gameplay/' + introAssets[1][i]));
+			var snd:FlxSound = new FlxSound().loadEmbedded(Paths.sound('gameplay/' + introAssets[1][i]));
 			snd.volume = 0.6;
 			introSounds[i] = snd;
 
-			var spr:StaticSprite = new StaticSprite().loadGraphic(Paths.lImage('gameplay/${introAssets[0][i]}'));
+			var spr:StaticSprite = new StaticSprite().loadGraphic(Paths.image('gameplay/${introAssets[0][i]}'));
 			if (introAssets[0][i] == '')
 				spr.alpha = 0;
 
@@ -279,9 +280,9 @@ class PlayState extends EventState {
 		#end
 
 		var sec:SectionData = songData.sections[Song.currentBeat >> 2]; // Same result as 'Math.floor(Song.currentBeat / 4)'
-		if (Song.currentBeat & 3 == 0 && FlxG.sound.music.playing){   // Same result as 'Song.currentBeat % 4 == 0'
+		if (Song.currentBeat % 4 == 0 && FlxG.sound.music.playing){   // Same result as 'Song.currentBeat % 4 == 0'
 			var currentlyFacing:Int = (sec != null ? cast(sec.cameraFacing, Int) : 0);
-			var char = allCharacters[CoolUtil.intClamp(currentlyFacing, 0, songData.characters.length - 1)];
+			var char = allCharacters[Utility.intClamp(currentlyFacing, 0, songData.characters.length - 1)];
 
 			followPos.x = char.getMidpoint().x + char.camOffset[0];
 			followPos.y = char.getMidpoint().y + char.camOffset[1];
@@ -289,7 +290,7 @@ class PlayState extends EventState {
 	}
 
 	public function stepHit() 
-		if (Song.currentStep & 1 == 0 && FlxG.sound.music.playing)
+		if (Song.currentStep % 2 == 0 && FlxG.sound.music.playing)
 			stepTime = (Song.millisecond * Song.division * 0.25) + (stepTime * 0.75);
 
 
@@ -390,11 +391,11 @@ class PlayState extends EventState {
 	private var iconSpacing:Int = 52;
 	public function updateHealth(change:Int) {
 		var fcText:String = ['?', 'SFC', 'GFC', 'FC', '(Bad) FC', 'SDCB', 'Clear'][fcValue];
-		var accuracy:Float = CoolUtil.clamp(Math.floor((songScore * 100) / ((hitCount + missCount) * 3.5)) * 0.01, 0, 100);
+		var accuracy:Float = Utility.clamp(Math.floor((songScore * 100) / ((hitCount + missCount) * 3.5)) * 0.01, 0, 100);
 		scoreTxt.text = !Settings.botplay ? 'Notes Hit: $hitCount | Notes Missed: $missCount | Accuracy: $accuracy% - $fcText | Score: $songScore' : 'BOTPLAY';
 		scoreTxt.screenCenter(X);
 		
-		health = CoolUtil.intClamp(health + change, 0, 100);
+		health = Utility.intClamp(health + change, 0, 100);
 		healthBar.percent = health;
 		
 		var iconsMiddle = ((0 - ((health - 50) * 0.01)) * healthBar.width) + 565;
@@ -452,7 +453,7 @@ class PlayState extends EventState {
 		missCount++;
 		fcValue = missCount >= 10 ? 6 : 5;
 
-		FlxG.sound.play(Paths.lSound('gameplay/missNote' + CoolUtil.randomRange(1, 3)), 0.2);
+		FlxG.sound.play(Paths.sound('gameplay/missNote' + Utility.randomRange(1, 3)), 0.2);
 		allCharacters[playerIndex].playAnim('sing' + SING_DIRECTIONS[direction] + 'miss');
 
 		updateHealth(-10);
@@ -471,7 +472,7 @@ class PlayState extends EventState {
 		FlxG.sound.music.stop();
 		vocals.stop();
 
-		Song.saveScore(songData.name, songScore, curDifficulty);
+		Chart.saveScore(songData.name, songScore, curDifficulty);
 
 		if (storyWeek == -1){ 
 			exitPlayState();
@@ -482,12 +483,12 @@ class PlayState extends EventState {
 		storyPlaylist.shift();
 
 		if (storyPlaylist.length <= 0){ // If the story week is out of songs
-			Song.saveScore('week-$storyWeek', totalScore, curDifficulty);
+			Chart.saveScore('week-$storyWeek', totalScore, curDifficulty);
 			exitPlayState();
 			return;
 		}
 
-		songData = Song.loadFromJson(storyPlaylist[0], curDifficulty);
+		songData = Chart.loadFromJson(storyPlaylist[0], curDifficulty);
 		EventState.changeState(new PlayState());
 	}
 

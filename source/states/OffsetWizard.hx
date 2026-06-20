@@ -1,5 +1,6 @@
 package states;
 
+import haxe.Timer;
 import openfl.display.BitmapData;
 import openfl.geom.Rectangle;
 import flixel.FlxG;
@@ -27,15 +28,15 @@ class OffsetWizard extends EventState {
 	override public function create(){
 		super.create();
 		
-		FlxG.sound.playMusic(Paths.lMusic('ui/offsetSong'));
+		FlxG.sound.playMusic(Paths.music('ui/offsetSong'));
 		FlxG.sound.music.looped = false;
 		FlxG.sound.pause();
-		Song.musicSet(115);
+		Song.configure(115);
 
 		oldOffset = Settings.audio_offset;
 		Settings.audio_offset = 0;
 
-		var bgImage:StaticSprite = new StaticSprite(0,0).loadGraphic(Paths.lImage("ui/defaultMenuBackground"));
+		var bgImage:StaticSprite = new StaticSprite(0,0).loadGraphic(Paths.image("ui/defaultMenuBackground"));
 		bgImage.color = FlxColor.fromRGB(110, 120, 255);
 		
 		infoText = new FormattedText(0, 0, 0, "Tap a key to the beat until the short song is over.\nIt is recommended to do this with your eyes closed.", null, 30, 0xFFFFFFFF, CENTER, OUTLINE);
@@ -64,8 +65,8 @@ class OffsetWizard extends EventState {
 	}
 
 	function stepHit() {
-		if ((Song.currentStep - 2) & 3 == 0)
-			lastBeatTime = CoolUtil.getCurrentTime() + (Song.crochet * 0.0005);
+		if ((Song.currentStep - 2) % 4 == 0)
+			lastBeatTime = Timer.stamp() + (Song.crochet * 0.0005);
 
 		if (Song.currentStep <= 132)
 			return;
@@ -100,7 +101,7 @@ class OffsetWizard extends EventState {
 		countdownHappening = true;
 
 		for(i in 0...4){	
-			var snd:FlxSound = new FlxSound().loadEmbedded(Paths.lSound('gameplay/' + introSounds[i]));
+			var snd:FlxSound = new FlxSound().loadEmbedded(Paths.sound('gameplay/' + introSounds[i]));
 			FlxG.sound.list.add(snd);
 			snd.volume = 0.6;
 
@@ -120,7 +121,7 @@ class OffsetWizard extends EventState {
 
 			activelyListening = true;
 			countdownHappening = false;
-			lastBeatTime = CoolUtil.getCurrentTime();
+			lastBeatTime = Timer.stamp();
 			Song.stepHooks.push(stepHit);
 		});
 	}
@@ -157,7 +158,7 @@ class OffsetWizard extends EventState {
 		if (!activelyListening)
 			return;
 		
-		var tappedOffset:Float = (CoolUtil.getCurrentTime() - lastBeatTime) * 1000;
+		var tappedOffset:Float = (Timer.stamp() - lastBeatTime) * 1000;
 		hitOffsets.push(tappedOffset);
 
 		offsetText.text = 'Last hit: ${Math.round(tappedOffset)}ms';

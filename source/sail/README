@@ -1,0 +1,17 @@
+== SAIL (Simple Assorion [User] Interface Layer) ==
+
+This is mostly here to replace Flixel UI, and drop
+the dependency count down to three (Lime, OpenFL,
+and Flixel).
+
+Unfortunately it adds another folder to the source
+code but ultimately should be worth it as building
+custom interfaces is probably easier.
+
+===================================================
+
+For those potentially cruising the source code:
+SAIL doesn't contain any gameplay stuff, this is
+entirely for the custom (chart) interface.
+
+===================================================

@@ -6,7 +6,7 @@ import flixel.group.FlxSpriteGroup;
 using StringTools;
 
 class Alphabet extends FlxSpriteGroup {
-	public var text(default, set):String = "";
+	public var text:String = '';
 	public var isBold:Bool = false;
 
 	private var letterOffset:Float = 0;
@@ -15,10 +15,18 @@ class Alphabet extends FlxSpriteGroup {
 		super(x, y);
 
 		isBold = bold;
-		text = str;
+		setText(str);
 	}
 
-	public function addText()
+	public function setText(value:String) {
+		clear();
+
+		text = value;
+		letterOffset = 0;
+		addText();
+	}
+
+	private function addText()
 		for(character in text.split('')) {
 			if (' -_'.contains(character) || !AlphaCharacter.completeList.contains(character)) {
 				letterOffset += 40;
@@ -30,16 +38,6 @@ class Alphabet extends FlxSpriteGroup {
 
 			add(letter);
 		}
-
-	private function set_text(value:String){
-		clear();
-
-		text = value;
-		letterOffset = 0;
-		addText();
-
-		return value;
-	}
 }
 
 class AlphaCharacter extends FlxSprite {

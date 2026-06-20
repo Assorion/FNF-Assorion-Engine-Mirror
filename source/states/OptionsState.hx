@@ -139,7 +139,7 @@ class OptionsState extends ListMenu {
 			return;
 		}
 
-		secondaryColumn[curSel].text = Std.string(Reflect.field(Settings, currentOption));
+		secondaryColumn[curSel].setText(Std.string(Reflect.field(Settings, currentOption)));
 		changeSelection(0);
 	}
 
@@ -205,7 +205,7 @@ class OptionsState extends ListMenu {
 		}
 
 		var value:Bool = cast(Reflect.field(Settings, currentOption), Bool);
-		secondaryColumn[curSel].text = value ? 'on' : 'off';
+		secondaryColumn[curSel].setText(value ? 'on' : 'off');
 		changeSelection(0);
 	}
 }

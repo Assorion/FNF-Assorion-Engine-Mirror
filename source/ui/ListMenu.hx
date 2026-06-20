@@ -19,9 +19,6 @@ typedef MenuObject = {
 }
 
 class ListMenu extends EventState {
-	/*
-		Configure menu spacings. This applies to PauseSubstate as well.
-	*/
 	public static inline var X_OFFSET:Int  = 90;
 	public static inline var X_SPACING:Int = 20;
 	public static inline var Y_OFFSET:Int  = 345;

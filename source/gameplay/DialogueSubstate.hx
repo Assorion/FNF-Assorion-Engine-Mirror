@@ -103,7 +103,6 @@ class DialogueSubstate extends EventSubstate {
 			characterSprites[i].alpha = totalSlides[currentSlide].characters[i].alpha;
 		}
 
-		// We use Assorion delayed event system to generate the text
 		var splitCharacters:Array<String> = totalSlides[currentSlide].text.split('');
 		for(i in 0...splitCharacters.length)			
 			postEvent(totalSlides[currentSlide].speed * (i + 1), function(){

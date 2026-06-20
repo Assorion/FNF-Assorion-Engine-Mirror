@@ -166,7 +166,7 @@ Minor update to address a few bugs and issues. The only major change is adding a
 5. **Allow pausing during countdown in PlayState**
 6. **Corrected strum arrow positioning due to a mistake**
 
-## V - 1.3.0
+## Version 1.3.0 (Major) (Beta)
 
 1. Defaulted camera BG alpha to 0. Might be faster.
 2. Overhauled cachingstate. Added a progress bar for it

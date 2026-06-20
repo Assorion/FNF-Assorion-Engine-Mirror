@@ -26,7 +26,7 @@ typedef RatingData = {
 class PlayState extends EventState {
 	public static inline final KEY_COUNT:Int = 4;
 	public static inline final INPUT_RANGE:Float = 1.25; // Input range is measured in steps (16th notes)
-	public final  SING_DIRECTIONS:Array<String> = ['LEFT', 'DOWN', 'UP', 'RIGHT'];
+	public final SING_DIRECTIONS:Array<String> = ['LEFT', 'DOWN', 'UP', 'RIGHT'];
 	public final BIND_ARRAY:Array<Array<Int>> = [Binds.note_left, Binds.note_down, Binds.note_up, Binds.note_right];
 	public final POSSIBLE_SCORES:Array<RatingData> = [{
 			score: 350,  

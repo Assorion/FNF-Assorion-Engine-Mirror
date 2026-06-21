@@ -39,12 +39,12 @@ class SIGeneric {
 	public var ignoreSpacing:Bool;
 
 	public function new(?relativeSide:SISide = UNDER, ?defaultCorner:SIDiagonal = TOPLEFT, ?reference:SIGeneric
-	, width:Int, ?height:Null<Int>, ?container:SIContainer = null) {
+	, width:Int, ?height:Int = COMPONENT_HEIGHT, ?container:SIContainer = null) {
 		this.relativeSide  = relativeSide;
 		this.defaultCorner = defaultCorner;
 		this.reference     = reference;
 		w = width;
-		h = height ?? COMPONENT_HEIGHT;
+		h = height;
 
 		sprGroup = new FlxSpriteGroup();
 

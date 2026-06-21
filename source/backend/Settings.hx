@@ -1,7 +1,6 @@
 package backend;
 
 import flixel.FlxG;
-import flixel.FlxSprite;
 import flixel.util.FlxSave;
 import flixel.graphics.FlxGraphic;
 
@@ -37,7 +36,7 @@ class SettingsManager {
         var settingsItems:Array<String> = Type.getClassFields(Settings);
 
         for(key in settingsMap.keys())
-            if (settingsItems.contains(key))
+            if (settingsItems.indexOf(key) >= 0)
                 Reflect.setField(Settings, key, settingsMap.get(key));
 
         Binds.loadControls(settingsMap);
@@ -46,7 +45,6 @@ class SettingsManager {
     
     public static function apply(){
         FlxGraphic.defaultPersist = Settings.cache_assets;
-		FlxSprite.defaultAntialiasing = Settings.antialiasing;
         FlxG.updateFramerate = FlxG.drawFramerate = framerateClamp(Settings.framerate);
 
         Main.changeUsefulInfo(Settings.useful_info);

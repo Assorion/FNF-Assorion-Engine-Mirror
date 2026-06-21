@@ -45,8 +45,8 @@ The engine also uses "camel case" for every variable, function, and even the ass
 Assorion really only has the code to acheive the bare minimum (+ the Assorion UI Layer). Thus it's code is easily moddable/replacable. On it's own it doesn't really do much at all. But the idea is to get out of the way, in order to make ambitious changes as easy as possible.
 
 **3. Easier to compile:**  
-Assorion Engine is very lenient when it comes to compiling. There are only 3 dependiences (3 if HXCPP is counted) which
-the engine needs to compile. The game will also compile with practically any version of Haxe 4, and Flixel 5.0.0 up to latest.
+Assorion Engine is very lenient when it comes to compiling. There are only 3 dependiences (4 if HXCPP is counted) which
+the engine needs to compile. The game will also compile with all versions of Haxe 4, and Flixel 4.9.0 onwards.
 
 **4. Less hacky:**  
 Assorion Engine tries to stay as far away from weird, unintuitive, and hacky language features. Haxe may be a powerful programming language with a lot to offer, but using said features is not mandatory. It often makes the code far harder to understand and debug (especially for people getting started in programming).

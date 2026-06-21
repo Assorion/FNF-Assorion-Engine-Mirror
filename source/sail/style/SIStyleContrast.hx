@@ -25,7 +25,7 @@ class SIStyleContrast extends BitmapData implements SIStyle {
 		localRect.y = sY + THICKNESS;
 		localRect.width  = sW - (THICKNESS * 2);
 		localRect.height = sH - (THICKNESS * 2);
-		fillRect(localRect, fillColour ?? COLOUR_FG);
+		fillRect(localRect, fillColour != null ? fillColour : COLOUR_FG);
 	}
 
 	public function clear() {

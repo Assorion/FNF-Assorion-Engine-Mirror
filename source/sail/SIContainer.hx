@@ -50,9 +50,11 @@ class SIContainer extends SIGeneric {
 		for(i in 0...children.length) {
 			var child = children[i];
 
+			if (child.style == null)
+				child.style = master.style;
+
 			sprGroup.add(child.sprGroup);
 			child.master = master;
-			child.style = child.style ?? master.style;
 			child.x = child.sprGroup.x = findChildX(child);
 			child.y = child.sprGroup.y = findChildY(child);
 			child.redraw();

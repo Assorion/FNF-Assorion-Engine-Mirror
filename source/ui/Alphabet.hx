@@ -56,6 +56,7 @@ class AlphaCharacter extends FlxSprite {
 		super(x, y);
 
 		var tex = Paths.sparrow('ui/alphabet');
+		antialiasing = Settings.antialiasing;
 		frames = tex;
 		letter = char;
 

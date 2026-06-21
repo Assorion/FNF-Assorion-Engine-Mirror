@@ -8,8 +8,6 @@ class FormattedText extends FlxText {
 						colour:Int = 0xFFFFFFFF, ?defaultAlign:FlxTextAlign = LEFT, 
 						?defaultBorderStyle:FlxTextBorderStyle = NONE, ?borderColour:Int = 0xFF000000){
 		super(X, Y, Width, startText, size);
-
 		setFormat(fontFile, size, colour, defaultAlign, defaultBorderStyle, borderColour);	
-		antialiasing = false;
 	}
 }

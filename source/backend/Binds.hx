@@ -20,7 +20,7 @@ class Binds {
 		var bindsItems:Array<String> = Type.getClassFields(Binds);
 
 		for(key in map.keys())
-			if (bindsItems.contains(key))
+			if (bindsItems.indexOf(key) >= 0)
 				Reflect.setField(Binds, key, map.get(key));
 	}
 

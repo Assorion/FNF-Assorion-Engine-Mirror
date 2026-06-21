@@ -44,6 +44,7 @@ class MainMenuState extends EventState {
 		for(i in 0...OPTIONS.length) {
 			var menuItem:FlxSprite = new FlxSprite(0, 0);
 
+			menuItem.antialiasing = Settings.antialiasing;
 			menuItem.frames = Paths.sparrow('ui/${OPTIONS[i]}');
 			menuItem.animation.addByPrefix('idle',	   'idle', 8);
 			menuItem.animation.addByPrefix('selected', 'selected', 24);

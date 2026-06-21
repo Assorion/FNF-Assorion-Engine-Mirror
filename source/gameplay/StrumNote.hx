@@ -17,6 +17,7 @@ class StrumNote extends FlxSprite {
 	public function new(X:Float, Y:Float, directions:Array<String>, data:Int = 0, player:Int = 0, isPlayer:Bool = false){
 		super(X,Y);
 		
+		antialiasing = Settings.antialiasing;
 		frames = Paths.sparrow('gameplay/noteAssets');
 
 		animation.addByPrefix('static', 'arrow' + directions[data]);

@@ -6,6 +6,7 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
 class StaticSprite extends FlxSprite {
     public function new(?x:Float = 0, ?y:Float = 0 ){
         super(x,y,null);
+		antialiasing = Settings.antialiasing;
         active = false;
     }
     override public function update(elasped:Float){}

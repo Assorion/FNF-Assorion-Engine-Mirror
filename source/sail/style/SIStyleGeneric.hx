@@ -31,7 +31,7 @@ class SIStyleGeneric implements SIStyle extends BitmapData {
 		var rightColour = indent ? COLOUR_LIGHT : COLOUR_DARK;
 		var leftColour  = indent ? COLOUR_DARK  : COLOUR_LIGHT;
 
-		fillRect(localRect, fillColour ?? COLOUR_FG);
+		fillRect(localRect, fillColour != null ? fillColour : COLOUR_FG);
 
 		for(i in 0...THICKNESS) {
 			// Left

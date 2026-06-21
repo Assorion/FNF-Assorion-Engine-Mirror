@@ -26,7 +26,7 @@ class StoryMenuState extends ListMenu {
 
 	private var weekData:Array<StoryData> = [];
 
-	public var weekBGs:Array<FlxSprite> = [new FlxSprite(640), new FlxSprite(640)];
+	public var weekBGs:Array<FlxSprite> = [new StaticSprite(640), new StaticSprite(640)];
 	public var topText:FormattedText;
 	public var trackList:FormattedText;
 
@@ -40,7 +40,7 @@ class StoryMenuState extends ListMenu {
 		weekData = cast haxe.Json.parse(Paths.text('storyWeeks.json'));
 		
 		for(i in 0...weekData.length) {
-			var weekGraphic:FlxSprite = new FlxSprite(0,0).loadGraphic(Paths.image('storyMenu/weeks/week-' + weekData[i].weekAsset));
+			var weekGraphic = new StaticSprite(0,0).loadGraphic(Paths.image('storyMenu/weeks/week-' + weekData[i].weekAsset));
 			weekGraphic.updateHitbox();
 			weekGraphic.centerOrigin();
 			weekGraphic.scale.set(0.7, 0.7);

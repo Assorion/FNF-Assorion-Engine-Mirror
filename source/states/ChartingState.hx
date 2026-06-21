@@ -191,11 +191,11 @@ class ChartingState extends EventState {
 			stepTime = (Song.millisecond * Song.division * 0.25) + (stepTime * 0.75);
 
 	private inline function noteSelected(noteData:NoteData, sec:Int):Bool 
-		return selectedNotes.exists(sec) && (selectedNotes.get(sec)).contains(noteData);
+		return selectedNotes.exists(sec) && (selectedNotes.get(sec)).indexOf(noteData) >= 0;
 
 	private inline function sectionNullCheck(sec:Int):Bool {
 		var section = songData.sections[sec];
-		songData.sections[sec] = section ?? {
+		songData.sections[sec] = section != null ? section : {
 			cameraFacing: 0,
 			notes: []
 		};
@@ -589,7 +589,7 @@ class ChartingState extends EventState {
 		var path = 'assets/data/songs/${PlayState.songData.name}/editor';
 
 		// Safety checks
-		if (!StageLogic.STAGE_NAMES.contains(songData.stage))
+		if (StageLogic.STAGE_NAMES.indexOf(songData.stage) < 0)
 			corrections += 'No stage called "${songData.stage}". (NOT Fixed)\n';
 
 		if (songData.characterCharts > songData.characters.length){

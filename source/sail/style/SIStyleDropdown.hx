@@ -25,7 +25,7 @@ class SIStyleDropdown implements SIStyle extends BitmapData {
 	public function drawSquare(sX:Int, sY:Int, sW:Int, sH:Int, ?fillColour:Null<Int>, ?indent:Bool = false) {
 		var localRect = new Rectangle(sX, sY, sW, sH);
 		var colour    = indent ? COLOUR_LIGHT : COLOUR_FG;
-		fillRect(localRect, fillColour ?? colour);
+		fillRect(localRect, fillColour != null ? fillColour : colour);
 	}
 
 	public function clear() {

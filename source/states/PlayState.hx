@@ -202,7 +202,9 @@ class PlayState extends EventState {
 					}
 			}
 
-		chartNotes.sort((A,B) -> Std.int(A.strumTime - B.strumTime));
+		chartNotes.sort(function(A,B) {
+			return Std.int(A.strumTime - B.strumTime);
+		});
 	}
 
 	private function generateStrumArrows(player:Int)

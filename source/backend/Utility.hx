@@ -4,10 +4,11 @@ import openfl.display.BitmapData;
 import flixel.FlxG;
 import flixel.util.FlxColor;
 
+typedef FlxSound =
 #if (flixel < "5.3.0")
-typedef FlxSound = flixel.system.FlxSound;
+flixel.system.FlxSound;
 #else
-typedef FlxSound = flixel.sound.FlxSound;
+flixel.sound.FlxSound;
 #end
 
 class Utility {

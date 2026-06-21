@@ -28,7 +28,7 @@ class PauseSubstate extends EventSubstate {
 	var creationTimeStamp:Float;
 	var activeTweens:Array<FlxTween> = [];
 
-	public function new(camera:FlxCamera, ps:PlayState) {
+	public function new(cam:FlxCamera, ps:PlayState) {
 		super();
 
 		playState = ps;	
@@ -64,7 +64,7 @@ class PauseSubstate extends EventSubstate {
 		add(pauseText);
 
 		changeSelection(0);
-		cameras = [camera];
+		camera = cam;
 		updatePauseText();
 
 		/////////////////////

@@ -149,8 +149,8 @@ class PlayState extends EventState {
 		add(comboDisplay);
 
 		// Add to cameras
-		strumLineNotes.cameras = [camHUD];
-		currentNotes.cameras   = [camHUD];
+		strumLineNotes.camera = camHUD;
+		currentNotes.camera   = camHUD;
 		if (Settings.show_hud){
 			add(healthBarBG);
 			add(healthBar);
@@ -158,11 +158,11 @@ class PlayState extends EventState {
 			add(iconP1);
 			add(iconP2);
 
-			healthBar.cameras =
-			healthBarBG.cameras =
-			iconP1.cameras =
-			iconP2.cameras = 
-			scoreTxt.cameras = [camHUD];
+			healthBar.camera =
+			healthBarBG.camera =
+			iconP1.camera =
+			iconP2.camera = 
+			scoreTxt.camera = camHUD;
 		}
 
 		stepTime = -22 - (((songData.startDelay * 1000) - Settings.audio_offset) * Song.division);
@@ -235,7 +235,7 @@ class PlayState extends EventState {
 				spr.alpha = 0;
 
 			introSprites[i] = spr;
-			spr.cameras = [camHUD];
+			spr.camera = camHUD;
 			spr.screenCenter();
 		}
 

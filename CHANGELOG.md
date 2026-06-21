@@ -168,25 +168,90 @@ Minor update to address a few bugs and issues. The only major change is adding a
 
 ## Version 1.3.0 (Major) (Beta)
 
-1. Defaulted camera BG alpha to 0. Might be faster.
-2. Overhauled cachingstate. Added a progress bar for it
-3. Changed a bit of web build stuff.
-4. Allow for XML caching. Super cool!
-5. Added CHANGELOG.md parser (HistoryState.hx). Now you can view history in game.
-6. (Not very important) slightly un-hardcoded settings icons. Whoopsie!
-7. Fixed minor bugs (pause during dialogue, framerate issue on cachingstate)
-8. Overhauled chartingstate. New 3D ui!
-9. Now can skip all transitions!
-10. Fixed older crashing issue with cache_misc (option dissolved)
-11. Added Flixel camera optimizations (not too much faster lol)
-12. New transitions
-13. Legacy Windows XP compatibility branch (W.I.P)
-14. Fixed "Line-Feed" problem in txt files, should fix Freeplay icons bug.
-15. Refactored the README.md file. Fixed typos, and minor grammatical errors.
-16. Fixed typo where I said "types" instead of "typos" in changelog.
-17. Added code consistency principles.
-18. Fixed -10 FPS issue.
-19. Added option to disable transitions all-together.
-20. Removed Conductor.hx, now merged into MusicBeatState. 
+Assorion 1.3.0 was the next major version of the engine. With it came a turning point for the engine. The over-arching goal was supposed to be code simplicity, and ease of modding. However that initial idea started to fade with this version (and the ones that followed for a while).
 
-Outdated dont read this
+A lot of the changes that were introduced in this version eventually got removed due to adding unnecessary complexity for virtually no result. Certain changes were made for the sake of "speed", when they really didn't do anything.
+
+Regardless; For the CHANGELOG, they will be documented anyway.
+
+1. **Tune-ups to the repository**
+- Issue/Feature Request templates were moved from markdown to Yaml
+- A setup guide for MinGW-w64 was added
+- Most of the README was redone
+- 32-bit builds were added to the workflows
+- Experimental MacOS builds were also added to the workflows (though we had no way of testing them at the time)
+- Removed some unnecessary assets
+2. **Fixes to certain assets**
+- Ensured correct line endings for custom TXT files
+- Removed Fresh as a song, and rename Test to Demo
+3. **Removed 'nobody character'**
+- Initially this was here in case you wanted GF to be invisible
+- However the character system was reworked in a way that would make this obsolete
+4. **Added HistoryState.hx**
+- This is a state which let you view the CHANGELOG file in game
+- Unfortunately it got removed in a later version, especially since the CHANGELOG was neglected for a long while
+5. **Code clean-up in a lot of places**
+- Adjusted the way delayed events work. They now compare against system time, rather than counting in-game time
+- Attempted to enforce slightly more consistent styling (I say attempted as I didn't catch everything)
+- Moved music timing code out of conductor and merged it with Song.hx or MusicBeatState
+- Forced static sprites to follow antialiasing setting by default (as the minimum Flixel version was under 5.0.0)
+- Renamed NewControls to Binds
+- Updated pause menu to follow MenuTemplate's spacing rules
+6. **Fixed window icon on Linux**
+- It's silly that Lime doesn't have an in-built way of doing this
+- Massive thanks to Psych though, as I wouldn't have figured it out on my own
+7. **Added NewTransition.hx**
+- Now the transition can be fully custom!
+- This also allowed practically every state to optionally skip the transitions between them, which greatly improved navigation and testing
+8. **(Conditional) UNFIX camera lerp across framerates**
+- Flixel's camera lerp used to be broken on variable framerates, the fix was to constantly update the camera lerp with the framerate to set it to the correct value (which was added in Assorion 1.2.0)
+- Then Flixel 5.4.0 released, which fixed this issue, but made the internal fix in Assorion break the camera again
+- Compiler conditionals were added to ensure correct behaviour an all Flixel versions
+9. **Experimental in-game screenshot functionality**
+- It was highly experimental as the resulting screenshot tended to be inaccurate
+- Because screenshots wouldn't be affected by shaders, it could only be limited to PlayState
+- Other menus would show up as the wrong colour (as Flixel's "color" value is technically a shader)
+- Transparent sprites would be completely opaque in the screenshot
+10. **Infamous -10 FPS issue finally resolved!!!!!!!!**
+- Because it was possible to edit the game's settings in default settings file, you could force an unreasonably stupid default
+- If you set the FPS to -10 the game would completely crash and wouldn't be able to get into settings to fix it
+- A framerate clamp was added to ensure it could only go between a specific range
+11. **Allowed controls state to skip the blank spaces**
+- It was very stupid that it wasn't always like this
+12. **Added optional loading state**
+- Kade engine previously did something similar, except that it was forced (unless you modded it out)
+- If the option for it was enabled, the game would attempt to cache every asset before starting, thus making load times almost instant
+13. **Updated text sequence in TitleState.hx**
+- It changes in pretty much every major release now
+- The random text was changed from "RANDOM" to a '%'
+14. **Lots of changes to the chart editor**
+- Greatly improved UI visuals (looks 3D now!)
+- Used event functions for mouse move/down/up (instead of shoving it in the update function)
+- Added status pop-up text
+- Added help tab to explain controls
+15. **Other minor changes**
+- The camera alpha was defaulted to 0 (despite the fact that it was already 0)
+- More assets could be cached, such as XML files, text files, Json files, etc
+- An option to skip every transition was added
+- Minor improvements/considerations for web build were added
+
+## Version 1.3.1 (Minor)
+
+1. **Fix Windows workflow**
+- The Windows workflow used MinGW-w64 for compilation on 1.3.0
+- Annoyingly HXCPP broke with MinGW gcc >=14 because it forcefully undefined '\_\_STRICT_ANSI\_\_'
+2. **Updated screenshots in repository**
+3. **(FINALLY!) Moved character data out of crappy custom TXT file**
+- In 1.3.0 and prior, character data (such as name, their animations, offsets, etc) was placed in a custom TXT file using an arbitrary format
+- Character data was now finally loaded from a much more standard Json file
+- This allows the data to be easily changed, extended, removed, and made parsing far more reliable (and easier too!)
+4. **Fixed BotPlay toggle in pause menu**
+- The health text was previously not updated when toggling bot play
+5. **Reduced potential lag spike when receiving a different rating**
+- Before the chart is loaded, the game will quickly load and cache every rating asset that may be used
+- Now if you receive a rating that isn't "SICK", you won't get a massive lag spike
+6. **Extremely minor code changes**
+- Reorganized the logic of certain functions (e.g: making the input system get processed first on keyHit)
+- Replacing certain splice functions with shift() or pop()
+- Forcing a lower maximum framerate (as the game cannot reliably stick to 500 FPS)
+- Small updates to the chart editor

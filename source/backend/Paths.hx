@@ -7,9 +7,14 @@ import lime.utils.Assets;
 using StringTools;
 
 class Paths {
-	public static inline final SOUND_FORMAT:String = #if desktop 'ogg' #else 'mp3' #end;
 	public static inline final MENU_MUSIC:String = 'ui/freakyMenu';
 	public static inline final MENU_TEMPO:Int = 102;
+	public static inline final SOUND_FORMAT:String = 
+	#if desktop
+	'ogg'; 
+	#else 
+	'mp3';
+	#end
 
 	private static var cachedText:Map<String, String> = new Map<String, String>();
 	private static var cachedFrames:Map<String, FlxFramesCollection> = new Map<String, FlxFramesCollection>();

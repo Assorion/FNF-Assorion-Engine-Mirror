@@ -34,7 +34,7 @@ class DialogueSubstate extends EventSubstate {
 	public var characterSpriteGroup:FlxTypedGroup<StaticSprite>;
 	public var dialogueText:FormattedText;
 
-	public function new(pState:PlayState, camera:FlxCamera, dialogueJson:String){
+	public function new(pState:PlayState, cam:FlxCamera, dialogueJson:String){
 		super();
 
 		playState = pState;
@@ -43,7 +43,7 @@ class DialogueSubstate extends EventSubstate {
 		graySprite.alpha = 0;
 		add(graySprite);
 
-		cameras = [camera];
+		camera = cam;
 
 		characterSpriteGroup = new FlxTypedGroup<StaticSprite>();
 		add(characterSpriteGroup);

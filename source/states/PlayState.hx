@@ -35,7 +35,7 @@ class PlayState extends EventState {
 			asset: 'sick'
 		}, {
 			score: 200,
-			threshold: 0.43,
+			threshold: 0.45,
 			asset: 'good'
 		}, {
 			score: 100,
@@ -129,15 +129,11 @@ class PlayState extends EventState {
 
 		healthBarBG = new StaticSprite(0, baseY).loadGraphic(Paths.image('gameplay/healthBar'));
 		healthBarBG.screenCenter(X);
-		healthBarBG.scrollFactor.set();
-
 		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), null);
 		healthBar.active = false;
-		healthBar.scrollFactor.set();
 		healthBar.createFilledBar(songData.healthColours[0], songData.healthColours[1]);
 
 		scoreTxt = new FormattedText(0, baseY + 40, 0, '', null, 16, 0xFFFFFFFF, CENTER, OUTLINE);
-		scoreTxt.scrollFactor.set();
 		scoreTxt.screenCenter(X);
 
 		iconP1 = new CharacterIcon(songData.iconNames[1], true, true);

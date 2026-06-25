@@ -2,6 +2,10 @@
 
 <img src="https://codeberg.org/Assorion/FNF-Assorion-Engine/raw/branch/main/.github/screenshots/options.png"/>
 
+# Controls
+
+<img src="https://codeberg.org/Assorion/FNF-Assorion-Engine/raw/branch/main/.github/screenshots/controls.png"/>
+
 # Main Menu
 
 <img src="https://codeberg.org/Assorion/FNF-Assorion-Engine/raw/branch/main/.github/screenshots/mainmenu.png"/>
@@ -9,7 +13,6 @@
 # Gameplay
 
 <img src="https://codeberg.org/Assorion/FNF-Assorion-Engine/raw/branch/main/.github/screenshots/gameplay1.png"/>
-<img src="https://codeberg.org/Assorion/FNF-Assorion-Engine/raw/branch/main/.github/screenshots/gameplay2.png"/>
 
 # Story Menu
 

@@ -309,7 +309,7 @@ The changes for this version will be split into four different categories: Repos
 
 #### Repository changes:
 1. **Removed resources related to MinGW**
-- HXCPP broke on the recent versions of MinGW (as mentioned prior)
+- HXCPP broke the recent versions of MinGW (as mentioned prior)
 - In-order to properly distribute your builds, you HAD to use the "-Dno_shared_libs" option
 - Realistically using MinGW was more trouble than it was worth
 2. **Cleaned up the README once more**
@@ -333,7 +333,7 @@ The changes for this version will be split into four different categories: Repos
 - Data now contains all the game's Json data (including charts)
 - Music now contains all the different music in the game, which includes the songs heard in PlayState
 - Sounds is unchanged however
-- Before 1.5.0, the location of certain assets was very arbitrary and often categorized
+- Before 1.5.0, the location of certain assets was very arbitrary and often uncategorized
 3. **Main Menu items are now split into individual sprites**
 - Prior to 1.5.0, they were all stuffed into a single sprite and an XML file would declare the animations for each
 4. **Fixed menu colouring**
@@ -369,7 +369,7 @@ The changes for this version will be split into four different categories: Repos
 - Though that wasn't true ever since it was moved into Song.hx (1.4.0)
 - The rename reflects this change
 - This also applies to MusicBeatSubstate -> EventSubstate
-3. **Resorted folders in code**
+3. **Re-sorted folders in code**
 - The new set of folders were called "backend", "ui", "gameplay", and "states"
 - I didn't really like the idea of adding another folder to the source code but it was certainly worth it
 - UI was a better name than just "frontend" especially since that could create ambiguity of where certain files belonged
@@ -378,8 +378,8 @@ The changes for this version will be split into four different categories: Repos
 4. **Enforced SCREAMING_SNAKE_CASE for constants**
 - This is more of a tradition in C (GOATed language of course), but I believe it should be clear when a value is suppose to be constant
 - Especially true considering Array's can't really be constant in Haxe
-- Other styling guidelines similar to C were also enforces (like the way switch statements look)
-5. **Added 'bindFunctions' to controls
+- Other styling guidelines similar to C were also enforced (like the way switch statements look)
+5. **Added 'bindFunctions' to controls**
 - Using an array of binds and the deepCheck() function with a switch statement looked extremely clunky
 - bindFunctions allows a way of directly specifying what-binds should map to what-functions
 6. **Moved the difficulty array into Song.hx**
@@ -393,7 +393,7 @@ The changes for this version will be split into four different categories: Repos
 - All of the above often lead to lots of complexity (and thus issues) which was not really warranted. These changes got reverted which may have a performance impact but greatly simplified the code
 8. **Added StageLogic.hx to handle... stage logic**
 - Stage specific functions would've had to be hard-coded directly into PlayState
-- Take the spooky mansion from week two, the lightning effect would've had to been integrated directly into playstate
+- Take the spooky mansion from week two: The lightning effect would've had to been integrated directly into playstate
 - StageLogic helps to separate the potential special logic into it's own class. Using beat/step hooks to add timing functionality
 9. **Separated the rating display into ComboDisplay.hx**
 - This doesn't really matter all that much, but it included enough of it's own code that I think it warrants going into it's own file instead
